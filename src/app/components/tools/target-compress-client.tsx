@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Download, Loader2, Target } from "lucide-react";
 import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
@@ -12,14 +12,19 @@ type TargetCompressClientProps = {
   targetLabel: string;
 };
 
+type FileJob = {
+  file: File;
+  status: "pending" | "processing" | "done" | "failed";
+  progress: number;
+  blob?: Blob;
+};
+
 export default function TargetCompressClient({
   targetSizeKB,
   targetLabel,
 }: TargetCompressClientProps) {
-  const [files, setFiles] = useState<File[]>([]);
-  const [results, setResults] = useState<Blob[]>([]);
+  const [jobs, setJobs] = useState<FileJob[]>([]);
   const [isPending, setIsPending] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const resultsRef = useRef<HTMLDivElement | null>(null);
 
@@ -50,7 +55,7 @@ export default function TargetCompressClient({
     return data.jobId;
   };
 
-  const pollJob = async (jobId: string) => {
+  const pollJob = async (jobId: string, index: number) => {
     while (true) {
       const response = await fetch(`/api/jobs/${jobId}`, { cache: "no-store" });
       if (!response.ok) {
@@ -63,7 +68,16 @@ export default function TargetCompressClient({
         downloadUrl?: string;
       };
 
-      setProgress(typeof data.progress === "number" ? data.progress : 0);
+      setJobs((prev) =>
+        prev.map((job, idx) =>
+          idx === index
+            ? {
+                ...job,
+                progress: typeof data.progress === "number" ? data.progress : 0,
+              }
+            : job
+        )
+      );
 
       if (data.status === "failed") {
         throw new Error(data.error ?? "Compression failed.");
@@ -83,175 +97,195 @@ export default function TargetCompressClient({
     }
   };
 
-  const handleProcess = async () => {
-    if (files.length === 0) return;
-    setResults([]);
+  const handleProcess = async (incomingFiles: File[]) => {
+    if (incomingFiles.length === 0) return;
     setError(null);
     setIsPending(true);
-    setProgress(0);
+
+    const initialJobs: FileJob[] = incomingFiles.map((file) => ({
+      file,
+      status: "pending",
+      progress: 0,
+    }));
+    setJobs(initialJobs);
 
     try {
-      const nextResults: Blob[] = [];
-      for (const file of files) {
-        const jobId = await createJob(file);
-        const blob = await pollJob(jobId);
-        nextResults.push(blob);
+      for (let i = 0; i < incomingFiles.length; i += 1) {
+        setJobs((prev) =>
+          prev.map((job, idx) =>
+            idx === i ? { ...job, status: "processing" } : job
+          )
+        );
+
+        const jobId = await createJob(incomingFiles[i]);
+        const blob = await pollJob(jobId, i);
+
+        setJobs((prev) =>
+          prev.map((job, idx) =>
+            idx === i ? { ...job, status: "done", blob, progress: 100 } : job
+          )
+        );
       }
-      setResults(nextResults);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed.");
+      setJobs((prev) =>
+        prev.map((job) =>
+          job.status === "processing" ? { ...job, status: "failed" } : job
+        )
+      );
     } finally {
       setIsPending(false);
-      setProgress(0);
     }
   };
 
-  const buildFilename = (index: number) => {
-    const file = files[index];
-    if (!file) return `compressed-${targetSizeKB}kb`;
-    const parts = file.name.split(".");
+  const buildFilename = (job: FileJob) => {
+    const parts = job.file.name.split(".");
     const ext = parts.pop();
     const base = parts.join(".");
     return `${base}_${targetSizeKB}kb.${ext || "jpg"}`;
   };
 
-  const handleDownload = (index: number) => {
-    const blob = results[index];
-    const file = files[index];
-    if (!blob || !file) return;
-    const filename = buildFilename(index);
-    downloadBlob(blob, filename);
+  const handleDownload = (job: FileJob) => {
+    if (!job.blob) return;
+    downloadBlob(job.blob, buildFilename(job));
   };
 
   const handleDownloadAll = async () => {
-    if (results.length <= 1) return;
-    await downloadZip(
-      results.map((blob, index) => ({
-        blob,
-        filename: buildFilename(index),
-      })),
-      `compressed-${targetSizeKB}kb.zip`
-    );
+    const items = jobs.filter((job) => job.blob).map((job) => ({
+      blob: job.blob as Blob,
+      filename: buildFilename(job),
+    }));
+    if (items.length <= 1) return;
+    await downloadZip(items, `compressed-${targetSizeKB}kb.zip`);
   };
 
+  const totalSavings = useMemo(() => {
+    const completed = jobs.filter((job) => job.blob);
+    if (completed.length === 0) return 0;
+    const original = completed.reduce((sum, job) => sum + job.file.size, 0);
+    const compressed = completed.reduce(
+      (sum, job) => sum + (job.blob?.size ?? 0),
+      0
+    );
+    if (!original) return 0;
+    return Math.max(0, Math.round(((original - compressed) / original) * 100));
+  }, [jobs]);
+
   useEffect(() => {
-    if (results.length === 0) return;
-    resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, [results.length]);
+    if (jobs.some((job) => job.status === "done")) {
+      resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [jobs]);
 
   return (
     <div className="space-y-8">
-      {results.length === 0 && (
-        <Uploader
-          onFileSelect={(f) => setFiles([f])}
-          onFilesSelect={(selected) => setFiles(selected)}
-          maxFiles={10}
-          isProcessing={isPending}
-          accept={{ "image/*": [".jpg", ".jpeg", ".png", ".webp"] }}
-        />
-      )}
+      <Uploader
+        onFileSelect={(f) => handleProcess([f])}
+        onFilesSelect={(selected) => handleProcess(selected)}
+        maxFiles={10}
+        isProcessing={isPending}
+        accept={{ "image/*": [".jpg", ".jpeg", ".png", ".webp"] }}
+      />
 
       {error && <p className="text-sm text-red-500 text-center">{error}</p>}
 
-      {files.length > 0 && results.length === 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="p-6 bg-secondary/30 rounded-2xl border border-border"
-        >
-          <div className="flex items-center gap-4 mb-6">
-            <Target className="w-5 h-5 text-primary" />
-            <div>
-              <h3 className="font-semibold text-lg">Target Size</h3>
-              <p className="text-xs text-muted-foreground">
-                Compress to approximately {targetLabel}.
-              </p>
-            </div>
-          </div>
-
-          <button
-            onClick={handleProcess}
-            disabled={isPending}
-            className="mt-2 w-full py-4 bg-primary text-primary-foreground font-bold rounded-xl shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:transform-none flex justify-center items-center gap-2"
-          >
-            {isPending ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" /> Compressing on
-                server{progress ? ` (${progress}%)` : "..."}
-              </>
-            ) : (
-              `Compress to ${targetLabel}${files.length > 1 ? ` (${files.length} files)` : ""}`
-            )}
-          </button>
-        </motion.div>
-      )}
-
-      {results.length > 0 && (
+      {jobs.length > 0 && (
         <motion.div
           ref={resultsRef}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           className="text-center p-8 bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/50 rounded-2xl"
         >
+          {totalSavings > 0 && (
+            <div className="mb-4 text-sm font-semibold text-green-600 dark:text-green-400">
+              Saved {totalSavings}% total
+            </div>
+          )}
           <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
             <Download className="w-8 h-8" />
           </div>
-          <h3 className="text-2xl font-bold mb-2">Compression Complete!</h3>
+          <h3 className="text-2xl font-bold mb-2">Compression Results</h3>
           <p className="text-muted-foreground mb-6">
-            Compressed {results.length} file{results.length > 1 ? "s" : ""}.
+            Target size: {targetLabel}
           </p>
 
           <div className="space-y-3 mb-6">
-            {results.map((blob, index) => (
+            {jobs.map((job) => (
               <div
-                key={`${files[index]?.name}-${index}`}
-                className="flex items-center justify-between gap-4 rounded-xl border border-border/50 bg-secondary/30 px-4 py-3 text-left"
+                key={job.file.name}
+                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-xl border border-border/50 bg-secondary/30 px-4 py-3 text-left"
               >
                 <div className="min-w-0">
-                  <p className="text-sm font-medium truncate">
-                    {files[index]?.name}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {formatBytes(blob.size)}
-                  </p>
+                  <p className="text-sm font-medium truncate">{job.file.name}</p>
+                  {job.blob ? (
+                    <p className="text-xs text-muted-foreground">
+                      {formatBytes(job.file.size)} →{" "}
+                      <span className="text-green-600 dark:text-green-400 font-semibold">
+                        {formatBytes(job.blob.size)}
+                      </span>
+                    </p>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">
+                      {job.status === "failed"
+                        ? "Failed"
+                        : "Processing..."}
+                    </p>
+                  )}
                 </div>
-                <button
-                  onClick={() => handleDownload(index)}
-                  className="px-3 py-2 text-sm font-semibold bg-primary text-white rounded-lg shadow hover:shadow-md transition-all"
-                >
-                  Download
-                </button>
+                <div className="flex items-center gap-3">
+                  <div className="w-28 h-2 rounded-full bg-border/60 overflow-hidden">
+                    <div
+                      className="h-full bg-primary transition-all"
+                      style={{ width: `${job.progress}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-muted-foreground w-10 text-right">
+                    {job.progress}%
+                  </span>
+                  {job.blob && (
+                    <button
+                      onClick={() => handleDownload(job)}
+                      className="px-3 py-2 text-sm font-semibold bg-primary text-white rounded-lg shadow hover:shadow-md transition-all"
+                    >
+                      Download
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {results.length > 1 ? (
+            {jobs.filter((job) => job.blob).length > 1 ? (
               <button
                 onClick={handleDownloadAll}
                 className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
               >
-                Download All
+                Download All (ZIP)
               </button>
             ) : (
               <button
-                onClick={() => handleDownload(0)}
+                onClick={() => handleDownload(jobs[0])}
                 className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
               >
                 Download Image
               </button>
             )}
             <button
-              onClick={() => {
-                setFiles([]);
-                setResults([]);
-              }}
+              onClick={() => setJobs([])}
               className="px-8 py-4 bg-white text-foreground border border-border font-bold rounded-xl shadow-sm hover:bg-secondary transition-all"
             >
               Compress Another
             </button>
           </div>
         </motion.div>
+      )}
+
+      {isPending && jobs.length > 0 && (
+        <div className="text-center text-sm text-muted-foreground flex items-center justify-center gap-2">
+          <Loader2 className="w-4 h-4 animate-spin" />
+          Compressing {jobs.length} file{jobs.length > 1 ? "s" : ""}...
+        </div>
       )}
     </div>
   );

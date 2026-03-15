@@ -52,20 +52,20 @@ export function ToolLayout({ title, description, children, steps, faqs, relatedT
         <div className="container mx-auto px-4 max-w-5xl">
           
           {/* Header Section */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center p-2 bg-primary/10 rounded-2xl mb-4">
+          <div className="text-center mb-6 md:mb-8">
+            <div className="inline-flex items-center justify-center p-2 bg-primary/10 rounded-2xl mb-3">
               <Sparkles className="w-6 h-6 text-primary" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-display font-extrabold text-foreground tracking-tight mb-4">
+            <h1 className="text-3xl md:text-4xl font-display font-extrabold text-foreground tracking-tight mb-3">
               {title}
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
               {description}
             </p>
           </div>
 
           {/* Main Tool Area */}
-          <div className="bg-card border border-border shadow-xl shadow-black/[0.03] rounded-3xl p-6 md:p-10 mb-20">
+          <div className="bg-card border border-border shadow-xl shadow-black/[0.03] rounded-3xl p-6 md:p-10 mb-14">
             {children}
           </div>
 
