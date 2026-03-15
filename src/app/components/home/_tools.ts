@@ -1,0 +1,67 @@
+import {
+  Image as ImageIcon,
+  Maximize,
+  Minimize,
+  Eraser,
+  Crop,
+  FileImage,
+} from "lucide-react";
+
+export const tools = [
+  {
+    title: "Resize Image",
+    description: "Change image dimensions while preserving quality.",
+    icon: Maximize,
+    path: "/resize-image",
+    color: "text-purple-500",
+    bg: "bg-purple-500/10",
+  },
+  {
+    title: "Compress Image",
+    description: "Reduce file size heavily without losing clarity.",
+    icon: Minimize,
+    path: "/compress-image",
+    color: "text-emerald-500",
+    bg: "bg-emerald-500/10",
+  },
+  {
+    title: "Remove EXIF Data",
+    description: "Strip metadata for privacy before sharing.",
+    icon: Eraser,
+    path: "/remove-metadata",
+    color: "text-orange-500",
+    bg: "bg-orange-500/10",
+  },
+  {
+    title: "Convert to WebP",
+    description: "Create smaller, modern WebP images quickly.",
+    icon: FileImage,
+    path: "/convert-to-webp",
+    color: "text-cyan-500",
+    bg: "bg-cyan-500/10",
+  },
+  {
+    title: "Convert to JPG",
+    description: "Turn any image format into JPEG with quality control.",
+    icon: ImageIcon,
+    path: "/convert-to-jpg",
+    color: "text-rose-500",
+    bg: "bg-rose-500/10",
+  },
+  {
+    title: "Convert to PNG",
+    description: "Export images to lossless PNG with transparency.",
+    icon: FileImage,
+    path: "/convert-to-png",
+    color: "text-indigo-500",
+    bg: "bg-indigo-500/10",
+  },
+  {
+    title: "Crop Image",
+    description: "Trim images to the exact area you need.",
+    icon: Crop,
+    path: "/crop-image",
+    color: "text-amber-500",
+    bg: "bg-amber-500/10",
+  },
+];
