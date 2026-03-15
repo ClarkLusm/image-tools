@@ -1,4 +1,5 @@
 import { Camera } from "lucide-react";
+import Link from "next/link";
 
 export function Footer() {
   return (
@@ -12,8 +13,17 @@ export function Footer() {
             </span>
           </div>
 
-          <div className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} ImageTools. All rights reserved.
+          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+            <span>&copy; {new Date().getFullYear()} ImageTools.</span>
+            <Link href="/about" className="hover:text-primary transition-colors">
+              About
+            </Link>
+            <Link href="/privacy" className="hover:text-primary transition-colors">
+              Privacy
+            </Link>
+            <Link href="/terms" className="hover:text-primary transition-colors">
+              Terms
+            </Link>
           </div>
         </div>
       </div>

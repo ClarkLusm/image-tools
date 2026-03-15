@@ -1,7 +1,19 @@
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import ResizeImageClient from "./resize-image-client";
+import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
+import { SITE_URL } from "@/lib/site";
+
+export const metadata = {
+  title: "Resize Image Online",
+  description:
+    "Resize images to exact dimensions quickly in your browser. Maintain quality and aspect ratio with ease.",
+  alternates: {
+    canonical: `${SITE_URL}/resize-image`,
+  },
+};
 
 export default function Page() {
+  const siteUrl = SITE_URL;
   return (
     <ToolLayout
       title="Resize Image"
@@ -40,6 +52,13 @@ export default function Page() {
         { name: "Convert to JPG", path: "/convert-to-jpg" },
       ]}
     >
+      <BreadcrumbsJsonLd
+        scriptId="breadcrumbs-resize-image"
+        items={[
+          { name: "Home", url: `${siteUrl}/` },
+          { name: "Resize Image", url: `${siteUrl}/resize-image` },
+        ]}
+      />
       <ResizeImageClient />
     </ToolLayout>
   );

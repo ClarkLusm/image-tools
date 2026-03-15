@@ -1,6 +1,14 @@
 import { Layers, ShieldCheck, Zap } from "lucide-react";
 import UploadBox from "./components/home/upload-box";
 import Hero from "./components/home/hero";
+import BreadcrumbsJsonLd from "./components/seo/breadcrumbs-jsonld";
+import { SITE_URL } from "@/lib/site";
+
+export const metadata = {
+  title: "Free Online Image Tools",
+  description:
+    "Compress, convert, resize, crop, and optimize images in seconds. Fast, secure, and browser-friendly.",
+};
 
 const features = [
   {
@@ -25,6 +33,10 @@ const features = [
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
+      <BreadcrumbsJsonLd
+        scriptId="breadcrumbs-home"
+        items={[{ name: "Home", url: `${SITE_URL}/` }]}
+      />
       {/* Hero Section */}
       <section className="relative pt-24 pb-32 overflow-hidden border-b border-border">
         {/* Decorative Background */}

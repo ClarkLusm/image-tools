@@ -1,5 +1,7 @@
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import SocialResizeClient from "@/app/components/tools/social-resize-client";
+import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
+import { SITE_URL } from "@/lib/site";
 
 const presets = [
   {
@@ -26,9 +28,13 @@ export const metadata = {
   title: "Resize for YouTube (Free Online Tool)",
   description:
     "Resize images for YouTube thumbnails, Shorts covers, and channel banners.",
+  alternates: {
+    canonical: `${SITE_URL}/resize-youtube`,
+  },
 };
 
 export default function Page() {
+  const siteUrl = SITE_URL;
   return (
     <ToolLayout
       title="Resize for YouTube"
@@ -48,6 +54,13 @@ export default function Page() {
         { name: "Compress Image", path: "/compress-image" }
       ]}
     >
+      <BreadcrumbsJsonLd
+        scriptId="breadcrumbs-resize-youtube"
+        items={[
+          { name: "Home", url: `${siteUrl}/` },
+          { name: "Resize for YouTube", url: `${siteUrl}/resize-youtube` },
+        ]}
+      />
       <SocialResizeClient presets={presets} defaultPresetIndex={0} />
     </ToolLayout>
   );

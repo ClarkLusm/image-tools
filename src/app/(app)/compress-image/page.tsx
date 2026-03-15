@@ -1,5 +1,14 @@
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import CompressImageClient from "./compress-image-client";
+import { COMPRESS_SIZE_ENTRIES } from "@/lib/seo";
+import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
+import { SITE_URL } from "@/lib/site";
+
+export const metadata = {
+  title: "Compress Image Online",
+  description:
+    "Compress images online with adjustable quality and size presets. Fast, secure, and optimized for performance.",
+};
 
 export default function Page() {
   return (
@@ -38,6 +47,13 @@ export default function Page() {
       ]}
     >
       <div className="space-y-12">
+        <BreadcrumbsJsonLd
+          scriptId="breadcrumbs-compress-image"
+          items={[
+            { name: "Home", url: `${SITE_URL}/` },
+            { name: "Compress Image", url: `${SITE_URL}/compress-image` },
+          ]}
+        />
         <CompressImageClient />
 
         <section className="rounded-2xl border border-border bg-card p-6">
@@ -49,17 +65,7 @@ export default function Page() {
             performance.
           </p>
           <div className="flex flex-wrap gap-3">
-            {[
-              { label: "10 KB", slug: "10kb" },
-              { label: "20 KB", slug: "20kb" },
-              { label: "50 KB", slug: "50kb" },
-              { label: "100 KB", slug: "100kb" },
-              { label: "200 KB", slug: "200kb" },
-              { label: "300 KB", slug: "300kb" },
-              { label: "500 KB", slug: "500kb" },
-              { label: "1 MB", slug: "1mb" },
-              { label: "2 MB", slug: "2mb" },
-            ].map((item) => (
+            {COMPRESS_SIZE_ENTRIES.map((item) => (
               <a
                 key={item.slug}
                 href={`/compress-image-to/${item.slug}`}

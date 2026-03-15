@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Download, Loader2, SlidersHorizontal } from "lucide-react";
 import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
+import { downloadZip } from "@/lib/zip-utils";
 import { useImageWorker } from "@/hooks/use-image-worker";
 import { motion } from "framer-motion";
 
@@ -38,6 +39,7 @@ export default function FormatConvertClient({
   const [quality, setQuality] = useState(qualityDefault);
 
   const { processImage, isProcessing, error } = useImageWorker();
+  const resultsRef = useRef<HTMLDivElement | null>(null);
 
   const handleProcess = async () => {
     if (files.length === 0) return;
@@ -58,17 +60,35 @@ export default function FormatConvertClient({
     setStatus("done");
   };
 
+  const buildFilename = (index: number) => {
+    const file = files[index];
+    if (!file) return `converted${outputExt}`;
+    return file.name.replace(/\.[^/.]+$/, "") + outputExt;
+  };
+
   const handleDownload = (index: number) => {
     const blob = results[index];
     const file = files[index];
     if (!blob || !file) return;
-    const filename = file.name.replace(/\.[^/.]+$/, "") + outputExt;
+    const filename = buildFilename(index);
     downloadBlob(blob, filename);
   };
 
-  const handleDownloadAll = () => {
-    results.forEach((_, index) => handleDownload(index));
+  const handleDownloadAll = async () => {
+    if (results.length <= 1) return;
+    await downloadZip(
+      results.map((blob, index) => ({
+        blob,
+        filename: buildFilename(index),
+      })),
+      "converted-images.zip"
+    );
   };
+
+  useEffect(() => {
+    if (results.length === 0) return;
+    resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [results.length]);
 
   return (
     <div className="space-y-8">
@@ -143,6 +163,7 @@ export default function FormatConvertClient({
 
       {results.length > 0 && (
         <motion.div
+          ref={resultsRef}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           className="text-center p-8 bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/50 rounded-2xl"
@@ -180,12 +201,21 @@ export default function FormatConvertClient({
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={handleDownloadAll}
-              className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
-            >
-              Download All
-            </button>
+            {results.length > 1 ? (
+              <button
+                onClick={handleDownloadAll}
+                className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
+              >
+                Download All
+              </button>
+            ) : (
+              <button
+                onClick={() => handleDownload(0)}
+                className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
+              >
+                Download Image
+              </button>
+            )}
             <button
               onClick={() => {
                 setFiles([]);

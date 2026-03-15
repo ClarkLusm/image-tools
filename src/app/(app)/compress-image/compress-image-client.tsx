@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Download, Loader2, Gauge } from "lucide-react";
 import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
+import { downloadZip } from "@/lib/zip-utils";
 import { motion } from "framer-motion";
 
 export default function CompressImageClient() {
@@ -13,6 +14,7 @@ export default function CompressImageClient() {
   const [isPending, setIsPending] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const resultsRef = useRef<HTMLDivElement | null>(null);
 
   const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -97,19 +99,32 @@ export default function CompressImageClient() {
     }
   };
 
+  const buildFilename = (index: number) => {
+    const file = files[index];
+    if (!file) return "compressed-image";
+    const parts = file.name.split(".");
+    const ext = parts.pop();
+    const base = parts.join(".");
+    return `${base}_compressed.${ext}`;
+  };
+
   const handleDownload = (index: number) => {
     const blob = results[index];
     const file = files[index];
     if (!blob || !file) return;
-    const parts = file.name.split(".");
-    const ext = parts.pop();
-    const base = parts.join(".");
-    const filename = `${base}_compressed.${ext}`;
+    const filename = buildFilename(index);
     downloadBlob(blob, filename);
   };
 
-  const handleDownloadAll = () => {
-    results.forEach((_, index) => handleDownload(index));
+  const handleDownloadAll = async () => {
+    if (results.length <= 1) return;
+    await downloadZip(
+      results.map((blob, index) => ({
+        blob,
+        filename: buildFilename(index),
+      })),
+      "compressed-images.zip"
+    );
   };
 
   const calculateSavings = (index: number) => {
@@ -119,6 +134,11 @@ export default function CompressImageClient() {
     const saved = file.size - blob.size;
     return Math.max(0, Math.round((saved / file.size) * 100));
   };
+
+  useEffect(() => {
+    if (results.length === 0) return;
+    resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [results.length]);
 
   return (
     <div className="space-y-8">
@@ -208,6 +228,7 @@ export default function CompressImageClient() {
 
       {results.length > 0 && (
         <motion.div
+          ref={resultsRef}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           className="text-center p-8 bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/50 rounded-2xl relative overflow-hidden"
@@ -251,12 +272,21 @@ export default function CompressImageClient() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={handleDownloadAll}
-              className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
-            >
-              Download All
-            </button>
+            {results.length > 1 ? (
+              <button
+                onClick={handleDownloadAll}
+                className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
+              >
+                Download All
+              </button>
+            ) : (
+              <button
+                onClick={() => handleDownload(0)}
+                className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
+              >
+                Download Image
+              </button>
+            )}
             <button
               onClick={() => {
                 setFiles([]);

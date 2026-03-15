@@ -2,14 +2,20 @@ import Link from "next/link";
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import FormatConvertClient from "@/app/components/tools/format-convert-client";
 import { ArrowRight, Image as ImageIcon } from "lucide-react";
+import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata = {
   title: "Convert Image to JPG (Free Online Tool)",
   description:
     "Convert PNG, WebP, or SVG images to JPG with adjustable quality in your browser.",
+  alternates: {
+    canonical: `${SITE_URL}/convert-to-jpg`,
+  },
 };
 
 export default function Page() {
+  const siteUrl = SITE_URL;
   return (
     <ToolLayout
       title="Convert to JPG"
@@ -30,6 +36,13 @@ export default function Page() {
       ]}
     >
       <div className="space-y-10">
+        <BreadcrumbsJsonLd
+          scriptId="breadcrumbs-convert-to-jpg"
+          items={[
+            { name: "Home", url: `${siteUrl}/` },
+            { name: "Convert to JPG", url: `${siteUrl}/convert-to-jpg` },
+          ]}
+        />
         <FormatConvertClient
           task="convert-to-jpg"
           accept={{

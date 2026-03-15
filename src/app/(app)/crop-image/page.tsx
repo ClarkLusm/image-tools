@@ -1,5 +1,7 @@
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import CropImageClient from "./crop-image-client";
+import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata = {
   title: "Crop Image (Free Online Tool)",
@@ -27,6 +29,13 @@ export default function Page() {
         { name: "Convert to JPG", path: "/convert-to-jpg" }
       ]}
     >
+      <BreadcrumbsJsonLd
+        scriptId="breadcrumbs-crop-image"
+        items={[
+          { name: "Home", url: `${SITE_URL}/` },
+          { name: "Crop Image", url: `${SITE_URL}/crop-image` },
+        ]}
+      />
       <CropImageClient />
     </ToolLayout>
   );

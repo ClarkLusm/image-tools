@@ -1,5 +1,13 @@
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import RemoveMetadataClient from "./remove-metadata-client";
+import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
+import { SITE_URL } from "@/lib/site";
+
+export const metadata = {
+  title: "Remove EXIF Metadata",
+  description:
+    "Remove EXIF metadata from images to protect privacy. Fast, secure, and browser-friendly.",
+};
 
 export default function Page() {
   return (
@@ -21,6 +29,13 @@ export default function Page() {
         { name: "Resize Image", path: "/resize-image" }
       ]}
     >
+      <BreadcrumbsJsonLd
+        scriptId="breadcrumbs-remove-metadata"
+        items={[
+          { name: "Home", url: `${SITE_URL}/` },
+          { name: "Remove EXIF", url: `${SITE_URL}/remove-metadata` },
+        ]}
+      />
       <RemoveMetadataClient />
     </ToolLayout>
   );

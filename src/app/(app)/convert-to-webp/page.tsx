@@ -2,14 +2,20 @@ import Link from "next/link";
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import FormatConvertClient from "@/app/components/tools/format-convert-client";
 import { ArrowRight, FileImage } from "lucide-react";
+import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata = {
   title: "Convert Image to WebP (Free Online Tool)",
   description:
     "Convert JPG, PNG, or SVG images to WebP instantly for smaller file sizes and faster load times.",
+  alternates: {
+    canonical: `${SITE_URL}/convert-to-webp`,
+  },
 };
 
 export default function Page() {
+  const siteUrl = SITE_URL;
   return (
     <ToolLayout
       title="Convert to WebP"
@@ -30,6 +36,13 @@ export default function Page() {
       ]}
     >
       <div className="space-y-10">
+        <BreadcrumbsJsonLd
+          scriptId="breadcrumbs-convert-to-webp"
+          items={[
+            { name: "Home", url: `${siteUrl}/` },
+            { name: "Convert to WebP", url: `${siteUrl}/convert-to-webp` },
+          ]}
+        />
         <FormatConvertClient
           task="convert-to-webp"
           accept={{

@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
+import Script from "next/script";
 
 interface Step {
   title: string;
@@ -22,8 +23,31 @@ interface ToolLayoutProps {
 }
 
 export function ToolLayout({ title, description, children, steps, faqs, relatedTools }: ToolLayoutProps) {
+  const faqSchema =
+    faqs && faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.q,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.a,
+            },
+          })),
+        }
+      : null;
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      {faqSchema && (
+        <Script
+          id={`faq-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       <main className="flex-1 py-12 lg:py-20">
         <div className="container mx-auto px-4 max-w-5xl">
           

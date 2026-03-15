@@ -1,5 +1,7 @@
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import SocialResizeClient from "@/app/components/tools/social-resize-client";
+import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
+import { SITE_URL } from "@/lib/site";
 
 const presets = [
   {
@@ -32,9 +34,13 @@ export const metadata = {
   title: "Resize for Instagram (Free Online Tool)",
   description:
     "Resize images for Instagram posts, stories, and reels with perfect dimensions.",
+  alternates: {
+    canonical: `${SITE_URL}/resize-instagram`,
+  },
 };
 
 export default function Page() {
+  const siteUrl = SITE_URL;
   return (
     <ToolLayout
       title="Resize for Instagram"
@@ -54,6 +60,13 @@ export default function Page() {
         { name: "Crop Image", path: "/crop-image" }
       ]}
     >
+      <BreadcrumbsJsonLd
+        scriptId="breadcrumbs-resize-instagram"
+        items={[
+          { name: "Home", url: `${siteUrl}/` },
+          { name: "Resize for Instagram", url: `${siteUrl}/resize-instagram` },
+        ]}
+      />
       <SocialResizeClient presets={presets} defaultPresetIndex={0} />
     </ToolLayout>
   );

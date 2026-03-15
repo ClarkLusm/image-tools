@@ -1,12 +1,18 @@
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import FormatConvertClient from "@/app/components/tools/format-convert-client";
+import { SITE_URL } from "@/lib/site";
+import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 
 export const metadata = {
   title: "PNG to WebP (Free Online Tool)",
   description: "Convert PNG images to WebP while preserving transparency.",
+  alternates: {
+    canonical: `${SITE_URL}/convert-to-webp/png`,
+  },
 };
 
 export default function Page() {
+  const siteUrl = SITE_URL;
   return (
     <ToolLayout
       title="PNG to WebP"
@@ -25,6 +31,14 @@ export default function Page() {
         { name: "Convert to PNG", path: "/convert-to-png" }
       ]}
     >
+      <BreadcrumbsJsonLd
+        scriptId="breadcrumbs-convert-to-webp-png"
+        items={[
+          { name: "Home", url: `${siteUrl}/` },
+          { name: "Convert to WebP", url: `${siteUrl}/convert-to-webp` },
+          { name: "PNG to WebP", url: `${siteUrl}/convert-to-webp/png` },
+        ]}
+      />
       <FormatConvertClient
         task="convert-to-webp"
         accept={{ "image/png": [".png"] }}

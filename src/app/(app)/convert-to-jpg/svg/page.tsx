@@ -1,12 +1,18 @@
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import FormatConvertClient from "@/app/components/tools/format-convert-client";
+import { SITE_URL } from "@/lib/site";
+import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 
 export const metadata = {
   title: "SVG to JPG (Free Online Tool)",
   description: "Rasterize SVG vector files into JPG images.",
+  alternates: {
+    canonical: `${SITE_URL}/convert-to-jpg/svg`,
+  },
 };
 
 export default function Page() {
+  const siteUrl = SITE_URL;
   return (
     <ToolLayout
       title="SVG to JPG"
@@ -25,6 +31,14 @@ export default function Page() {
         { name: "Resize Image", path: "/resize-image" }
       ]}
     >
+      <BreadcrumbsJsonLd
+        scriptId="breadcrumbs-convert-to-jpg-svg"
+        items={[
+          { name: "Home", url: `${siteUrl}/` },
+          { name: "Convert to JPG", url: `${siteUrl}/convert-to-jpg` },
+          { name: "SVG to JPG", url: `${siteUrl}/convert-to-jpg/svg` },
+        ]}
+      />
       <FormatConvertClient
         task="convert-to-jpg"
         accept={{ "image/svg+xml": [".svg"] }}

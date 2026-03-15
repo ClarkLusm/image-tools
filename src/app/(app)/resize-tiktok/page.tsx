@@ -1,5 +1,7 @@
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import SocialResizeClient from "@/app/components/tools/social-resize-client";
+import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
+import { SITE_URL } from "@/lib/site";
 
 const presets = [
   {
@@ -20,9 +22,13 @@ export const metadata = {
   title: "Resize for TikTok (Free Online Tool)",
   description:
     "Resize images to TikTok dimensions for covers, posts, and profile images.",
+  alternates: {
+    canonical: `${SITE_URL}/resize-tiktok`,
+  },
 };
 
 export default function Page() {
+  const siteUrl = SITE_URL;
   return (
     <ToolLayout
       title="Resize for TikTok"
@@ -42,6 +48,13 @@ export default function Page() {
         { name: "Compress Image", path: "/compress-image" }
       ]}
     >
+      <BreadcrumbsJsonLd
+        scriptId="breadcrumbs-resize-tiktok"
+        items={[
+          { name: "Home", url: `${siteUrl}/` },
+          { name: "Resize for TikTok", url: `${siteUrl}/resize-tiktok` },
+        ]}
+      />
       <SocialResizeClient presets={presets} defaultPresetIndex={0} />
     </ToolLayout>
   );

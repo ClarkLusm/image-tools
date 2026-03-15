@@ -1,12 +1,18 @@
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import FormatConvertClient from "@/app/components/tools/format-convert-client";
+import { SITE_URL } from "@/lib/site";
+import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 
 export const metadata = {
   title: "WebP to JPG (Free Online Tool)",
   description: "Convert WebP images to JPG with adjustable quality.",
+  alternates: {
+    canonical: `${SITE_URL}/convert-to-jpg/webp`,
+  },
 };
 
 export default function Page() {
+  const siteUrl = SITE_URL;
   return (
     <ToolLayout
       title="WebP to JPG"
@@ -25,6 +31,14 @@ export default function Page() {
         { name: "Convert to WebP", path: "/convert-to-webp" }
       ]}
     >
+      <BreadcrumbsJsonLd
+        scriptId="breadcrumbs-convert-to-jpg-webp"
+        items={[
+          { name: "Home", url: `${siteUrl}/` },
+          { name: "Convert to JPG", url: `${siteUrl}/convert-to-jpg` },
+          { name: "WebP to JPG", url: `${siteUrl}/convert-to-jpg/webp` },
+        ]}
+      />
       <FormatConvertClient
         task="convert-to-jpg"
         accept={{ "image/webp": [".webp"] }}

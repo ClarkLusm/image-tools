@@ -1,12 +1,18 @@
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import FormatConvertClient from "@/app/components/tools/format-convert-client";
+import { SITE_URL } from "@/lib/site";
+import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 
 export const metadata = {
   title: "SVG to WebP (Free Online Tool)",
   description: "Rasterize SVG vectors into WebP images.",
+  alternates: {
+    canonical: `${SITE_URL}/convert-to-webp/svg`,
+  },
 };
 
 export default function Page() {
+  const siteUrl = SITE_URL;
   return (
     <ToolLayout
       title="SVG to WebP"
@@ -25,6 +31,14 @@ export default function Page() {
         { name: "Convert to PNG", path: "/convert-to-png" }
       ]}
     >
+      <BreadcrumbsJsonLd
+        scriptId="breadcrumbs-convert-to-webp-svg"
+        items={[
+          { name: "Home", url: `${siteUrl}/` },
+          { name: "Convert to WebP", url: `${siteUrl}/convert-to-webp` },
+          { name: "SVG to WebP", url: `${siteUrl}/convert-to-webp/svg` },
+        ]}
+      />
       <FormatConvertClient
         task="convert-to-webp"
         accept={{ "image/svg+xml": [".svg"] }}
