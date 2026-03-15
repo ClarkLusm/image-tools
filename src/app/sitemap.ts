@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { COMPRESS_SIZE_ENTRIES } from "@/lib/seo";
+import { COMPRESS_SIZE_ENTRIES, COMPRESS_USE_CASE_ENTRIES } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 
 const staticRoutes = [
@@ -27,6 +27,14 @@ const staticRoutes = [
   "/about",
   "/privacy",
   "/terms",
+  "/compress-image/for/email-attachments",
+  "/compress-image/for/gmail",
+  "/compress-image/for/whatsapp",
+  "/compress-image/for/telegram",
+  "/compress-image/for/shopify-product",
+  "/compress-image/for/etsy-listing",
+  "/compress-image/for/wordpress",
+  "/compress-image/for/linkedin-banner",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -42,5 +50,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...entries, ...compressEntries];
+  const useCaseEntries = COMPRESS_USE_CASE_ENTRIES.map((entry) => ({
+    url: `${SITE_URL}/compress-image/for/${entry.slug}`,
+    changefreq: "weekly",
+    priority: 0.75,
+  }));
+
+  return [...entries, ...compressEntries, ...useCaseEntries];
 }

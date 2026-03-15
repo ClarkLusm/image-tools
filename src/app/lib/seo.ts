@@ -7,6 +7,16 @@ export type CompressSizeEntry = {
   faqs: { q: string; a: string }[];
 };
 
+export type CompressUseCaseEntry = {
+  slug: string;
+  title: string;
+  description: string;
+  purpose: string;
+  howTo: string[];
+  faqs: { q: string; a: string }[];
+  recommendedSizes: { label: string; slug: string }[];
+};
+
 export const COMPRESS_SIZE_ENTRIES: CompressSizeEntry[] = [
   {
     slug: "10kb",
@@ -195,6 +205,225 @@ export const COMPRESS_SIZE_ENTRIES: CompressSizeEntry[] = [
         q: "Will 2 MB preserve print detail?",
         a: "It can, but final print resolution still matters.",
       },
+    ],
+  },
+];
+
+export const COMPRESS_USE_CASE_ENTRIES: CompressUseCaseEntry[] = [
+  {
+    slug: "email-attachments",
+    title: "Compress Image for Email Attachments",
+    description:
+      "Shrink images so they attach and send quickly without bouncing.",
+    purpose: "email attachments and faster sending",
+    howTo: [
+      "Resize large photos before compressing to reduce size fast.",
+      "Use JPEG for photos and WebP for mixed content.",
+      "Aim for 200–500 KB for smooth email delivery.",
+    ],
+    faqs: [
+      {
+        q: "What size is safe for email attachments?",
+        a: "Many providers handle a few MB, but 200–500 KB per image keeps emails fast.",
+      },
+      {
+        q: "Will quality drop a lot?",
+        a: "Not if you start with a smaller resolution before compressing.",
+      },
+    ],
+    recommendedSizes: [
+      { label: "200 KB", slug: "200kb" },
+      { label: "300 KB", slug: "300kb" },
+      { label: "500 KB", slug: "500kb" },
+    ],
+  },
+  {
+    slug: "gmail",
+    title: "Compress Image for Gmail",
+    description:
+      "Optimize images for Gmail attachments and fast loading in threads.",
+    purpose: "Gmail sharing and faster loading",
+    howTo: [
+      "Target smaller images for quick upload and delivery.",
+      "Use JPEG for photos to keep file size down.",
+      "Stick to 200–500 KB for most images.",
+    ],
+    faqs: [
+      {
+        q: "Will Gmail accept large images?",
+        a: "Gmail supports large attachments, but smaller files send faster and load better.",
+      },
+      {
+        q: "Do I need WebP?",
+        a: "JPEG is widely compatible and usually sufficient for Gmail.",
+      },
+    ],
+    recommendedSizes: [
+      { label: "200 KB", slug: "200kb" },
+      { label: "300 KB", slug: "300kb" },
+      { label: "500 KB", slug: "500kb" },
+    ],
+  },
+  {
+    slug: "whatsapp",
+    title: "Compress Image for WhatsApp",
+    description:
+      "Reduce image size for faster sending and fewer upload issues in WhatsApp.",
+    purpose: "WhatsApp sharing and quicker uploads",
+    howTo: [
+      "Use 200–500 KB for quick sends without obvious loss.",
+      "Resize before compressing to avoid heavy artifacts.",
+      "Choose JPEG for photos and PNG for sharp graphics.",
+    ],
+    faqs: [
+      {
+        q: "Will compression reduce quality in WhatsApp?",
+        a: "A moderate size like 200–500 KB usually keeps images clean.",
+      },
+      {
+        q: "Is JPG better than PNG for WhatsApp?",
+        a: "JPG is smaller for photos; PNG is better for text or logos.",
+      },
+    ],
+    recommendedSizes: [
+      { label: "200 KB", slug: "200kb" },
+      { label: "300 KB", slug: "300kb" },
+      { label: "500 KB", slug: "500kb" },
+    ],
+  },
+  {
+    slug: "telegram",
+    title: "Compress Image for Telegram",
+    description:
+      "Optimize images to send quickly and keep chats lightweight in Telegram.",
+    purpose: "Telegram sharing and faster uploads",
+    howTo: [
+      "Aim for 200–500 KB for most images.",
+      "Use WebP if you want smaller files with good quality.",
+      "Crop to the subject before compressing.",
+    ],
+    faqs: [
+      {
+        q: "What size is good for Telegram?",
+        a: "200–500 KB keeps uploads fast while preserving quality.",
+      },
+      {
+        q: "Does Telegram compress images automatically?",
+        a: "It can, but pre‑compressing gives you better control.",
+      },
+    ],
+    recommendedSizes: [
+      { label: "200 KB", slug: "200kb" },
+      { label: "300 KB", slug: "300kb" },
+      { label: "500 KB", slug: "500kb" },
+    ],
+  },
+  {
+    slug: "shopify-product",
+    title: "Compress Image for Shopify Product Pages",
+    description:
+      "Speed up Shopify product pages with optimized image sizes.",
+    purpose: "Shopify product listings and faster page loads",
+    howTo: [
+      "Use 200–500 KB for product images to balance quality and speed.",
+      "Keep long edge under 2000px before compressing.",
+      "Use WebP for best performance when possible.",
+    ],
+    faqs: [
+      {
+        q: "Will compression hurt product image quality?",
+        a: "Not if you keep size moderate and avoid overly aggressive compression.",
+      },
+      {
+        q: "What format should I use?",
+        a: "JPEG or WebP for photos, PNG for transparent backgrounds.",
+      },
+    ],
+    recommendedSizes: [
+      { label: "300 KB", slug: "300kb" },
+      { label: "500 KB", slug: "500kb" },
+      { label: "1 MB", slug: "1mb" },
+    ],
+  },
+  {
+    slug: "etsy-listing",
+    title: "Compress Image for Etsy Listings",
+    description:
+      "Optimize listing photos for faster Etsy browsing and clearer previews.",
+    purpose: "Etsy listings and quick page loads",
+    howTo: [
+      "Use 200–500 KB for listing photos.",
+      "Resize to the final display size before compressing.",
+      "Keep text and product details clear.",
+    ],
+    faqs: [
+      {
+        q: "What size works well for Etsy?",
+        a: "200–500 KB per image is a good balance for clarity and speed.",
+      },
+      {
+        q: "Should I keep images high-res?",
+        a: "Yes, but compress to reduce load time without losing detail.",
+      },
+    ],
+    recommendedSizes: [
+      { label: "200 KB", slug: "200kb" },
+      { label: "300 KB", slug: "300kb" },
+      { label: "500 KB", slug: "500kb" },
+    ],
+  },
+  {
+    slug: "wordpress",
+    title: "Compress Image for WordPress Uploads",
+    description:
+      "Reduce image sizes for faster WordPress uploads and lighter pages.",
+    purpose: "WordPress uploads and performance",
+    howTo: [
+      "Resize large photos before compressing.",
+      "Use JPEG for photos to minimize size.",
+      "Aim for 100–300 KB for blog images.",
+    ],
+    faqs: [
+      {
+        q: "Will smaller images improve performance?",
+        a: "Yes, smaller images reduce page weight and speed up loading.",
+      },
+      {
+        q: "Should I upload WebP to WordPress?",
+        a: "If supported, WebP provides better compression and quality.",
+      },
+    ],
+    recommendedSizes: [
+      { label: "100 KB", slug: "100kb" },
+      { label: "200 KB", slug: "200kb" },
+      { label: "300 KB", slug: "300kb" },
+    ],
+  },
+  {
+    slug: "linkedin-banner",
+    title: "Compress Image for LinkedIn Banners",
+    description:
+      "Optimize LinkedIn banner images for crisp display and fast loading.",
+    purpose: "LinkedIn banners and profile visuals",
+    howTo: [
+      "Keep your banner under 500 KB for quick loading.",
+      "Resize to your final banner dimensions before compressing.",
+      "Use JPEG for photos, PNG for graphics with text.",
+    ],
+    faqs: [
+      {
+        q: "Will compression blur text?",
+        a: "Use moderate compression and PNG if you need sharper text.",
+      },
+      {
+        q: "What size should I target?",
+        a: "200–500 KB usually looks sharp while loading fast.",
+      },
+    ],
+    recommendedSizes: [
+      { label: "200 KB", slug: "200kb" },
+      { label: "300 KB", slug: "300kb" },
+      { label: "500 KB", slug: "500kb" },
     ],
   },
 ];

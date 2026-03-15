@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Download, Loader2, Crop as CropIcon } from "lucide-react";
-import ReactCrop, { type Crop, type PixelCrop } from "react-image-crop";
+import dynamic from "next/dynamic";
+import type { Crop, PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes, loadImage } from "@/lib/image-utils";
@@ -251,3 +252,4 @@ export default function CropImageClient() {
     </div>
   );
 }
+const ReactCrop = dynamic(() => import("react-image-crop"), { ssr: false });

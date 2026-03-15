@@ -76,6 +76,65 @@ export default function Page() {
             ))}
           </div>
         </section>
+
+        <section className="rounded-2xl border border-border bg-card p-6">
+          <h3 className="text-lg font-semibold mb-3">
+            Compress for a specific use case
+          </h3>
+          <p className="text-sm text-muted-foreground mb-4">
+            Pick a scenario to get recommended size targets and tips.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href="/compress-image/for/email-attachments"
+              className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+            >
+              Email attachments
+            </a>
+            <a
+              href="/compress-image/for/gmail"
+              className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+            >
+              Gmail
+            </a>
+            <a
+              href="/compress-image/for/whatsapp"
+              className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+            >
+              WhatsApp
+            </a>
+            <a
+              href="/compress-image/for/telegram"
+              className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+            >
+              Telegram
+            </a>
+            <a
+              href="/compress-image/for/shopify-product"
+              className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+            >
+              Shopify product
+            </a>
+            <a
+              href="/compress-image/for/etsy-listing"
+              className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+            >
+              Etsy listing
+            </a>
+            <a
+              href="/compress-image/for/wordpress"
+              className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+            >
+              WordPress
+            </a>
+            <a
+              href="/compress-image/for/linkedin-banner"
+              className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+            >
+              LinkedIn banner
+            </a>
+          </div>
+        </section>
       </div>
     </ToolLayout>
   );
