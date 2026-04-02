@@ -6,6 +6,7 @@
  */
 
 import type { WorkerRequest, WorkerResponse, WorkerTaskType } from "@/workers/image.worker";
+import { debugLog } from "@/lib/debug";
 
 type PendingResolver = {
   resolve: (blob: Blob) => void;
@@ -19,6 +20,7 @@ class ImageWorkerClient {
 
   private getWorker(): Worker {
     if (!this.worker) {
+      debugLog("client-worker", "Initializing image.worker.ts");
       this.worker = new Worker(
         new URL("../workers/image.worker.ts", import.meta.url),
         { type: "module" }
@@ -32,8 +34,14 @@ class ImageWorkerClient {
         this.pending.delete(id);
 
         if (error) {
+          debugLog("client-worker", "Task failed", { id, error });
           handlers.reject(new Error(error));
         } else if (blob) {
+          debugLog("client-worker", "Task completed", {
+            id,
+            size: blob.size,
+            type: blob.type,
+          });
           handlers.resolve(blob);
         } else {
           handlers.reject(new Error("Worker returned no blob and no error"));
@@ -42,6 +50,7 @@ class ImageWorkerClient {
 
       this.worker.addEventListener("error", (event) => {
         const msg = event.message ?? "Unknown worker error";
+        debugLog("client-worker", "Worker crashed", { message: msg });
         this.pending.forEach(({ reject }) => reject(new Error(msg)));
         this.pending.clear();
         this.worker = null;
@@ -58,6 +67,13 @@ class ImageWorkerClient {
   ): Promise<Blob> {
     const worker = this.getWorker();
     const id = `${type}-${++this.idCounter}-${Date.now()}`;
+    debugLog("client-worker", "Queue task", {
+      id,
+      type,
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+    });
 
     const bitmap = await createImageBitmap(file);
 

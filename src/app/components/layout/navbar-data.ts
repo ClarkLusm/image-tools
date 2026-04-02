@@ -1,4 +1,5 @@
 import {
+  Blocks,
   Camera,
   Crop,
   Eraser,
@@ -6,6 +7,7 @@ import {
   Image as ImageIcon,
   Maximize,
   Minimize,
+  Newspaper,
   Scissors,
   type LucideIcon,
 } from "lucide-react";
@@ -14,14 +16,42 @@ export type NavItem = {
   name: string;
   path: string;
   icon: LucideIcon;
+  description?: string;
+  activePaths?: string[];
 };
 
 export const primaryTools: NavItem[] = [
-  { name: "Resize Image", path: "/resize-image", icon: Maximize },
-  { name: "Compress", path: "/compress-image", icon: Minimize },
-  { name: "Remove EXIF", path: "/remove-metadata", icon: Eraser },
-  { name: "Crop Image", path: "/crop-image", icon: Crop },
-  { name: "Remove Background", path: "/remove-background", icon: Scissors },
+  {
+    name: "Resize Image",
+    path: "/resize-image",
+    icon: Maximize,
+    description: "Adjust image dimensions while preserving detail.",
+  },
+  {
+    name: "Compress",
+    path: "/compress-image",
+    icon: Minimize,
+    description: "Reduce file size for web, email, and sharing.",
+    activePaths: ["/compress-image", "/compress-image-to"],
+  },
+  {
+    name: "Remove EXIF",
+    path: "/remove-metadata",
+    icon: Eraser,
+    description: "Strip metadata for privacy before publishing.",
+  },
+  {
+    name: "Crop Image",
+    path: "/crop-image",
+    icon: Crop,
+    description: "Trim photos to the exact area you need.",
+  },
+  {
+    name: "Remove Background",
+    path: "/remove-background",
+    icon: Scissors,
+    description: "Create transparent cutouts in a few clicks.",
+  },
 ];
 
 export const convertTools: NavItem[] = [
@@ -36,3 +66,18 @@ export const socialResizeTools: NavItem[] = [
   { name: "YouTube", path: "/resize-youtube", icon: FileImage },
   { name: "Facebook", path: "/resize-facebook", icon: FileImage },
 ];
+
+export const topLevelNavItems: NavItem[] = [
+  {
+    name: "Blog",
+    path: "/blog",
+    icon: Newspaper,
+    description: "Guides, tips, and updates from ImageTools.",
+  },
+];
+
+export const toolsMenu = {
+  name: "Tools",
+  icon: Blocks,
+  items: primaryTools,
+};

@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { MouseEventHandler, ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -36,6 +36,7 @@ type NavLinkProps = {
   inactiveClassName: string;
   match?: MatchMode;
   activePaths?: string[];
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 };
 
 export function NavLink({
@@ -46,6 +47,7 @@ export function NavLink({
   inactiveClassName,
   match = "exact",
   activePaths,
+  onClick,
 }: NavLinkProps) {
   const pathname = usePathname();
   const isActive =
@@ -56,6 +58,7 @@ export function NavLink({
   return (
     <Link
       href={href}
+      onClick={onClick}
       className={cn(className, isActive ? activeClassName : inactiveClassName)}
     >
       {children}
@@ -69,6 +72,8 @@ type NavActiveButtonProps = {
   className?: string;
   activeClassName: string;
   inactiveClassName: string;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  ariaExpanded?: boolean;
 };
 
 export function NavActiveButton({
@@ -77,6 +82,8 @@ export function NavActiveButton({
   className,
   activeClassName,
   inactiveClassName,
+  onClick,
+  ariaExpanded,
 }: NavActiveButtonProps) {
   const pathname = usePathname();
   const isActive = paths.some((path) => matchPath(pathname, path, "startsWith"));
@@ -84,6 +91,8 @@ export function NavActiveButton({
   return (
     <button
       type="button"
+      onClick={onClick}
+      aria-expanded={ariaExpanded}
       className={cn(className, isActive ? activeClassName : inactiveClassName)}
     >
       {children}

@@ -84,3 +84,10 @@ body {
     animation: none;
   }
 }
+
+.tool-layout[data-collapse-header-on-active-image="true"]:has(
+    [data-tool-active-image="true"]
+  )
+  .tool-layout-header {
+  display: none;
+}

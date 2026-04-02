@@ -31,7 +31,10 @@ export default function RemoveMetadataClient() {
   };
 
   return (
-    <div className="space-y-8">
+    <div
+      className="space-y-8"
+      data-tool-active-image={file ? "true" : undefined}
+    >
       {!resultBlob && (
         <Uploader
           onFileSelect={(f) => {

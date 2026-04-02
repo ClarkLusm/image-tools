@@ -25,6 +25,7 @@ const staticRoutes = [
   "/resize-tiktok",
   "/resize-youtube",
   "/resize-facebook",
+  "/blog",
   "/about",
   "/privacy",
   "/terms",

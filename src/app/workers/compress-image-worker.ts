@@ -4,6 +4,7 @@ import path from "path";
 import { stat, writeFile } from "fs/promises";
 import { ensureJobDir, getOutputInfo, STORAGE_ROOT } from "../lib/storage";
 import { getRedisConnectionOptions } from "../lib/redis";
+import { debugLog } from "../lib/debug";
 
 type CompressJobData = {
   id: string;
@@ -61,7 +62,13 @@ const formatToMime = (format: string) => {
 const worker = new Worker<CompressJobData>(
   "compress-image",
   async (job) => {
-    console.log("JOB RECEIVED", job.id);
+    const startedAt = Date.now();
+    debugLog("worker:compress", "Job received", {
+      id: job.id,
+      name: job.name,
+      quality: job.data.quality,
+      targetSizeKB: job.data.targetSizeKB ?? null,
+    });
     const { id, inputPath, originalName, mimeType, quality, targetSizeKB } =
       job.data;
 
@@ -141,6 +148,12 @@ const worker = new Worker<CompressJobData>(
     await job.updateProgress(90);
 
     await job.updateProgress(100);
+    debugLog("worker:compress", "Job done", {
+      id: job.id,
+      outputSize,
+      outputFilename,
+      tookMs: Date.now() - startedAt,
+    });
 
     return {
       outputPath,
@@ -156,9 +169,14 @@ const worker = new Worker<CompressJobData>(
 worker.on("failed", (job, err) => {
   // eslint-disable-next-line no-console
   console.error("Compress job failed", job?.id, err);
+  debugLog("worker:compress", "Job failed", {
+    id: job?.id,
+    message: err?.message ?? String(err),
+  });
 });
 
 worker.on("ready", () => {
   // eslint-disable-next-line no-console
   console.log("Compress worker ready");
+  debugLog("worker:compress", "Worker ready", { storageRoot: STORAGE_ROOT });
 });

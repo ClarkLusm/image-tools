@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Download, Loader2, Crop as CropIcon } from "lucide-react";
+import {
+  Download,
+  Loader2,
+  Crop as CropIcon,
+  RefreshCcw,
+} from "lucide-react";
 import dynamic from "next/dynamic";
 import type { Crop, PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
@@ -21,7 +26,6 @@ const aspectOptions = [
 export default function CropImageClient() {
   const [file, setFile] = useState<File | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [dimensions, setDimensions] = useState<{
     width: number;
     height: number;
@@ -30,18 +34,33 @@ export default function CropImageClient() {
   const [aspect, setAspect] = useState<number>(0);
   const [completedCrop, setCompletedCrop] = useState<PixelCrop | null>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const { processImage, isProcessing, error } = useImageWorker();
+  const imageUrl = useMemo(
+    () => (file ? URL.createObjectURL(file) : null),
+    [file]
+  );
 
   useEffect(() => {
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    setImageUrl(url);
-    loadImage(file).then((img) => {
+    if (!imageUrl) return;
+
+    return () => {
+      URL.revokeObjectURL(imageUrl);
+    };
+  }, [imageUrl]);
+
+  const applyFileSelection = (nextFile: File) => {
+    setFile(nextFile);
+    setResultBlob(null);
+    setCrop(undefined);
+    setCompletedCrop(null);
+    setDimensions(null);
+
+    loadImage(nextFile).then((img) => {
       setDimensions({ width: img.width, height: img.height });
     });
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
+  };
 
   const handleProcess = async () => {
     if (!file || !completedCrop || !imageRef.current) return;
@@ -102,16 +121,34 @@ export default function CropImageClient() {
     setCompletedCrop(buildDefaultCrop(imageRef.current));
   };
 
+  const openFilePicker = () => {
+    if (!fileInputRef.current) return;
+    fileInputRef.current.value = "";
+    fileInputRef.current.click();
+  };
+
   return (
-    <div className="space-y-8">
-      {!resultBlob && (
+    <div
+      className="space-y-8"
+      data-tool-active-image={file ? "true" : undefined}
+    >
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*,.jpg,.jpeg,.png,.webp"
+        className="hidden"
+        onChange={(event) => {
+          const nextFile = event.target.files?.[0];
+
+          if (nextFile) {
+            applyFileSelection(nextFile);
+          }
+        }}
+      />
+
+      {!file && !resultBlob && (
         <Uploader
-          onFileSelect={(f) => {
-            setFile(f);
-            setResultBlob(null);
-            setCrop(undefined);
-            setCompletedCrop(null);
-          }}
+          onFileSelect={applyFileSelection}
           accept={{ "image/*": [".jpg", ".jpeg", ".png", ".webp"] }}
           isProcessing={isProcessing}
         />
@@ -196,20 +233,31 @@ export default function CropImageClient() {
             </button>
           </div>
 
-          <button
-            onClick={handleProcess}
-            disabled={isProcessing || !completedCrop}
-            className="w-full py-4 bg-primary text-primary-foreground font-bold rounded-xl shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:transform-none flex justify-center items-center gap-2"
-          >
-            {isProcessing ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" /> Cropping in
-                background...
-              </>
-            ) : (
-              "Crop Image"
-            )}
-          </button>
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center">
+            <button
+              type="button"
+              onClick={openFilePicker}
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-4 py-4 text-sm font-medium text-foreground transition-colors hover:bg-secondary sm:px-5"
+            >
+              <RefreshCcw className="w-4 h-4" />
+              Select different image
+            </button>
+
+            <button
+              onClick={handleProcess}
+              disabled={isProcessing || !completedCrop}
+              className="w-full py-4 bg-primary text-primary-foreground font-bold rounded-xl shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:transform-none flex justify-center items-center gap-2 sm:flex-1"
+            >
+              {isProcessing ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" /> Cropping in
+                  background...
+                </>
+              ) : (
+                "Crop Image"
+              )}
+            </button>
+          </div>
         </motion.div>
       )}
 

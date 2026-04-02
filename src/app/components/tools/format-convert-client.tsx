@@ -91,7 +91,10 @@ export default function FormatConvertClient({
   }, [results.length]);
 
   return (
-    <div className="space-y-8">
+    <div
+      className="space-y-8"
+      data-tool-active-image={files.length > 0 ? "true" : undefined}
+    >
       {results.length === 0 && (
         <Uploader
           onFileSelect={(f) => setFiles([f])}

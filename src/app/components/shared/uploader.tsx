@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { Loader2, UploadCloud } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { UploaderProps } from "./uploader-core";
+import { debugLog } from "@/lib/debug";
 
 const UploaderCore = dynamic(
   () => import("./uploader-core").then((mod) => mod.UploaderCore),
@@ -73,6 +74,7 @@ export function Uploader(props: UploaderProps) {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {
+          debugLog("uploader", "Primed by intersection");
           setIsPrimed(true);
         }
       },
@@ -86,7 +88,10 @@ export function Uploader(props: UploaderProps) {
 
   useEffect(() => {
     if (isPrimed) return;
-    const timer = window.setTimeout(() => setIsPrimed(true), 1500);
+    const timer = window.setTimeout(() => {
+      debugLog("uploader", "Primed by fallback timeout");
+      setIsPrimed(true);
+    }, 1500);
     return () => window.clearTimeout(timer);
   }, [isPrimed]);
 

@@ -2,8 +2,17 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
-import { Layers, ShieldCheck, Zap, ArrowRight, Gauge, Repeat } from "lucide-react";
+import {
+  Layers,
+  ShieldCheck,
+  Zap,
+  ArrowRight,
+  Gauge,
+  Repeat,
+  CheckCircle2,
+} from "lucide-react";
 import Hero from "./components/home/hero";
+import BeforeAfterSlider from "./components/home/before-after-slider";
 import BreadcrumbsJsonLd from "./components/seo/breadcrumbs-jsonld";
 import { SITE_URL } from "@/lib/site";
 import { tools } from "./components/home/_tools";
@@ -168,6 +177,67 @@ export default function Home() {
           </div>
 
           <Hero />
+        </div>
+      </section>
+
+      <section className="py-16 border-y border-border bg-background">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+            <div className="rounded-3xl border border-border bg-white p-3 shadow-xl shadow-black/[0.06]">
+              <BeforeAfterSlider
+                imageSrc="/images/demo-portrait.jpg"
+                alt="Portrait comparison before and after optimization"
+              />
+            </div>
+
+            <div>
+              <span className="inline-flex items-center rounded-full bg-sky-100 text-sky-700 px-3 py-1 text-xs font-semibold tracking-wide">
+                SMART PROCESSING
+              </span>
+              <h2 className="mt-4 text-3xl md:text-4xl font-display font-bold tracking-tight">
+                Professional-quality results without complicated workflows.
+              </h2>
+              <p className="mt-4 text-muted-foreground text-lg leading-relaxed">
+                From compression and format conversion to background removal,
+                ImageTools helps you optimize visuals in seconds with practical
+                controls and clean output.
+              </p>
+
+              <ul className="mt-6 space-y-3 text-base">
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-primary mt-0.5" />
+                  <span>Size optimization for faster page loading.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-primary mt-0.5" />
+                  <span>Batch processing support for multiple images.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-primary mt-0.5" />
+                  <span>
+                    Built for real tasks: web publishing, social media, and
+                    content ops.
+                  </span>
+                </li>
+              </ul>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  href="/remove-background"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-95 transition-opacity"
+                >
+                  Try Remove Background
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link
+                  href="/compress-image"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-border bg-card text-foreground font-semibold hover:bg-secondary transition-colors"
+                >
+                  Compress Images
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

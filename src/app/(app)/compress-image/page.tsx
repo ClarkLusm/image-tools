@@ -13,8 +13,8 @@ export const metadata = {
 export default function Page() {
   return (
     <ToolLayout
-      title="Compress Image"
-      description="Reduce image file sizes by up to 80% without visible quality loss. Powered by advanced server-side optimization algorithms."
+      title="Compress Images Online for Free"
+      description="Compress images online for free. Reduce JPG, PNG, and WebP file size by up to 80% without losing quality. Fast, secure, and no signup required."
       steps={[
         {
           title: "Upload",

@@ -27,3 +27,27 @@ export const getRedisConnectionOptions = (): ConnectionOptions => {
 
   return options;
 };
+
+export const isRedisConnectionError = (error: unknown): boolean => {
+  if (!error) return false;
+
+  if (error instanceof AggregateError) {
+    return error.errors.some((item) => isRedisConnectionError(item));
+  }
+
+  if (error instanceof Error) {
+    const nodeError = error as Error & { code?: string };
+    return (
+      nodeError.code === "ECONNREFUSED" ||
+      nodeError.code === "ENOTFOUND" ||
+      /ECONNREFUSED|ENOTFOUND|connect/i.test(error.message)
+    );
+  }
+
+  if (typeof error === "object" && error !== null && "code" in error) {
+    const code = (error as { code?: unknown }).code;
+    return code === "ECONNREFUSED" || code === "ENOTFOUND";
+  }
+
+  return false;
+};

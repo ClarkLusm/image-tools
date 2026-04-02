@@ -14,6 +14,7 @@ export default function Page() {
     <ToolLayout
       title="Crop Image"
       description="Trim your image to the perfect area by specifying exact crop dimensions."
+      collapseHeaderOnActiveImage
       steps={[
         { title: "Upload Image", description: "Select the image you want to crop." },
         { title: "Set Crop", description: "Enter the crop rectangle coordinates and size." },

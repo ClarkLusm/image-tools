@@ -20,9 +20,18 @@ interface ToolLayoutProps {
   steps: Step[];
   faqs: FAQ[];
   relatedTools: { name: string; path: string }[];
+  collapseHeaderOnActiveImage?: boolean;
 }
 
-export function ToolLayout({ title, description, children, steps, faqs, relatedTools }: ToolLayoutProps) {
+export function ToolLayout({
+  title,
+  description,
+  children,
+  steps,
+  faqs,
+  relatedTools,
+  collapseHeaderOnActiveImage = true,
+}: ToolLayoutProps) {
   const faqSchema =
     faqs && faqs.length > 0
       ? {
@@ -40,7 +49,12 @@ export function ToolLayout({ title, description, children, steps, faqs, relatedT
       : null;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div
+      className="tool-layout min-h-screen bg-background flex flex-col"
+      data-collapse-header-on-active-image={
+        collapseHeaderOnActiveImage ? "true" : undefined
+      }
+    >
       {faqSchema && (
         <Script
           id={`faq-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
@@ -52,7 +66,7 @@ export function ToolLayout({ title, description, children, steps, faqs, relatedT
         <div className="container mx-auto px-4 max-w-5xl">
           
           {/* Header Section */}
-          <div className="text-center mb-6 md:mb-8">
+          <div className="tool-layout-header text-center mb-6 md:mb-8">
             <div className="inline-flex items-center justify-center p-2 bg-primary/10 rounded-2xl mb-3">
               <Sparkles className="w-6 h-6 text-primary" />
             </div>
@@ -65,7 +79,7 @@ export function ToolLayout({ title, description, children, steps, faqs, relatedT
           </div>
 
           {/* Main Tool Area */}
-          <div className="bg-card border border-border shadow-xl shadow-black/[0.03] rounded-3xl p-6 md:p-10 mb-14">
+          <div className="mb-14">
             {children}
           </div>
 
