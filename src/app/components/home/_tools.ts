@@ -5,6 +5,7 @@ import {
   Eraser,
   Crop,
   FileImage,
+  Scissors,
 } from "lucide-react";
 
 export const tools = [
@@ -63,5 +64,13 @@ export const tools = [
     path: "/crop-image",
     color: "text-amber-500",
     bg: "bg-amber-500/10",
+  },
+  {
+    title: "Remove Background",
+    description: "Cut out image backgrounds and export transparent PNG.",
+    icon: Scissors,
+    path: "/remove-background",
+    color: "text-sky-600",
+    bg: "bg-sky-500/10",
   },
 ];

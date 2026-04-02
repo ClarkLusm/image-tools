@@ -6,6 +6,7 @@ import {
   Image as ImageIcon,
   Maximize,
   Minimize,
+  Scissors,
   type LucideIcon,
 } from "lucide-react";
 
@@ -20,6 +21,7 @@ export const primaryTools: NavItem[] = [
   { name: "Compress", path: "/compress-image", icon: Minimize },
   { name: "Remove EXIF", path: "/remove-metadata", icon: Eraser },
   { name: "Crop Image", path: "/crop-image", icon: Crop },
+  { name: "Remove Background", path: "/remove-background", icon: Scissors },
 ];
 
 export const convertTools: NavItem[] = [

@@ -7,6 +7,7 @@ const staticRoutes = [
   "/compress-image",
   "/resize-image",
   "/remove-metadata",
+  "/remove-background",
   "/crop-image",
   "/convert-to-jpg",
   "/convert-to-jpg/png",
