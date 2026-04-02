@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { tools } from "./_tools";
@@ -9,12 +6,10 @@ export default function Hero() {
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
       {tools.map((tool, idx) => (
-        <motion.div
+        <div
           key={tool.title}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: idx * 0.1 }}
+          className="hero-card"
+          style={{ animationDelay: `${idx * 80}ms` }}
         >
           <Link
             href={tool.path}
@@ -36,7 +31,7 @@ export default function Hero() {
               <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
-        </motion.div>
+        </div>
       ))}
     </div>
   );

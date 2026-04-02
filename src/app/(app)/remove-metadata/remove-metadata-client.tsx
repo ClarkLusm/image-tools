@@ -42,6 +42,7 @@ export default function RemoveMetadataClient() {
           accept={{
             "image/jpeg": [".jpg", ".jpeg"],
             "image/png": [".png"],
+            "image/webp": [".webp"],
           }}
         />
       )}
