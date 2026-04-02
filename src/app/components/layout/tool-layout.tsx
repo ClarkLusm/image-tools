@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import { ArrowRight, Sparkles } from "lucide-react";
-import Link from "next/link";
+import { ChevronDown, Sparkles } from "lucide-react";
 import Script from "next/script";
+import { ToolSidebar } from "./tool-sidebar";
 
 interface Step {
   title: string;
@@ -29,7 +29,6 @@ export function ToolLayout({
   children,
   steps,
   faqs,
-  relatedTools,
   collapseHeaderOnActiveImage = true,
 }: ToolLayoutProps) {
   const faqSchema =
@@ -63,86 +62,87 @@ export function ToolLayout({
         />
       )}
       <main className="flex-1 py-12 lg:py-20">
-        <div className="container mx-auto px-4 max-w-5xl">
-          
-          {/* Header Section */}
-          <div className="tool-layout-header text-center mb-6 md:mb-8">
-            <div className="inline-flex items-center justify-center p-2 bg-primary/10 rounded-2xl mb-3">
-              <Sparkles className="w-6 h-6 text-primary" />
-            </div>
-            <h1 className="text-3xl md:text-4xl font-display font-extrabold text-foreground tracking-tight mb-3">
-              {title}
-            </h1>
-            <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
-              {description}
-            </p>
+        <div className="w-full xl:grid xl:grid-cols-[260px_minmax(0,1fr)] xl:items-start">
+          <div className="">
+            <ToolSidebar />
           </div>
 
-          {/* Main Tool Area */}
-          <div className="mb-14">
-            {children}
-          </div>
-
-          {/* Content Grid */}
-          <div className="grid md:grid-cols-12 gap-12 lg:gap-20">
-            
-            {/* Left Column: How it works & FAQs */}
-            <div className="md:col-span-8 space-y-16">
-              
-              {/* How it works */}
-              <section>
-                <h2 className="text-2xl font-display font-bold text-foreground mb-8">How it works</h2>
-                <div className="space-y-6">
-                  {steps.map((step, index) => (
-                    <div key={index} className="flex gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">
-                        {index + 1}
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-foreground mb-1">{step.title}</h3>
-                        <p className="text-muted-foreground">{step.description}</p>
-                      </div>
-                    </div>
-                  ))}
+          <div className="min-w-0 xl:px-16">
+            <div className="mx-auto w-full max-w-[1500px] px-4 xl:mx-0 xl:px-0">
+              {/* Header Section */}
+              <div className="tool-layout-header mb-6 text-center md:mb-8">
+                <div className="mb-3 inline-flex items-center justify-center rounded-2xl bg-primary/10 p-2">
+                  <Sparkles className="w-6 h-6 text-primary" />
                 </div>
-              </section>
+                <h1 className="mb-3 text-3xl font-display font-extrabold tracking-tight text-foreground md:text-4xl">
+                  {title}
+                </h1>
+                <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">
+                  {description}
+                </p>
+              </div>
 
-              {/* FAQs */}
-              <section>
-                <h2 className="text-2xl font-display font-bold text-foreground mb-8">Frequently Asked Questions</h2>
-                <div className="space-y-6">
-                  {faqs.map((faq, index) => (
-                    <div key={index} className="bg-secondary/30 rounded-2xl p-6 border border-border/50">
-                      <h3 className="text-lg font-semibold text-foreground mb-2">{faq.q}</h3>
-                      <p className="text-muted-foreground leading-relaxed">{faq.a}</p>
+              {/* Main Tool Area */}
+              <div className="mb-14">{children}</div>
+
+              {/* Content Grid */}
+              <div className="grid gap-12 md:grid-cols-12 lg:gap-20">
+                <div className="space-y-16 md:col-span-12">
+                  {/* How it works */}
+                  <section className="mx-auto max-w-4xl">
+                    <h2 className="mb-8 text-center text-2xl font-display font-bold text-foreground">
+                      How it works
+                    </h2>
+                    <div className="space-y-6">
+                      {steps.map((step, index) => (
+                        <div key={index} className="flex gap-4">
+                          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+                            {index + 1}
+                          </div>
+                          <div>
+                            <h3 className="mb-1 text-lg font-semibold text-foreground">
+                              {step.title}
+                            </h3>
+                            <p className="text-muted-foreground">
+                              {step.description}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </section>
+                  </section>
 
-            </div>
-
-            {/* Right Column: Related Tools */}
-            <div className="md:col-span-4">
-              <div className="sticky top-24 bg-card rounded-2xl p-6 border border-border shadow-lg shadow-black/[0.02]">
-                <h3 className="text-lg font-display font-bold text-foreground mb-6">Related Tools</h3>
-                <div className="space-y-3">
-                  {relatedTools.map((tool) => (
-                    <Link 
-                      key={tool.path}
-                      href={tool.path}
-                      className="group flex items-center justify-between p-4 rounded-xl bg-secondary/50 hover:bg-primary/5 hover:text-primary border border-transparent hover:border-primary/20 transition-all"
-                    >
-                      <span className="font-medium">{tool.name}</span>
-                      <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                    </Link>
-                  ))}
+                  {/* FAQs */}
+                  <section className="mx-auto max-w-5xl">
+                    <h2 className="mb-8 text-center text-2xl font-display font-bold text-foreground">
+                      Frequently Asked Questions
+                    </h2>
+                    <div className="space-y-5">
+                      {faqs.map((faq, index) => (
+                        <details
+                          key={index}
+                          open={index === 0}
+                          className="group overflow-hidden rounded-2xl border border-border bg-white shadow-[0_16px_40px_rgba(15,23,42,0.05)]"
+                        >
+                          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-7 py-6 text-left marker:content-none">
+                            <h3 className="text-lg font-semibold text-foreground">
+                              {faq.q}
+                            </h3>
+                            <ChevronDown className="h-5 w-5 flex-shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180" />
+                          </summary>
+                          <div className="border-t border-border/70 px-7 py-6">
+                            <p className="leading-8 text-muted-foreground">
+                              {faq.a}
+                            </p>
+                          </div>
+                        </details>
+                      ))}
+                    </div>
+                  </section>
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       </main>
     </div>

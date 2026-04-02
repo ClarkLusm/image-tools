@@ -63,7 +63,7 @@ export default function Page() {
 
         <section className="space-y-8">
           <div className="px-6 text-center md:px-10">
-            <h2 className="text-3xl font-display font-bold tracking-tight text-foreground md:text-4xl">
+            <h2 className="text-2xl font-display font-bold text-foreground tracking-tight">
               Traditional vs. AI Upscaling
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base text-muted-foreground md:text-lg">
@@ -107,13 +107,13 @@ export default function Page() {
                     key={row.feature}
                     className={index < rows.length - 1 ? "border-b border-border/60" : ""}
                   >
-                    <td className="border-b border-border/50 px-8 py-8 text-lg font-semibold text-foreground last:border-b-0">
+                    <td className="border-b border-border/50 px-8 py-8 font-semibold text-foreground last:border-b-0">
                       {row.feature}
                     </td>
-                    <td className="border-b border-border/50 px-8 py-8 text-lg text-slate-700 last:border-b-0">
+                    <td className="border-b border-border/50 px-8 py-8 text-slate-700 last:border-b-0">
                       {row.traditional}
                     </td>
-                    <td className="border-b border-border/50 px-8 py-8 text-lg font-semibold text-sky-900 last:border-b-0">
+                    <td className="border-b border-border/50 px-8 py-8 font-semibold text-sky-900 last:border-b-0">
                       {row.ai}
                     </td>
                   </tr>
