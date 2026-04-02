@@ -6,6 +6,7 @@ import {
   Crop,
   FileImage,
   Scissors,
+  Sparkles,
 } from "lucide-react";
 
 export const tools = [
@@ -72,5 +73,13 @@ export const tools = [
     path: "/remove-background",
     color: "text-sky-600",
     bg: "bg-sky-500/10",
+  },
+  {
+    title: "Upscale Image",
+    description: "Increase image resolution with AI super resolution.",
+    icon: Sparkles,
+    path: "/upscale-image",
+    color: "text-fuchsia-500",
+    bg: "bg-fuchsia-500/10",
   },
 ];

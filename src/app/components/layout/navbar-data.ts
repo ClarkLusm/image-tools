@@ -9,6 +9,7 @@ import {
   Minimize,
   Newspaper,
   Scissors,
+  Sparkles,
   type LucideIcon,
 } from "lucide-react";
 
@@ -51,6 +52,12 @@ export const primaryTools: NavItem[] = [
     path: "/remove-background",
     icon: Scissors,
     description: "Create transparent cutouts in a few clicks.",
+  },
+  {
+    name: "Upscale Image",
+    path: "/upscale-image",
+    icon: Sparkles,
+    description: "Enlarge low-resolution images with AI super resolution.",
   },
 ];
 

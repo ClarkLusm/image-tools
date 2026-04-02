@@ -16,6 +16,16 @@ export type ImageToolsJob = {
   output?: {
     items?: DeepCompressionOutputItem[];
     temporaryArtifacts?: ImageToolsJobArtifact[];
+    enhancedUrl?: string;
+    cutoutUrl?: string;
+    resizedUrl?: string;
+    convertedUrl?: string;
+    protectedUrl?: string;
+    sanitizedUrl?: string;
+    panoramaUrl?: string;
+    animationUrl?: string;
+    compressedUrl?: string;
+    resultUrl?: string;
   };
 };
 
@@ -99,6 +109,42 @@ export async function createDeepCompressionJob(
   if (!response.ok) {
     throw new Error(
       await parseErrorMessage(response, "Failed to create compression job."),
+    );
+  }
+
+  const data = (await response.json()) as { id?: string };
+
+  if (!data.id) {
+    throw new Error("Missing job id from image-tools-api.");
+  }
+
+  return data.id;
+}
+
+export async function createUpscaleJob(
+  file: File,
+  options: {
+    scale: 2 | 4 | 8;
+    faceEnhance?: boolean;
+  },
+) {
+  const formData = new FormData();
+
+  formData.append("file", file);
+  formData.append("scale", String(options.scale));
+
+  if (typeof options.faceEnhance === "boolean") {
+    formData.append("faceEnhance", String(options.faceEnhance));
+  }
+
+  const response = await fetch(buildApiUrl("/image-tools/ai/super-resolution"), {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      await parseErrorMessage(response, "Failed to create upscale job."),
     );
   }
 
@@ -256,4 +302,21 @@ export function resolveDeepCompressionDownloadUrls(job: ImageToolsJob) {
   return (job.output?.temporaryArtifacts ?? [])
     .map((artifact) => artifact.downloadUrl)
     .filter((url): url is string => typeof url === "string");
+}
+
+export function resolveSingleJobDownloadUrl(
+  job: ImageToolsJob,
+  preferredKeys: Array<keyof NonNullable<ImageToolsJob["output"]>>,
+) {
+  for (const key of preferredKeys) {
+    const candidate = job.output?.[key];
+
+    if (typeof candidate === "string") {
+      return candidate;
+    }
+  }
+
+  return (job.output?.temporaryArtifacts ?? [])
+    .map((artifact) => artifact.downloadUrl)
+    .find((url): url is string => typeof url === "string");
 }
