@@ -43,14 +43,6 @@ export const tools = [
     bg: "bg-cyan-500/10",
   },
   {
-    title: "Convert to JPG",
-    description: "Turn any image format into JPEG with quality control.",
-    icon: ImageIcon,
-    path: "/convert-to-jpg",
-    color: "text-rose-500",
-    bg: "bg-rose-500/10",
-  },
-  {
     title: "Convert to PNG",
     description: "Export images to lossless PNG with transparency.",
     icon: FileImage,
