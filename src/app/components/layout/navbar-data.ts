@@ -4,12 +4,16 @@ import {
   Crop,
   Eraser,
   FileImage,
+  Images,
   Image as ImageIcon,
   Maximize,
   Minimize,
   Newspaper,
   Scissors,
+  Smartphone,
   Sparkles,
+  ThumbsUp,
+  Video,
   type LucideIcon,
 } from "lucide-react";
 
@@ -64,14 +68,14 @@ export const primaryTools: NavItem[] = [
 export const convertTools: NavItem[] = [
   { name: "Convert to PNG", path: "/convert-to-png", icon: FileImage },
   { name: "Convert to JPG", path: "/convert-to-jpg", icon: ImageIcon },
-  { name: "Convert to WebP", path: "/convert-to-webp", icon: FileImage },
+  { name: "Convert to WebP", path: "/convert-to-webp", icon: Images },
 ];
 
 export const socialResizeTools: NavItem[] = [
   { name: "Instagram", path: "/resize-instagram", icon: Camera },
-  { name: "TikTok", path: "/resize-tiktok", icon: FileImage },
-  { name: "YouTube", path: "/resize-youtube", icon: FileImage },
-  { name: "Facebook", path: "/resize-facebook", icon: FileImage },
+  { name: "TikTok", path: "/resize-tiktok", icon: Smartphone },
+  { name: "YouTube", path: "/resize-youtube", icon: Video },
+  { name: "Facebook", path: "/resize-facebook", icon: ThumbsUp },
 ];
 
 export const topLevelNavItems: NavItem[] = [
