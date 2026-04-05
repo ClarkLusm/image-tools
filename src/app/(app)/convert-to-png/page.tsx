@@ -8,7 +8,7 @@ import { SITE_URL } from "@/lib/site";
 export const metadata = {
   title: "Convert Image to PNG (Free Online Tool)",
   description:
-    "Convert JPG, WebP, or SVG images to PNG with full transparency support.",
+    "Convert JPG, JPEG, WebP, or SVG images to PNG with full transparency support.",
   alternates: {
     canonical: `${SITE_URL}/convert-to-png`,
   },

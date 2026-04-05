@@ -61,7 +61,7 @@ export function ToolLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
-      <main className="flex-1 py-12 lg:py-20">
+      <main className="flex-1 py-8 lg:py-12">
         <div className="w-full xl:grid xl:grid-cols-[260px_minmax(0,1fr)] xl:items-start">
           <div className="">
             <ToolSidebar />

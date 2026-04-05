@@ -15,14 +15,26 @@ export function Footer() {
 
           <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
             <span>&copy; {new Date().getFullYear()} ImageTools.</span>
-            <Link href="/about" className="hover:text-primary transition-colors">
+            <Link
+              href="/about"
+              className="hover:text-primary transition-colors"
+            >
               About
             </Link>
-            <Link href="/privacy" className="hover:text-primary transition-colors">
+            <Link
+              href="/privacy"
+              className="hover:text-primary transition-colors"
+            >
               Privacy
             </Link>
-            <Link href="/terms" className="hover:text-primary transition-colors">
+            <Link
+              href="/terms"
+              className="hover:text-primary transition-colors"
+            >
               Terms
+            </Link>
+            <Link href="/blog" className="hover:text-primary transition-colors">
+              Blog
             </Link>
           </div>
         </div>

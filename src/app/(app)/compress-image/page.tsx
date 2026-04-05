@@ -14,7 +14,7 @@ export default function Page() {
   return (
     <ToolLayout
       title="Compress Images Online for Free"
-      description="Compress images online for free. Reduce JPG, PNG, and WebP file size by up to 80% without losing quality. Fast, secure, and no signup required."
+      description="Compress images online for free. Reduce JPG, JPEG, PNG, and WebP file size by up to 80% without losing quality. Fast, secure, and no signup required."
       steps={[
         {
           title: "Upload",

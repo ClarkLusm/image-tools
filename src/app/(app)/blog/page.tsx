@@ -8,7 +8,7 @@ const upcomingPosts = [
   {
     title: "How to choose the right image format for the web",
     description:
-      "A practical guide to JPG, PNG, and WebP with examples for content sites and landing pages.",
+      "A practical guide to JPG, JPEG, PNG, and WebP with examples for content sites and landing pages.",
   },
   {
     title: "Image compression tips that keep quality intact",

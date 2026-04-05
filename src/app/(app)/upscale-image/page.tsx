@@ -20,7 +20,7 @@ export default function Page() {
       steps={[
         {
           title: "Upload image",
-          description: "Choose a JPG, PNG, or WebP image from your device.",
+          description: "Choose a JPG, JPEG, PNG, or WebP image from your device.",
         },
         {
           title: "Pick enlargement settings",

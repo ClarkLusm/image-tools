@@ -20,7 +20,7 @@ export default function Page() {
       steps={[
         {
           title: "Upload image",
-          description: "Choose JPG, PNG, or WebP from your device.",
+          description: "Choose JPG, JPEG, PNG, or WebP from your device.",
         },
         {
           title: "Tune edge settings",

@@ -8,7 +8,7 @@ import { SITE_URL } from "@/lib/site";
 export const metadata = {
   title: "Convert Image to WebP (Free Online Tool)",
   description:
-    "Convert JPG, PNG, or SVG images to WebP instantly for smaller file sizes and faster load times.",
+    "Convert JPG, JPEG, PNG, or SVG images to WebP instantly for smaller file sizes and faster load times.",
   alternates: {
     canonical: `${SITE_URL}/convert-to-webp`,
   },

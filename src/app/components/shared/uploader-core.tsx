@@ -142,7 +142,7 @@ export function UploaderCore({
                   <ImageIcon className="w-3 h-3" /> Max {maxSizeMB}MB
                 </span>
                 <span className="bg-secondary px-3 py-1 rounded-full">
-                  JPG, PNG, WEBP
+                  JPG, JPEG, PNG, WEBP, HEIC, HEIF
                 </span>
               </div>
             </motion.div>
