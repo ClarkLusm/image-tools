@@ -1,10 +1,10 @@
-import { SITE_URL } from "@/lib/site";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { Sparkles } from "lucide-react";
 
 export const metadata = {
   title: "Terms of Service",
   description:
-    "Read the terms for using ImageTools and our image processing services.",
+    `Read the terms for using ${SITE_NAME} and our image processing services.`,
   alternates: {
     canonical: `${SITE_URL}/terms`,
   },
@@ -14,14 +14,11 @@ export default function Page() {
   return (
     <main className="mx-auto container max-w-[960px] px-4 py-16 text-muted-foreground">
       <div className="tool-layout-header mb-6 text-center md:mb-8">
-        <div className="mb-3 inline-flex items-center justify-center rounded-2xl bg-primary/10 p-2">
-          <Sparkles className="w-6 h-6 text-primary" />
-        </div>
-        <h1 className="mb-3 text-3xl font-display font-extrabold tracking-tight text-foreground md:text-4xl">
+        <h1 className="page-title-gradient mb-3 text-3xl font-display font-extrabold tracking-tight md:text-4xl">
           Terms of Service
         </h1>
         <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">
-          By using ImageTools, you agree to the terms below.
+          By using {SITE_NAME}, you agree to the terms below.
         </p>
       </div>
       <div
@@ -37,7 +34,7 @@ export default function Page() {
         </p>
         <p>
           <span>
-            Welcome to OptPho (“we”, “our”, or “us”). By accessing or using our
+            Welcome to {SITE_NAME} (“we”, “our”, or “us”). By accessing or using our
             website and tools (the “Service”), you agree to be bound by these
             Terms of Service (“Terms”). If you do not agree with these Terms,
             please do not use the Service.
@@ -49,7 +46,7 @@ export default function Page() {
         </h2>
         <p>
           <span>
-            OptPho provides free online tools for image processing, including
+            {SITE_NAME} provides free online tools for image processing, including
             but not limited to image compression, resizing, conversion, and
             background removal.
           </span>
@@ -127,7 +124,7 @@ export default function Page() {
           </span>
         </p>
         <p>
-          <span>By using the Service, you grant OptPho a </span>
+          <span>By using the Service, you grant {SITE_NAME} a </span>
           <strong>
             <span>temporary, non-exclusive, limited license</span>
           </strong>
@@ -150,7 +147,7 @@ export default function Page() {
         </h2>
         <p>
           <span>
-            OptPho is designed with a privacy-first approach and follows
+            {SITE_NAME} is designed with a privacy-first approach and follows
             globally recognized data protection principles, including standards
             aligned with GDPR-level practices.
           </span>
@@ -215,7 +212,7 @@ export default function Page() {
           5. Advertising, Cookies, and Tracking
         </h2>
         <p>
-          <span>OptPho uses third-party advertising services, including </span>
+          <span>{SITE_NAME} uses third-party advertising services, including </span>
           <strong>
             <span>Google AdSense</span>
           </strong>
@@ -276,7 +273,7 @@ export default function Page() {
           <span>
             All content, software, branding, and design elements of the Service
             (excluding user-uploaded content) are the intellectual property of
-            OptPho and are protected by applicable laws.
+            {SITE_NAME} and are protected by applicable laws.
           </span>
         </p>
         <p>
@@ -324,7 +321,7 @@ export default function Page() {
         </h2>
         <p>
           <span>
-            To the fullest extent permitted by applicable law, OptPho shall not
+            To the fullest extent permitted by applicable law, {SITE_NAME} shall not
             be liable for any indirect, incidental, consequential, or special
             damages arising from your use of the Service.
           </span>
@@ -353,7 +350,7 @@ export default function Page() {
         <h2 className="text-xl font-semibold mb-2 mt-1">9. Indemnification</h2>
         <p>
           <span>
-            You agree to indemnify, defend, and hold harmless OptPho, its
+            You agree to indemnify, defend, and hold harmless {SITE_NAME}, its
             owners, affiliates, and partners from and against any claims,
             liabilities, damages, losses, or expenses (including legal fees)
             arising from:
@@ -436,7 +433,7 @@ export default function Page() {
         <hr className="my-2.5 border-[#eaeaea]" />
         <p>
           <span>
-            By using OptPho, you acknowledge that you have read and agreed to
+            By using {SITE_NAME}, you acknowledge that you have read and agreed to
             these Terms of Service.
           </span>
         </p>

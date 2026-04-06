@@ -16,6 +16,7 @@ import {
   Video,
   type LucideIcon,
 } from "lucide-react";
+import { SITE_NAME } from "@/lib/site";
 
 export type NavItem = {
   name: string;
@@ -83,7 +84,7 @@ export const topLevelNavItems: NavItem[] = [
     name: "Blog",
     path: "/blog",
     icon: Newspaper,
-    description: "Guides, tips, and updates from ImageTools.",
+    description: `Guides, tips, and updates from ${SITE_NAME}.`,
   },
 ];
 

@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Footer } from "./components/layout/footer";
 import { Navbar } from "./components/layout/navbar";
 import "./globals.css";
-import { SITE_URL } from "./lib/site";
+import { SITE_NAME, SITE_URL } from "./lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,32 +18,32 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "ImageTools — Fast, Free Image Tools",
-    template: "%s | ImageTools",
+    default: `${SITE_NAME} — Fast, Free Image Tools`,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
     "Fast, free, and secure image tools. Compress, convert, resize, crop, and optimize images in seconds.",
   openGraph: {
     type: "website",
-    siteName: "ImageTools",
-    title: "ImageTools — Fast, Free Image Tools",
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — Fast, Free Image Tools`,
     description:
       "Fast, free, and secure image tools. Compress, convert, resize, crop, and optimize images in seconds.",
     images: [
       {
-        url: `${SITE_URL}/og.svg`,
+        url: `${SITE_URL}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: "ImageTools",
+        alt: SITE_NAME,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ImageTools — Fast, Free Image Tools",
+    title: `${SITE_NAME} — Fast, Free Image Tools`,
     description:
       "Fast, free, and secure image tools. Compress, convert, resize, crop, and optimize images in seconds.",
-    images: [`${SITE_URL}/og.svg`],
+    images: [`${SITE_URL}/opengraph-image`],
   },
 };
 

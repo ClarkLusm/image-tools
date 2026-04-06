@@ -21,19 +21,19 @@ import {
 import Hero from "./components/home/hero";
 import BeforeAfterSlider from "./components/home/before-after-slider";
 import BreadcrumbsJsonLd from "./components/seo/breadcrumbs-jsonld";
-import { SITE_URL } from "@/lib/site";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { tools } from "./components/home/_tools";
 import { COMPRESS_SIZE_ENTRIES, type CompressSizeEntry } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "ImageTools: Compress, Convert, Resize, Crop Images Online",
+  title: `${SITE_NAME}: Compress, Convert, Resize, Crop Images Online`,
   description:
     "Free online image tools to compress, convert, resize, crop, and optimize images. Fast processing, practical presets, and privacy-first workflows.",
   alternates: {
     canonical: `${SITE_URL}/`,
   },
   openGraph: {
-    title: "ImageTools: Compress, Convert, Resize, Crop Images Online",
+    title: `${SITE_NAME}: Compress, Convert, Resize, Crop Images Online`,
     description:
       "Use one toolkit for compression, conversion, resizing, and cropping. Built for speed and practical image workflows.",
     url: `${SITE_URL}/`,
@@ -68,7 +68,7 @@ const popularSizes = ["50kb", "100kb", "200kb", "500kb"]
 const faqItems = [
   {
     q: "Can I use these image tools for free?",
-    a: "Yes. ImageTools lets you compress images, convert image formats, resize photos, crop pictures, and prepare visuals for the web without creating an account. The homepage is designed to help you jump directly into practical workflows such as image optimization, social media resizing, and background cleanup with simple browser-based steps.",
+    a: `Yes. ${SITE_NAME} lets you compress images, convert image formats, resize photos, crop pictures, and prepare visuals for the web without creating an account. The homepage is designed to help you jump directly into practical workflows such as image optimization, social media resizing, and background cleanup with simple browser-based steps.`,
   },
   {
     q: "Which tool should I start with for website speed?",
@@ -89,7 +89,7 @@ const seoSections = [
     eyebrow: "Compression & Conversion",
     title: "Prepare lighter images without slowing down your workflow.",
     description:
-      "Use ImageTools to compress large files, switch between PNG, JPG, and WebP, and keep image dimensions aligned with the page or platform where they will be published.",
+      `Use ${SITE_NAME} to compress large files, switch between PNG, JPG, and WebP, and keep image dimensions aligned with the page or platform where they will be published.`,
     bullets: [
       "Reduce upload size for websites and email.",
       "Convert formats for speed or compatibility.",
@@ -367,7 +367,7 @@ export default function Home() {
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "ImageTools Tool List",
+    name: `${SITE_NAME} Tool List`,
     itemListElement: tools.map((tool, index) => ({
       "@type": "ListItem",
       position: index + 1,
@@ -423,8 +423,8 @@ export default function Home() {
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-3xl md:text-5xl font-display font-extrabold tracking-tight text-foreground mb-4">
-              ImageTools for Compression, Conversion, Resizing, and Cropping
+            <h1 className="page-title-gradient mb-4 text-3xl font-display font-extrabold tracking-tight md:text-5xl">
+              {SITE_NAME} for Compression, Conversion, Resizing, and Cropping
             </h1>
             <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
               Choose the exact image workflow you need: compress for performance,
@@ -489,7 +489,7 @@ export default function Home() {
               </h2>
               <p className="mt-4 text-muted-foreground text-lg leading-relaxed">
                 From compression and format conversion to background removal,
-                ImageTools helps you optimize visuals in seconds with practical
+                {SITE_NAME} helps you optimize visuals in seconds with practical
                 controls and clean output.
               </p>
 
@@ -611,7 +611,7 @@ export default function Home() {
 
         <div className="container relative z-10 mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-display font-bold text-center mb-10">
-            Why Use ImageTools
+            Why Use {SITE_NAME}
           </h2>
           <div className="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
             {features.map((feature, idx) => (
@@ -636,7 +636,7 @@ export default function Home() {
             </h2>
             <p className="mt-3 text-muted-foreground max-w-3xl mx-auto">
               A quick overview of the main workflows people use most often on
-              ImageTools.
+              {SITE_NAME}.
             </p>
           </div>
 

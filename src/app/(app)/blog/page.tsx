@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BookOpen, Image as ImageIcon, Sparkles } from "lucide-react";
 import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
-import { SITE_URL } from "@/lib/site";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const upcomingPosts = [
   {
@@ -25,12 +25,12 @@ const upcomingPosts = [
 export const metadata: Metadata = {
   title: "Blog",
   description:
-    "Read upcoming guides, tutorials, and practical image optimization tips from ImageTools.",
+    `Read upcoming guides, tutorials, and practical image optimization tips from ${SITE_NAME}.`,
   alternates: {
     canonical: `${SITE_URL}/blog`,
   },
   openGraph: {
-    title: "ImageTools Blog",
+    title: `${SITE_NAME} Blog`,
     description:
       "Upcoming guides and practical tutorials for compression, conversion, resizing, and image workflows.",
     url: `${SITE_URL}/blog`,
@@ -53,9 +53,9 @@ export default function BlogPage() {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
               <BookOpen className="h-4 w-4" />
-              ImageTools Blog
+              {SITE_NAME} Blog
             </div>
-            <h1 className="mt-5 text-3xl font-display font-extrabold tracking-tight text-foreground md:text-5xl">
+            <h1 className="page-title-gradient mt-5 text-3xl font-display font-extrabold tracking-tight md:text-5xl">
               Guides and practical image tips are on the way.
             </h1>
             <p className="mt-4 text-base leading-7 text-muted-foreground md:text-lg">

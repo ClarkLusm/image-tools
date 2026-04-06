@@ -13,6 +13,7 @@ import {
   type NavItem,
 } from "./navbar-data";
 import { NavActiveButton, NavLink } from "./nav-link";
+import { SITE_NAME } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 type DesktopMenuKey = "tools" | "convert" | "social";
@@ -195,12 +196,12 @@ export function Navbar() {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link
           href="/"
-          aria-label="OptiMAGES.com"
+          aria-label={SITE_NAME}
           className="transition-transform duration-300 hover:scale-[1.01]"
         >
           <BrandLogo
             iconClassName="h-10"
-            textClassName="[&>span:first-child]:text-[1.7rem] [&>span:nth-child(2)]:text-[1.7rem] [&>span:last-child]:text-[0.9rem]"
+            textClassName="[&>span:first-child]:text-[1.7rem]"
           />
         </Link>
 

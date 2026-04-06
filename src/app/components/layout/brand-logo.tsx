@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { SITE_NAME } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 type BrandLogoProps = {
@@ -18,7 +19,7 @@ export function BrandLogo({
     <div className={cn("flex items-center gap-2.5", className)}>
       <Image
         src="/logo.webp"
-        alt="OptiMAGES.com"
+        alt={SITE_NAME}
         width={1714}
         height={504}
         priority
@@ -27,14 +28,11 @@ export function BrandLogo({
       <span
         className={cn(
           "flex items-end gap-0.5 leading-none text-slate-800",
-          textClassName
+          textClassName,
         )}
       >
         <span className="text-[1.9rem] font-black tracking-[-0.05em]">
-          Opti
-        </span>
-        <span className="text-[1.9rem] font-light tracking-[-0.05em]">
-          MAGES
+          {SITE_NAME}
         </span>
       </span>
     </div>

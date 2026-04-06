@@ -74,7 +74,7 @@ export function ToolLayout({
                 <div className="mb-3 inline-flex items-center justify-center rounded-2xl bg-primary/10 p-2">
                   <Sparkles className="w-6 h-6 text-primary" />
                 </div>
-                <h1 className="mb-3 text-3xl font-display font-extrabold tracking-tight text-foreground md:text-4xl">
+                <h1 className="page-title-gradient mb-3 text-3xl font-display font-extrabold tracking-tight md:text-4xl">
                   {title}
                 </h1>
                 <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">

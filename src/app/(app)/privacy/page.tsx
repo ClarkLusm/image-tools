@@ -1,10 +1,10 @@
-import { SITE_URL } from "@/lib/site";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { Sparkles } from "lucide-react";
 
 export const metadata = {
   title: "Privacy Policy",
   description:
-    "Read how ImageTools processes your images and protects your privacy.",
+    `Read how ${SITE_NAME} processes your images and protects your privacy.`,
   alternates: {
     canonical: `${SITE_URL}/privacy`,
   },
@@ -17,7 +17,7 @@ export default function Page() {
         <div className="mb-3 inline-flex items-center justify-center rounded-2xl bg-primary/10 p-2">
           <Sparkles className="w-6 h-6 text-primary" />
         </div>
-        <h1 className="mb-3 text-3xl font-display font-extrabold tracking-tight text-foreground md:text-4xl">
+        <h1 className="page-title-gradient mb-3 text-3xl font-display font-extrabold tracking-tight md:text-4xl">
           Privacy Policy
         </h1>
         <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">
@@ -36,7 +36,7 @@ export default function Page() {
         </p>
         <p>
           <span>
-            OptPho (“we”, “our”, or “us”) respects your privacy and is committed
+            {SITE_NAME} (“we”, “our”, or “us”) respects your privacy and is committed
             to protecting your personal data. This Privacy Policy explains how
             we collect, use, and safeguard your information when you use our
             website and services (the “Service”).
@@ -44,7 +44,7 @@ export default function Page() {
         </p>
         <p>
           <span>
-            By using OptPho, you agree to the practices described in this
+            By using {SITE_NAME}, you agree to the practices described in this
             Privacy Policy.
           </span>
         </p>
@@ -246,7 +246,7 @@ export default function Page() {
             We use Google AdSense to display advertisements. Google, as a
             third-party vendor, uses cookies to serve ads on our site. Google&apos;s
             use of advertising cookies enables it and its partners to serve ads
-            to our users based on their visit to OptPho and/or other sites on
+            to our users based on their visit to {SITE_NAME} and/or other sites on
             the Internet.
           </span>
         </p>
@@ -367,7 +367,7 @@ export default function Page() {
         </h2>
         <p>
           <span>
-            OptPho is not intended for children under the age of 13 (or
+            {SITE_NAME} is not intended for children under the age of 13 (or
             applicable age in your jurisdiction).
           </span>
         </p>
@@ -379,7 +379,7 @@ export default function Page() {
           <span>10. International Users</span>
         </h2>
         <p>
-          <span>OptPho is accessible worldwide.</span>
+          <span>{SITE_NAME} is accessible worldwide.</span>
         </p>
         <p>
           <span>
@@ -408,7 +408,7 @@ export default function Page() {
         <hr className="my-2.5 border-[#eaeaea]" />
         <p>
           <span>
-            By using OptPho, you acknowledge that you have read and understood
+            By using {SITE_NAME}, you acknowledge that you have read and understood
             this Privacy Policy.
           </span>
         </p>
