@@ -38,6 +38,7 @@ export HOSTNAME=0.0.0.0
 export PORT
 export PM2_APP_NAME
 export SHARED_ENV_FILE
+export APP_ROOT
 
 pm2 startOrReload ecosystem.config.cjs --update-env
 pm2 save
