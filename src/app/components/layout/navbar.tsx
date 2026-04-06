@@ -4,6 +4,7 @@ import { useState, type FocusEvent } from "react";
 import Link from "next/link";
 import { Camera, FileImage, type LucideIcon } from "lucide-react";
 import { NavbarMobile } from "./navbar-mobile";
+import { BrandLogo } from "./brand-logo";
 import {
   convertTools,
   socialResizeTools,
@@ -192,13 +193,15 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-border/40 relative">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="bg-primary/10 p-2 rounded-xl text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-            <Camera className="w-5 h-5" />
-          </div>
-          <span className="font-display font-bold text-xl tracking-tight text-foreground">
-            Image<span className="text-primary">Tools</span>
-          </span>
+        <Link
+          href="/"
+          aria-label="OptiMAGES.com"
+          className="transition-transform duration-300 hover:scale-[1.01]"
+        >
+          <BrandLogo
+            iconClassName="h-10"
+            textClassName="[&>span:first-child]:text-[1.7rem] [&>span:nth-child(2)]:text-[1.7rem] [&>span:last-child]:text-[0.9rem]"
+          />
         </Link>
 
         <nav className="hidden md:flex items-center gap-1">

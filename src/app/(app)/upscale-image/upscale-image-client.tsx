@@ -203,6 +203,7 @@ export default function UpscaleImageClient() {
                   "image/png": [".png"],
                   "image/webp": [".webp"],
                 }}
+                maxSizeMB={10}
                 isProcessing={isPending}
               />
             )}

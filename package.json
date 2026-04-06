@@ -7,8 +7,7 @@
     "dev:debug": "DEBUG_IMAGE_TOOLS=1 NEXT_PUBLIC_DEBUG_IMAGE_TOOLS=1 next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "worker:compress": "tsx src/app/workers/compress-image-worker.ts"
+    "lint": "eslint"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
