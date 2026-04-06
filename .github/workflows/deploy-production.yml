@@ -14,11 +14,71 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      NEXT_PUBLIC_IMAGE_TOOLS_API_URL: ${{ vars.NEXT_PUBLIC_IMAGE_TOOLS_API_URL }}
+      NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build
+        run: pnpm build
+
+      - name: Package release artifact
+        run: bash ./scripts/package-release.sh
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: image-tools-release
+          path: .release/image-tools-release.tgz
+          if-no-files-found: error
+
   deploy:
+    needs: build-release
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - name: Deploy to production VPS
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download release artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: image-tools-release
+          path: .release
+
+      - name: Upload release bundle to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          source: ".release/image-tools-release.tgz,scripts/deploy-artifact.sh"
+          target: "/tmp"
+
+      - name: Activate release on VPS
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -27,9 +87,34 @@ jobs:
           port: ${{ secrets.VPS_PORT || 22 }}
           script_stop: true
           script: |
-            export APP_DIR="${{ vars.APP_DIR }}"
-            export BRANCH="main"
+            export APP_ROOT="${{ vars.APP_ROOT }}"
             export PM2_APP_NAME="${{ vars.PM2_APP_NAME }}"
             export PORT="${{ vars.PORT }}"
-            cd "${APP_DIR}"
-            bash ./scripts/deploy-vps.sh production
+            export RELEASE_ID="${{ github.run_number }}-${{ github.sha }}"
+            export KEEP_RELEASES="${{ vars.KEEP_RELEASES || 5 }}"
+            export SHARED_ENV_FILE="${{ vars.SHARED_ENV_FILE || '' }}"
+
+            export ARTIFACT_PATH="$(find /tmp -maxdepth 3 -type f -name 'image-tools-release.tgz' | head -n 1)"
+            DEPLOY_SCRIPT_PATH="$(find /tmp -maxdepth 3 -type f -path '*/deploy-artifact.sh' | head -n 1)"
+
+            if [ -z "${APP_ROOT}" ]; then
+              echo "APP_ROOT GitHub Environment variable is required." >&2
+              exit 1
+            fi
+
+            if [ -z "${PM2_APP_NAME}" ]; then
+              echo "PM2_APP_NAME GitHub Environment variable is required." >&2
+              exit 1
+            fi
+
+            if [ -z "${ARTIFACT_PATH}" ]; then
+              echo "Uploaded release artifact image-tools-release.tgz was not found in /tmp." >&2
+              exit 1
+            fi
+
+            if [ -z "${DEPLOY_SCRIPT_PATH}" ]; then
+              echo "Uploaded deploy-artifact.sh was not found in /tmp." >&2
+              exit 1
+            fi
+
+            bash "${DEPLOY_SCRIPT_PATH}"

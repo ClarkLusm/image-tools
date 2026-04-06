@@ -244,7 +244,7 @@ export default function Page() {
         <p>
           <span>
             We use Google AdSense to display advertisements. Google, as a
-            third-party vendor, uses cookies to serve ads on our site. Google's
+            third-party vendor, uses cookies to serve ads on our site. Google&apos;s
             use of advertising cookies enables it and its partners to serve ads
             to our users based on their visit to OptPho and/or other sites on
             the Internet.
@@ -363,7 +363,7 @@ export default function Page() {
         </p>
         <hr className="my-2.5 border-[#eaeaea]" />
         <h2 className="text-xl font-semibold mb-2 mt-1">
-          <span>9. Children's Privacy</span>
+          <span>9. Children&apos;s Privacy</span>
         </h2>
         <p>
           <span>

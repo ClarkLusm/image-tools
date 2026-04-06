@@ -3,6 +3,7 @@ import CompressImageClient from "./compress-image-client";
 import { COMPRESS_SIZE_ENTRIES } from "@/lib/seo";
 import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 import { SITE_URL } from "@/lib/site";
+import Link from "next/link";
 
 export const metadata = {
   title: "Compress Image Online",
@@ -66,13 +67,13 @@ export default function Page() {
           </p>
           <div className="flex flex-wrap gap-3">
             {COMPRESS_SIZE_ENTRIES.map((item) => (
-              <a
+              <Link
                 key={item.slug}
                 href={`/compress-image-to/${item.slug}`}
                 className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </div>
         </section>
@@ -85,54 +86,54 @@ export default function Page() {
             Pick a scenario to get recommended size targets and tips.
           </p>
           <div className="flex flex-wrap gap-3">
-            <a
+            <Link
               href="/compress-image/for/email-attachments"
               className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
             >
               Email attachments
-            </a>
-            <a
+            </Link>
+            <Link
               href="/compress-image/for/gmail"
               className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
             >
               Gmail
-            </a>
-            <a
+            </Link>
+            <Link
               href="/compress-image/for/whatsapp"
               className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
             >
               WhatsApp
-            </a>
-            <a
+            </Link>
+            <Link
               href="/compress-image/for/telegram"
               className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
             >
               Telegram
-            </a>
-            <a
+            </Link>
+            <Link
               href="/compress-image/for/shopify-product"
               className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
             >
               Shopify product
-            </a>
-            <a
+            </Link>
+            <Link
               href="/compress-image/for/etsy-listing"
               className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
             >
               Etsy listing
-            </a>
-            <a
+            </Link>
+            <Link
               href="/compress-image/for/wordpress"
               className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
             >
               WordPress
-            </a>
-            <a
+            </Link>
+            <Link
               href="/compress-image/for/linkedin-banner"
               className="px-4 py-2 rounded-full border border-border bg-secondary/40 text-sm font-medium text-foreground hover:bg-secondary transition-colors"
             >
               LinkedIn banner
-            </a>
+            </Link>
           </div>
         </section>
       </div>

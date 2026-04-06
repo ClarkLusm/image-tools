@@ -1,6 +1,6 @@
 # VPS CI/CD for `image-tools`
 
-Tai lieu nay mo ta bo workflow CI/CD cu the de deploy frontend `image-tools` len VPS bang GitHub Actions + SSH + PM2.
+Tai lieu nay mo ta bo CI/CD artifact-only cho frontend `image-tools`. GitHub Actions se build release bundle tren CI, upload sang VPS, sau do VPS chi giai nen artifact va chay bang PM2. Server khong can clone source code.
 
 ## Tong quan
 
@@ -8,31 +8,46 @@ Repo da co cac file sau:
 
 - `.github/workflows/ci.yml`
 - `.github/workflows/deploy-production.yml`
-- `scripts/deploy-vps.sh`
+- `scripts/package-release.sh`
+- `scripts/deploy-artifact.sh`
 - `ecosystem.config.cjs`
 
 Flow:
 
-1. PR hoac push vao `main` se chay CI.
-2. Push vao `main` se deploy production.
-3. VPS se `git pull`, `pnpm install`, `pnpm build`, sau do `pm2 startOrReload`.
+1. Pull request chay `lint + build`.
+2. Push vao `main` se chay `lint + build + package`.
+3. CI tao artifact tu Next.js `standalone` output.
+4. CI upload `.tgz` sang VPS.
+5. VPS tu dong tim artifact/script vua upload trong `/tmp`, giai nen vao `releases/<release-id>`, cap nhat symlink `current`, roi `pm2 reload`.
+
+## Artifact release chua gi
+
+Bundle deploy cho FE se chua:
+
+- `server.js` va runtime `node_modules` tu `.next/standalone`
+- `.next/static`
+- `public`
+- `ecosystem.config.cjs`
+
+VPS khong can `src/`, `.git`, hay ma nguon TypeScript.
 
 ## Yeu cau tren VPS
 
 Cai san:
 
-- Git
 - Node.js 22
-- pnpm 9
 - PM2
+- Nginx
 
 Lenh tham khao:
 
 ```bash
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-sudo apt-get install -y nodejs
-sudo npm install -g pnpm pm2
+sudo apt-get install -y nodejs nginx
+sudo npm install -g pm2
 ```
+
+Frontend artifact khong can `pnpm` tren server.
 
 ## Cau truc thu muc tren VPS
 
@@ -40,84 +55,103 @@ Khuyen nghi:
 
 ```text
 /var/www/image-tools
+/var/www/image-tools/releases
+/var/www/image-tools/shared
+/var/www/image-tools/current -> /var/www/image-tools/releases/<release-id>
 ```
 
-Thu muc nay la clone repo production tren VPS.
+Khoi tao:
+
+```bash
+sudo mkdir -p /var/www/image-tools/releases /var/www/image-tools/shared
+sudo chown -R $USER:$USER /var/www/image-tools
+```
+
+## Env build-time
+
+`NEXT_PUBLIC_*` cua Next.js la build-time env. Nghia la can set tren GitHub Actions, khong phai chi tren VPS.
+
+Environment `production` cua repo FE nen co variables:
+
+- `NEXT_PUBLIC_IMAGE_TOOLS_API_URL`
+- `NEXT_PUBLIC_SITE_URL`
 
 Vi du:
 
-```bash
-git clone <your-repo-url> /var/www/image-tools
+- `NEXT_PUBLIC_IMAGE_TOOLS_API_URL=https://api.example.com/v1`
+- `NEXT_PUBLIC_SITE_URL=https://example.com`
+
+## Env runtime tren VPS
+
+Frontend artifact co the chay ma khong can file `.env` rieng neu ban chi can `PORT`.
+
+Neu muon co them runtime env cho Next server, tao file:
+
+```text
+/var/www/image-tools/shared/.env
 ```
-
-## Env tren VPS
-
-Tao file env trong app dir:
-
-- production: `/var/www/image-tools/.env`
 
 Vi du:
 
 ```env
-NEXT_PUBLIC_IMAGE_TOOLS_API_URL=https://api.example.com/v1
+PORT=3001
 ```
 
-## Khoi dong thu cong lan dau
-
-Sau khi clone repo va tao `.env`:
-
-```bash
-cd /var/www/image-tools
-pnpm install
-pnpm build
-PM2_APP_NAME=image-tools PORT=3000 pm2 start ecosystem.config.cjs --update-env
-
-pm2 save
-```
+`ecosystem.config.cjs` se tu dong nap file nay neu ton tai.
 
 ## GitHub Secrets
 
-Them cac secret sau trong repository settings.
-
-Dung chung:
+Them cac secret sau trong repository settings:
 
 - `VPS_HOST`
 - `VPS_USER`
 - `VPS_SSH_KEY`
 - `VPS_PORT`
 
-`VPS_SSH_KEY` la private key dung de SSH vao server.
+`VPS_SSH_KEY` la private key dung de SSH vao VPS.
 
-## GitHub Environments
+## GitHub Environment
 
-Tao environment `production`.
+Tao environment `production` va them variables:
 
-Trong environment nay, tao variables:
-
-- `APP_DIR`
-- `PM2_APP_NAME`
-- `PORT`
-
-Vi du:
-
-- `APP_DIR=/var/www/image-tools`
+- `APP_ROOT=/var/www/image-tools`
 - `PM2_APP_NAME=image-tools`
-- `PORT=3000`
+- `PORT=3001`
+- `KEEP_RELEASES=5`
+- `NEXT_PUBLIC_IMAGE_TOOLS_API_URL=https://api.example.com/v1`
+- `NEXT_PUBLIC_SITE_URL=https://example.com`
+
+Co the them:
+
+- `SHARED_ENV_FILE=/var/www/image-tools/shared/.env`
+
+Neu khong them, script se mac dinh dung duong dan do.
+
+## Khoi dong thu cong lan dau
+
+Sau khi tao thu muc, co the deploy lan dau bang cach push `main` hoac chay tay workflow `Deploy Production VPS`.
+
+Kiem tra:
+
+```bash
+pm2 status image-tools
+pm2 logs image-tools --lines 100
+```
 
 ## Nginx reverse proxy
 
-Neu dung Nginx tren VPS, co the map:
+Neu dung Nginx:
 
-- `example.com` -> `127.0.0.1:3000`
+- `example.com` -> `127.0.0.1:3001`
 
-Vi du cho production:
+Vi du:
 
 ```nginx
 server {
     server_name example.com www.example.com;
 
     location / {
-        proxy_pass http://127.0.0.1:3000;
+        proxy_pass http://127.0.0.1:3001;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -131,32 +165,37 @@ server {
 
 ## Cach workflow deploy hoat dong
 
-### Production
+Workflow `deploy-production.yml` se:
 
-- Trigger: push vao `main` hoac chay tay `workflow_dispatch`
-- Action:
-  - SSH vao VPS
-  - `cd $APP_DIR`
-  - `bash ./scripts/deploy-vps.sh production`
+1. `pnpm install`
+2. `pnpm lint`
+3. `pnpm build`
+4. `bash ./scripts/package-release.sh`
+5. upload `image-tools-release.tgz` va `deploy-artifact.sh` len `/tmp`
+6. tu dong tim artifact/script vua upload trong `/tmp` roi chay deploy script tren VPS
+
+Script deploy tren VPS se:
+
+1. giai nen artifact vao `releases/<release-id>`
+2. link file env chung neu co
+3. cap nhat symlink `current`
+4. `pm2 startOrReload ecosystem.config.cjs --update-env`
+5. xoa cac release cu theo `KEEP_RELEASES`
 
 ## Rollback
 
 Rollback nhanh tren VPS:
 
 ```bash
-cd /var/www/image-tools
-git log --oneline -n 5
-git checkout <commit-cu-on-dinh>
-pnpm install --frozen-lockfile
-pnpm build
-PM2_APP_NAME=image-tools PORT=3000 pm2 startOrReload ecosystem.config.cjs --update-env
+cd /var/www/image-tools/releases
+ls -1
+ln -sfn /var/www/image-tools/releases/<release-cu> /var/www/image-tools/current
+cd /var/www/image-tools/current
+PM2_APP_NAME=image-tools PORT=3001 pm2 startOrReload ecosystem.config.cjs --update-env
 ```
-
-Neu muon quay lai flow git chuan, sau rollback nen tao `hotfix/*` hoac revert tren `main`.
 
 ## Luu y
 
-- Workflow deploy nay gia dinh repo da duoc clone san tren VPS.
-- Workflow nay cung gia dinh VPS da cai `pnpm`, `pm2`, `node`.
-- `scripts/deploy-vps.sh` dung `git pull --ff-only` de tranh auto merge bat ngo.
-- Cac workflow nay da duoc toi gian cho 1 VPS nho, khong chay song song staging va production.
+- VPS chi chay artifact, khong can clone repo.
+- Neu thay doi `NEXT_PUBLIC_IMAGE_TOOLS_API_URL` hoac `NEXT_PUBLIC_SITE_URL`, can build lai artifact moi.
+- `standalone` output giup frontend chay doc lap tren server ma khong can cai source hay `pnpm install` o VPS.

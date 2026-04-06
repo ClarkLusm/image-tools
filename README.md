@@ -3,7 +3,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ## Project Notes
 
 - Frontend app: `image-tools`
-- Required env: `NEXT_PUBLIC_IMAGE_TOOLS_API_URL`
+- Required build env:
+  - `NEXT_PUBLIC_IMAGE_TOOLS_API_URL`
+  - `NEXT_PUBLIC_SITE_URL`
 - Gitflow/deploy guide: [docs/gitflow-deploy.md](./docs/gitflow-deploy.md)
 - VPS CI/CD guide: [docs/vps-cicd.md](./docs/vps-cicd.md)
 

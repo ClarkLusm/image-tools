@@ -9,6 +9,28 @@ type GlobalQueueState = {
 const globalState = globalThis as typeof globalThis & GlobalQueueState;
 const redisConnectionOptions = getRedisConnectionOptions();
 
+function getConnectionDebugInfo() {
+  const connection: {
+    host?: string;
+    port?: number;
+    db?: number;
+  } = {};
+
+  if ("host" in redisConnectionOptions) {
+    connection.host = redisConnectionOptions.host;
+  }
+
+  if ("port" in redisConnectionOptions) {
+    connection.port = redisConnectionOptions.port;
+  }
+
+  if ("db" in redisConnectionOptions) {
+    connection.db = redisConnectionOptions.db;
+  }
+
+  return connection;
+}
+
 export const compressQueue =
   globalState.compressQueue ??
   new Queue("compress-image", {
@@ -18,9 +40,8 @@ export const compressQueue =
 
 if (!globalState.compressQueue) {
   globalState.compressQueue = compressQueue;
-  const { host, port, db } = redisConnectionOptions;
   debugLog("queue", "Initialized BullMQ queue", {
     name: "compress-image",
-    connection: { host, port, db },
+    connection: getConnectionDebugInfo(),
   });
 }

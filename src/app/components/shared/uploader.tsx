@@ -59,7 +59,11 @@ function UploaderShell({
 }
 
 export function Uploader(props: UploaderProps) {
-  const [isPrimed, setIsPrimed] = useState(false);
+  const [isPrimed, setIsPrimed] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      typeof IntersectionObserver === "undefined"
+  );
   const hostRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -67,7 +71,6 @@ export function Uploader(props: UploaderProps) {
 
     const host = hostRef.current;
     if (!host || typeof IntersectionObserver === "undefined") {
-      setIsPrimed(true);
       return;
     }
 
