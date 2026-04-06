@@ -1,5 +1,4 @@
 import {
-  Image as ImageIcon,
   Maximize,
   Minimize,
   Eraser,
@@ -12,7 +11,7 @@ import {
 export const tools = [
   {
     title: "Resize Image",
-    description: "Change image dimensions while preserving quality.",
+    description: "Use an image resizer online to change dimensions while preserving quality.",
     icon: Maximize,
     path: "/resize-image",
     color: "text-purple-500",
@@ -20,7 +19,7 @@ export const tools = [
   },
   {
     title: "Compress Image",
-    description: "Reduce file size heavily without losing clarity.",
+    description: "Use a free image compressor to reduce file size without losing clarity.",
     icon: Minimize,
     path: "/compress-image",
     color: "text-emerald-500",
@@ -28,7 +27,7 @@ export const tools = [
   },
   {
     title: "Remove EXIF Data",
-    description: "Strip metadata for privacy before sharing.",
+    description: "Remove EXIF metadata for privacy before sharing files online.",
     icon: Eraser,
     path: "/remove-metadata",
     color: "text-orange-500",
@@ -36,7 +35,7 @@ export const tools = [
   },
   {
     title: "Convert to WebP",
-    description: "Create smaller, modern WebP images quickly.",
+    description: "Convert images to modern WebP format for smaller web-friendly files.",
     icon: FileImage,
     path: "/convert-to-webp",
     color: "text-cyan-500",
@@ -44,7 +43,7 @@ export const tools = [
   },
   {
     title: "Convert to PNG",
-    description: "Export images to lossless PNG with transparency.",
+    description: "Convert JPG or WebP files to lossless PNG with transparency support.",
     icon: FileImage,
     path: "/convert-to-png",
     color: "text-indigo-500",
@@ -52,7 +51,7 @@ export const tools = [
   },
   {
     title: "Crop Image",
-    description: "Trim images to the exact area you need.",
+    description: "Crop pictures online to the exact area you need.",
     icon: Crop,
     path: "/crop-image",
     color: "text-amber-500",
@@ -60,7 +59,7 @@ export const tools = [
   },
   {
     title: "Remove Background",
-    description: "Cut out image backgrounds and export transparent PNG.",
+    description: "Remove background online and export transparent PNG cutouts.",
     icon: Scissors,
     path: "/remove-background",
     color: "text-sky-600",
@@ -68,7 +67,7 @@ export const tools = [
   },
   {
     title: "Upscale Image",
-    description: "Increase image resolution with AI super resolution.",
+    description: "Use AI image upscaler tools to increase resolution and sharpen details.",
     icon: Sparkles,
     path: "/upscale-image",
     color: "text-fuchsia-500",

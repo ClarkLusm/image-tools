@@ -26,16 +26,16 @@ import { tools } from "./components/home/_tools";
 import { COMPRESS_SIZE_ENTRIES, type CompressSizeEntry } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: `${SITE_NAME}: Compress, Convert, Resize, Crop Images Online`,
+  title: `${SITE_NAME}: Free Image Compressor, Resizer, Converter, and Crop Tool`,
   description:
-    "Free online image tools to compress, convert, resize, crop, and optimize images. Fast processing, practical presets, and privacy-first workflows.",
+    "Free online image tools to compress images, resize photos, convert JPG PNG WebP files, crop pictures, remove backgrounds, and upscale images with practical privacy-first workflows.",
   alternates: {
     canonical: `${SITE_URL}/`,
   },
   openGraph: {
-    title: `${SITE_NAME}: Compress, Convert, Resize, Crop Images Online`,
+    title: `${SITE_NAME}: Free Image Compressor, Resizer, Converter, and Crop Tool`,
     description:
-      "Use one toolkit for compression, conversion, resizing, and cropping. Built for speed and practical image workflows.",
+      "Use one toolkit for image compression, format conversion, resizing, cropping, background removal, and AI upscale workflows.",
     url: `${SITE_URL}/`,
   },
 };
@@ -72,15 +72,15 @@ const faqItems = [
   },
   {
     q: "Which tool should I start with for website speed?",
-    a: "If your goal is faster page speed, start with Compress Image to reduce file size, then move to Convert to WebP when your website or CMS supports that format. In most publishing workflows, the best result comes from combining compression, format conversion, and correct image dimensions so you are not uploading oversized files to begin with.",
+    a: "If your goal is faster page speed, start with Compress Image to reduce file size, then move to Convert to WebP when your website or CMS supports that format. In most publishing workflows, the best result comes from combining a free image compressor, format conversion, and correct image dimensions so you are not uploading oversized files to begin with.",
   },
   {
     q: "How do I prepare images for social media?",
-    a: "Use the Social Resize tools when you need platform-ready image sizes for Instagram, TikTok, YouTube, or Facebook. These preset pages are useful when you want faster social media image preparation, more consistent layouts across channels, and fewer manual adjustments before posting campaign graphics, thumbnails, or promotional images.",
+    a: "Use the Social Resize tools when you need platform-ready image sizes for Instagram, TikTok, YouTube, or Facebook. These preset pages are useful when you want faster social media image preparation, more consistent layouts across channels, and fewer manual adjustments before posting campaign graphics, thumbnails, or promotional images. They also work well when you need an image resizer online without calculating dimensions manually.",
   },
   {
     q: "Can I target a specific file size like 100 KB?",
-    a: "Yes. You can use a dedicated compress-by-size page such as Compress Image to 100 KB when you need to meet upload limits for forms, job portals, marketplaces, or email attachments. This is especially useful when you need online image compression with a specific target size instead of only choosing a general quality setting.",
+    a: "Yes. You can use a dedicated compress-by-size page such as Compress Image to 100 KB when you need to meet upload limits for forms, job portals, marketplaces, or email attachments. This is especially useful when you need online image compression with a specific target size instead of only choosing a general quality setting, and it is one of the fastest ways to handle strict upload rules without trial and error.",
   },
 ];
 
@@ -89,7 +89,7 @@ const seoSections = [
     eyebrow: "Compression & Conversion",
     title: "Prepare lighter images without slowing down your workflow.",
     description:
-      `Use ${SITE_NAME} to compress large files, switch between PNG, JPG, and WebP, and keep image dimensions aligned with the page or platform where they will be published.`,
+      `Use ${SITE_NAME} to compress large files, switch between PNG, JPG, and WebP, and keep image dimensions aligned with the page or platform where they will be published. This helps whether you need a free image compressor for websites, a JPG to PNG converter, or a faster way to create lighter WebP assets.`,
     bullets: [
       "Reduce upload size for websites and email.",
       "Convert formats for speed or compatibility.",
@@ -103,7 +103,7 @@ const seoSections = [
     eyebrow: "Social Resize",
     title: "Create platform-ready visuals for every channel faster.",
     description:
-      "Instead of guessing aspect ratios, you can jump into preset resize flows for Instagram, TikTok, YouTube, and Facebook, then export images that fit each platform more cleanly.",
+      "Instead of guessing aspect ratios, you can jump into preset resize flows for Instagram, TikTok, YouTube, and Facebook, then export images that fit each platform more cleanly. It is a practical shortcut when you need an image resizer online for campaigns, thumbnails, creator posts, or paid social assets.",
     bullets: [
       "Skip manual canvas calculations.",
       "Keep social graphics consistent across channels.",
@@ -117,7 +117,7 @@ const seoSections = [
     eyebrow: "Privacy & Cleanup",
     title: "Remove distractions before you publish or share.",
     description:
-      "For many teams, image editing is not about effects. It is about removing background clutter, trimming the frame, and stripping metadata so files are cleaner and safer to distribute.",
+      "For many teams, image editing is not about effects. It is about removing background clutter, trimming the frame, and stripping metadata so files are cleaner and safer to distribute. That makes this workflow especially helpful when you need remove background online and remove EXIF metadata tools in one place.",
     bullets: [
       "Remove EXIF details before sharing files.",
       "Crop to the exact focal area you need.",
@@ -131,7 +131,7 @@ const seoSections = [
     eyebrow: "Quality Boost",
     title: "Upscale older assets when you need a sharper presentation.",
     description:
-      "Low-resolution files are common in reused marketing assets, profile photos, and downloaded graphics. Upscale Image gives you a faster route to cleaner presentation when the source is too small for a new layout.",
+      "Low-resolution files are common in reused marketing assets, profile photos, and downloaded graphics. Upscale Image gives you a faster route to cleaner presentation when the source is too small for a new layout, especially if you are looking for an AI image upscaler for old web assets or small social creatives.",
     bullets: [
       "Improve clarity for reused visual assets.",
       "Prepare small source files for larger surfaces.",
@@ -427,9 +427,23 @@ export default function Home() {
               {SITE_NAME} for Compression, Conversion, Resizing, and Cropping
             </h1>
             <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
-              Choose the exact image workflow you need: compress for performance,
-              convert formats, resize for social media, or crop with precision.
-              Fast, practical, and privacy-first.
+              Choose the exact image workflow you need:{" "}
+              <Link href="/compress-image" className="font-medium text-primary hover:text-primary/80">
+                compress images
+              </Link>{" "}
+              for performance,{" "}
+              <Link href="/convert-to-webp" className="font-medium text-primary hover:text-primary/80">
+                convert formats
+              </Link>
+              ,{" "}
+              <Link href="/resize-image" className="font-medium text-primary hover:text-primary/80">
+                resize photos
+              </Link>{" "}
+              for social media, or{" "}
+              <Link href="/crop-image" className="font-medium text-primary hover:text-primary/80">
+                crop pictures
+              </Link>{" "}
+              with precision. Fast, practical, and privacy-first.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
@@ -455,10 +469,12 @@ export default function Home() {
         <div className="container relative z-10 mx-auto px-4">
           <div className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-3">
-              Explore Our Tools
+              Explore Free Online Image Tools for Everyday Work
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Open a tool directly based on your goal.
+              Open a tool directly based on your goal, whether you need a free
+              image compressor, an image resizer online, a JPG to PNG converter,
+              or a quick remove background online workflow.
             </p>
           </div>
 
@@ -485,12 +501,32 @@ export default function Home() {
                 SMART PROCESSING
               </span>
               <h2 className="mt-4 text-3xl md:text-4xl font-display font-bold tracking-tight">
-                Professional-quality results without complicated workflows.
+                Professional-quality image editing without complicated workflows.
               </h2>
               <p className="mt-4 text-muted-foreground text-lg leading-relaxed">
-                From compression and format conversion to background removal,
-                {SITE_NAME} helps you optimize visuals in seconds with practical
-                controls and clean output.
+                From{" "}
+                <Link href="/compress-image" className="font-medium text-primary hover:text-primary/80">
+                  image compression
+                </Link>{" "}
+                and{" "}
+                <Link href="/convert-to-webp" className="font-medium text-primary hover:text-primary/80">
+                  format conversion
+                </Link>{" "}
+                to{" "}
+                <Link href="/remove-background" className="font-medium text-primary hover:text-primary/80">
+                  background removal
+                </Link>
+                , {SITE_NAME} helps you optimize visuals in seconds with
+                practical controls and clean output.
+              </p>
+              <p className="mt-4 text-base leading-7 text-muted-foreground">
+                This homepage brings together practical tools for publishers,
+                store owners, designers, marketers, and creators who need to
+                move quickly. Instead of jumping between multiple apps, you can
+                use one place to shrink heavy uploads, convert JPG to PNG or
+                PNG to JPG, prepare social graphics, remove EXIF metadata for
+                privacy, and even run an AI image upscaler when the source file
+                is too small for a new layout.
               </p>
 
               <ul className="mt-6 space-y-3 text-base">
@@ -632,11 +668,28 @@ export default function Home() {
         <div className="container relative z-10 mx-auto max-w-5xl px-4">
           <div className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground">
-              Online Image Tools for Faster, Cleaner Publishing
+              Free Online Image Tools for Faster, Cleaner Publishing
             </h2>
             <p className="mt-3 text-muted-foreground max-w-3xl mx-auto">
-              A quick overview of the main workflows people use most often on
-              {SITE_NAME}.
+              A quick overview of the main workflows people use most often on{" "}
+              {SITE_NAME}, from a{" "}
+              <Link href="/compress-image" className="font-medium text-primary hover:text-primary/80">
+                free image compressor
+              </Link>{" "}
+              to an{" "}
+              <Link href="/upscale-image" className="font-medium text-primary hover:text-primary/80">
+                AI image upscaler
+              </Link>
+              .
+            </p>
+            <p className="mt-4 text-sm leading-7 text-muted-foreground max-w-3xl mx-auto md:text-base">
+              Most users do not need a heavy editor for everyday tasks. They
+              need a reliable way to resize images before upload, convert files
+              for browser compatibility, remove background clutter from product
+              shots, and hit strict size targets such as 100 KB for forms or
+              marketplaces. These sections cover the core workflows that solve
+              those problems quickly while keeping output practical for real
+              websites, ecommerce catalogs, blog posts, and social campaigns.
             </p>
           </div>
 
