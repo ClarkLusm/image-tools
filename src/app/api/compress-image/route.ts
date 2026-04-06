@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { writeFile } from "fs/promises";
-import { compressQueue } from "@/queues/compress-queue";
+import { getCompressQueue } from "@/queues/compress-queue";
 import { isRedisConnectionError } from "@/lib/redis";
 import { ensureJobDir, getInputPath } from "@/lib/storage";
 import { debugLog } from "@/lib/debug";
@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     await writeFile(inputPath, buffer);
+    const compressQueue = getCompressQueue();
 
     const job = await compressQueue.add(
       "compress",

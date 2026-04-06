@@ -31,17 +31,18 @@ function getConnectionDebugInfo() {
   return connection;
 }
 
-export const compressQueue =
-  globalState.compressQueue ??
-  new Queue("compress-image", {
-    connection: redisConnectionOptions,
-    prefix: "bull",
-  });
+export function getCompressQueue() {
+  if (!globalState.compressQueue) {
+    globalState.compressQueue = new Queue("compress-image", {
+      connection: redisConnectionOptions,
+      prefix: "bull",
+    });
 
-if (!globalState.compressQueue) {
-  globalState.compressQueue = compressQueue;
-  debugLog("queue", "Initialized BullMQ queue", {
-    name: "compress-image",
-    connection: getConnectionDebugInfo(),
-  });
+    debugLog("queue", "Initialized BullMQ queue", {
+      name: "compress-image",
+      connection: getConnectionDebugInfo(),
+    });
+  }
+
+  return globalState.compressQueue;
 }

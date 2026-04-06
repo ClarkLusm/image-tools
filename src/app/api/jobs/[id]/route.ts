@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { compressQueue } from "@/queues/compress-queue";
+import { getCompressQueue } from "@/queues/compress-queue";
 import { debugLog } from "@/lib/debug";
 import { isRedisConnectionError } from "@/lib/redis";
 
@@ -12,6 +12,7 @@ export async function GET(
 ) {
   try {
     const { id } = await context.params;
+    const compressQueue = getCompressQueue();
     const job = await compressQueue.getJob(id);
 
     if (!job) {

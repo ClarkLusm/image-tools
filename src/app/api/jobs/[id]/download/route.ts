@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { compressQueue } from "@/queues/compress-queue";
+import { getCompressQueue } from "@/queues/compress-queue";
 import { createReadStream } from "fs";
 import { stat } from "fs/promises";
 import { Readable } from "stream";
@@ -15,6 +15,7 @@ export async function GET(
 ) {
   try {
     const { id } = await context.params;
+    const compressQueue = getCompressQueue();
     const job = await compressQueue.getJob(id);
 
     if (!job) {
