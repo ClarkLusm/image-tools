@@ -75,11 +75,13 @@ Environment `production` cua repo FE nen co variables:
 
 - `NEXT_PUBLIC_IMAGE_TOOLS_API_URL`
 - `NEXT_PUBLIC_SITE_URL`
+- `NEXT_PUBLIC_GA_MEASUREMENT_ID` neu dung Google Analytics 4
 
 Vi du:
 
 - `NEXT_PUBLIC_IMAGE_TOOLS_API_URL=https://api.example.com/v1`
 - `NEXT_PUBLIC_SITE_URL=https://example.com`
+- `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX`
 
 ## Env runtime tren VPS
 
@@ -120,6 +122,7 @@ Tao environment `production` va them variables:
 - `KEEP_RELEASES=5`
 - `NEXT_PUBLIC_IMAGE_TOOLS_API_URL=https://api.example.com/v1`
 - `NEXT_PUBLIC_SITE_URL=https://example.com`
+- `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX`
 
 Co the them:
 
@@ -198,4 +201,5 @@ PM2_APP_NAME=image-tools PORT=3001 pm2 startOrReload ecosystem.config.cjs --upda
 
 - VPS chi chay artifact, khong can clone repo.
 - Neu thay doi `NEXT_PUBLIC_IMAGE_TOOLS_API_URL` hoac `NEXT_PUBLIC_SITE_URL`, can build lai artifact moi.
+- Neu thay doi `NEXT_PUBLIC_GA_MEASUREMENT_ID`, can build lai artifact moi.
 - `standalone` output giup frontend chay doc lap tren server ma khong can cai source hay `pnpm install` o VPS.
