@@ -28,6 +28,7 @@ export interface WorkerRequest {
     width?: number;
     height?: number;
     mimeType?: string;
+    resizeType?: "fill" | "stretch" | "fit";
     fillWhite?: boolean;
     crop?: {
       x: number;
@@ -84,9 +85,40 @@ async function handleResize(
   bitmap: ImageBitmap,
   targetWidth: number,
   targetHeight: number,
-  mimeType: string
+  mimeType: string,
+  resizeType: "fill" | "stretch" | "fit",
+  fillWhite: boolean
 ): Promise<Blob> {
-  const canvas = drawBitmapToCanvas(bitmap, targetWidth, targetHeight);
+  const canvas = new OffscreenCanvas(targetWidth, targetHeight);
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Could not get OffscreenCanvas 2D context");
+
+  if (fillWhite) {
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0, 0, targetWidth, targetHeight);
+  }
+
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+
+  if (resizeType === "stretch") {
+    ctx.drawImage(bitmap, 0, 0, targetWidth, targetHeight);
+  } else {
+    const sourceWidth = bitmap.width;
+    const sourceHeight = bitmap.height;
+    const scale =
+      resizeType === "fill"
+        ? Math.max(targetWidth / sourceWidth, targetHeight / sourceHeight)
+        : Math.min(targetWidth / sourceWidth, targetHeight / sourceHeight);
+
+    const drawWidth = sourceWidth * scale;
+    const drawHeight = sourceHeight * scale;
+    const offsetX = (targetWidth - drawWidth) / 2;
+    const offsetY = (targetHeight - drawHeight) / 2;
+
+    ctx.drawImage(bitmap, offsetX, offsetY, drawWidth, drawHeight);
+  }
+
   const blob = await canvas.convertToBlob({
     type: mimeType,
     quality: 0.95,
@@ -356,8 +388,21 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
         break;
 
       case "resize": {
-        const { width = bitmap.width, height = bitmap.height, mimeType = "image/jpeg" } = options;
-        blob = await handleResize(bitmap, width, height, mimeType);
+        const {
+          width = bitmap.width,
+          height = bitmap.height,
+          mimeType = "image/jpeg",
+          resizeType = "stretch",
+        } = options;
+        const fillWhite = options.fillWhite ?? mimeType === "image/jpeg";
+        blob = await handleResize(
+          bitmap,
+          width,
+          height,
+          mimeType,
+          resizeType,
+          fillWhite
+        );
         break;
       }
 

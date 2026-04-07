@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ChevronDown, Sparkles } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import Script from "next/script";
 import { ToolSidebar } from "./tool-sidebar";
 
@@ -71,9 +71,6 @@ export function ToolLayout({
             <div className="mx-auto w-full max-w-[1500px] px-4 xl:mx-0 xl:px-0">
               {/* Header Section */}
               <div className="tool-layout-header mb-6 text-center md:mb-8">
-                <div className="mb-3 inline-flex items-center justify-center rounded-2xl bg-primary/10 p-2">
-                  <Sparkles className="w-6 h-6 text-primary" />
-                </div>
                 <h1 className="page-title-gradient mb-3 text-3xl font-display font-extrabold tracking-tight md:text-4xl">
                   {title}
                 </h1>

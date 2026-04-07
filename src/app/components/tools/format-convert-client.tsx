@@ -102,67 +102,64 @@ export default function FormatConvertClient({
           accept={accept}
           isProcessing={isProcessing}
           maxFiles={10}
+          aside={
+            files.length > 0 ? (
+              <div>
+                {showQuality && (
+                  <>
+                    <div className="mb-6 flex items-center gap-4">
+                      <SlidersHorizontal className="h-5 w-5 text-primary" />
+                      <h3 className="font-semibold text-lg">Quality Settings</h3>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="flex justify-between">
+                        <label className="text-sm font-medium">Quality</label>
+                        <span className="text-sm text-muted-foreground">
+                          {Math.round(quality * 100)}%
+                        </span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0.1"
+                        max="1.0"
+                        step="0.01"
+                        value={quality}
+                        onChange={(e) => setQuality(parseFloat(e.target.value))}
+                        className="w-full accent-primary"
+                      />
+                      {note && (
+                        <p className="text-xs text-muted-foreground">{note}</p>
+                      )}
+                    </div>
+                  </>
+                )}
+
+                {!showQuality && note && (
+                  <p className="text-sm text-muted-foreground">{note}</p>
+                )}
+
+                <button
+                  onClick={handleProcess}
+                  disabled={isProcessing}
+                  className="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-4 font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-50 disabled:transform-none"
+                >
+                  {isProcessing || status === "processing" ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" /> Converting in
+                      background...
+                    </>
+                  ) : (
+                    `${buttonLabel}${files.length > 1 ? ` (${files.length} files)` : ""}`
+                  )}
+                </button>
+              </div>
+            ) : undefined
+          }
         />
       )}
 
       {error && <p className="text-sm text-red-500 text-center">{error}</p>}
-
-      {files.length > 0 && results.length === 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="p-6 bg-secondary/30 rounded-2xl border border-border"
-        >
-          {showQuality && (
-            <>
-              <div className="flex items-center gap-4 mb-6">
-                <SlidersHorizontal className="w-5 h-5 text-primary" />
-                <h3 className="font-semibold text-lg">Quality Settings</h3>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex justify-between">
-                  <label className="text-sm font-medium">Quality</label>
-                  <span className="text-sm text-muted-foreground">
-                    {Math.round(quality * 100)}%
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="0.1"
-                  max="1.0"
-                  step="0.01"
-                  value={quality}
-                  onChange={(e) => setQuality(parseFloat(e.target.value))}
-                  className="w-full accent-primary"
-                />
-                {note && (
-                  <p className="text-xs text-muted-foreground">{note}</p>
-                )}
-              </div>
-            </>
-          )}
-
-          {!showQuality && note && (
-            <p className="text-sm text-muted-foreground">{note}</p>
-          )}
-
-          <button
-            onClick={handleProcess}
-            disabled={isProcessing}
-            className="mt-8 w-full py-4 bg-primary text-primary-foreground font-bold rounded-xl shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:transform-none flex justify-center items-center gap-2"
-          >
-            {isProcessing || status === "processing" ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" /> Converting in
-                background...
-              </>
-            ) : (
-              `${buttonLabel}${files.length > 1 ? ` (${files.length} files)` : ""}`
-            )}
-          </button>
-        </motion.div>
-      )}
 
       {results.length > 0 && (
         <motion.div

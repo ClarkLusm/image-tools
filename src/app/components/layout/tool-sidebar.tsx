@@ -63,41 +63,35 @@ export function ToolSidebar() {
 
   return (
     <aside className="hidden xl:sticky xl:top-24 xl:block xl:self-start">
-      <div className="bg-white p-6 shadow-[0_18px_50px_rgba(15,23,42,0.05)]">
-        <div className="mb-8">
-          <h2 className="text-2xl font-display font-bold text-foreground">
-            Tools
-          </h2>
-          <p className="mt-1 text-sm text-muted-foreground">Image editing</p>
+      <div className="bg-[#FCFCFC] p-4">
+        <div className="mb-4">
+          <h3 className="text-xl font-display font-bold text-foreground">
+            Maybe You Need
+          </h3>
         </div>
 
-        <div className="space-y-8">
+        <div className="py-6">
           {visibleGroups.map((group) => (
             <section key={group.label}>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground/80">
-                {group.label}
-              </p>
-              <div className="space-y-2">
-                {group.items.map((item) => {
-                  const Icon = item.icon;
-                  const active = isItemActive(pathname, item);
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                const active = isItemActive(pathname, item);
 
-                  return (
-                    <Link
-                      key={item.path}
-                      href={item.path}
-                      className={`flex items-center gap-3 rounded-2xl px-4 py-3 transition-all ${
-                        active
-                          ? "bg-primary/8 text-primary shadow-[inset_0_0_0_1px_rgba(14,165,233,0.12)]"
-                          : "text-slate-500 hover:bg-secondary hover:text-foreground"
-                      }`}
-                    >
-                      <Icon className="h-4.5 w-4.5 flex-shrink-0" />
-                      <span className="font-medium">{item.name}</span>
-                    </Link>
-                  );
-                })}
-              </div>
+                return (
+                  <Link
+                    key={item.path}
+                    href={item.path}
+                    className={`flex items-center gap-3 rounded-2xl px-4 py-3 transition-all ${
+                      active
+                        ? "bg-white text-primary shadow-[inset_0_0_0_1px_rgba(14,165,233,0.12)]"
+                        : "text-slate-500 hover:bg-white hover:text-primary"
+                    }`}
+                  >
+                    <Icon className="h-4.5 w-4.5 flex-shrink-0" />
+                    <span className="font-semibold">{item.name}</span>
+                  </Link>
+                );
+              })}
             </section>
           ))}
         </div>

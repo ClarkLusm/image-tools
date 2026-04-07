@@ -75,80 +75,80 @@ export default function ResizeImageClient() {
             setResultBlob(null);
           }}
           isProcessing={isProcessing}
+          aside={
+            file && width > 0 ? (
+              <div>
+                <div className="mb-6 flex items-center gap-4">
+                  <Settings className="h-5 w-5 text-primary" />
+                  <h3 className="text-lg font-semibold">Dimensions (Pixels)</h3>
+                </div>
+
+                <div className="flex flex-col items-center gap-6">
+                  <div className="w-full space-y-2">
+                    <label className="text-sm font-medium text-muted-foreground">
+                      Width
+                    </label>
+                    <input
+                      type="number"
+                      value={width || ""}
+                      onChange={(e) => handleWidthChange(e.target.value)}
+                      className="w-full rounded-xl border border-border bg-background p-3 outline-none transition-all focus:ring-2 focus:ring-primary/50"
+                    />
+                  </div>
+
+                  <div className="flex flex-col items-center gap-2">
+                    <button
+                      onClick={() => setMaintainRatio(!maintainRatio)}
+                      className={`rounded-full p-2 transition-colors ${maintainRatio ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}`}
+                      title={
+                        maintainRatio ? "Unlock aspect ratio" : "Lock aspect ratio"
+                      }
+                    >
+                      {maintainRatio ? (
+                        <Lock className="h-4 w-4" />
+                      ) : (
+                        <Unlock className="h-4 w-4" />
+                      )}
+                    </button>
+                    <span className="text-xs text-muted-foreground">
+                      {maintainRatio ? "Ratio locked" : "Ratio unlocked"}
+                    </span>
+                  </div>
+
+                  <div className="w-full space-y-2">
+                    <label className="text-sm font-medium text-muted-foreground">
+                      Height
+                    </label>
+                    <input
+                      type="number"
+                      value={height || ""}
+                      onChange={(e) => handleHeightChange(e.target.value)}
+                      className="w-full rounded-xl border border-border bg-background p-3 outline-none transition-all focus:ring-2 focus:ring-primary/50"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleProcess}
+                  disabled={isProcessing}
+                  className="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-4 font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-50 disabled:transform-none"
+                >
+                  {isProcessing ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" /> Resizing in
+                      background...
+                    </>
+                  ) : (
+                    "Resize Image"
+                  )}
+                </button>
+              </div>
+            ) : undefined
+          }
         />
       )}
 
       {error && <p className="text-sm text-red-500 text-center">{error}</p>}
-
-      {file && !resultBlob && width > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="p-6 bg-secondary/30 rounded-2xl border border-border"
-        >
-          <div className="flex items-center gap-4 mb-6">
-            <Settings className="w-5 h-5 text-primary" />
-            <h3 className="font-semibold text-lg">Dimensions (Pixels)</h3>
-          </div>
-
-          <div className="flex flex-col md:flex-row items-center gap-6">
-            <div className="flex-1 w-full space-y-2">
-              <label className="text-sm font-medium text-muted-foreground">
-                Width
-              </label>
-              <input
-                type="number"
-                value={width || ""}
-                onChange={(e) => handleWidthChange(e.target.value)}
-                className="w-full p-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/50 outline-none transition-all"
-              />
-            </div>
-
-            <div className="flex flex-col items-center gap-2 pt-6">
-              <button
-                onClick={() => setMaintainRatio(!maintainRatio)}
-                className={`p-2 rounded-full transition-colors ${maintainRatio ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}`}
-                title={
-                  maintainRatio ? "Unlock aspect ratio" : "Lock aspect ratio"
-                }
-              >
-                {maintainRatio ? (
-                  <Lock className="w-4 h-4" />
-                ) : (
-                  <Unlock className="w-4 h-4" />
-                )}
-              </button>
-            </div>
-
-            <div className="flex-1 w-full space-y-2">
-              <label className="text-sm font-medium text-muted-foreground">
-                Height
-              </label>
-              <input
-                type="number"
-                value={height || ""}
-                onChange={(e) => handleHeightChange(e.target.value)}
-                className="w-full p-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/50 outline-none transition-all"
-              />
-            </div>
-          </div>
-
-          <button
-            onClick={handleProcess}
-            disabled={isProcessing}
-            className="mt-8 w-full py-4 bg-primary text-primary-foreground font-bold rounded-xl shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:transform-none flex justify-center items-center gap-2"
-          >
-            {isProcessing ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" /> Resizing in
-                background...
-              </>
-            ) : (
-              "Resize Image"
-            )}
-          </button>
-        </motion.div>
-      )}
 
       {resultBlob && (
         <motion.div

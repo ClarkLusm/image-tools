@@ -47,44 +47,42 @@ export default function RemoveMetadataClient() {
             "image/png": [".png"],
             "image/webp": [".webp"],
           }}
+          aside={
+            file ? (
+              <div className="text-center">
+                <div className="mb-4 inline-flex rounded-full bg-orange-100 p-3 text-orange-600 dark:bg-orange-900/50 dark:text-orange-400">
+                  <ShieldAlert className="h-8 w-8" />
+                </div>
+                <h3 className="font-display font-bold text-xl mb-2">
+                  Ready to Clean
+                </h3>
+                <p className="mx-auto mb-8 max-w-md text-muted-foreground">
+                  This process will permanently delete camera models, dates, and
+                  GPS coordinates hidden inside this file.
+                </p>
+
+                <button
+                  onClick={handleProcess}
+                  disabled={isProcessing}
+                  className="mx-auto flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-12 py-4 font-bold text-white shadow-lg shadow-orange-500/25 transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-50 disabled:transform-none"
+                >
+                  {isProcessing ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" /> Scrubbing in
+                      background...
+                    </>
+                  ) : (
+                    "Remove All Metadata"
+                  )}
+                </button>
+              </div>
+            ) : undefined
+          }
+          asideClassName="border-orange-200 bg-orange-50 dark:border-orange-900/50 dark:bg-orange-950/20"
         />
       )}
 
       {error && <p className="text-sm text-red-500 text-center">{error}</p>}
-
-      {file && !resultBlob && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="p-8 bg-orange-50 dark:bg-orange-950/20 rounded-2xl border border-orange-200 dark:border-orange-900/50 text-center"
-        >
-          <div className="inline-flex p-3 bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400 rounded-full mb-4">
-            <ShieldAlert className="w-8 h-8" />
-          </div>
-          <h3 className="font-display font-bold text-xl mb-2">
-            Ready to Clean
-          </h3>
-          <p className="text-muted-foreground mb-8 max-w-md mx-auto">
-            This process will permanently delete camera models, dates, and GPS
-            coordinates hidden inside this file.
-          </p>
-
-          <button
-            onClick={handleProcess}
-            disabled={isProcessing}
-            className="w-full sm:w-auto px-12 py-4 bg-orange-500 text-white font-bold rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:transform-none flex justify-center items-center gap-2 mx-auto"
-          >
-            {isProcessing ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" /> Scrubbing in
-                background...
-              </>
-            ) : (
-              "Remove All Metadata"
-            )}
-          </button>
-        </motion.div>
-      )}
 
       {resultBlob && (
         <motion.div

@@ -68,87 +68,71 @@ export default function RemoveBackgroundClient() {
             "image/webp": [".webp"],
           }}
           isProcessing={isProcessing}
+          aside={
+            file ? (
+              <div>
+                <h3 className="mb-5 text-lg font-semibold">Background Detection</h3>
+
+                <div className="space-y-5">
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <label className="font-medium">Threshold</label>
+                      <span className="text-muted-foreground">{threshold}</span>
+                    </div>
+                    <input
+                      type="range"
+                      min={8}
+                      max={120}
+                      step={1}
+                      value={threshold}
+                      disabled={isProcessing}
+                      onChange={(event) => setThreshold(Number(event.target.value))}
+                      className="w-full accent-primary"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <label className="font-medium">Edge Softness</label>
+                      <span className="text-muted-foreground">{softness}</span>
+                    </div>
+                    <input
+                      type="range"
+                      min={0}
+                      max={60}
+                      step={1}
+                      value={softness}
+                      disabled={isProcessing}
+                      onChange={(event) => setSoftness(Number(event.target.value))}
+                      className="w-full accent-primary"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleProcess}
+                  disabled={isProcessing}
+                  className="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-4 font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-50 disabled:transform-none"
+                >
+                  {isProcessing ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      Removing background...
+                    </>
+                  ) : (
+                    <>
+                      <Scissors className="h-5 w-5" />
+                      Remove Background
+                    </>
+                  )}
+                </button>
+              </div>
+            ) : undefined
+          }
         />
       )}
 
       {error && <p className="text-sm text-red-500 text-center">{error}</p>}
-
-      {file && !resultBlob && (
-        <motion.section
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="rounded-2xl border border-border bg-secondary/30 p-6"
-        >
-          <h3 className="font-semibold text-lg mb-5">Background Detection</h3>
-
-          <div className="space-y-5">
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <label className="font-medium">Threshold</label>
-                <span className="text-muted-foreground">{threshold}</span>
-              </div>
-              <input
-                type="range"
-                min={8}
-                max={120}
-                step={1}
-                value={threshold}
-                disabled={isProcessing}
-                onChange={(event) => setThreshold(Number(event.target.value))}
-                className="w-full accent-primary"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <label className="font-medium">Edge Softness</label>
-                <span className="text-muted-foreground">{softness}</span>
-              </div>
-              <input
-                type="range"
-                min={0}
-                max={60}
-                step={1}
-                value={softness}
-                disabled={isProcessing}
-                onChange={(event) => setSoftness(Number(event.target.value))}
-                className="w-full accent-primary"
-              />
-            </div>
-          </div>
-
-          {beforeUrl && (
-            <div className="mt-6">
-              <p className="text-sm text-muted-foreground mb-3">Preview input</p>
-              <div className="rounded-xl border border-border bg-white/80 p-3">
-                <img
-                  src={beforeUrl}
-                  alt="Uploaded preview"
-                  className="max-h-64 w-auto mx-auto rounded-md object-contain"
-                />
-              </div>
-            </div>
-          )}
-
-          <button
-            onClick={handleProcess}
-            disabled={isProcessing}
-            className="mt-8 w-full py-4 bg-primary text-primary-foreground font-bold rounded-xl shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:transform-none flex justify-center items-center gap-2"
-          >
-            {isProcessing ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" />
-                Removing background...
-              </>
-            ) : (
-              <>
-                <Scissors className="w-5 h-5" />
-                Remove Background
-              </>
-            )}
-          </button>
-        </motion.section>
-      )}
 
       {resultBlob && (
         <motion.section
