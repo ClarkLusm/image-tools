@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Download, Loader2, Scissors } from "lucide-react";
+import { Loader2, Scissors } from "lucide-react";
 import { motion } from "framer-motion";
 import { Uploader } from "@/app/components/shared/uploader";
 import { useImageWorker } from "@/hooks/use-image-worker";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
+import BeforeAfterSlider from "@/app/components/home/before-after-slider";
 
 export default function RemoveBackgroundClient() {
   const [file, setFile] = useState<File | null>(null);
@@ -138,23 +139,22 @@ export default function RemoveBackgroundClient() {
         <motion.section
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center p-8 bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/50 rounded-2xl"
+          className="rounded-2xl p-8 text-center bg-gray-100"
         >
-          <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Download className="w-8 h-8" />
-          </div>
           <h3 className="text-2xl font-bold mb-2">Background Removed</h3>
           <p className="text-muted-foreground mb-6">
             Output file size:{" "}
             <span className="font-semibold">{formatBytes(resultBlob.size)}</span>
           </p>
 
-          {afterUrl && (
-            <div className="max-w-xl mx-auto mb-8 rounded-xl border border-border bg-[radial-gradient(#d4d4d8_1px,transparent_1px)] [background-size:12px_12px] p-4">
-              <img
-                src={afterUrl}
-                alt="Result without background"
-                className="max-h-72 w-auto mx-auto rounded-md object-contain"
+          {beforeUrl && afterUrl && (
+            <div className="mx-auto mb-8 max-w-4xl">
+              <BeforeAfterSlider
+                beforeSrc={beforeUrl}
+                afterSrc={afterUrl}
+                alt="Before and after background removal comparison"
+                imageFit="contain"
+                className="aspect-[16/10] bg-white"
               />
             </div>
           )}

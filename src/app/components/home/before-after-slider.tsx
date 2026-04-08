@@ -4,9 +4,15 @@ import { useCallback, useRef, useState } from "react";
 import { ArrowLeftRight } from "lucide-react";
 
 type BeforeAfterSliderProps = {
-  imageSrc: string;
+  imageSrc?: string;
+  beforeSrc?: string;
+  afterSrc?: string;
   alt: string;
   className?: string;
+  imageFit?: "cover" | "contain";
+  showCheckerboard?: boolean;
+  beforeLabel?: string;
+  afterLabel?: string;
 };
 
 function clamp(value: number, min: number, max: number) {
@@ -15,12 +21,24 @@ function clamp(value: number, min: number, max: number) {
 
 export default function BeforeAfterSlider({
   imageSrc,
+  beforeSrc,
+  afterSrc,
   alt,
   className,
+  imageFit = "cover",
+  beforeLabel = "Before",
+  afterLabel = "After",
 }: BeforeAfterSliderProps) {
   const [position, setPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const frameRef = useRef<HTMLDivElement | null>(null);
+  const resolvedBeforeSrc = beforeSrc ?? imageSrc;
+  const resolvedAfterSrc = afterSrc ?? imageSrc;
+  const useGeneratedAfter = !beforeSrc && !afterSrc && !!imageSrc;
+  const imageClassName =
+    imageFit === "contain"
+      ? "absolute inset-0 h-full w-full object-contain"
+      : "absolute inset-0 h-full w-full object-cover";
 
   const updatePosition = useCallback((clientX: number) => {
     const frame = frameRef.current;
@@ -34,7 +52,7 @@ export default function BeforeAfterSlider({
   return (
     <div
       ref={frameRef}
-      className={`relative aspect-[4/5] rounded-2xl overflow-hidden border border-border/60 select-none touch-none ${className ?? ""}`}
+      className={`relative aspect-[4/5] overflow-hidden rounded-2xl border border-border/60 select-none touch-none ${className ?? ""}`}
       onPointerMove={(event) => {
         if (!isDragging) return;
         updatePosition(event.clientX);
@@ -43,25 +61,48 @@ export default function BeforeAfterSlider({
       onPointerCancel={() => setIsDragging(false)}
       onPointerLeave={() => setIsDragging(false)}
     >
-      <img src={imageSrc} alt={alt} className="absolute inset-0 w-full h-full object-cover" />
+      {resolvedAfterSrc ? (
+        <img
+          src={resolvedAfterSrc}
+          alt={alt}
+          className={imageClassName}
+          style={{
+            backgroundImage: "url('/images/transparent-bg.jpg')",
+            backgroundRepeat: "repeat",
+            backgroundPosition: "center",
+          }}
+        />
+      ) : null}
 
       <div
         className="absolute inset-0 overflow-hidden"
-        style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
+        style={{
+          clipPath: `inset(0 ${100 - position}% 0 0)`,
+          background: "white",
+        }}
       >
-        <img
-          src={imageSrc}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 w-full h-full object-cover blur-[1px] brightness-95"
-        />
+        {useGeneratedAfter && resolvedBeforeSrc ? (
+          <img
+            src={resolvedBeforeSrc}
+            alt=""
+            aria-hidden
+            className={`${imageClassName} blur-[1px] brightness-95`}
+          />
+        ) : resolvedBeforeSrc ? (
+          <img
+            src={resolvedBeforeSrc}
+            alt=""
+            aria-hidden
+            className={imageClassName}
+          />
+        ) : null}
       </div>
 
       <div className="absolute left-3 top-3 z-20 rounded-md bg-black/55 text-white text-xs px-2 py-1">
-        Before
+        {beforeLabel}
       </div>
       <div className="absolute right-3 top-3 z-20 rounded-md bg-black/55 text-white text-xs px-2 py-1">
-        After
+        {afterLabel}
       </div>
 
       <div
