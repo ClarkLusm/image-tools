@@ -77,62 +77,7 @@ export default function Page() {
 
         <CompressImageClient />
 
-        <section className="mt-24 space-y-12">
-          <div className="max-w-3xl">
-            <h2 className="text-2xl font-display font-bold text-foreground">
-              Quick Image Compression Guide
-            </h2>
-            <p className="mt-2 leading-7 text-muted-foreground">
-              Image compression reduces file weight so images load faster, use
-              less bandwidth, and become easier to upload or share. This is one
-              of the most important tasks in image SEO because heavy files slow
-              down websites, increase waiting time, and create a worse
-              experience on mobile networks.
-            </p>
-          </div>
-
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            <article className="rounded-2xl border border-border/80 bg-card p-5">
-              <h3 className="text-lg font-semibold text-foreground">
-                Better for Page Speed
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                Lighter images usually download faster, which can improve site
-                performance and make content feel more responsive.
-              </p>
-            </article>
-
-            <article className="rounded-2xl border border-border/80 bg-card p-5">
-              <h3 className="text-lg font-semibold text-foreground">
-                Better for Upload Limits
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                Compression helps when files are too large for forms, CMS
-                editors, marketplaces, email attachments, or messaging apps.
-              </p>
-            </article>
-
-            <article className="rounded-2xl border border-border/80 bg-card p-5">
-              <h3 className="text-lg font-semibold text-foreground">
-                Better for Mobile
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                Smaller images are especially important for slower connections,
-                data-conscious users, and image-heavy pages on phones.
-              </p>
-            </article>
-
-            <article className="rounded-2xl border border-border/80 bg-card p-5">
-              <h3 className="text-lg font-semibold text-foreground">
-                Better with Resizing
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                Compression becomes even more effective when the image is also
-                resized to match the real display size.
-              </p>
-            </article>
-          </div>
-
+        <section className="mt-10 space-y-12">
           <section className="rounded-2xl border border-border bg-card p-6">
             <h3 className="mb-3 text-lg font-semibold">
               Compress to a specific size
@@ -212,6 +157,61 @@ export default function Page() {
               </Link>
             </div>
           </section>
+
+          <div className="max-w-3xl">
+            <h2 className="text-2xl font-display font-bold text-foreground">
+              Quick Image Compression Guide
+            </h2>
+            <p className="mt-2 leading-7 text-muted-foreground">
+              Image compression reduces file weight so images load faster, use
+              less bandwidth, and become easier to upload or share. This is one
+              of the most important tasks in image SEO because heavy files slow
+              down websites, increase waiting time, and create a worse
+              experience on mobile networks.
+            </p>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            <article className="rounded-2xl border border-border/80 bg-card p-5">
+              <h3 className="text-lg font-semibold text-foreground">
+                Better for Page Speed
+              </h3>
+              <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                Lighter images usually download faster, which can improve site
+                performance and make content feel more responsive.
+              </p>
+            </article>
+
+            <article className="rounded-2xl border border-border/80 bg-card p-5">
+              <h3 className="text-lg font-semibold text-foreground">
+                Better for Upload Limits
+              </h3>
+              <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                Compression helps when files are too large for forms, CMS
+                editors, marketplaces, email attachments, or messaging apps.
+              </p>
+            </article>
+
+            <article className="rounded-2xl border border-border/80 bg-card p-5">
+              <h3 className="text-lg font-semibold text-foreground">
+                Better for Mobile
+              </h3>
+              <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                Smaller images are especially important for slower connections,
+                data-conscious users, and image-heavy pages on phones.
+              </p>
+            </article>
+
+            <article className="rounded-2xl border border-border/80 bg-card p-5">
+              <h3 className="text-lg font-semibold text-foreground">
+                Better with Resizing
+              </h3>
+              <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                Compression becomes even more effective when the image is also
+                resized to match the real display size.
+              </p>
+            </article>
+          </div>
 
           <section className="grid gap-8 lg:grid-cols-2">
             <article className="rounded-2xl border border-border bg-background p-6">

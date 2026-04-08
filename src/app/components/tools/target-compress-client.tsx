@@ -7,7 +7,7 @@ import { downloadBlob, formatBytes } from "@/lib/image-utils";
 import {
   createDeepCompressionJob,
   downloadImageToolsArtifact,
-  resolveDeepCompressionDownloadUrls,
+  resolveDeepCompressionResults,
   waitForImageToolsJobCompletion,
 } from "@/lib/image-tools-api";
 import { downloadZip } from "@/lib/zip-utils";
@@ -23,6 +23,7 @@ type FileJob = {
   status: "pending" | "processing" | "done" | "failed";
   progress: number;
   blob?: Blob;
+  error?: string;
 };
 
 export default function TargetCompressClient({
@@ -88,25 +89,67 @@ export default function TargetCompressClient({
           );
         },
       });
-      const downloadUrls = resolveDeepCompressionDownloadUrls(completedJob);
+      const compressionResults = resolveDeepCompressionResults(completedJob);
 
-      if (downloadUrls.length === 0) {
-        throw new Error("Compression job completed without downloadable files.");
+      if (compressionResults.length === 0) {
+        throw new Error("Compression job completed without per-file results.");
       }
 
-      const blobs = await Promise.all(
-        downloadUrls.map((downloadUrl) =>
-          downloadImageToolsArtifact(downloadUrl),
-        ),
+      const resolvedResults = await Promise.all(
+        compressionResults.map(async (result) => {
+          if (result.status !== "completed" || !result.downloadUrl) {
+            return result;
+          }
+
+          try {
+            const blob = await downloadImageToolsArtifact(result.downloadUrl);
+            return { ...result, blob };
+          } catch (downloadError) {
+            return {
+              ...result,
+              status: "failed" as const,
+              error:
+                downloadError instanceof Error
+                  ? downloadError.message
+                  : "Failed to download compressed image.",
+            };
+          }
+        }),
+      );
+      const resultsByIndex = new Map(
+        resolvedResults.map((result) => [result.index, result]),
       );
 
       setJobs((prev) =>
-        prev.map((job, idx) => ({
-          ...job,
-          status: blobs[idx] ? "done" : "failed",
-          blob: blobs[idx],
-          progress: 100,
-        })),
+        prev.map((job, idx) => {
+          const result = resultsByIndex.get(idx);
+
+          if (!result) {
+            return {
+              ...job,
+              status: "failed",
+              progress: 100,
+              error: "Compression result missing for this file.",
+            };
+          }
+
+          if (result.status === "completed" && "blob" in result && result.blob) {
+            return {
+              ...job,
+              status: "done",
+              blob: result.blob,
+              progress: 100,
+              error: undefined,
+            };
+          }
+
+          return {
+            ...job,
+            status: "failed",
+            progress: 100,
+            error: result.error ?? "Compression failed for this file.",
+          };
+        }),
       );
     } catch (err) {
       if (err instanceof DOMException && err.name === "AbortError") {
@@ -195,7 +238,12 @@ export default function TargetCompressClient({
           }}
           maxFiles={10}
           isProcessing={isPending}
-          accept={{ "image/*": [".jpg", ".jpeg", ".png", ".webp"] }}
+          accept={{
+            "image/jpeg": [".jpg", ".jpeg"],
+            "image/png": [".png"],
+            "image/webp": [".webp"],
+            "image/avif": [".avif"],
+          }}
         />
       )}
 
@@ -294,7 +342,7 @@ export default function TargetCompressClient({
                   ) : (
                     <p className="text-xs text-muted-foreground">
                       {job.status === "failed"
-                        ? "Failed"
+                        ? (job.error ?? "Failed")
                         : "Processing..."}
                     </p>
                   )}

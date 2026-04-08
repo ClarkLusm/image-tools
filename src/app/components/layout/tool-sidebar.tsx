@@ -64,11 +64,9 @@ export function ToolSidebar() {
   return (
     <aside className="hidden xl:sticky xl:top-24 xl:block xl:self-start">
       <div className="bg-[#FCFCFC] p-4">
-        <div className="mb-4">
-          <h3 className="text-xl font-display font-bold text-foreground">
-            Maybe You Need
-          </h3>
-        </div>
+        <h3 className="text-lg font-display font-bold text-foreground">
+          Maybe You Need
+        </h3>
 
         <div className="py-6">
           {visibleGroups.map((group) => (

@@ -32,6 +32,7 @@ export interface UploaderProps {
   previewContent?: ReactNode;
   previewLabel?: string;
   interactivePreview?: boolean;
+  helperTag?: ReactNode;
 }
 
 export function UploaderCore({
@@ -52,11 +53,13 @@ export function UploaderCore({
   previewContent,
   previewLabel = "Upload Preview",
   interactivePreview = false,
+  helperTag,
 }: UploaderProps) {
   const [error, setError] = useState<string | null>(null);
   const [previews, setPreviews] = useState<
     { url: string; name: string; size: number }[]
   >([]);
+  const resolvedMaxFiles = maxFiles > 0 ? maxFiles : 0;
 
   const clearPreviews = useCallback(() => {
     previews.forEach((preview) => URL.revokeObjectURL(preview.url));
@@ -76,18 +79,29 @@ export function UploaderCore({
       if (fileRejections.length > 0) {
         const rejection = fileRejections[0];
         if (rejection.errors[0]?.code === "file-too-large") {
-          setError(`File is too large. Max size is ${maxSizeMB}MB.`);
+          setError(
+            acceptedFiles.length > 0
+              ? `Some files were skipped. Max size is ${maxSizeMB}MB per file.`
+              : `File is too large. Max size is ${maxSizeMB}MB.`,
+          );
         } else if (rejection.errors[0]?.code === "file-invalid-type") {
-          setError("Unsupported file format. Please upload an image.");
+          setError(
+            acceptedFiles.length > 0
+              ? "Some files were skipped because the format is not supported."
+              : "Unsupported file format. Please upload an image.",
+          );
         } else {
           setError(rejection.errors[0]?.message || "Failed to upload file.");
         }
-        return;
       }
 
       if (acceptedFiles.length > 0) {
         clearPreviews();
-        const nextPreviews = acceptedFiles.slice(0, maxFiles).map((file) => ({
+        const selectedFiles =
+          resolvedMaxFiles > 0
+            ? acceptedFiles.slice(0, resolvedMaxFiles)
+            : acceptedFiles;
+        const nextPreviews = selectedFiles.map((file) => ({
           url: URL.createObjectURL(file),
           name: file.name,
           size: file.size,
@@ -95,13 +109,24 @@ export function UploaderCore({
         setPreviews(nextPreviews);
 
         if (onFilesSelect) {
-          onFilesSelect(acceptedFiles.slice(0, maxFiles));
+          onFilesSelect(selectedFiles);
         } else {
           onFileSelect(acceptedFiles[0]);
         }
+        return;
+      }
+
+      if (fileRejections.length > 0) {
+        clearPreviews();
       }
     },
-    [clearPreviews, maxFiles, maxSizeMB, onFileSelect, onFilesSelect]
+    [
+      clearPreviews,
+      maxSizeMB,
+      onFileSelect,
+      onFilesSelect,
+      resolvedMaxFiles,
+    ],
   );
 
   const { getRootProps, getInputProps, isDragActive, isDragReject } =
@@ -109,9 +134,9 @@ export function UploaderCore({
       onDrop,
       accept,
       maxSize: maxSizeMB * 1024 * 1024,
-      maxFiles,
+      maxFiles: resolvedMaxFiles,
       disabled: isProcessing,
-      multiple: maxFiles > 1,
+      multiple: maxFiles !== 1,
     });
 
   const baseDropzoneClassName = cn(
@@ -120,7 +145,7 @@ export function UploaderCore({
       ? "border-primary bg-primary/5 scale-[1.01]"
       : "border-border bg-card hover:bg-secondary/50",
     isDragReject ? "border-destructive bg-destructive/5" : "",
-    isProcessing ? "opacity-60 cursor-not-allowed pointer-events-none" : ""
+    isProcessing ? "opacity-60 cursor-not-allowed pointer-events-none" : "",
   );
 
   const renderPrompt = () => (
@@ -136,7 +161,7 @@ export function UploaderCore({
           "mb-6 flex h-20 w-20 items-center justify-center rounded-full shadow-sm transition-colors",
           isDragActive
             ? "bg-primary text-white shadow-primary/25"
-            : "bg-primary/10 text-primary"
+            : "bg-primary/10 text-primary",
         )}
       >
         <UploadCloud className="h-10 w-10" />
@@ -148,8 +173,14 @@ export function UploaderCore({
         or click to browse from your device
       </p>
       <div className="flex flex-wrap justify-center gap-3 text-xs font-medium text-muted-foreground/80">
+        {helperTag ? (
+          <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1">
+            {helperTag}
+          </span>
+        ) : null}
         <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1">
-          <ImageIcon className="h-3 w-3" /> Max {maxSizeMB}MB
+          <ImageIcon className="h-3 w-3" /> Max {maxSizeMB}MB{" "}
+          {maxFiles > 1 ? " each" : ""}
         </span>
         <span className="rounded-full bg-secondary px-3 py-1">
           JPG, JPEG, PNG, WEBP, HEIC, HEIF
@@ -258,11 +289,14 @@ export function UploaderCore({
     </div>
   );
 
-  const renderStaticPreviewCard = (content: ReactNode, paddingClassName: string) => (
+  const renderStaticPreviewCard = (
+    content: ReactNode,
+    paddingClassName: string,
+  ) => (
     <div
       className={cn(
         "relative overflow-hidden rounded-2xl border-2 border-dashed border-border bg-card transition-all duration-300 ease-out",
-        paddingClassName
+        paddingClassName,
       )}
     >
       {content}
@@ -282,7 +316,7 @@ export function UploaderCore({
             <div
               className={cn(
                 "rounded-2xl border border-border bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)]",
-                asideClassName
+                asideClassName,
               )}
             >
               {aside}
@@ -292,7 +326,7 @@ export function UploaderCore({
       ) : (
         renderDropzoneCard(
           previews.length === 0 ? renderPrompt() : renderPreviewContent(),
-          previews.length > 0 ? "p-4" : "p-12"
+          previews.length > 0 ? "p-4" : "p-12",
         )
       )}
 

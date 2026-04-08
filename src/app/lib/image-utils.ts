@@ -125,7 +125,6 @@ export const downloadBlob = (blob: Blob, filename: string) => {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-  URL.revokeObjectURL(url);
 };
 
 export const formatBytes = (bytes: number, decimals = 2) => {

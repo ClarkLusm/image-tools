@@ -3,9 +3,24 @@ type ImageToolsJobArtifact = {
   downloadUrl?: string;
 };
 
-type DeepCompressionOutputItem = {
+export type DeepCompressionOutputItem = {
   index?: number;
-  compressedUrl?: string;
+  originalName?: string;
+  status?: "completed" | "failed";
+  compressedUrl?: string | null;
+  actualSizeKb?: number | null;
+  estimatedSavingsPercent?: number | null;
+  error?: string | null;
+};
+
+export type ResolvedDeepCompressionItem = {
+  index: number;
+  originalName?: string;
+  status: "completed" | "failed";
+  downloadUrl?: string;
+  actualSizeKb?: number | null;
+  estimatedSavingsPercent?: number | null;
+  error?: string | null;
 };
 
 export type ImageToolsJob = {
@@ -52,6 +67,10 @@ function buildApiUrl(path: string) {
       : normalizedPath;
 
   return `${baseUrl}${pathWithoutVersionPrefix}`;
+}
+
+export function resolveImageToolsAssetUrl(pathOrUrl: string) {
+  return pathOrUrl.startsWith("http") ? pathOrUrl : buildApiUrl(pathOrUrl);
 }
 
 async function parseErrorMessage(response: Response, fallback: string) {
@@ -276,9 +295,7 @@ export async function waitForImageToolsJobCompletion(
 }
 
 export async function downloadImageToolsArtifact(pathOrUrl: string) {
-  const response = await fetch(
-    pathOrUrl.startsWith("http") ? pathOrUrl : buildApiUrl(pathOrUrl),
-  );
+  const response = await fetch(resolveImageToolsAssetUrl(pathOrUrl));
 
   if (!response.ok) {
     throw new Error(
@@ -286,21 +303,62 @@ export async function downloadImageToolsArtifact(pathOrUrl: string) {
     );
   }
 
+  const contentType = response.headers.get("content-type")?.toLowerCase() ?? "";
+  if (
+    contentType.startsWith("text/html") ||
+    contentType.startsWith("application/json")
+  ) {
+    throw new Error(
+      "The download endpoint returned a non-image response. Please verify the API download route and proxy configuration.",
+    );
+  }
+
   return response.blob();
 }
 
-export function resolveDeepCompressionDownloadUrls(job: ImageToolsJob) {
-  const itemUrls = (job.output?.items ?? [])
-    .sort((left, right) => (left.index ?? 0) - (right.index ?? 0))
-    .map((item) => item.compressedUrl)
-    .filter((url): url is string => typeof url === "string");
+export function resolveDeepCompressionResults(
+  job: ImageToolsJob,
+): ResolvedDeepCompressionItem[] {
+  const items = (job.output?.items ?? [])
+    .map((item, index) => ({
+      index: typeof item.index === "number" ? item.index : index,
+      originalName: item.originalName,
+      status: item.status === "failed" ? "failed" : "completed",
+      downloadUrl:
+        typeof item.compressedUrl === "string" ? item.compressedUrl : undefined,
+      actualSizeKb:
+        typeof item.actualSizeKb === "number" ? item.actualSizeKb : null,
+      estimatedSavingsPercent:
+        typeof item.estimatedSavingsPercent === "number"
+          ? item.estimatedSavingsPercent
+          : null,
+      error: typeof item.error === "string" ? item.error : null,
+    }))
+    .sort((left, right) => left.index - right.index);
 
-  if (itemUrls.length > 0) {
-    return itemUrls;
+  if (items.length > 0) {
+    return items;
   }
 
   return (job.output?.temporaryArtifacts ?? [])
-    .map((artifact) => artifact.downloadUrl)
+    .map((artifact, index) => ({
+      index,
+      status: "completed" as const,
+      downloadUrl:
+        typeof artifact.downloadUrl === "string"
+          ? artifact.downloadUrl
+          : undefined,
+      error: null,
+      actualSizeKb: null,
+      estimatedSavingsPercent: null,
+    }))
+    .filter((item) => item.downloadUrl);
+}
+
+export function resolveDeepCompressionDownloadUrls(job: ImageToolsJob) {
+  return resolveDeepCompressionResults(job)
+    .filter((item) => item.status === "completed")
+    .map((item) => item.downloadUrl)
     .filter((url): url is string => typeof url === "string");
 }
 
