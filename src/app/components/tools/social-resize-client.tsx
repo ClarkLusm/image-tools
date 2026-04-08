@@ -2,7 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import type { Crop, PixelCrop } from "react-image-crop";
+import {
+  type Crop,
+  type PixelCrop,
+} from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import {
   Download,
@@ -74,15 +77,6 @@ function buildCenteredCrop(
   };
 }
 
-function toPixelCrop(crop: Crop): PixelCrop {
-  return {
-    x: Math.round(crop.x ?? 0),
-    y: Math.round(crop.y ?? 0),
-    width: Math.round(crop.width ?? 0),
-    height: Math.round(crop.height ?? 0),
-  };
-}
-
 export default function SocialResizeClient({
   presets,
   defaultPresetIndex = 0,
@@ -105,6 +99,7 @@ export default function SocialResizeClient({
   const [crop, setCrop] = useState<Crop>();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop | null>(null);
   const imageRef = useRef<HTMLImageElement | null>(null);
+  const cropFrameRef = useRef<number | null>(null);
 
   const { processImage, isProcessing, error } = useImageWorker();
 
@@ -120,21 +115,46 @@ export default function SocialResizeClient({
 
   useEffect(() => {
     return () => {
+      if (cropFrameRef.current !== null) {
+        window.cancelAnimationFrame(cropFrameRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
       if (previewUrl) {
         URL.revokeObjectURL(previewUrl);
       }
     };
   }, [previewUrl]);
 
+  const syncCenteredCrop = (
+    imageElement: HTMLImageElement,
+    aspect: number,
+  ) => {
+    if (cropFrameRef.current !== null) {
+      window.cancelAnimationFrame(cropFrameRef.current);
+    }
+
+    cropFrameRef.current = window.requestAnimationFrame(() => {
+      const { width, height } = imageElement.getBoundingClientRect();
+      const renderWidth = Math.round(width);
+      const renderHeight = Math.round(height);
+
+      if (!renderWidth || !renderHeight) {
+        return;
+      }
+
+      const nextCrop = buildCenteredCrop(renderWidth, renderHeight, aspect);
+      setCrop(nextCrop);
+      setCompletedCrop(nextCrop as PixelCrop);
+    });
+  };
+
   useEffect(() => {
     if (!imageRef.current) return;
-    const nextCrop = buildCenteredCrop(
-      imageRef.current.width,
-      imageRef.current.height,
-      selectedAspect,
-    );
-    setCrop(nextCrop);
-    setCompletedCrop(toPixelCrop(nextCrop));
+    syncCenteredCrop(imageRef.current, selectedAspect);
   }, [selectedAspect]);
 
   const applyFileSelection = (nextFile: File) => {
@@ -161,13 +181,7 @@ export default function SocialResizeClient({
 
   const resetCrop = () => {
     if (!imageRef.current) return;
-    const nextCrop = buildCenteredCrop(
-      imageRef.current.width,
-      imageRef.current.height,
-      selectedAspect,
-    );
-    setCrop(nextCrop);
-    setCompletedCrop(toPixelCrop(nextCrop));
+    syncCenteredCrop(imageRef.current, selectedAspect);
   };
 
   const handleProcess = async () => {
@@ -274,45 +288,32 @@ export default function SocialResizeClient({
 
   const renderLiveCropPreview = () => {
     if (!previewUrl || !selectedPreset) return null;
+    const cropKey = `${selectedPreset.width}x${selectedPreset.height}-${previewUrl}`;
 
     return (
       <div className="flex h-full w-full flex-col items-center justify-center gap-5">
         <div
-          className="flex min-h-[440px] w-full items-center justify-center rounded-[1.5rem] border border-border/70 bg-gray-200 p-4 shadow-[0_18px_50px_rgba(15,23,42,0.08)]"
+          className="flex min-h-[440px] w-full items-center justify-center border border-border/70 bg-gray-200 p-4 shadow-[0_18px_50px_rgba(15,23,42,0.08)]"
         >
           <ReactCrop
+            key={cropKey}
             crop={crop}
             onChange={(next) => setCrop(next)}
             onComplete={(nextCompletedCrop) => setCompletedCrop(nextCompletedCrop)}
             aspect={selectedAspect}
             keepSelection
-            className="flex w-full items-center justify-center"
+            className="inline-flex max-w-full items-center justify-center max-h-[360px] sm:max-h-[440px] lg:max-h-[520px] xl:max-h-[600px] [&>.ReactCrop__child-wrapper]:inline-block [&>.ReactCrop__child-wrapper]:w-auto [&>.ReactCrop__child-wrapper]:max-w-full"
           >
             <img
               ref={imageRef}
               src={previewUrl}
               alt={`${selectedPreset.label} crop preview`}
               onLoad={(event) => {
-                const nextCrop = buildCenteredCrop(
-                  event.currentTarget.width,
-                  event.currentTarget.height,
-                  selectedAspect,
-                );
-                setCrop(nextCrop);
-                setCompletedCrop(toPixelCrop(nextCrop));
+                syncCenteredCrop(event.currentTarget, selectedAspect);
               }}
-              className="mx-auto max-h-[70vh] w-auto max-w-full object-contain"
+              className="mx-auto h-auto w-auto max-w-full object-contain"
             />
           </ReactCrop>
-        </div>
-
-        <div className="text-center">
-          <p className="text-sm font-semibold text-foreground">
-            Drag to reframe for {selectedPreset.label}
-          </p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Crop guide is locked to {selectedPreset.width} x {selectedPreset.height}
-          </p>
         </div>
       </div>
     );

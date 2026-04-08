@@ -88,7 +88,7 @@ export function ToolSidebar() {
                     }`}
                   >
                     <Icon className="h-4.5 w-4.5 flex-shrink-0" />
-                    <span className="font-semibold">{item.name}</span>
+                    <span className="font-semibold text-sm">{item.name}</span>
                   </Link>
                 );
               })}

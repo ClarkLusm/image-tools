@@ -233,7 +233,7 @@ export function UploaderCore({
                 {previewLabel}
               </div>
             </div>
-            <div className="flex min-h-[420px] items-center justify-center bg-[radial-gradient(circle_at_top,#f8fbff_0%,#ffffff_55%,#f5f7fa_100%)] p-5">
+            <div className="flex min-h-[420px] items-center justify-center bg-[radial-gradient(circle_at_top,#f8fbff_0%,#ffffff_55%,#f5f7fa_100%)]">
               {previewContent ?? (
                 <img
                   src={previews[0]?.url}
