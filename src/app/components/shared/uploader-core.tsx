@@ -32,7 +32,7 @@ export interface UploaderProps {
   previewContent?: ReactNode;
   previewLabel?: string;
   interactivePreview?: boolean;
-  helperTag?: ReactNode;
+  maxTotal?: number;
 }
 
 export function UploaderCore({
@@ -53,7 +53,7 @@ export function UploaderCore({
   previewContent,
   previewLabel = "Upload Preview",
   interactivePreview = false,
-  helperTag,
+  maxTotal = 0,
 }: UploaderProps) {
   const [error, setError] = useState<string | null>(null);
   const [previews, setPreviews] = useState<
@@ -120,13 +120,7 @@ export function UploaderCore({
         clearPreviews();
       }
     },
-    [
-      clearPreviews,
-      maxSizeMB,
-      onFileSelect,
-      onFilesSelect,
-      resolvedMaxFiles,
-    ],
+    [clearPreviews, maxSizeMB, onFileSelect, onFilesSelect, resolvedMaxFiles],
   );
 
   const { getRootProps, getInputProps, isDragActive, isDragReject } =
@@ -173,14 +167,19 @@ export function UploaderCore({
         or click to browse from your device
       </p>
       <div className="flex flex-wrap justify-center gap-3 text-xs font-medium text-muted-foreground/80">
-        {helperTag ? (
+        {maxFiles == 0 && (
           <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1">
-            {helperTag}
+            No file limit
+          </span>
+        )}
+        {maxTotal > 0 ? (
+          <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1">
+            {maxTotal}MB total per upload
           </span>
         ) : null}
         <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1">
           <ImageIcon className="h-3 w-3" /> Max {maxSizeMB}MB{" "}
-          {maxFiles > 1 ? " each" : ""}
+          {maxFiles == 0 ? " each" : ""}
         </span>
         <span className="rounded-full bg-secondary px-3 py-1">
           JPG, JPEG, PNG, WEBP, HEIC, HEIF

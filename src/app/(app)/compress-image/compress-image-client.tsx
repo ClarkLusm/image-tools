@@ -577,7 +577,7 @@ export default function CompressImageClient() {
           isProcessing={isPending}
           maxFiles={0}
           maxSizeMB={10}
-          helperTag="No file limit • 50MB total per upload"
+          maxTotal={50}
         />
       )}
 
