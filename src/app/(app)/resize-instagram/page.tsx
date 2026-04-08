@@ -84,7 +84,6 @@ export default function Page() {
         presets={presets}
         defaultPresetIndex={0}
         instagramOptimization
-        presetPicker="cards"
       />
 
       <section className="mt-10 space-y-8 bg-card">

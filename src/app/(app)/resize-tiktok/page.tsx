@@ -8,13 +8,11 @@ const presets = [
     label: "TikTok Vertical",
     width: 1080,
     height: 1920,
-    description: "Full-screen vertical TikTok video cover or image post.",
   },
   {
     label: "TikTok Profile",
     width: 200,
     height: 200,
-    description: "Square profile image.",
   },
 ];
 

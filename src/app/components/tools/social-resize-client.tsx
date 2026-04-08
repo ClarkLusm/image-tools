@@ -82,7 +82,7 @@ export default function SocialResizeClient({
   defaultPresetIndex = 0,
   outputFormat = "original",
   instagramOptimization = false,
-  presetPicker = "select",
+  presetPicker = "cards",
 }: SocialResizeClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);

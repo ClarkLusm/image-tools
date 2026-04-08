@@ -8,19 +8,16 @@ const presets = [
     label: "YouTube Thumbnail",
     width: 1280,
     height: 720,
-    description: "Standard thumbnail size (16:9).",
   },
   {
     label: "YouTube Shorts",
     width: 1080,
     height: 1920,
-    description: "Vertical format for Shorts.",
   },
   {
     label: "YouTube Channel Banner",
     width: 2560,
     height: 1440,
-    description: "Large banner image.",
   },
 ];
 
