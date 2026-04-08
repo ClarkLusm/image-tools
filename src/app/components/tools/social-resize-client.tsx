@@ -2,10 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import {
-  type Crop,
-  type PixelCrop,
-} from "react-image-crop";
+import { type Crop, type PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import {
   Download,
@@ -129,10 +126,7 @@ export default function SocialResizeClient({
     };
   }, [previewUrl]);
 
-  const syncCenteredCrop = (
-    imageElement: HTMLImageElement,
-    aspect: number,
-  ) => {
+  const syncCenteredCrop = (imageElement: HTMLImageElement, aspect: number) => {
     if (cropFrameRef.current !== null) {
       window.cancelAnimationFrame(cropFrameRef.current);
     }
@@ -292,29 +286,27 @@ export default function SocialResizeClient({
 
     return (
       <div className="flex h-full w-full flex-col items-center justify-center gap-5">
-        <div
-          className="flex min-h-[440px] w-full items-center justify-center border border-border/70 bg-gray-200 p-4 shadow-[0_18px_50px_rgba(15,23,42,0.08)]"
+        <ReactCrop
+          key={cropKey}
+          crop={crop}
+          onChange={(next) => setCrop(next)}
+          onComplete={(nextCompletedCrop) =>
+            setCompletedCrop(nextCompletedCrop)
+          }
+          aspect={selectedAspect}
+          keepSelection
+          className="inline-flex max-w-full items-center justify-center max-h-[360px] sm:max-h-[440px] lg:max-h-[520px] xl:max-h-[600px] [&>.ReactCrop__child-wrapper]:inline-block [&>.ReactCrop__child-wrapper]:w-auto [&>.ReactCrop__child-wrapper]:max-w-full"
         >
-          <ReactCrop
-            key={cropKey}
-            crop={crop}
-            onChange={(next) => setCrop(next)}
-            onComplete={(nextCompletedCrop) => setCompletedCrop(nextCompletedCrop)}
-            aspect={selectedAspect}
-            keepSelection
-            className="inline-flex max-w-full items-center justify-center max-h-[360px] sm:max-h-[440px] lg:max-h-[520px] xl:max-h-[600px] [&>.ReactCrop__child-wrapper]:inline-block [&>.ReactCrop__child-wrapper]:w-auto [&>.ReactCrop__child-wrapper]:max-w-full"
-          >
-            <img
-              ref={imageRef}
-              src={previewUrl}
-              alt={`${selectedPreset.label} crop preview`}
-              onLoad={(event) => {
-                syncCenteredCrop(event.currentTarget, selectedAspect);
-              }}
-              className="mx-auto h-auto w-auto max-w-full object-contain"
-            />
-          </ReactCrop>
-        </div>
+          <img
+            ref={imageRef}
+            src={previewUrl}
+            alt={`${selectedPreset.label} crop preview`}
+            onLoad={(event) => {
+              syncCenteredCrop(event.currentTarget, selectedAspect);
+            }}
+            className="mx-auto h-auto w-auto max-w-full object-contain"
+          />
+        </ReactCrop>
       </div>
     );
   };
@@ -471,8 +463,8 @@ export default function SocialResizeClient({
                           Instagram Optimization Engine
                         </span>
                         <span className="mt-1 block">
-                          After crop + resize, auto-export to IG-friendly JPEG and
-                          tune quality to reduce blur after Instagram
+                          After crop + resize, auto-export to IG-friendly JPEG
+                          and tune quality to reduce blur after Instagram
                           recompression.
                         </span>
                       </span>
@@ -515,7 +507,9 @@ export default function SocialResizeClient({
           <p className="mb-8 text-muted-foreground">
             New size: {selectedPreset.width}×{selectedPreset.height}px. File
             size:{" "}
-            <span className="font-semibold">{formatBytes(resultBlob.size)}</span>
+            <span className="font-semibold">
+              {formatBytes(resultBlob.size)}
+            </span>
           </p>
 
           {optimizationSummary && (

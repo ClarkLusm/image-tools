@@ -4,8 +4,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Download,
   Loader2,
-  Crop as CropIcon,
   RefreshCcw,
+  Settings2,
+  CheckCircle2,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import type { Crop, PixelCrop } from "react-image-crop";
@@ -23,6 +24,44 @@ const aspectOptions = [
   { label: "9:16", value: 9 / 16 },
 ];
 
+function buildCenteredCrop(
+  width: number,
+  height: number,
+  aspect?: number,
+): Crop {
+  if (aspect && aspect > 0) {
+    let cropWidth = width;
+    let cropHeight = cropWidth / aspect;
+
+    if (cropHeight > height) {
+      cropHeight = height;
+      cropWidth = cropHeight * aspect;
+    }
+
+    const x = Math.round((width - cropWidth) / 2);
+    const y = Math.round((height - cropHeight) / 2);
+
+    return {
+      unit: "px",
+      x,
+      y,
+      width: Math.round(cropWidth),
+      height: Math.round(cropHeight),
+    };
+  }
+
+  const cropWidth = Math.round(width * 0.8);
+  const cropHeight = Math.round(height * 0.8);
+
+  return {
+    unit: "px",
+    width: cropWidth,
+    height: cropHeight,
+    x: Math.round((width - cropWidth) / 2),
+    y: Math.round((height - cropHeight) / 2),
+  };
+}
+
 export default function CropImageClient() {
   const [file, setFile] = useState<File | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
@@ -33,13 +72,14 @@ export default function CropImageClient() {
   const [crop, setCrop] = useState<Crop>();
   const [aspect, setAspect] = useState<number>(0);
   const [completedCrop, setCompletedCrop] = useState<PixelCrop | null>(null);
+  const [uploaderKey, setUploaderKey] = useState(0);
   const imageRef = useRef<HTMLImageElement | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const cropFrameRef = useRef<number | null>(null);
 
   const { processImage, isProcessing, error } = useImageWorker();
   const imageUrl = useMemo(
     () => (file ? URL.createObjectURL(file) : null),
-    [file]
+    [file],
   );
 
   useEffect(() => {
@@ -49,6 +89,14 @@ export default function CropImageClient() {
       URL.revokeObjectURL(imageUrl);
     };
   }, [imageUrl]);
+
+  useEffect(() => {
+    return () => {
+      if (cropFrameRef.current !== null) {
+        window.cancelAnimationFrame(cropFrameRef.current);
+      }
+    };
+  }, []);
 
   const applyFileSelection = (nextFile: File) => {
     setFile(nextFile);
@@ -101,165 +149,189 @@ export default function CropImageClient() {
     return `${Math.round(completedCrop.width)} × ${Math.round(completedCrop.height)}px`;
   }, [completedCrop]);
 
-  const buildDefaultCrop = (img: HTMLImageElement) => {
-    const width = img.width;
-    const height = img.height;
-    const cropWidth = Math.round(width * 0.8);
-    const cropHeight = Math.round(height * 0.8);
-    return {
-      unit: "px" as const,
-      width: cropWidth,
-      height: cropHeight,
-      x: Math.round((width - cropWidth) / 2),
-      y: Math.round((height - cropHeight) / 2),
-    };
+  const syncCenteredCrop = (
+    imageElement: HTMLImageElement,
+    aspectRatio?: number,
+  ) => {
+    if (cropFrameRef.current !== null) {
+      window.cancelAnimationFrame(cropFrameRef.current);
+    }
+
+    cropFrameRef.current = window.requestAnimationFrame(() => {
+      const { width, height } = imageElement.getBoundingClientRect();
+      const renderWidth = Math.round(width);
+      const renderHeight = Math.round(height);
+
+      if (!renderWidth || !renderHeight) {
+        return;
+      }
+
+      const nextCrop = buildCenteredCrop(
+        renderWidth,
+        renderHeight,
+        aspectRatio,
+      );
+      setCrop(nextCrop);
+      setCompletedCrop(nextCrop as PixelCrop);
+    });
   };
 
   const resetCrop = () => {
     if (!imageRef.current) return;
-    setCrop(buildDefaultCrop(imageRef.current));
-    setCompletedCrop(buildDefaultCrop(imageRef.current));
+    syncCenteredCrop(imageRef.current, aspect || undefined);
   };
 
-  const openFilePicker = () => {
-    if (!fileInputRef.current) return;
-    fileInputRef.current.value = "";
-    fileInputRef.current.click();
-  };
+  useEffect(() => {
+    if (!imageRef.current) return;
+    syncCenteredCrop(imageRef.current, aspect || undefined);
+  }, [aspect]);
+
+  const cropKey = `${aspect || "free"}-${imageUrl ?? "empty"}`;
 
   return (
     <div
       className="space-y-8"
       data-tool-active-image={file ? "true" : undefined}
     >
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*,.jpg,.jpeg,.png,.webp"
-        className="hidden"
-        onChange={(event) => {
-          const nextFile = event.target.files?.[0];
-
-          if (nextFile) {
-            applyFileSelection(nextFile);
-          }
-        }}
-      />
-
-      {!file && !resultBlob && (
+      {!resultBlob && (
         <Uploader
+          key={uploaderKey}
           onFileSelect={applyFileSelection}
           accept={{ "image/*": [".jpg", ".jpeg", ".png", ".webp"] }}
           isProcessing={isProcessing}
+          previewLabel="Crop Preview"
+          interactivePreview
+          previewContent={
+            file && imageUrl ? (
+              <div className="flex h-full w-full flex-col items-center justify-center gap-5">
+                <ReactCrop
+                  key={cropKey}
+                  crop={crop}
+                  onChange={(next) => setCrop(next)}
+                  onComplete={(pixelCrop) => setCompletedCrop(pixelCrop)}
+                  aspect={aspect || undefined}
+                  className="inline-flex max-w-full items-center justify-center max-h-[360px] sm:max-h-[440px] lg:max-h-[520px] xl:max-h-[600px] [&>.ReactCrop__child-wrapper]:inline-block [&>.ReactCrop__child-wrapper]:w-auto [&>.ReactCrop__child-wrapper]:max-w-full"
+                  keepSelection
+                >
+                  <img
+                    ref={imageRef}
+                    src={imageUrl}
+                    alt="Crop preview"
+                    onLoad={(event) => {
+                      syncCenteredCrop(
+                        event.currentTarget,
+                        aspect || undefined,
+                      );
+                    }}
+                    className="mx-auto h-auto w-auto max-w-full object-contain"
+                  />
+                </ReactCrop>
+              </div>
+            ) : undefined
+          }
+          aside={
+            file ? (
+              <div>
+                <div className="mb-6 flex items-start gap-3">
+                  <div className="rounded-2xl bg-primary/10 p-3 text-primary">
+                    <Settings2 className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-display font-semibold text-foreground">
+                      Crop Settings
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Pick a ratio, move the crop area, then export the final
+                      frame.
+                    </p>
+                  </div>
+                </div>
+
+                {dimensions ? (
+                  <div className="mb-6 rounded-2xl border border-border/70 bg-secondary/40 px-4 py-3">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                      Original size
+                    </p>
+                    <p className="mt-2 text-lg font-semibold text-foreground">
+                      {dimensions.width} × {dimensions.height}px
+                    </p>
+                  </div>
+                ) : null}
+
+                <div className="mb-6">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                    Aspect Ratio
+                  </p>
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    {aspectOptions.map((option) => {
+                      const isActive = aspect === option.value;
+
+                      return (
+                        <button
+                          key={option.label}
+                          type="button"
+                          onClick={() => setAspect(option.value)}
+                          className={`rounded-2xl border px-4 py-3 text-sm font-semibold transition-all ${
+                            isActive
+                              ? "border-primary bg-primary/10 text-primary"
+                              : "border-border bg-white text-foreground hover:border-primary/30 hover:bg-primary/5"
+                          }`}
+                        >
+                          {option.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="space-y-3 rounded-2xl border border-border/70 bg-white px-4 py-4 shadow-sm">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 text-primary" />
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">
+                        Crop area
+                      </p>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        {cropDetails
+                          ? `${cropDetails} selected`
+                          : "Drag the crop box to choose the exact framing."}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 space-y-3">
+                  <button
+                    onClick={handleProcess}
+                    disabled={isProcessing || !completedCrop}
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary px-5 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-50 disabled:transform-none"
+                  >
+                    {isProcessing ? (
+                      <>
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                        Cropping in background...
+                      </>
+                    ) : (
+                      "Crop Image"
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={resetCrop}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-border bg-white px-5 py-4 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-secondary"
+                  >
+                    <RefreshCcw className="h-4 w-4" />
+                    Reset Crop
+                  </button>
+                </div>
+              </div>
+            ) : undefined
+          }
         />
       )}
 
       {error && <p className="text-sm text-red-500 text-center">{error}</p>}
-
-      {file && !resultBlob && imageUrl && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="p-6 bg-secondary/30 rounded-2xl border border-border space-y-6"
-        >
-          <div className="flex items-center gap-4">
-            <CropIcon className="w-5 h-5 text-primary" />
-            <div>
-              <h3 className="font-semibold text-lg">Drag to Crop</h3>
-              {dimensions && (
-                <p className="text-xs text-muted-foreground">
-                  Original size: {dimensions.width} × {dimensions.height}px
-                </p>
-              )}
-            </div>
-          </div>
-
-          <div className="relative w-full rounded-2xl overflow-hidden bg-black/90 border border-border p-4">
-            <ReactCrop
-              crop={crop}
-              onChange={(next) => setCrop(next)}
-              onComplete={(pixelCrop) => setCompletedCrop(pixelCrop)}
-              aspect={aspect || undefined}
-              className="max-h-[420px] w-full"
-              keepSelection
-            >
-              <img
-                ref={imageRef}
-                src={imageUrl}
-                alt="Crop preview"
-                onLoad={(event) => {
-                  const img = event.currentTarget;
-                  setCrop(buildDefaultCrop(img));
-                }}
-                className="max-h-[420px] w-full object-contain"
-              />
-            </ReactCrop>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2">
-            <label className="text-sm font-medium text-muted-foreground">
-              Aspect Ratio
-              <select
-                value={aspect}
-                onChange={(e) => setAspect(Number(e.target.value))}
-                className="mt-2 w-full p-3 rounded-xl border border-border bg-background focus:ring-2 focus:ring-primary/50 outline-none transition-all"
-              >
-                {aspectOptions.map((option) => (
-                  <option key={option.label} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <div className="text-sm text-muted-foreground flex flex-col justify-between">
-              <span>Drag the corners or edges to resize the crop box.</span>
-              <span className="text-xs">
-                Tip: Hold shift to keep the ratio when Free is selected.
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <span>
-              {cropDetails ? `Crop size: ${cropDetails}` : "Set crop area."}
-            </span>
-            <button
-              type="button"
-              onClick={resetCrop}
-              className="text-primary hover:underline"
-            >
-              Reset crop
-            </button>
-          </div>
-
-          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center">
-            <button
-              type="button"
-              onClick={openFilePicker}
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-4 py-4 text-sm font-medium text-foreground transition-colors hover:bg-secondary sm:px-5"
-            >
-              <RefreshCcw className="w-4 h-4" />
-              Select different image
-            </button>
-
-            <button
-              onClick={handleProcess}
-              disabled={isProcessing || !completedCrop}
-              className="w-full py-4 bg-primary text-primary-foreground font-bold rounded-xl shadow-lg shadow-primary/25 hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:transform-none flex justify-center items-center gap-2 sm:flex-1"
-            >
-              {isProcessing ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" /> Cropping in
-                  background...
-                </>
-              ) : (
-                "Crop Image"
-              )}
-            </button>
-          </div>
-        </motion.div>
-      )}
 
       {resultBlob && (
         <motion.div

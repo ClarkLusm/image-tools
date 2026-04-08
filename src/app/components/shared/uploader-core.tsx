@@ -263,7 +263,7 @@ export function UploaderCore({
                 {previewLabel}
               </div>
             </div>
-            <div className="flex min-h-[420px] items-center justify-center bg-gray-200 p-4">
+            <div className="flex min-h-[420px] items-center justify-center bg-gray-100 p-4">
               {previewContent ?? (
                 <img
                   src={previews[0]?.url}
