@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Download, Loader2 } from "lucide-react";
 import { Uploader } from "@/app/components/shared/uploader";
@@ -26,10 +27,14 @@ type FileJob = {
   error?: string;
 };
 
+const AGGRESSIVE_REDUCTION_RATIO = 10;
+const EXTREME_REDUCTION_RATIO = 20;
+
 export default function TargetCompressClient({
   targetSizeKB,
   targetLabel,
 }: TargetCompressClientProps) {
+  const targetSizeBytes = targetSizeKB * 1024;
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [jobs, setJobs] = useState<FileJob[]>([]);
   const [isPending, setIsPending] = useState(false);
@@ -208,8 +213,42 @@ export default function TargetCompressClient({
     () => selectedFiles.reduce((sum, file) => sum + file.size, 0),
     [selectedFiles],
   );
+  const selectionInsights = useMemo(() => {
+    const alreadyUnderTargetCount = selectedFiles.filter(
+      (file) => file.size <= targetSizeBytes,
+    ).length;
+    const aggressiveCount = selectedFiles.filter(
+      (file) => file.size / targetSizeBytes >= AGGRESSIVE_REDUCTION_RATIO,
+    ).length;
+    const extremeCount = selectedFiles.filter(
+      (file) => file.size / targetSizeBytes >= EXTREME_REDUCTION_RATIO,
+    ).length;
+
+    return {
+      alreadyUnderTargetCount,
+      aggressiveCount,
+      extremeCount,
+    };
+  }, [selectedFiles, targetSizeBytes]);
   const completedJobs = jobs.filter((job) => job.blob);
   const isBatchComplete = jobs.length > 0 && !isPending;
+  const targetResults = useMemo(() => {
+    const targetMetCount = completedJobs.filter(
+      (job) => (job.blob?.size ?? 0) <= targetSizeBytes,
+    ).length;
+    const alreadyUnderTargetCount = completedJobs.filter(
+      (job) => job.file.size <= targetSizeBytes,
+    ).length;
+    const bestEffortCount = completedJobs.filter(
+      (job) => (job.blob?.size ?? 0) > targetSizeBytes,
+    ).length;
+
+    return {
+      targetMetCount,
+      alreadyUnderTargetCount,
+      bestEffortCount,
+    };
+  }, [completedJobs, targetSizeBytes]);
 
   useEffect(() => {
     if (jobs.some((job) => job.status === "done")) {
@@ -264,6 +303,29 @@ export default function TargetCompressClient({
                 Total size: {formatBytes(totalSelectedSize)}. Start compression
                 when you want to target about {targetLabel} per file.
               </p>
+              <div className="mt-4 space-y-2 text-sm">
+                <p className="rounded-xl border border-border/60 bg-background px-4 py-3 text-muted-foreground">
+                  Target compression is best effort. Some images can reach{" "}
+                  {targetLabel}, while others may stay larger to avoid extreme
+                  quality loss.
+                </p>
+                {selectionInsights.alreadyUnderTargetCount > 0 && (
+                  <p className="rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sky-700 dark:border-sky-900/60 dark:bg-sky-950/30 dark:text-sky-300">
+                    {selectionInsights.alreadyUnderTargetCount} file
+                    {selectionInsights.alreadyUnderTargetCount > 1 ? "s are" : " is"}{" "}
+                    already at or below {targetLabel}. You may not need extra
+                    compression for those.
+                  </p>
+                )}
+                {selectionInsights.aggressiveCount > 0 && (
+                  <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-300">
+                    {selectionInsights.extremeCount > 0
+                      ? `${selectionInsights.extremeCount} file${selectionInsights.extremeCount > 1 ? "s need" : " needs"} extremely aggressive reduction to approach ${targetLabel}.`
+                      : `${selectionInsights.aggressiveCount} file${selectionInsights.aggressiveCount > 1 ? "s need" : " needs"} aggressive compression to approach ${targetLabel}.`}{" "}
+                    Quality may drop noticeably.
+                  </p>
+                )}
+              </div>
             </div>
 
             <div className="space-y-3">
@@ -323,6 +385,63 @@ export default function TargetCompressClient({
           <p className="text-muted-foreground mb-6">
             Target size: {targetLabel}
           </p>
+          {isBatchComplete && (
+            <div className="mb-6 space-y-3 text-sm">
+              <p className="rounded-xl border border-border/60 bg-background px-4 py-3 text-muted-foreground">
+                This tool aims for {targetLabel} per file, but results depend on
+                image detail, format, and how aggressively the file can be
+                reduced without collapsing quality.
+              </p>
+              {completedJobs.length > 0 && (
+                <p className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-green-700 dark:border-green-900/60 dark:bg-green-950/30 dark:text-green-300">
+                  {targetResults.targetMetCount} of {completedJobs.length} file
+                  {completedJobs.length > 1 ? "s" : ""} reached {targetLabel}
+                  {targetResults.alreadyUnderTargetCount > 0
+                    ? `, including ${targetResults.alreadyUnderTargetCount} that were already below target.`
+                    : "."}
+                </p>
+              )}
+              {targetResults.bestEffortCount > 0 && (
+                <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-4 text-left text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
+                  <p className="font-semibold">
+                    {targetResults.bestEffortCount} file
+                    {targetResults.bestEffortCount > 1 ? "s could" : " could"} not
+                    reach {targetLabel} exactly.
+                  </p>
+                  <p className="mt-1 text-sm">
+                    Try resizing dimensions, cropping unused areas, or switching
+                    to a more compression-friendly format first.
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <Link
+                      href="/resize-image"
+                      className="rounded-full border border-amber-300/70 bg-white px-3 py-1.5 text-xs font-medium text-amber-800 transition-colors hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100 dark:hover:bg-amber-900/40"
+                    >
+                      Resize Image
+                    </Link>
+                    <Link
+                      href="/crop-image"
+                      className="rounded-full border border-amber-300/70 bg-white px-3 py-1.5 text-xs font-medium text-amber-800 transition-colors hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100 dark:hover:bg-amber-900/40"
+                    >
+                      Crop Image
+                    </Link>
+                    <Link
+                      href="/convert-to-jpg"
+                      className="rounded-full border border-amber-300/70 bg-white px-3 py-1.5 text-xs font-medium text-amber-800 transition-colors hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100 dark:hover:bg-amber-900/40"
+                    >
+                      Convert to JPG
+                    </Link>
+                    <Link
+                      href="/convert-to-webp"
+                      className="rounded-full border border-amber-300/70 bg-white px-3 py-1.5 text-xs font-medium text-amber-800 transition-colors hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100 dark:hover:bg-amber-900/40"
+                    >
+                      Convert to WebP
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="space-y-3 mb-6">
             {jobs.map((job) => (
@@ -333,12 +452,29 @@ export default function TargetCompressClient({
                 <div className="min-w-0">
                   <p className="text-sm font-medium truncate">{job.file.name}</p>
                   {job.blob ? (
-                    <p className="text-xs text-muted-foreground">
-                      {formatBytes(job.file.size)} →{" "}
-                      <span className="text-green-600 dark:text-green-400 font-semibold">
-                        {formatBytes(job.blob.size)}
-                      </span>
-                    </p>
+                    <div className="space-y-1">
+                      <p className="text-xs text-muted-foreground">
+                        {formatBytes(job.file.size)} →{" "}
+                        <span className="text-green-600 dark:text-green-400 font-semibold">
+                          {formatBytes(job.blob.size)}
+                        </span>
+                      </p>
+                      <p className="text-xs">
+                        {job.file.size <= targetSizeBytes ? (
+                          <span className="font-medium text-sky-600 dark:text-sky-400">
+                            Already under {targetLabel} before compression.
+                          </span>
+                        ) : job.blob.size <= targetSizeBytes ? (
+                          <span className="font-medium text-green-600 dark:text-green-400">
+                            Target reached.
+                          </span>
+                        ) : (
+                          <span className="font-medium text-amber-600 dark:text-amber-400">
+                            Best effort result. This file stayed above {targetLabel}.
+                          </span>
+                        )}
+                      </p>
+                    </div>
                   ) : (
                     <p className="text-xs text-muted-foreground">
                       {job.status === "failed"
