@@ -320,7 +320,7 @@ export function resolveDeepCompressionResults(
   job: ImageToolsJob,
 ): ResolvedDeepCompressionItem[] {
   const items = (job.output?.items ?? [])
-    .map((item, index) => ({
+    .map<ResolvedDeepCompressionItem>((item, index) => ({
       index: typeof item.index === "number" ? item.index : index,
       originalName: item.originalName,
       status: item.status === "failed" ? "failed" : "completed",
