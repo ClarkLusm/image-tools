@@ -134,7 +134,7 @@ export function UploaderCore({
     });
 
   const baseDropzoneClassName = cn(
-    "relative overflow-hidden rounded-2xl border-2 border-dashed transition-all duration-300 ease-out cursor-pointer",
+    "relative overflow-hidden rounded-xl border-2 border-dashed transition-all duration-300 ease-out cursor-pointer",
     isDragActive
       ? "border-primary bg-primary/5 scale-[1.01]"
       : "border-border bg-card hover:bg-secondary/50",
@@ -294,7 +294,7 @@ export function UploaderCore({
   ) => (
     <div
       className={cn(
-        "relative overflow-hidden rounded-2xl border-2 border-dashed border-border bg-card transition-all duration-300 ease-out",
+        "relative overflow-hidden rounded-xl border-2 border-dashed border-border bg-card transition-all duration-300 ease-out",
         paddingClassName,
       )}
     >
@@ -314,7 +314,7 @@ export function UploaderCore({
           <div className="xl:col-span-4">
             <div
               className={cn(
-                "rounded-2xl border border-border bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)]",
+                "rounded-xl border border-border bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)]",
                 asideClassName,
               )}
             >

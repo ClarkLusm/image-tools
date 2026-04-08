@@ -156,7 +156,7 @@ export default function UpscaleImageClient() {
           animate={{ opacity: 1, y: 0 }}
           className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start"
         >
-          <div className="rounded-[2rem] border-2 border-dashed border-border bg-card/80 p-4 md:p-6">
+          <div className="rounded-xl border-2 border-dashed border-border bg-card/80 p-4 md:p-6">
             {file ? (
               <div className="flex h-full flex-col gap-4">
                 <div className="flex items-center justify-between gap-3">
@@ -209,7 +209,7 @@ export default function UpscaleImageClient() {
             )}
           </div>
 
-          <div className="rounded-[2rem] border border-border bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+          <div className="rounded-xl border border-border bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <Sparkles className="h-4.5 w-4.5" />

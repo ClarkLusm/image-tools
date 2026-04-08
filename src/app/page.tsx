@@ -10,7 +10,6 @@ import {
   Gauge,
   Repeat,
   CheckCircle2,
-  ChevronDown,
   Crop,
   FileImage,
   Scissors,
@@ -21,6 +20,7 @@ import {
 import Hero from "./components/home/hero";
 import BeforeAfterSlider from "./components/home/before-after-slider";
 import BreadcrumbsJsonLd from "./components/seo/breadcrumbs-jsonld";
+import { FAQAccordion } from "./components/shared/faq-accordion";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { tools } from "./components/home/_tools";
 import { COMPRESS_SIZE_ENTRIES, type CompressSizeEntry } from "@/lib/seo";
@@ -146,7 +146,7 @@ const seoSections = [
 function SeoVisual({ visual }: { visual: (typeof seoSections)[number]["visual"] }) {
   if (visual === "compress") {
     return (
-      <div className="relative aspect-[4/3] overflow-hidden rounded-[28px] bg-[linear-gradient(135deg,#eff6ff_0%,#ffffff_55%,#e0f2fe_100%)] p-6">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-[linear-gradient(135deg,#eff6ff_0%,#ffffff_55%,#e0f2fe_100%)] p-6">
         <div className="grid h-full gap-4 md:grid-cols-[1.15fr_0.85fr]">
           <div className="rounded-3xl border border-slate-200/80 bg-white/90 p-5 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
             <div className="flex items-center justify-between">
@@ -749,25 +749,7 @@ export default function Home() {
           <h2 className="text-2xl md:text-3xl font-display font-bold text-center mb-10">
             Frequently Asked Questions
           </h2>
-          <div className="space-y-5">
-            {faqItems.map((item, index) => (
-              <details
-                key={item.q}
-                open={index === 0}
-                className="group overflow-hidden rounded-2xl border border-border bg-white shadow-[0_16px_40px_rgba(15,23,42,0.05)]"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-7 py-6 text-left marker:content-none">
-                  <h3 className="text-lg font-semibold text-foreground">
-                    {item.q}
-                  </h3>
-                  <ChevronDown className="h-5 w-5 flex-shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180" />
-                </summary>
-                <div className="border-t border-border/70 px-7 py-6">
-                  <p className="leading-8 text-muted-foreground">{item.a}</p>
-                </div>
-              </details>
-            ))}
-          </div>
+          <FAQAccordion items={faqItems} />
         </div>
       </section>
     </div>

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import { ChevronDown } from "lucide-react";
 import Script from "next/script";
 import { ToolSidebar } from "./tool-sidebar";
+import { FAQAccordion } from "@/app/components/shared/faq-accordion";
 
 interface Step {
   title: string;
@@ -114,27 +114,7 @@ export function ToolLayout({
                     <h2 className="mb-8 text-center text-2xl font-display font-bold text-foreground">
                       Frequently Asked Questions
                     </h2>
-                    <div className="space-y-5">
-                      {faqs.map((faq, index) => (
-                        <details
-                          key={index}
-                          open={index === 0}
-                          className="group overflow-hidden rounded-2xl border border-border bg-white shadow-[0_16px_40px_rgba(15,23,42,0.05)]"
-                        >
-                          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-7 py-6 text-left marker:content-none">
-                            <h3 className="text-lg font-semibold text-foreground">
-                              {faq.q}
-                            </h3>
-                            <ChevronDown className="h-5 w-5 flex-shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180" />
-                          </summary>
-                          <div className="border-t border-border/70 px-7 py-6">
-                            <p className="leading-8 text-muted-foreground">
-                              {faq.a}
-                            </p>
-                          </div>
-                        </details>
-                      ))}
-                    </div>
+                    <FAQAccordion items={faqs} />
                   </section>
                 </div>
               </div>
