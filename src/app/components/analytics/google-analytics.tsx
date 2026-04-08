@@ -18,9 +18,17 @@ type GoogleAnalyticsProps = {
 export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const hostname =
+    typeof window !== "undefined" ? window.location.hostname : "";
+  const isLocalhost =
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname === "::1" ||
+    hostname.endsWith(".local");
+  const shouldTrack = Boolean(measurementId) && !isLocalhost;
 
   useEffect(() => {
-    if (!measurementId || !window.gtag) return;
+    if (!measurementId || !shouldTrack || !window.gtag) return;
 
     const query = searchParams.toString();
     const pagePath = query ? `${pathname}?${query}` : pathname;
@@ -31,9 +39,9 @@ export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
       page_location: window.location.href,
       send_to: measurementId,
     });
-  }, [measurementId, pathname, searchParams]);
+  }, [measurementId, pathname, searchParams, shouldTrack]);
 
-  if (!measurementId) {
+  if (!measurementId || !shouldTrack) {
     return null;
   }
 
