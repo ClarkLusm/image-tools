@@ -74,7 +74,7 @@ export function ToolLayout({
                 <h1 className="page-title-gradient mb-3 text-3xl font-display font-extrabold tracking-tight md:text-4xl">
                   {title}
                 </h1>
-                <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">
+                <p className="mx-auto max-w-2xl text-base text-muted-foreground">
                   {description}
                 </p>
               </div>

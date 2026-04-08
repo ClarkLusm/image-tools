@@ -82,92 +82,51 @@ export default function Page() {
       />
       <SocialResizeClient presets={presets} defaultPresetIndex={0} />
 
-      <section className="mt-10 space-y-12 bg-card">
-        <section className="rounded-2xl border border-border bg-background p-6 md:p-7">
-          <div className="max-w-3xl">
-            <h2 className="text-2xl font-display font-bold text-foreground">
-              Quick TikTok Size Guide
-            </h2>
-            <p className="mt-2 leading-7 text-muted-foreground">
-              If you only need the essentials, start here. Vertical 9:16 is the
-              safest default for TikTok-facing creative, while square artwork is
-              the easiest format for profile images and branding assets.
-            </p>
-          </div>
+      <section className="mt-24 space-y-12 bg-card">
+        <div className="max-w-3xl">
+          <h2 className="text-2xl font-display font-bold text-foreground">
+            Quick TikTok Size Guide
+          </h2>
+          <p className="mt-2 leading-7 text-muted-foreground">
+            If you only need the essentials, start here. Vertical 9:16 is the
+            safest default for TikTok-facing creative, while square artwork is
+            the easiest format for profile images and branding assets.
+          </p>
+        </div>
 
-          <div className="mt-6 grid gap-5 md:grid-cols-3">
-            <article className="rounded-2xl border border-border/80 bg-card p-5">
-              <h3 className="text-lg font-semibold text-foreground">
-                TikTok Profile Size
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                TikTok says profile photos must be at least 20 x 20 pixels, but
-                a larger square image gives cleaner results for avatars and
-                brand marks.
-              </p>
-            </article>
-
-            <article className="rounded-2xl border border-border/80 bg-card p-5">
-              <h3 className="text-lg font-semibold text-foreground">
-                TikTok Video Ratio
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                1080 x 1920 remains the most practical TikTok dimension for
-                vertical content because it matches the app&apos;s 9:16 viewing
-                experience.
-              </p>
-            </article>
-
-            <article className="rounded-2xl border border-border/80 bg-card p-5">
-              <h3 className="text-lg font-semibold text-foreground">
-                TikTok Thumbnail
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                Start with a clean vertical source if you want more freedom when
-                framing a thumbnail or cover-style image later.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section className="grid gap-8 lg:grid-cols-2">
-          <article className="rounded-2xl border border-border bg-background p-6">
-            <h2 className="text-2xl font-display font-bold text-foreground">
-              TikTok Image Size (2026 Updated)
-            </h2>
-            <p className="mt-3 leading-7 text-muted-foreground">
-              For most creators, the strongest working format is still a 1080 x
-              1920 vertical canvas. That gives you a reliable TikTok image size
-              for post visuals, cover art, and thumbnail-style assets without
-              guessing dimensions.
+        <div className="mt-6 grid gap-5 md:grid-cols-3">
+          <article className="rounded-2xl border border-border/80 bg-card p-5">
+            <h3 className="text-lg font-semibold text-foreground">
+              TikTok Profile Size
+            </h3>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              TikTok says profile photos must be at least 20 x 20 pixels, but a
+              larger square image gives cleaner results for avatars and brand
+              marks.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-border bg-background p-6">
-            <h2 className="text-2xl font-display font-bold text-foreground">
-              Best Aspect Ratio for TikTok
-            </h2>
-            <p className="mt-3 leading-7 text-muted-foreground">
-              9:16 is the most native fit for TikTok. Use square only for
-              profile imagery or simple brand assets. If you also publish on
-              other channels, compare results with{" "}
-              <Link
-                href="/resize-instagram"
-                className="font-medium text-primary hover:underline"
-              >
-                Resize Instagram
-              </Link>{" "}
-              and{" "}
-              <Link
-                href="/resize-youtube"
-                className="font-medium text-primary hover:underline"
-              >
-                Resize YouTube
-              </Link>
-              .
+          <article className="rounded-2xl border border-border/80 bg-card p-5">
+            <h3 className="text-lg font-semibold text-foreground">
+              TikTok Video Ratio
+            </h3>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              1080 x 1920 remains the most practical TikTok dimension for
+              vertical content because it matches the app&apos;s 9:16 viewing
+              experience.
             </p>
           </article>
-        </section>
+
+          <article className="rounded-2xl border border-border/80 bg-card p-5">
+            <h3 className="text-lg font-semibold text-foreground">
+              TikTok Thumbnail
+            </h3>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              Start with a clean vertical source if you want more freedom when
+              framing a thumbnail or cover-style image later.
+            </p>
+          </article>
+        </div>
 
         <section className="rounded-2xl border border-border bg-background p-6">
           <h2 className="text-2xl font-display font-bold text-foreground">

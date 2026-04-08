@@ -28,7 +28,7 @@ const presets = [
 ];
 
 export const metadata = {
-  title: "Instagram Image Optimizer (Resize + Auto Optimize)",
+  title: "Resize Instagram Images Online Free – Instagram Size Tool 2026",
   description:
     "Resize and auto-optimize images for Instagram posts, stories, and reels to reduce blur after upload. Fast, no login, and browser-based.",
   alternates: {
@@ -40,7 +40,7 @@ export default function Page() {
   const siteUrl = SITE_URL;
   return (
     <ToolLayout
-      title="Instagram Optimization Engine"
+      title="Resize Instagram Images Online"
       description="Upload once, pick a format, and export IG-ready images with optional auto-optimization to reduce blur after Instagram compression."
       steps={[
         { title: "Upload Image", description: "Drop your source image and keep everything browser-side." },
@@ -86,7 +86,7 @@ export default function Page() {
         instagramOptimization
       />
 
-      <section className="mt-10 space-y-8 bg-card">
+      <section className="mt-24 space-y-8 bg-card">
         <div>
           <h2 className="text-2xl font-display font-bold text-foreground">
             Why Instagram quality drops after upload

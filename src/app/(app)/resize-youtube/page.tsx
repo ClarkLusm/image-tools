@@ -23,7 +23,8 @@ const presets = [
 ];
 
 export const metadata = {
-  title: "Resize YouTube Thumbnail Online (Free) - YouTube Image Size Tool 2026",
+  title:
+    "Resize YouTube Thumbnail Online (Free) - YouTube Image Size Tool 2026",
   description:
     "Resize YouTube thumbnail online free with the right YouTube image size, YouTube thumbnail size, YouTube dimensions, banner size, and Shorts image presets.",
   alternates: {
@@ -91,98 +92,61 @@ export default function Page() {
       />
       <SocialResizeClient presets={presets} defaultPresetIndex={0} />
 
-      <section className="mt-10 space-y-12 bg-card">
-        <section className="rounded-2xl border border-border bg-background p-6 md:p-7">
-          <div className="max-w-3xl">
-            <h2 className="text-2xl font-display font-bold text-foreground">
-              Quick YouTube Size Guide
-            </h2>
-            <p className="mt-2 leading-7 text-muted-foreground">
-              If you need the key numbers fast, start here. YouTube thumbnail
-              size is still 1280 x 720, Shorts work best in 1080 x 1920, and
-              channel banner design should be planned around a 2560 x 1440
-              canvas with a safe center area.
-            </p>
-          </div>
+      <section className="mt-24 space-y-12 bg-card">
+        <div className="max-w-3xl">
+          <h2 className="text-2xl font-display font-bold text-foreground">
+            Quick YouTube Size Guide
+          </h2>
+          <p className="mt-2 leading-7 text-muted-foreground">
+            If you need the key numbers fast, start here. YouTube thumbnail size
+            is still 1280 x 720, Shorts work best in 1080 x 1920, and channel
+            banner design should be planned around a 2560 x 1440 canvas with a
+            safe center area.
+          </p>
+        </div>
 
-          <div className="mt-6 grid gap-5 md:grid-cols-3">
-            <article className="rounded-2xl border border-border/80 bg-card p-5">
-              <h3 className="text-lg font-semibold text-foreground">
-                Thumbnail Size
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                YouTube recommends 1280 x 720 with a 16:9 ratio and a minimum
-                width of 640 pixels for custom thumbnails.
-              </p>
-            </article>
-
-            <article className="rounded-2xl border border-border/80 bg-card p-5">
-              <h3 className="text-lg font-semibold text-foreground">
-                Banner Size
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                Recommended banner size is 2560 x 1440. Keep important text and
-                logos inside the safe center area because YouTube crops banners
-                differently across devices.
-              </p>
-            </article>
-
-            <article className="rounded-2xl border border-border/80 bg-card p-5">
-              <h3 className="text-lg font-semibold text-foreground">
-                Shorts Ratio
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                1080 x 1920 is the simplest vertical size for Shorts-related
-                artwork and mobile-first YouTube assets.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section className="grid gap-8 lg:grid-cols-2">
-          <article className="rounded-2xl border border-border bg-background p-6">
-            <h2 className="text-2xl font-display font-bold text-foreground">
-              YouTube Thumbnail Size (Updated 2026)
-            </h2>
-            <p className="mt-3 leading-7 text-muted-foreground">
-              If your main goal is to resize a YouTube thumbnail, the safest
-              working format is still 1280 x 720 in a 16:9 layout. That matches
-              YouTube&apos;s own thumbnail guidance and covers the most common
-              YouTube image size intent behind searches like{" "}
-              <span className="font-medium text-foreground">
-                youtube thumbnail size
-              </span>{" "}
-              and{" "}
-              <span className="font-medium text-foreground">
-                resize youtube thumbnail
-              </span>
-              .
+        <div className="mt-6 grid gap-5 md:grid-cols-3">
+          <article className="rounded-2xl border border-border/80 bg-card p-5">
+            <h3 className="text-lg font-semibold text-foreground">
+              Thumbnail Size
+            </h3>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              YouTube recommends 1280 x 720 with a 16:9 ratio and a minimum
+              width of 640 pixels for custom thumbnails.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-border bg-background p-6">
-            <h2 className="text-2xl font-display font-bold text-foreground">
-              YouTube Banner Size Guide
-            </h2>
-            <p className="mt-3 leading-7 text-muted-foreground">
-              Channel banner art is wider and more complex than a thumbnail. The
-              recommended design canvas is 2560 x 1440, but what viewers see
-              depends on device cropping. That means the center safe area matters
-              more than the outer edges when you place text, logos, and branding.
+          <article className="rounded-2xl border border-border/80 bg-card p-5">
+            <h3 className="text-lg font-semibold text-foreground">
+              Banner Size
+            </h3>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              Recommended banner size is 2560 x 1440. Keep important text and
+              logos inside the safe center area because YouTube crops banners
+              differently across devices.
             </p>
           </article>
-        </section>
+
+          <article className="rounded-2xl border border-border/80 bg-card p-5">
+            <h3 className="text-lg font-semibold text-foreground">
+              Shorts Ratio
+            </h3>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              1080 x 1920 is the simplest vertical size for Shorts-related
+              artwork and mobile-first YouTube assets.
+            </p>
+          </article>
+        </div>
 
         <section className="rounded-2xl border border-border bg-background p-6">
           <h2 className="text-2xl font-display font-bold text-foreground">
             How to Resize Image for YouTube
           </h2>
           <p className="mt-3 max-w-4xl leading-7 text-muted-foreground">
-            Upload the source image, choose the right YouTube preset, and
-            export the final file. Use the thumbnail preset for standard video
-            artwork, the Shorts preset for vertical assets, and the banner
-            preset when you are preparing channel branding. If framing needs to
-            change, open{" "}
+            Upload the source image, choose the right YouTube preset, and export
+            the final file. Use the thumbnail preset for standard video artwork,
+            the Shorts preset for vertical assets, and the banner preset when
+            you are preparing channel branding. If framing needs to change, open{" "}
             <Link
               href="/crop-image"
               className="font-medium text-primary hover:underline"

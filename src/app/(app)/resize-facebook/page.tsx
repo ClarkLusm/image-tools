@@ -28,7 +28,8 @@ const presets = [
 ];
 
 export const metadata = {
-  title: "Resize Facebook Images Online (Free) - Facebook Cover & Post Size Tool",
+  title:
+    "Resize Facebook Images Online (Free) - Facebook Cover & Post Size Tool",
   description:
     "Resize Facebook images online free with the right Facebook cover size, Facebook post size, Facebook image dimensions, Facebook event cover guidance, and profile image presets.",
   alternates: {
@@ -101,93 +102,64 @@ export default function Page() {
       />
       <SocialResizeClient presets={presets} defaultPresetIndex={0} />
 
-      <section className="mt-10 space-y-12 bg-card">
-        <section className="rounded-2xl border border-border bg-background p-6 md:p-7">
-          <div className="max-w-3xl">
-            <h2 className="text-2xl font-display font-bold text-foreground">
-              Quick Facebook Size Guide
-            </h2>
-            <p className="mt-2 leading-7 text-muted-foreground">
-              If you want the essentials first, start here. Facebook post,
-              cover, and profile placements each have different needs, so using
-              a dedicated preset is the fastest way to avoid awkward crops and
-              blurry uploads.
-            </p>
-          </div>
+      <section className="mt-24 space-y-12 bg-card">
+        <div className="max-w-3xl">
+          <h2 className="text-2xl font-display font-bold text-foreground">
+            Quick Facebook Size Guide
+          </h2>
+          <p className="mt-2 leading-7 text-muted-foreground">
+            If you want the essentials first, start here. Facebook post, cover,
+            and profile placements each have different needs, so using a
+            dedicated preset is the fastest way to avoid awkward crops and
+            blurry uploads.
+          </p>
+        </div>
 
-          <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            <article className="rounded-2xl border border-border/80 bg-card p-5">
-              <h3 className="text-lg font-semibold text-foreground">
-                Facebook Cover Size
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                Facebook Help says Page cover images load fastest at 851 x 315.
-                Keep important text away from the far edges because cover art is
-                cropped differently across devices.
-              </p>
-            </article>
-
-            <article className="rounded-2xl border border-border/80 bg-card p-5">
-              <h3 className="text-lg font-semibold text-foreground">
-                Facebook Post Size
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                1200 x 630 is a practical default for shared posts, previews,
-                and social graphics. It is one of the most useful long-tail
-                Facebook image dimensions to target.
-              </p>
-            </article>
-
-            <article className="rounded-2xl border border-border/80 bg-card p-5">
-              <h3 className="text-lg font-semibold text-foreground">
-                Profile Image
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                Profile images are displayed as circles, so a clean 320 x 320
-                square source gives you better control over logos, faces, and
-                centered branding.
-              </p>
-            </article>
-
-            <article className="rounded-2xl border border-border/80 bg-card p-5">
-              <h3 className="text-lg font-semibold text-foreground">
-                Event Cover Workflow
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                Event graphics should be treated as a separate wide asset. If
-                you are targeting Facebook event cover size searches, avoid
-                reusing your Page cover art and prepare a dedicated image
-                instead.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section className="grid gap-8 lg:grid-cols-2">
-          <article className="rounded-2xl border border-border bg-background p-6">
-            <h2 className="text-2xl font-display font-bold text-foreground">
-              Facebook Image Sizes (2026 Updated)
-            </h2>
-            <p className="mt-3 leading-7 text-muted-foreground">
-              Facebook image size is not one fixed number. Posts, covers,
-              stories, and profile images all behave differently, so the best
-              workflow is to resize for the exact placement you care about
-              instead of uploading one generic image everywhere.
-            </p>
-          </article>
-
-          <article className="rounded-2xl border border-border bg-background p-6">
-            <h2 className="text-2xl font-display font-bold text-foreground">
+        <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          <article className="rounded-2xl border border-border/80 bg-card p-5">
+            <h3 className="text-lg font-semibold text-foreground">
               Facebook Cover Size
-            </h2>
-            <p className="mt-3 leading-7 text-muted-foreground">
-              For Pages, Facebook Help recommends 851 x 315 as the fastest
-              loading cover size, with a minimum of 400 x 150. If your design
-              includes text or a logo, keep the key message closer to center so
-              it survives cropping on different devices.
+            </h3>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              Facebook Help says Page cover images load fastest at 851 x 315.
+              Keep important text away from the far edges because cover art is
+              cropped differently across devices.
             </p>
           </article>
-        </section>
+
+          <article className="rounded-2xl border border-border/80 bg-card p-5">
+            <h3 className="text-lg font-semibold text-foreground">
+              Facebook Post Size
+            </h3>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              1200 x 630 is a practical default for shared posts, previews, and
+              social graphics. It is one of the most useful long-tail Facebook
+              image dimensions to target.
+            </p>
+          </article>
+
+          <article className="rounded-2xl border border-border/80 bg-card p-5">
+            <h3 className="text-lg font-semibold text-foreground">
+              Profile Image
+            </h3>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              Profile images are displayed as circles, so a clean 320 x 320
+              square source gives you better control over logos, faces, and
+              centered branding.
+            </p>
+          </article>
+
+          <article className="rounded-2xl border border-border/80 bg-card p-5">
+            <h3 className="text-lg font-semibold text-foreground">
+              Event Cover Workflow
+            </h3>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              Event graphics should be treated as a separate wide asset. If you
+              are targeting Facebook event cover size searches, avoid reusing
+              your Page cover art and prepare a dedicated image instead.
+            </p>
+          </article>
+        </div>
 
         <section className="grid gap-8 lg:grid-cols-2">
           <article className="rounded-2xl border border-border bg-background p-6">
