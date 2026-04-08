@@ -12,7 +12,17 @@ import {
 } from "@/lib/image-tools-api";
 import { downloadZip } from "@/lib/zip-utils";
 import { motion } from "framer-motion";
-import { Download, X } from "lucide-react";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Clock3,
+  Download,
+  ImagePlus,
+  Loader2,
+  Settings,
+  Sparkles,
+  X,
+} from "lucide-react";
 
 const COMPRESS_ACCEPT: Record<string, string[]> = {
   "image/jpeg": [".jpg", ".jpeg"],
@@ -47,11 +57,31 @@ type FileJob = {
   previewSource: PreviewSource;
 };
 
+const COMPRESSION_PROFILES = [
+  {
+    id: "balanced",
+    label: "Balanced",
+    description: "Better quality for most uploads",
+    quality: 82,
+  },
+  {
+    id: "smaller",
+    label: "Smaller File",
+    description: "More aggressive size reduction",
+    quality: 68,
+  },
+] as const;
+
+type CompressionProfile = (typeof COMPRESSION_PROFILES)[number]["id"];
+
 export default function CompressImageClient() {
   const [jobs, setJobs] = useState<FileJob[]>([]);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [uploaderKey, setUploaderKey] = useState(0);
+  const [compressionProfile, setCompressionProfile] =
+    useState<CompressionProfile>("balanced");
+  const [quality, setQuality] = useState(82);
   const activeRequestRef = useRef<AbortController | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const jobsRef = useRef<FileJob[]>([]);
@@ -159,8 +189,7 @@ export default function CompressImageClient() {
 
     return {
       isValid: false,
-      error:
-        "The file is corrupted or unreadable",
+      error: "The file is corrupted or unreadable",
       previewUrl: NO_IMAGE_PREVIEW_URL,
       previewSource: "fallback" as const,
     };
@@ -229,14 +258,12 @@ export default function CompressImageClient() {
 
         setJobs((prev) =>
           prev.map((job) =>
-            chunkJobIdSet.has(job.id)
-              ? { ...job, status: "processing" }
-              : job,
+            chunkJobIdSet.has(job.id) ? { ...job, status: "processing" } : job,
           ),
         );
 
         const remoteJobId = await createDeepCompressionJob(chunkFiles, {
-          quality: 80,
+          quality,
         });
         const completedJob = await waitForImageToolsJobCompletion(remoteJobId, {
           signal: abortController.signal,
@@ -257,7 +284,9 @@ export default function CompressImageClient() {
         const compressionResults = resolveDeepCompressionResults(completedJob);
 
         if (compressionResults.length === 0) {
-          throw new Error("Compression job completed without per-file results.");
+          throw new Error(
+            "Compression job completed without per-file results.",
+          );
         }
 
         const resolvedResults = await Promise.all(
@@ -348,9 +377,7 @@ export default function CompressImageClient() {
       setError(err instanceof Error ? err.message : "Upload failed.");
       setJobs((prev) =>
         prev.map((job) =>
-          initialJobIdSet.has(job.id) &&
-          job.status !== "done" &&
-          !job.blob
+          initialJobIdSet.has(job.id) && job.status !== "done" && !job.blob
             ? { ...job, status: "failed" }
             : job,
         ),
@@ -528,15 +555,24 @@ export default function CompressImageClient() {
   const completedJobs = jobs.filter((job) => job.blob);
   const isBatchComplete = jobs.length > 0 && !isPending;
   const completedCount = completedJobs.length;
+  const overallProgress = jobs.length
+    ? Math.round(
+        jobs.reduce((sum, job) => {
+          if (job.status === "done" || job.status === "failed") {
+            return sum + 100;
+          }
+
+          if (job.status === "processing") {
+            return sum + job.progress;
+          }
+
+          return sum;
+        }, 0) / jobs.length,
+      )
+    : 0;
   const totalSavingsLabel = `${aggregateStats.savingsPercent.toFixed(
     aggregateStats.savingsPercent >= 10 ? 0 : 1,
   )}%`;
-
-  const openFilePicker = () => {
-    if (!fileInputRef.current) return;
-    fileInputRef.current.value = "";
-    fileInputRef.current.click();
-  };
 
   const handleUploaderSelection = (files: File[]) => {
     if (files.length === 0) return;
@@ -546,7 +582,7 @@ export default function CompressImageClient() {
 
   return (
     <div
-      className="space-y-8"
+      className="space-y-6"
       data-tool-active-image={jobs.length > 0 ? "true" : undefined}
     >
       <input
@@ -564,161 +600,338 @@ export default function CompressImageClient() {
         }}
       />
 
-      {(jobs.length === 0 || !isPending) && (
-        <Uploader
-          key={uploaderKey}
-          onFileSelect={(file) => {
-            handleUploaderSelection([file]);
-          }}
-          onFilesSelect={(files) => {
-            handleUploaderSelection(files);
-          }}
-          accept={COMPRESS_ACCEPT}
-          isProcessing={isPending}
-          maxFiles={0}
-          maxSizeMB={10}
-          maxTotal={50}
-        />
-      )}
+      <div className="grid gap-6 xl:grid-cols-12 xl:items-start">
+        <div className="space-y-6 xl:col-span-8">
+          <Uploader
+            key={uploaderKey}
+            onFileSelect={(file) => {
+              handleUploaderSelection([file]);
+            }}
+            onFilesSelect={(files) => {
+              handleUploaderSelection(files);
+            }}
+            accept={COMPRESS_ACCEPT}
+            isProcessing={isPending}
+            maxFiles={0}
+            maxSizeMB={10}
+            maxTotal={50}
+          />
 
-      {error && <p className="text-sm text-red-500 text-center">{error}</p>}
-
-      {jobs.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center p-8 border border-green-200 dark:border-green-900/50 rounded-2xl relative overflow-hidden"
-        >
-          {aggregateStats.savedBytes > 0 && (
-            <div className="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-4 py-1 rounded-bl-xl">
-              Saved {totalSavingsLabel}
+          {error && (
+            <div className="flex items-start gap-3 rounded-xl border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-destructive shadow-sm">
+              <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
+              <p>{error}</p>
             </div>
           )}
 
-          <h3 className="text-2xl font-bold mb-6">Compression Results</h3>
-          <p className="mb-6 text-sm text-muted-foreground">
-            Compressed{" "}
-            <span className="font-semibold text-foreground">
-              {completedCount}
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-foreground">{jobs.length}</span>{" "}
-            image{jobs.length > 1 ? "s" : ""} and saved{" "}
-            <span className="font-semibold text-green-600 dark:text-green-400">
-              {totalSavingsLabel}
-            </span>{" "}
-            overall
-            {aggregateStats.savedBytes > 0
-              ? ` (${formatBytes(aggregateStats.savedBytes)} saved).`
-              : "."}
-          </p>
-
-          <div className="space-y-3 mb-8">
-            {jobs.map((job) => (
-              <div
-                key={job.id}
-                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border/50 pb-2 text-left"
+          {jobs.length > 0 && (
+            <>
+              <motion.section
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="overflow-hidden rounded-xl border border-primary/10 bg-gradient-to-br from-white via-white to-primary/5 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)]"
               >
-                <div className="flex min-w-0 items-center gap-3">
-                  <div className="h-14 w-14 shrink-0 overflow-hidden rounded-md border border-border/60 bg-white">
-                    <img
-                      src={job.previewUrl}
-                      alt={job.file.name}
-                      onError={(event) => {
-                        event.currentTarget.src = NO_IMAGE_PREVIEW_URL;
-                      }}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium truncate">
-                      {job.file.name}
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="space-y-2 w-full lg:flex justify-between">
+                    <p className="text-sm font-semibold uppercase text-primary/70">
+                      Batch Progress
                     </p>
-                    {job.blob ? (
-                      <p className="text-xs text-muted-foreground">
-                        {formatBytes(job.file.size)} →{" "}
-                        <span className="text-green-600 dark:text-green-400 font-semibold">
-                          {formatBytes(job.blob.size)}
-                        </span>
-                      </p>
-                    ) : (
-                      <p className="text-xs text-muted-foreground">
-                        {job.status === "failed"
-                          ? (job.error ?? "Failed")
-                          : "Processing..."}
-                      </p>
-                    )}
+                    <p className="max-w-2xl text-sm text-muted-foreground">
+                      {aggregateStats.savedBytes > 0
+                        ? `Saved ${totalSavingsLabel} overall and reduced ${formatBytes(
+                            aggregateStats.savedBytes,
+                          )}`
+                        : "Upload images and compression will begin automatically with your current settings."}
+                    </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  {job.status == "processing" && (
-                    <>
-                      <div className="w-28 h-2 rounded-full bg-border/60 overflow-hidden">
-                        <div
-                          className="h-full bg-primary transition-all"
-                          style={{ width: `${job.progress}%` }}
-                        />
-                      </div>
-                      <span className="text-xs text-muted-foreground w-10 text-right">
-                        {job.progress}%
-                      </span>
-                    </>
-                  )}
-                  {job.blob && (
-                    <button
-                      type="button"
-                      onClick={() => handleDownload(job)}
-                      className="px-3 py-2 text-sm font-semibold bg-primary text-white rounded-lg shadow hover:shadow-md transition-all"
-                    >
-                      <Download />
-                    </button>
-                  )}
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveJob(job.id)}
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border/70 bg-white text-muted-foreground shadow-sm transition-colors hover:bg-secondary hover:text-foreground"
-                    aria-label={`Remove ${job.file.name}`}
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
+                <div className="mt-4 h-3 overflow-hidden rounded-full bg-primary/10">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-primary to-primary/70 transition-all duration-500"
+                    style={{ width: `${overallProgress}%` }}
+                  />
+                </div>
+              </motion.section>
+
+              <section className="space-y-4">
+                <div className="space-y-2">
+                  {jobs.map((job) => {
+                    const fileSavings =
+                      job.blob && job.file.size > 0
+                        ? Math.max(
+                            0,
+                            Math.min(
+                              99.9,
+                              ((job.file.size - job.blob.size) /
+                                job.file.size) *
+                                100,
+                            ),
+                          )
+                        : 0;
+                    const displayProgress =
+                      job.status === "done" || job.status === "failed"
+                        ? 100
+                        : job.status === "processing"
+                          ? Math.max(job.progress, 6)
+                          : 0;
+                    const statusLabel =
+                      job.status === "done"
+                        ? "Done"
+                        : job.status === "processing"
+                          ? "Compressing"
+                          : job.status === "failed"
+                            ? "Failed"
+                            : "Waiting";
+
+                    return (
+                      <motion.div
+                        key={job.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="rounded-xl border border-border/70 bg-white p-4 shadow-[0_20px_45px_rgba(15,23,42,0.05)]"
+                      >
+                        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                          <div className="flex min-w-0 items-start gap-4">
+                            <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border/70 bg-muted/40">
+                              <img
+                                src={job.previewUrl}
+                                alt={job.file.name}
+                                onError={(event) => {
+                                  event.currentTarget.src =
+                                    NO_IMAGE_PREVIEW_URL;
+                                }}
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+
+                            <div className="min-w-0">
+                              <p className="truncate text-base font-semibold text-foreground">
+                                {job.file.name}
+                              </p>
+                              <p className="mt-1 text-sm text-muted-foreground">
+                                {job.blob ? (
+                                  <>
+                                    {formatBytes(job.file.size)} to{" "}
+                                    <span className="font-semibold text-primary">
+                                      {formatBytes(job.blob.size)}
+                                    </span>
+                                    {" • "}
+                                    {fileSavings.toFixed(
+                                      fileSavings >= 10 ? 0 : 1,
+                                    )}
+                                    % smaller
+                                  </>
+                                ) : (
+                                  <>
+                                    {formatBytes(job.file.size)}
+                                    {job.status === "failed"
+                                      ? " • Could not compress this file"
+                                      : job.status === "pending"
+                                        ? " • Queued for processing"
+                                        : " • Processing now"}
+                                  </>
+                                )}
+                              </p>
+
+                              {job.status === "failed" && job.error ? (
+                                <p className="mt-3 rounded-xl bg-destructive/5 px-3 py-2 text-sm text-destructive">
+                                  {job.error}
+                                </p>
+                              ) : null}
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-3 lg:justify-end">
+                            <div
+                              className={`inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold ${
+                                job.status === "done"
+                                  ? "bg-primary/10 text-primary"
+                                  : job.status === "processing"
+                                    ? "bg-primary/10 text-primary"
+                                    : job.status === "failed"
+                                      ? "bg-destructive/10 text-destructive"
+                                      : "bg-secondary text-muted-foreground"
+                              }`}
+                            >
+                              {job.status === "done" ? (
+                                <CheckCircle2 className="h-4 w-4" />
+                              ) : job.status === "processing" ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                              ) : job.status === "failed" ? (
+                                <AlertCircle className="h-4 w-4" />
+                              ) : (
+                                <Clock3 className="h-4 w-4" />
+                              )}
+                              {statusLabel}
+                            </div>
+
+                            {job.blob ? (
+                              <button
+                                type="button"
+                                onClick={() => handleDownload(job)}
+                                className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white shadow-[0_16px_32px_rgba(37,99,235,0.28)] transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
+                              >
+                                <Download className="h-4 w-4" />
+                              </button>
+                            ) : null}
+
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveJob(job.id)}
+                              className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border/70 bg-white text-muted-foreground shadow-sm transition-colors hover:bg-secondary hover:text-foreground"
+                              aria-label={`Remove ${job.file.name}`}
+                            >
+                              <X className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </div>
+
+                        {job.status === "processing" ? (
+                          <div className="mt-4">
+                            <div className="mb-2 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                              <span>Progress</span>
+                              <span>{displayProgress}%</span>
+                            </div>
+                            <div className="h-2 overflow-hidden rounded-full bg-primary/10">
+                              <div
+                                className="h-full rounded-full bg-gradient-to-r from-primary to-primary/70 transition-all duration-500"
+                                style={{ width: `${displayProgress}%` }}
+                              />
+                            </div>
+                          </div>
+                        ) : null}
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </section>
+            </>
+          )}
+        </div>
+
+        <div className="xl:col-span-4">
+          <div className="space-y-5 xl:sticky xl:top-24">
+            <aside className="rounded-xl border border-primary/10 bg-gradient-to-b from-white via-white to-primary/5 p-6 shadow-[0_30px_90px_rgba(15,23,42,0.1)]">
+              <div className="flex items-center gap-3">
+                <div className="rounded-xl text-primary">
+                  <Settings className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-md font-display font-semibold text-foreground">
+                    Compression Settings
+                  </h3>
                 </div>
               </div>
-            ))}
-          </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {jobs.length > 1 ? (
-              <button
-                onClick={handleDownloadAll}
-                disabled={!isBatchComplete || completedJobs.length <= 1}
-                className="px-6 py-2.5 bg-primary text-white font-bold rounded-md shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:shadow-none disabled:transform-none"
-              >
-                Download All (ZIP)
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  if (completedJobs[0]) {
-                    handleDownload(completedJobs[0]);
-                  }
-                }}
-                disabled={!isBatchComplete || completedJobs.length === 0}
-                className="px-6 py-2.5 bg-primary text-white font-bold rounded-md shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:shadow-none disabled:transform-none"
-              >
-                Download Image
-              </button>
-            )}
-            <button
-              onClick={openFilePicker}
-              disabled={isPending}
-              className="px-6 py-2.5 bg-white text-foreground border border-border font-bold rounded-md shadow-sm hover:bg-secondary transition-all disabled:opacity-50 disabled:hover:bg-white"
-            >
-              Add More Images
-            </button>
+              <div className="mt-8">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Method
+                </p>
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  {COMPRESSION_PROFILES.map((profile) => {
+                    const isActive = profile.id === compressionProfile;
+
+                    return (
+                      <button
+                        key={profile.id}
+                        type="button"
+                        onClick={() => {
+                          setCompressionProfile(profile.id);
+                          setQuality(profile.quality);
+                        }}
+                        className={`rounded-xl border px-4 py-4 text-left transition-all ${
+                          isActive
+                            ? "border-primary bg-primary/10 text-primary shadow-[0_18px_30px_rgba(37,99,235,0.12)]"
+                            : "border-border bg-white text-foreground hover:border-primary/30 hover:bg-primary/5"
+                        }`}
+                      >
+                        <div className="flex flex-col items-center gap-3">
+                          <div
+                            className={`rounded-xl p-2 ${
+                              isActive
+                                ? "bg-primary text-white"
+                                : "bg-secondary text-muted-foreground"
+                            }`}
+                          >
+                            <Sparkles className="h-4 w-4" />
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold">
+                              {profile.label}
+                            </p>
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="mt-8">
+                <div className="flex items-end justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-semibold uppercase text-muted-foreground">
+                      Quality
+                    </p>
+                  </div>
+                  <p className="text-lg font-display font-semibold text-primary">
+                    {quality}%
+                  </p>
+                </div>
+                <input
+                  type="range"
+                  min={45}
+                  max={95}
+                  step={1}
+                  value={quality}
+                  onChange={(event) => {
+                    setQuality(Number(event.target.value));
+                  }}
+                  className="mt-4 h-2 w-full cursor-pointer accent-primary"
+                  aria-label="Compression quality"
+                />
+                <div className="mt-2 flex items-center justify-between text-xs font-semibold tracking-[0.14em] text-muted-foreground">
+                  <span>Smaller size</span>
+                  <span>Best quality</span>
+                </div>
+              </div>
+
+              {completedJobs.length > 0 && (
+                <div className="mt-8 space-y-3">
+                  {jobs.length > 1 ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        void handleDownloadAll();
+                      }}
+                      disabled={!isBatchComplete || completedJobs.length <= 1}
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-4 text-base font-semibold text-white shadow-[0_18px_36px_rgba(37,99,235,0.28)] transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none"
+                    >
+                      <Download className="h-5 w-5" />
+                      Download All (ZIP)
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (completedJobs[0]) {
+                          handleDownload(completedJobs[0]);
+                        }
+                      }}
+                      disabled={!isBatchComplete || completedJobs.length === 0}
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-4 text-base font-semibold text-white shadow-[0_18px_36px_rgba(37,99,235,0.28)] transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none"
+                    >
+                      <Download className="h-5 w-5" />
+                      Download Image
+                    </button>
+                  )}
+                </div>
+              )}
+            </aside>
           </div>
-        </motion.div>
-      )}
+        </div>
+      </div>
     </div>
   );
 }
