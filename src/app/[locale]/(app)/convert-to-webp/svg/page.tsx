@@ -62,6 +62,7 @@ export default function Page() {
         showQuality
         buttonLabel="Convert SVG to WebP"
         note="SVGs are rasterized before conversion."
+        autoProcessOnSelect
       />
     </ToolLayout>
   );

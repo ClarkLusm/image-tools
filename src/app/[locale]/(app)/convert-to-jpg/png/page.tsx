@@ -59,9 +59,9 @@ export default function Page() {
         outputExt=".jpg"
         outputMime="image/jpeg"
         qualityDefault={0.92}
-        showQuality
         buttonLabel="Convert PNG to JPG"
         note="Higher quality means larger file size."
+        autoProcessOnSelect
       />
     </ToolLayout>
   );

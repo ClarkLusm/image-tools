@@ -61,6 +61,7 @@ export default function Page() {
         showQuality={false}
         buttonLabel="Convert SVG to PNG"
         note="SVGs are rasterized before conversion."
+        autoProcessOnSelect
       />
     </ToolLayout>
   );

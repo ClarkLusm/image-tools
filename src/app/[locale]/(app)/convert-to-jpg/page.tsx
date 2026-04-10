@@ -118,9 +118,9 @@ export default function Page() {
           outputExt=".jpg"
           outputMime="image/jpeg"
           qualityDefault={0.92}
-          showQuality
           buttonLabel="Convert to JPG"
           note="Transparent pixels will be filled with white."
+          autoProcessOnSelect
         />
 
         <section className="mt-24 space-y-12">

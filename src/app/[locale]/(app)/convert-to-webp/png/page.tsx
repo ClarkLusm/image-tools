@@ -62,6 +62,7 @@ export default function Page() {
         showQuality
         buttonLabel="Convert PNG to WebP"
         note="Higher quality means larger file size."
+        autoProcessOnSelect
       />
     </ToolLayout>
   );

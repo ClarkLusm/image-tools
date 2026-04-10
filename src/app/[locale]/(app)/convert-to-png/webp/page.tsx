@@ -61,6 +61,7 @@ export default function Page() {
         showQuality={false}
         buttonLabel="Convert WebP to PNG"
         note="PNG keeps full quality but may be larger."
+        autoProcessOnSelect
       />
     </ToolLayout>
   );

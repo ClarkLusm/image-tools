@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { Loader2, UploadCloud } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,9 +17,11 @@ const UploaderCore = dynamic(
 function UploaderShell({
   className,
   onPrimed,
+  topRightAction,
 }: {
   className?: string;
   onPrimed: () => void;
+  topRightAction?: ReactNode;
 }) {
   return (
     <div className={cn("w-full", className)}>
@@ -38,6 +40,15 @@ function UploaderShell({
         }}
         className="relative overflow-hidden rounded-2xl border-2 border-dashed border-border bg-card p-12 cursor-pointer hover:bg-secondary/50 transition-colors"
       >
+        {topRightAction ? (
+          <div
+            className="absolute right-4 top-4 z-10"
+            onClick={(event) => event.stopPropagation()}
+            onPointerDown={(event) => event.stopPropagation()}
+          >
+            {topRightAction}
+          </div>
+        ) : null}
         <div className="flex flex-col items-center justify-center text-center">
           <div className="w-20 h-20 rounded-full flex items-center justify-center mb-6 bg-primary/10 text-primary">
             <UploadCloud className="w-10 h-10" />
@@ -106,6 +117,7 @@ export function Uploader(props: UploaderProps) {
         <UploaderShell
           className={props.className}
           onPrimed={() => setIsPrimed(true)}
+          topRightAction={props.topRightAction}
         />
       )}
     </div>

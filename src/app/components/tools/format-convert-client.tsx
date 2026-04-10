@@ -1,12 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Download, Loader2, SlidersHorizontal } from "lucide-react";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Download,
+  Loader2,
+  Settings,
+  SlidersHorizontal,
+} from "lucide-react";
+import { motion } from "framer-motion";
 import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
 import { downloadZip } from "@/lib/zip-utils";
-import { useImageWorker } from "@/hooks/use-image-worker";
-import { motion } from "framer-motion";
+import { useImageWorker } from "@/app/hooks/use-image-worker";
 
 type ConvertTask = "convert-to-jpg" | "convert-to-webp" | "convert-to-png";
 
@@ -17,24 +24,47 @@ type FormatConvertClientProps = {
   outputMime: string;
   qualityDefault?: number;
   showQuality?: boolean;
-  buttonLabel: string;
+  buttonLabel?: string;
   note?: string;
+  autoProcessOnSelect?: boolean;
 };
 
-export default function FormatConvertClient({
+type ManualResultItem = {
+  file: File;
+  blob: Blob;
+};
+
+type AutoConversionItem = {
+  id: string;
+  file: File;
+  previewUrl: string;
+  status: "pending" | "processing" | "done" | "failed";
+  blob?: Blob;
+  error?: string;
+};
+
+export default function FormatConvertClient(props: FormatConvertClientProps) {
+  if (props.autoProcessOnSelect) {
+    return <AutoFormatConvertClient {...props} />;
+  }
+
+  return <ManualFormatConvertClient {...props} />;
+}
+
+function ManualFormatConvertClient({
   task,
   accept,
   outputExt,
   outputMime,
   qualityDefault = 0.9,
   showQuality = true,
-  buttonLabel,
+  buttonLabel = "Convert",
   note,
 }: FormatConvertClientProps) {
   const [files, setFiles] = useState<File[]>([]);
-  const [results, setResults] = useState<Blob[]>([]);
-  const [status, setStatus] = useState<("idle" | "processing" | "done")>(
-    "idle"
+  const [results, setResults] = useState<ManualResultItem[]>([]);
+  const [status, setStatus] = useState<"idle" | "processing" | "done">(
+    "idle",
   );
   const [quality, setQuality] = useState(qualityDefault);
 
@@ -46,42 +76,39 @@ export default function FormatConvertClient({
     setResults([]);
     setStatus("processing");
 
-    const nextResults: Blob[] = [];
+    const nextResults: ManualResultItem[] = [];
+
     for (const file of files) {
       const blob = await processImage(task, file, {
         quality,
         mimeType: outputMime,
         fillWhite: outputMime === "image/jpeg",
       });
-      if (blob) nextResults.push(blob);
+
+      if (blob) {
+        nextResults.push({ file, blob });
+      }
     }
 
     setResults(nextResults);
     setStatus("done");
   };
 
-  const buildFilename = (index: number) => {
-    const file = files[index];
-    if (!file) return `converted${outputExt}`;
-    return file.name.replace(/\.[^/.]+$/, "") + outputExt;
-  };
+  const buildFilename = (file: File) =>
+    file.name.replace(/\.[^/.]+$/, "") + outputExt;
 
-  const handleDownload = (index: number) => {
-    const blob = results[index];
-    const file = files[index];
-    if (!blob || !file) return;
-    const filename = buildFilename(index);
-    downloadBlob(blob, filename);
+  const handleDownload = (item: ManualResultItem) => {
+    downloadBlob(item.blob, buildFilename(item.file));
   };
 
   const handleDownloadAll = async () => {
     if (results.length <= 1) return;
     await downloadZip(
-      results.map((blob, index) => ({
-        blob,
-        filename: buildFilename(index),
+      results.map((item) => ({
+        blob: item.blob,
+        filename: buildFilename(item.file),
       })),
-      "converted-images.zip"
+      "converted-images.zip",
     );
   };
 
@@ -97,7 +124,7 @@ export default function FormatConvertClient({
     >
       {results.length === 0 && (
         <Uploader
-          onFileSelect={(f) => setFiles([f])}
+          onFileSelect={(file) => setFiles([file])}
           onFilesSelect={(selected) => setFiles(selected)}
           accept={accept}
           isProcessing={isProcessing}
@@ -125,17 +152,16 @@ export default function FormatConvertClient({
                         max="1.0"
                         step="0.01"
                         value={quality}
-                        onChange={(e) => setQuality(parseFloat(e.target.value))}
+                        onChange={(event) =>
+                          setQuality(parseFloat(event.target.value))
+                        }
                         className="w-full accent-primary"
                       />
-                      {note && (
-                        <p className="text-xs text-muted-foreground">{note}</p>
-                      )}
                     </div>
                   </>
                 )}
 
-                {!showQuality && note && (
+                {note && (
                   <p className="text-sm text-muted-foreground">{note}</p>
                 )}
 
@@ -159,40 +185,40 @@ export default function FormatConvertClient({
         />
       )}
 
-      {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+      {error && <p className="text-center text-sm text-red-500">{error}</p>}
 
       {results.length > 0 && (
         <motion.div
           ref={resultsRef}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center p-8 bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/50 rounded-2xl"
+          className="rounded-xl border border-green-200 bg-green-50/50 p-8 text-center dark:border-green-900/50 dark:bg-green-900/10"
         >
-          <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Download className="w-8 h-8" />
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-900/50 dark:text-green-400">
+            <Download className="h-8 w-8" />
           </div>
-          <h3 className="text-2xl font-bold mb-2">Conversion Complete!</h3>
-          <p className="text-muted-foreground mb-6">
+          <h3 className="mb-2 text-2xl font-bold">Conversion Complete!</h3>
+          <p className="mb-6 text-muted-foreground">
             Converted {results.length} file{results.length > 1 ? "s" : ""}.
           </p>
 
-          <div className="space-y-3 mb-6">
-            {results.map((blob, index) => (
+          <div className="mb-6 space-y-3">
+            {results.map((item) => (
               <div
-                key={`${files[index]?.name}-${index}`}
+                key={`${item.file.name}-${item.file.lastModified}`}
                 className="flex items-center justify-between gap-4 rounded-xl border border-border/50 bg-secondary/30 px-4 py-3 text-left"
               >
                 <div className="min-w-0">
-                  <p className="text-sm font-medium truncate">
-                    {files[index]?.name}
+                  <p className="truncate text-sm font-medium">
+                    {item.file.name}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {formatBytes(blob.size)}
+                    {formatBytes(item.blob.size)}
                   </p>
                 </div>
                 <button
-                  onClick={() => handleDownload(index)}
-                  className="px-3 py-2 text-sm font-semibold bg-primary text-white rounded-lg shadow hover:shadow-md transition-all"
+                  onClick={() => handleDownload(item)}
+                  className="rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-white shadow transition-all hover:shadow-md"
                 >
                   Download
                 </button>
@@ -200,18 +226,20 @@ export default function FormatConvertClient({
             ))}
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
             {results.length > 1 ? (
               <button
-                onClick={handleDownloadAll}
-                className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
+                onClick={() => {
+                  void handleDownloadAll();
+                }}
+                className="rounded-xl bg-primary px-8 py-4 font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
               >
                 Download All
               </button>
             ) : (
               <button
-                onClick={() => handleDownload(0)}
-                className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
+                onClick={() => handleDownload(results[0])}
+                className="rounded-xl bg-primary px-8 py-4 font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
               >
                 Download Image
               </button>
@@ -222,10 +250,370 @@ export default function FormatConvertClient({
                 setResults([]);
                 setStatus("idle");
               }}
-              className="px-8 py-4 bg-white text-foreground border border-border font-bold rounded-xl shadow-sm hover:bg-secondary transition-all"
+              className="rounded-xl border border-border bg-white px-8 py-4 font-bold text-foreground shadow-sm transition-all hover:bg-secondary"
             >
               Convert Another
             </button>
+          </div>
+        </motion.div>
+      )}
+    </div>
+  );
+}
+
+function AutoFormatConvertClient({
+  task,
+  accept,
+  outputExt,
+  outputMime,
+  qualityDefault = 0.9,
+  showQuality = true,
+  note,
+}: FormatConvertClientProps) {
+  const [items, setItems] = useState<AutoConversionItem[]>([]);
+  const [status, setStatus] = useState<"idle" | "processing" | "done">("idle");
+  const [quality, setQuality] = useState(qualityDefault);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  const { processImage } = useImageWorker();
+  const itemsRef = useRef<AutoConversionItem[]>([]);
+  const runIdRef = useRef(0);
+  const resultsRef = useRef<HTMLDivElement | null>(null);
+
+  const revokePreviewUrls = (entries: AutoConversionItem[]) => {
+    entries.forEach((entry) => {
+      URL.revokeObjectURL(entry.previewUrl);
+    });
+  };
+
+  const appendItems = (nextItems: AutoConversionItem[]) => {
+    setItems((prev) => {
+      const mergedItems = [...prev, ...nextItems];
+      itemsRef.current = mergedItems;
+      return mergedItems;
+    });
+  };
+
+  const createItemId = (file: File, index: number) => {
+    if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+      return crypto.randomUUID();
+    }
+
+    return `${file.name}-${file.size}-${file.lastModified}-${Date.now()}-${index}`;
+  };
+
+  const updateItem = (
+    itemId: string,
+    updater: (item: AutoConversionItem) => AutoConversionItem,
+  ) => {
+    setItems((prev) => {
+      const next = prev.map((item) =>
+        item.id === itemId ? updater(item) : item,
+      );
+      itemsRef.current = next;
+      return next;
+    });
+  };
+
+  useEffect(() => {
+    return () => {
+      runIdRef.current += 1;
+      revokePreviewUrls(itemsRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (items.length === 0) return;
+    resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [items.length]);
+
+  const buildFilename = (file: File) =>
+    file.name.replace(/\.[^/.]+$/, "") + outputExt;
+
+  const handleProcess = async (selectedFiles: File[]) => {
+    if (selectedFiles.length === 0) return;
+
+    const currentRunId = runIdRef.current;
+
+    const nextItems: AutoConversionItem[] = selectedFiles.map((file, index) => ({
+      id: createItemId(file, index),
+      file,
+      previewUrl: URL.createObjectURL(file),
+      status: "pending",
+    }));
+
+    appendItems(nextItems);
+    setStatus("processing");
+
+    for (const item of nextItems) {
+      if (runIdRef.current !== currentRunId) {
+        return;
+      }
+
+      updateItem(item.id, (currentItem) => ({
+        ...currentItem,
+        status: "processing",
+        error: undefined,
+      }));
+
+      const blob = await processImage(task, item.file, {
+        quality,
+        mimeType: outputMime,
+        fillWhite: outputMime === "image/jpeg",
+      });
+
+      if (runIdRef.current !== currentRunId) {
+        return;
+      }
+
+      if (blob) {
+        updateItem(item.id, (currentItem) => ({
+          ...currentItem,
+          status: "done",
+          blob,
+        }));
+      } else {
+        updateItem(item.id, (currentItem) => ({
+          ...currentItem,
+          status: "failed",
+          error: "Conversion failed. Please try another image.",
+        }));
+      }
+    }
+
+    if (runIdRef.current !== currentRunId) {
+      return;
+    }
+
+    setStatus("done");
+  };
+
+  const handleDownload = (item: AutoConversionItem) => {
+    if (!item.blob) return;
+    downloadBlob(item.blob, buildFilename(item.file));
+  };
+
+  const doneItems = items.filter(
+    (item): item is AutoConversionItem & { blob: Blob } =>
+      item.status === "done" && Boolean(item.blob),
+  );
+  const processingCount = items.filter(
+    (item) => item.status === "pending" || item.status === "processing",
+  ).length;
+  const failedCount = items.filter((item) => item.status === "failed").length;
+
+  const handleDownloadAll = async () => {
+    if (doneItems.length <= 1) return;
+    await downloadZip(
+      doneItems.map((item) => ({
+        blob: item.blob,
+        filename: buildFilename(item.file),
+      })),
+      "converted-images.zip",
+    );
+  };
+
+  const renderSettingsPanel = () => (
+    <div className="rounded-xl border border-border/70 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+      <div className="mb-6 flex items-center gap-3">
+        <SlidersHorizontal className="h-5 w-5 text-primary" />
+        <div>
+          <h3 className="font-semibold text-lg">Quality Settings</h3>
+          <p className="text-xs text-muted-foreground">
+            Current quality {Math.round(quality * 100)}%
+          </p>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-medium">Quality</label>
+          <span className="text-sm text-muted-foreground">
+            {Math.round(quality * 100)}%
+          </span>
+        </div>
+        <input
+          type="range"
+          min="0.1"
+          max="1.0"
+          step="0.01"
+          value={quality}
+          onChange={(event) => setQuality(parseFloat(event.target.value))}
+          className="w-full accent-primary"
+        />
+      </div>
+    </div>
+  );
+
+  const settingsTrigger = showQuality ? (
+    <button
+      type="button"
+      onClick={() => setIsSettingsOpen((value) => !value)}
+      className={`inline-flex h-11 w-11 items-center justify-center rounded-xl border shadow-sm transition-colors ${
+        isSettingsOpen
+          ? "border-primary bg-primary text-white"
+          : "border-border bg-white/95 text-foreground hover:bg-secondary"
+      }`}
+      aria-label="Toggle quality settings"
+      aria-pressed={isSettingsOpen}
+    >
+      <Settings className="h-4.5 w-4.5" />
+    </button>
+  ) : undefined;
+
+  return (
+    <div
+      className="space-y-8"
+      data-tool-active-image={items.length > 0 ? "true" : undefined}
+    >
+      {showQuality && isSettingsOpen ? (
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
+          <div className="lg:col-span-8">
+            <Uploader
+              onFileSelect={(file) => {
+                void handleProcess([file]);
+              }}
+              onFilesSelect={(selected) => {
+                void handleProcess(selected);
+              }}
+              accept={accept}
+              isProcessing={status === "processing"}
+              maxFiles={10}
+              showSelectedPreview={false}
+              topRightAction={settingsTrigger}
+            />
+          </div>
+          <div className="lg:col-span-4">{renderSettingsPanel()}</div>
+        </div>
+      ) : (
+        <Uploader
+          onFileSelect={(file) => {
+            void handleProcess([file]);
+          }}
+          onFilesSelect={(selected) => {
+            void handleProcess(selected);
+          }}
+          accept={accept}
+          isProcessing={status === "processing"}
+          maxFiles={10}
+          showSelectedPreview={false}
+          topRightAction={settingsTrigger}
+        />
+      )}
+
+      {note ? (
+        <div className="rounded-xl border border-border/70 bg-card/80 px-4 py-3 text-sm text-muted-foreground shadow-sm">
+          {note}
+        </div>
+      ) : null}
+
+      {items.length > 0 && (
+        <motion.div
+          ref={resultsRef}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="overflow-hidden rounded-xl border border-border/70 bg-white shadow-[0_28px_80px_rgba(15,23,42,0.08)]"
+        >
+          <div className="border-b border-border/60 bg-gradient-to-r from-primary/[0.08] via-white to-white px-4 py-4 sm:px-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {processingCount > 0
+                    ? `${doneItems.length} of ${items.length} files finished. The rest are still processing.`
+                    : `${doneItems.length} file${doneItems.length > 1 ? "s" : ""} converted successfully.${failedCount > 0 ? ` ${failedCount} file${failedCount > 1 ? "s" : ""} failed.` : ""}`}
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                {doneItems.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      void handleDownloadAll();
+                    }}
+                    className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-[0_16px_36px_rgba(37,99,235,0.24)] transition-transform hover:-translate-y-0.5"
+                  >
+                    <Download className="h-4 w-4" />
+                    Download All
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-3 px-4 py-4 sm:px-6 sm:py-6">
+            {items.map((item) => {
+              const sizeLabel = item.blob
+                ? `${formatBytes(item.file.size)} -> ${formatBytes(item.blob.size)}`
+                : formatBytes(item.file.size);
+
+              return (
+                <div
+                  key={item.id}
+                  className="flex flex-col gap-4 border-b border-border/70 py-2.5 sm:flex-row sm:items-center"
+                >
+                  <div className="flex min-w-0 flex-1 items-center gap-4">
+                    <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border/60 bg-muted/40">
+                      <img
+                        src={item.previewUrl}
+                        alt={item.file.name}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-foreground sm:text-base">
+                        {item.file.name}
+                      </p>
+                      <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground sm:text-sm">
+                        <span>{sizeLabel}</span>
+                        {item.status === "failed" && item.error && (
+                          <span className="font-medium text-destructive">
+                            {item.error}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-3 sm:justify-end">
+                    <div
+                      className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold ${
+                        item.status === "done"
+                          ? "bg-emerald-50 text-emerald-700"
+                          : item.status === "failed"
+                            ? "bg-destructive/10 text-destructive"
+                            : "bg-primary/10 text-primary"
+                      }`}
+                    >
+                      {item.status === "done" ? (
+                        <CheckCircle2 className="h-4 w-4" />
+                      ) : item.status === "failed" ? (
+                        <AlertCircle className="h-4 w-4" />
+                      ) : (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      )}
+                      {item.status === "done"
+                        ? "Ready"
+                        : item.status === "failed"
+                          ? "Failed"
+                          : "Converting"}
+                    </div>
+
+                    {item.blob && (
+                      <button
+                        type="button"
+                        onClick={() => handleDownload(item)}
+                        className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(37,99,235,0.2)] transition-transform hover:-translate-y-0.5"
+                      >
+                        <Download className="h-4 w-4" />
+                        Download
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </motion.div>
       )}

@@ -118,8 +118,7 @@ export default function Page() {
           outputExt=".png"
           outputMime="image/png"
           showQuality={false}
-          buttonLabel="Convert to PNG"
-          note="PNG is lossless and may be larger than JPG or WebP."
+          autoProcessOnSelect
         />
 
         <section className="mt-24 space-y-12">

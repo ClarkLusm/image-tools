@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useDropzone, FileRejection } from "react-dropzone";
 import {
   UploadCloud,
@@ -33,6 +33,8 @@ export interface UploaderProps {
   previewLabel?: string;
   interactivePreview?: boolean;
   maxTotal?: number;
+  showSelectedPreview?: boolean;
+  topRightAction?: ReactNode;
 }
 
 export function UploaderCore({
@@ -54,17 +56,33 @@ export function UploaderCore({
   previewLabel = "Upload Preview",
   interactivePreview = false,
   maxTotal = 0,
+  showSelectedPreview = true,
+  topRightAction,
 }: UploaderProps) {
   const [error, setError] = useState<string | null>(null);
   const [previews, setPreviews] = useState<
     { url: string; name: string; size: number }[]
   >([]);
   const resolvedMaxFiles = maxFiles > 0 ? maxFiles : 0;
+  const acceptedFormatLabels = Array.from(
+    new Set(
+      Object.entries(accept).flatMap(([mimeType, extensions]) => {
+        if (extensions.length > 0) {
+          return extensions
+            .map((extension) => extension.replace(/^\./, "").trim().toUpperCase())
+            .filter(Boolean);
+        }
 
-  const clearPreviews = useCallback(() => {
+        const subtype = mimeType.split("/")[1] ?? "";
+        return [subtype.replace(/\+.*/, "").trim().toUpperCase()].filter(Boolean);
+      }),
+    ),
+  );
+
+  const clearPreviews = () => {
     previews.forEach((preview) => URL.revokeObjectURL(preview.url));
     setPreviews([]);
-  }, [previews]);
+  };
 
   useEffect(() => {
     return () => {
@@ -72,56 +90,58 @@ export function UploaderCore({
     };
   }, [previews]);
 
-  const onDrop = useCallback(
-    (acceptedFiles: File[], fileRejections: FileRejection[]) => {
-      setError(null);
+  const onDrop = (acceptedFiles: File[], fileRejections: FileRejection[]) => {
+    setError(null);
 
-      if (fileRejections.length > 0) {
-        const rejection = fileRejections[0];
-        if (rejection.errors[0]?.code === "file-too-large") {
-          setError(
-            acceptedFiles.length > 0
-              ? `Some files were skipped. Max size is ${maxSizeMB}MB per file.`
-              : `File is too large. Max size is ${maxSizeMB}MB.`,
-          );
-        } else if (rejection.errors[0]?.code === "file-invalid-type") {
-          setError(
-            acceptedFiles.length > 0
-              ? "Some files were skipped because the format is not supported."
-              : "Unsupported file format. Please upload an image.",
-          );
-        } else {
-          setError(rejection.errors[0]?.message || "Failed to upload file.");
-        }
+    if (fileRejections.length > 0) {
+      const rejection = fileRejections[0];
+      if (rejection.errors[0]?.code === "file-too-large") {
+        setError(
+          acceptedFiles.length > 0
+            ? `Some files were skipped. Max size is ${maxSizeMB}MB per file.`
+            : `File is too large. Max size is ${maxSizeMB}MB.`,
+        );
+      } else if (rejection.errors[0]?.code === "file-invalid-type") {
+        setError(
+          acceptedFiles.length > 0
+            ? "Some files were skipped because the format is not supported."
+            : "Unsupported file format. Please upload an image.",
+        );
+      } else {
+        setError(rejection.errors[0]?.message || "Failed to upload file.");
       }
+    }
 
-      if (acceptedFiles.length > 0) {
+    if (acceptedFiles.length > 0) {
+      const selectedFiles =
+        resolvedMaxFiles > 0
+          ? acceptedFiles.slice(0, resolvedMaxFiles)
+          : acceptedFiles;
+
+      if (showSelectedPreview) {
         clearPreviews();
-        const selectedFiles =
-          resolvedMaxFiles > 0
-            ? acceptedFiles.slice(0, resolvedMaxFiles)
-            : acceptedFiles;
         const nextPreviews = selectedFiles.map((file) => ({
           url: URL.createObjectURL(file),
           name: file.name,
           size: file.size,
         }));
         setPreviews(nextPreviews);
-
-        if (onFilesSelect) {
-          onFilesSelect(selectedFiles);
-        } else {
-          onFileSelect(acceptedFiles[0]);
-        }
-        return;
-      }
-
-      if (fileRejections.length > 0) {
+      } else {
         clearPreviews();
       }
-    },
-    [clearPreviews, maxSizeMB, onFileSelect, onFilesSelect, resolvedMaxFiles],
-  );
+
+      if (onFilesSelect) {
+        onFilesSelect(selectedFiles);
+      } else {
+        onFileSelect(acceptedFiles[0]);
+      }
+      return;
+    }
+
+    if (fileRejections.length > 0) {
+      clearPreviews();
+    }
+  };
 
   const { getRootProps, getInputProps, isDragActive, isDragReject } =
     useDropzone({
@@ -181,9 +201,11 @@ export function UploaderCore({
           <ImageIcon className="h-3 w-3" /> Max {maxSizeMB}MB{" "}
           {maxFiles == 0 ? " each" : ""}
         </span>
-        <span className="rounded-full bg-secondary px-3 py-1">
-          JPG, JPEG, PNG, WEBP, HEIC, HEIF
-        </span>
+        {acceptedFormatLabels.length > 0 ? (
+          <span className="rounded-full bg-secondary px-3 py-1">
+            {acceptedFormatLabels.join(", ")}
+          </span>
+        ) : null}
       </div>
     </motion.div>
   );
@@ -284,6 +306,15 @@ export function UploaderCore({
       className={cn(baseDropzoneClassName, paddingClassName)}
     >
       <input {...getInputProps()} />
+      {topRightAction ? (
+        <div
+          className="absolute right-4 top-4 z-10"
+          onClick={(event) => event.stopPropagation()}
+          onPointerDown={(event) => event.stopPropagation()}
+        >
+          {topRightAction}
+        </div>
+      ) : null}
       <AnimatePresence mode="wait">{content}</AnimatePresence>
     </div>
   );

@@ -121,7 +121,7 @@ export default function Page() {
           qualityDefault={0.9}
           showQuality
           buttonLabel="Convert to WebP"
-          note="Lower quality means smaller files."
+          autoProcessOnSelect
         />
 
         <section className="mt-24 space-y-12">

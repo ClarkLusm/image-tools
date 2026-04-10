@@ -62,6 +62,7 @@ export default function Page() {
         showQuality
         buttonLabel="Convert JPG to WebP"
         note="Lower quality produces smaller files."
+        autoProcessOnSelect
       />
     </ToolLayout>
   );

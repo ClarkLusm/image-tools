@@ -232,27 +232,23 @@ export default function CropImageClient() {
           aside={
             file ? (
               <div>
-                <div className="mb-6 flex items-start gap-3">
-                  <div className="rounded-2xl bg-primary/10 p-3 text-primary">
-                    <Settings2 className="h-5 w-5" />
+                <div className="mb-6 flex items-center gap-3">
+                  <div className="rounded-xl bg-primary/10 p-3 text-primary">
+                    <Settings2 className="h-4 w-4" />
                   </div>
                   <div>
                     <h3 className="text-2xl font-display font-semibold text-foreground">
                       Crop Settings
                     </h3>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      Pick a ratio, move the crop area, then export the final
-                      frame.
-                    </p>
                   </div>
                 </div>
 
                 {dimensions ? (
-                  <div className="mb-6 rounded-2xl border border-border/70 bg-secondary/40 px-4 py-3">
+                  <div className="flex justify-between items-center mb-6 py-3">
                     <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                       Original size
                     </p>
-                    <p className="mt-2 text-lg font-semibold text-foreground">
+                    <p className="mt-2 text-md font-semibold text-foreground">
                       {dimensions.width} × {dimensions.height}px
                     </p>
                   </div>
@@ -271,7 +267,7 @@ export default function CropImageClient() {
                           key={option.label}
                           type="button"
                           onClick={() => setAspect(option.value)}
-                          className={`rounded-2xl border px-4 py-3 text-sm font-semibold transition-all ${
+                          className={`rounded-xl border px-4 py-3 text-sm font-semibold transition-all ${
                             isActive
                               ? "border-primary bg-primary/10 text-primary"
                               : "border-border bg-white text-foreground hover:border-primary/30 hover:bg-primary/5"
@@ -284,7 +280,7 @@ export default function CropImageClient() {
                   </div>
                 </div>
 
-                <div className="space-y-3 rounded-2xl border border-border/70 bg-white px-4 py-4 shadow-sm">
+                <div className="space-y-3 rounded-xl border border-border/70 bg-white px-4 py-4 shadow-sm">
                   <div className="flex items-start gap-3">
                     <CheckCircle2 className="mt-0.5 h-5 w-5 text-primary" />
                     <div>
@@ -304,7 +300,7 @@ export default function CropImageClient() {
                   <button
                     onClick={handleProcess}
                     disabled={isProcessing || !completedCrop}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary px-5 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-50 disabled:transform-none"
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-50 disabled:transform-none"
                   >
                     {isProcessing ? (
                       <>
@@ -319,7 +315,7 @@ export default function CropImageClient() {
                   <button
                     type="button"
                     onClick={resetCrop}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-border bg-white px-5 py-4 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-secondary"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-white px-5 py-4 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-secondary"
                   >
                     <RefreshCcw className="h-4 w-4" />
                     Reset Crop
@@ -337,7 +333,7 @@ export default function CropImageClient() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center p-8 bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/50 rounded-2xl"
+          className="text-center p-8 bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/50 rounded-xl"
         >
           <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
             <Download className="w-8 h-8" />
