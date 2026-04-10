@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
+import { useLocale } from "next-intl";
 import { useDropzone, FileRejection } from "react-dropzone";
 import {
   UploadCloud,
@@ -53,12 +54,16 @@ export function UploaderCore({
   aside,
   asideClassName,
   previewContent,
-  previewLabel = "Upload Preview",
+  previewLabel,
   interactivePreview = false,
   maxTotal = 0,
   showSelectedPreview = true,
   topRightAction,
 }: UploaderProps) {
+  const locale = useLocale();
+  const isVietnamese = locale === "vi";
+  const resolvedPreviewLabel =
+    previewLabel ?? (isVietnamese ? "Xem trước ảnh tải lên" : "Upload Preview");
   const [error, setError] = useState<string | null>(null);
   const [previews, setPreviews] = useState<
     { url: string; name: string; size: number }[]
@@ -98,17 +103,30 @@ export function UploaderCore({
       if (rejection.errors[0]?.code === "file-too-large") {
         setError(
           acceptedFiles.length > 0
-            ? `Some files were skipped. Max size is ${maxSizeMB}MB per file.`
-            : `File is too large. Max size is ${maxSizeMB}MB.`,
+            ? isVietnamese
+              ? `Một số tệp đã bị bỏ qua. Kích thước tối đa là ${maxSizeMB}MB cho mỗi tệp.`
+              : `Some files were skipped. Max size is ${maxSizeMB}MB per file.`
+            : isVietnamese
+              ? `Tệp quá lớn. Kích thước tối đa là ${maxSizeMB}MB.`
+              : `File is too large. Max size is ${maxSizeMB}MB.`,
         );
       } else if (rejection.errors[0]?.code === "file-invalid-type") {
         setError(
           acceptedFiles.length > 0
-            ? "Some files were skipped because the format is not supported."
-            : "Unsupported file format. Please upload an image.",
+            ? isVietnamese
+              ? "Một số tệp đã bị bỏ qua vì định dạng không được hỗ trợ."
+              : "Some files were skipped because the format is not supported."
+            : isVietnamese
+              ? "Định dạng tệp không được hỗ trợ. Vui lòng tải lên một hình ảnh."
+              : "Unsupported file format. Please upload an image.",
         );
       } else {
-        setError(rejection.errors[0]?.message || "Failed to upload file.");
+        setError(
+          rejection.errors[0]?.message ||
+            (isVietnamese
+              ? "Tải tệp lên thất bại."
+              : "Failed to upload file."),
+        );
       }
     }
 
@@ -181,25 +199,33 @@ export function UploaderCore({
         <UploadCloud className="h-10 w-10" />
       </div>
       <h3 className="mb-2 text-xl font-display font-semibold text-foreground">
-        Drag & drop your image here
+        {isVietnamese
+          ? "Kéo và thả ảnh của bạn vào đây"
+          : "Drag & drop your image here"}
       </h3>
       <p className="mb-6 text-muted-foreground">
-        or click to browse from your device
+        {isVietnamese
+          ? "hoặc bấm để chọn từ thiết bị của bạn"
+          : "or click to browse from your device"}
       </p>
       <div className="flex flex-wrap justify-center gap-3 text-xs font-medium text-muted-foreground/80">
         {maxFiles == 0 && (
           <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1">
-            No file limit
+            {isVietnamese ? "Không giới hạn số tệp" : "No file limit"}
           </span>
         )}
         {maxTotal > 0 ? (
           <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1">
-            {maxTotal}MB total per upload
+            {isVietnamese
+              ? `Tổng ${maxTotal}MB cho mỗi lần tải lên`
+              : `${maxTotal}MB total per upload`}
           </span>
         ) : null}
         <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1">
-          <ImageIcon className="h-3 w-3" /> Max {maxSizeMB}MB{" "}
-          {maxFiles == 0 ? " each" : ""}
+          <ImageIcon className="h-3 w-3" />
+          {isVietnamese
+            ? `Tối đa ${maxSizeMB}MB${maxFiles == 0 ? " mỗi tệp" : ""}`
+            : `Max ${maxSizeMB}MB${maxFiles == 0 ? " each" : ""}`}
         </span>
         {acceptedFormatLabels.length > 0 ? (
           <span className="rounded-full bg-secondary px-3 py-1">
@@ -225,7 +251,9 @@ export function UploaderCore({
             <div className="flex items-center gap-2 font-medium text-primary">
               <CheckCircle2 className="h-5 w-5" />
               <span>
-                {previews.length} file{previews.length > 1 ? "s" : ""} ready
+                {isVietnamese
+                  ? `${previews.length} tệp sẵn sàng`
+                  : `${previews.length} file${previews.length > 1 ? "s" : ""} ready`}
               </span>
             </div>
           </div>
@@ -239,7 +267,9 @@ export function UploaderCore({
               }}
             >
               <RefreshCcw className="h-4 w-4" />
-              Select different image{previews.length > 1 ? "s" : ""}
+              {isVietnamese
+                ? `Chọn ${previews.length > 1 ? "các ảnh khác" : "ảnh khác"}`
+                : `Select different image${previews.length > 1 ? "s" : ""}`}
             </button>
           )}
         </div>
@@ -282,7 +312,7 @@ export function UploaderCore({
               </div>
               <div className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                 <Layers3 className="h-3.5 w-3.5" />
-                {previewLabel}
+                {resolvedPreviewLabel}
               </div>
             </div>
             <div className="flex min-h-[420px] items-center justify-center bg-gray-100 p-4">

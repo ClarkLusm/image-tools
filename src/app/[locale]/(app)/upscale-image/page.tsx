@@ -156,7 +156,7 @@ export default function Page() {
             </p>
           </div>
 
-          <div className="overflow-hidden rounded-[2rem] border border-border/60 bg-[linear-gradient(135deg,rgba(241,245,249,0.92),rgba(255,255,255,0.96))] shadow-[0_30px_80px_rgba(15,23,42,0.08)]">
+          <div className="overflow-hidden rounded-xl border border-border/60 bg-[linear-gradient(135deg,rgba(241,245,249,0.92),rgba(255,255,255,0.96))] shadow-[0_30px_80px_rgba(15,23,42,0.08)]">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[760px] border-separate border-spacing-0 text-left">
                 <thead>

@@ -1,0 +1,92 @@
+{
+  "metaTitle": "Chuyển ảnh sang SVG online miễn phí - JPG, PNG, WebP sang SVG",
+  "metaDescription": "Chuyển ảnh sang SVG online miễn phí. Chuyển ảnh JPG, PNG và WebP thành SVG có thể phóng to thu nhỏ linh hoạt cho logo, biểu tượng, chữ ký và đồ họa đơn giản.",
+  "title": "Chuyển ảnh sang SVG online",
+  "description": "Chuyển ảnh JPG, PNG và WebP thành SVG cho logo, biểu tượng, chữ ký và đồ họa đơn giản khi bạn cần đầu ra vector dễ phóng to thu nhỏ hơn.",
+  "visualGuide": {
+    "eyebrow": "Dò nét vector",
+    "title": "Xem cách ảnh bitmap được dò nét thành SVG dễ phóng to thu nhỏ",
+    "description": "Quy trình này được tối ưu cho việc dò nét hình khối thật, không phải kiểu đổi đuôi tệp giả. Ảnh nguồn càng sạch thì các đường vector đầu ra càng đẹp."
+  },
+  "imageAlts": {
+    "hero": "Minh họa quá trình dò nét ảnh bitmap thành các đường SVG vector",
+    "useCases": "Ví dụ logo, biểu tượng, chữ ký và huy hiệu là các loại ảnh phù hợp để chuyển sang SVG",
+    "comparison": "So sánh cận cảnh giữa điểm ảnh bitmap và đường cong SVG mượt hơn"
+  },
+  "steps": [
+    {
+      "title": "Tải ảnh bitmap lên",
+      "description": "Bắt đầu với file JPG, PNG hoặc WebP có viền rõ và hình khối đơn giản."
+    },
+    {
+      "title": "Chuyển ảnh sang SVG",
+      "description": "Công cụ sẽ tự động chuyển điểm ảnh thành các đường vector ngay sau khi tải lên."
+    },
+    {
+      "title": "Tải file SVG về",
+      "description": "Lưu SVG đã chuyển đổi để dùng cho logo, slide, bản dựng giao diện hoặc quy trình đồ họa gọn nhẹ."
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Đây là convert SVG thật hay chỉ đổi đuôi file?",
+      "a": "Đây là quy trình dò nét bitmap sang SVG chứ không phải chỉ đổi đuôi tệp. Kết quả đầu ra được tạo dưới dạng mã SVG để có thể phóng to thu nhỏ sạch hơn tệp bitmap gốc, đặc biệt với các ảnh đơn giản có viền rõ và ít màu."
+    },
+    {
+      "q": "Loại ảnh nào phù hợp nhất để chuyển ảnh sang SVG?",
+      "a": "Các tệp phù hợp nhất là logo, biểu tượng, chữ ký, nhãn, huy hiệu và minh họa phẳng. Những ảnh này thường có biên rõ và ít chuyển màu hơn, nên bộ dò nét tạo ra SVG nhẹ và dễ dùng hơn. Ảnh chụp nhiều chi tiết vẫn có thể xử lý nhưng thường tạo ra tệp SVG phức tạp hơn."
+    },
+    {
+      "q": "Có thể chuyển ảnh chụp sang SVG không?",
+      "a": "Có, nhưng SVG từ ảnh chụp hiếm khi sạch bằng logo hoặc biểu tượng. Ảnh chụp có chuyển sắc, bề mặt và rất nhiều thay đổi chi tiết nhỏ, nên tệp vector sau khi dò nét có thể chứa quá nhiều đường và khó chỉnh sửa hơn. Nếu bạn cần SVG thực dụng cho thiết kế, hãy bắt đầu từ đồ họa đơn giản hoặc làm sạch ảnh trước."
+    },
+    {
+      "q": "File có được upload lên server không?",
+      "a": "Có. Chuyển sang SVG được xử lý qua API vì tác vụ dò nét vector nặng hơn việc đổi định dạng chạy ngay trong trình duyệt. Tệp chỉ được dùng để tạo ra SVG mà bạn yêu cầu và các tệp tạm sẽ được dọn sau khi tác vụ hết hạn."
+    }
+  ],
+  "cards": [
+    {
+      "title": "Hợp với Logo",
+      "description": "Logo và huy hiệu có viền rõ thường được dò nét thành SVG sạch hơn và dễ dùng hơn."
+    },
+    {
+      "title": "Hợp với Biểu tượng",
+      "description": "Đồ họa giao diện và biểu tượng đơn giản hoạt động tốt vì ít màu và có hình khối rõ ràng."
+    },
+    {
+      "title": "Tốt cho Chữ ký",
+      "description": "Chữ ký hoặc dấu tay có thể thành tài sản SVG dễ phóng to thu nhỏ cho tài liệu và bản dựng."
+    },
+    {
+      "title": "Không lý tưởng cho Ảnh chụp",
+      "description": "Ảnh nhiều chi tiết vẫn chuyển được, nhưng SVG tạo ra thường nặng và khó chỉnh sửa hơn."
+    }
+  ],
+  "sectionA": {
+    "title": "Khi nào nên chuyển ảnh sang SVG?",
+    "body": [
+      "SVG hữu ích nhất khi bạn cần đồ họa có thể phóng to thu nhỏ sạch ở nhiều kích thước khác nhau. Vì thế nó rất phù hợp cho logo, biểu tượng, minh họa đơn giản và đồ họa dạng chữ ký dùng trong nhận diện thương hiệu, slide, bản dựng và bố cục in ấn.",
+      "Nếu bạn đang tìm công cụ chuyển ảnh sang SVG hoặc chuyển PNG sang SVG, nhu cầu thực tế thường là cần tệp dễ thay đổi kích thước và tái sử dụng sạch hơn. Đầu ra dạng vector sẽ giữ cảm giác sắc hơn so với việc phóng to một ảnh bitmap nhỏ quá nhiều lần."
+    ]
+  },
+  "sectionB": {
+    "title": "Raster và SVG khác nhau ở điểm nào?",
+    "body": [
+      "Các tệp bitmap như JPG, PNG và WebP được tạo từ điểm ảnh. SVG thì mô tả hình khối, đường cong và vùng tô bằng mã đánh dấu. Đó là lý do SVG có thể phóng to thu nhỏ mà không bị mềm như ảnh bitmap khi bị kéo quá lớn.",
+      "Tuy vậy, việc dò nét bitmap sang SVG không phải phép màu. Một ảnh nguồn quá chi tiết có thể tạo ra SVG rất phức tạp. Kết quả sạch nhất thường đến từ minh họa phẳng, biên tương phản rõ và bố cục vốn đã đơn giản."
+    ]
+  },
+  "ctas": {
+    "title": "Làm sạch ảnh trước khi dò nét",
+    "description": "Dọn nguồn trước thường cho SVG đẹp hơn. Hãy xóa nền, cắt gọn hoặc xuất PNG sạch trước khi dò nét.",
+    "primaryLabel": "Xóa nền",
+    "primaryHref": "/remove-background",
+    "secondaryLabel": "Chuyển sang PNG",
+    "secondaryHref": "/convert-to-png"
+  },
+  "breadcrumbs": {
+    "home": "Trang chủ",
+    "current": "Chuyển ảnh sang SVG"
+  }
+}

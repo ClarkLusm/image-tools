@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useLocale } from "next-intl";
 import {
   Download,
   Loader2,
@@ -63,6 +64,8 @@ function buildCenteredCrop(
 }
 
 export default function CropImageClient() {
+  const locale = useLocale();
+  const isVietnamese = locale === "vi";
   const [file, setFile] = useState<File | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [dimensions, setDimensions] = useState<{
@@ -199,7 +202,7 @@ export default function CropImageClient() {
           onFileSelect={applyFileSelection}
           accept={{ "image/*": [".jpg", ".jpeg", ".png", ".webp"] }}
           isProcessing={isProcessing}
-          previewLabel="Crop Preview"
+          previewLabel={isVietnamese ? "Xem trước vùng cắt" : "Crop Preview"}
           interactivePreview
           previewContent={
             file && imageUrl ? (
@@ -216,7 +219,7 @@ export default function CropImageClient() {
                   <img
                     ref={imageRef}
                     src={imageUrl}
-                    alt="Crop preview"
+                    alt={isVietnamese ? "Xem trước vùng cắt" : "Crop preview"}
                     onLoad={(event) => {
                       syncCenteredCrop(
                         event.currentTarget,
@@ -238,7 +241,7 @@ export default function CropImageClient() {
                   </div>
                   <div>
                     <h3 className="text-2xl font-display font-semibold text-foreground">
-                      Crop Settings
+                      {isVietnamese ? "Cài đặt cắt ảnh" : "Crop Settings"}
                     </h3>
                   </div>
                 </div>
@@ -246,7 +249,7 @@ export default function CropImageClient() {
                 {dimensions ? (
                   <div className="flex justify-between items-center mb-6 py-3">
                     <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                      Original size
+                      {isVietnamese ? "Kích thước gốc" : "Original size"}
                     </p>
                     <p className="mt-2 text-md font-semibold text-foreground">
                       {dimensions.width} × {dimensions.height}px
@@ -256,7 +259,7 @@ export default function CropImageClient() {
 
                 <div className="mb-6">
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                    Aspect Ratio
+                    {isVietnamese ? "Tỷ lệ khung hình" : "Aspect Ratio"}
                   </p>
                   <div className="mt-3 grid grid-cols-2 gap-3">
                     {aspectOptions.map((option) => {
@@ -273,7 +276,9 @@ export default function CropImageClient() {
                               : "border-border bg-white text-foreground hover:border-primary/30 hover:bg-primary/5"
                           }`}
                         >
-                          {option.label}
+                          {isVietnamese && option.value === 0
+                            ? "Tự do"
+                            : option.label}
                         </button>
                       );
                     })}
@@ -285,12 +290,16 @@ export default function CropImageClient() {
                     <CheckCircle2 className="mt-0.5 h-5 w-5 text-primary" />
                     <div>
                       <p className="text-sm font-semibold text-foreground">
-                        Crop area
+                        {isVietnamese ? "Vùng cắt" : "Crop area"}
                       </p>
                       <p className="mt-1 text-sm text-muted-foreground">
                         {cropDetails
-                          ? `${cropDetails} selected`
-                          : "Drag the crop box to choose the exact framing."}
+                          ? isVietnamese
+                            ? `Đã chọn ${cropDetails}`
+                            : `${cropDetails} selected`
+                          : isVietnamese
+                            ? "Kéo khung cắt để chọn đúng vùng ảnh bạn muốn giữ lại."
+                            : "Drag the crop box to choose the exact framing."}
                       </p>
                     </div>
                   </div>
@@ -305,10 +314,12 @@ export default function CropImageClient() {
                     {isProcessing ? (
                       <>
                         <Loader2 className="h-5 w-5 animate-spin" />
-                        Cropping in background...
+                        {isVietnamese
+                          ? "Đang cắt ảnh trong nền..."
+                          : "Cropping in background..."}
                       </>
                     ) : (
-                      "Crop Image"
+                      isVietnamese ? "Cắt ảnh" : "Crop Image"
                     )}
                   </button>
 
@@ -318,7 +329,7 @@ export default function CropImageClient() {
                     className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-white px-5 py-4 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-secondary"
                   >
                     <RefreshCcw className="h-4 w-4" />
-                    Reset Crop
+                    {isVietnamese ? "Đặt lại vùng cắt" : "Reset Crop"}
                   </button>
                 </div>
               </div>
@@ -338,9 +349,11 @@ export default function CropImageClient() {
           <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
             <Download className="w-8 h-8" />
           </div>
-          <h3 className="text-2xl font-bold mb-2">Crop Complete!</h3>
+          <h3 className="text-2xl font-bold mb-2">
+            {isVietnamese ? "Cắt ảnh hoàn tất!" : "Crop Complete!"}
+          </h3>
           <p className="text-muted-foreground mb-8">
-            New size:{" "}
+            {isVietnamese ? "Dung lượng mới" : "New size"}:{" "}
             <span className="font-semibold">
               {formatBytes(resultBlob.size)}
             </span>
@@ -351,7 +364,7 @@ export default function CropImageClient() {
               onClick={handleDownload}
               className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
             >
-              Download Cropped Image
+              {isVietnamese ? "Tải ảnh đã cắt" : "Download Cropped Image"}
             </button>
             <button
               onClick={() => {
@@ -360,7 +373,7 @@ export default function CropImageClient() {
               }}
               className="px-8 py-4 bg-white text-foreground border border-border font-bold rounded-xl shadow-sm hover:bg-secondary transition-all"
             >
-              Crop Another
+              {isVietnamese ? "Cắt ảnh khác" : "Crop Another"}
             </button>
           </div>
         </motion.div>

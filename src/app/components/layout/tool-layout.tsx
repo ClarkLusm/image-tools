@@ -5,6 +5,7 @@ import { FAQAccordion } from "@/app/components/shared/faq-accordion";
 import ToolJsonLd from "@/app/components/seo/tool-jsonld";
 import { getRequestLanguage } from "@/app/lib/i18n-server";
 import { getToolLayoutLookup } from "@/app/lib/tool-layout-lookup";
+import { localizeReactTree } from "@/app/lib/react-translation";
 import { translateLookupText } from "@/app/lib/translation-lookup";
 
 interface Step {
@@ -54,6 +55,7 @@ export async function ToolLayout({
     q: translateLookupText(faq.q, languageCode, lookup),
     a: translateLookupText(faq.a, languageCode, lookup),
   }));
+  const localizedChildren = localizeReactTree(children, languageCode, lookup);
   const faqSchema =
     localizedFaqs && localizedFaqs.length > 0
       ? {
@@ -105,7 +107,7 @@ export async function ToolLayout({
           </div>
 
           {/* Main Tool Area */}
-          <div className="mb-14">{children}</div>
+          <div className="mb-14">{localizedChildren}</div>
 
           {/* Content Grid */}
           <div className="grid gap-12 md:grid-cols-12 lg:gap-20">

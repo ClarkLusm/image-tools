@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useLocale } from "next-intl";
 import { Loader2, Scissors } from "lucide-react";
 import { motion } from "framer-motion";
 import { Uploader } from "@/app/components/shared/uploader";
@@ -9,6 +10,8 @@ import { downloadBlob, formatBytes } from "@/lib/image-utils";
 import BeforeAfterSlider from "@/app/components/home/before-after-slider";
 
 export default function RemoveBackgroundClient() {
+  const locale = useLocale();
+  const isVietnamese = locale === "vi";
   const [file, setFile] = useState<File | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [threshold, setThreshold] = useState(44);
@@ -72,12 +75,16 @@ export default function RemoveBackgroundClient() {
           aside={
             file ? (
               <div>
-                <h3 className="mb-5 text-lg font-semibold">Background Detection</h3>
+                <h3 className="mb-5 text-lg font-semibold">
+                  {isVietnamese ? "Nhận diện nền" : "Background Detection"}
+                </h3>
 
                 <div className="space-y-5">
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <label className="font-medium">Threshold</label>
+                      <label className="font-medium">
+                        {isVietnamese ? "Ngưỡng nhận diện" : "Threshold"}
+                      </label>
                       <span className="text-muted-foreground">{threshold}</span>
                     </div>
                     <input
@@ -94,7 +101,9 @@ export default function RemoveBackgroundClient() {
 
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <label className="font-medium">Edge Softness</label>
+                      <label className="font-medium">
+                        {isVietnamese ? "Độ mềm viền" : "Edge Softness"}
+                      </label>
                       <span className="text-muted-foreground">{softness}</span>
                     </div>
                     <input
@@ -118,12 +127,14 @@ export default function RemoveBackgroundClient() {
                   {isProcessing ? (
                     <>
                       <Loader2 className="h-5 w-5 animate-spin" />
-                      Removing background...
+                      {isVietnamese
+                        ? "Đang xóa nền..."
+                        : "Removing background..."}
                     </>
                   ) : (
                     <>
                       <Scissors className="h-5 w-5" />
-                      Remove Background
+                      {isVietnamese ? "Xóa nền" : "Remove Background"}
                     </>
                   )}
                 </button>
@@ -141,9 +152,11 @@ export default function RemoveBackgroundClient() {
           animate={{ opacity: 1, scale: 1 }}
           className="rounded-2xl p-8 text-center bg-gray-100"
         >
-          <h3 className="text-2xl font-bold mb-2">Background Removed</h3>
+          <h3 className="text-2xl font-bold mb-2">
+            {isVietnamese ? "Đã xóa nền" : "Background Removed"}
+          </h3>
           <p className="text-muted-foreground mb-6">
-            Output file size:{" "}
+            {isVietnamese ? "Dung lượng tệp đầu ra" : "Output file size"}:{" "}
             <span className="font-semibold">{formatBytes(resultBlob.size)}</span>
           </p>
 
@@ -152,7 +165,11 @@ export default function RemoveBackgroundClient() {
               <BeforeAfterSlider
                 beforeSrc={beforeUrl}
                 afterSrc={afterUrl}
-                alt="Before and after background removal comparison"
+                alt={
+                  isVietnamese
+                    ? "So sánh trước và sau khi xóa nền"
+                    : "Before and after background removal comparison"
+                }
                 imageFit="contain"
                 className="aspect-[16/10] bg-white"
               />
@@ -164,7 +181,7 @@ export default function RemoveBackgroundClient() {
               onClick={handleDownload}
               className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
             >
-              Download PNG
+              {isVietnamese ? "Tải PNG xuống" : "Download PNG"}
             </button>
             <button
               onClick={() => {
@@ -173,7 +190,7 @@ export default function RemoveBackgroundClient() {
               }}
               className="px-8 py-4 bg-white text-foreground border border-border font-bold rounded-xl shadow-sm hover:bg-secondary transition-all"
             >
-              Process Another
+              {isVietnamese ? "Xử lý ảnh khác" : "Process Another"}
             </button>
           </div>
         </motion.section>

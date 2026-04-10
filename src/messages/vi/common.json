@@ -2,7 +2,7 @@
   "navigation": {
     "tools": "Công cụ",
     "convertImage": "Đổi định dạng ảnh",
-    "socialResize": "Resize mạng xã hội",
+    "socialResize": "Đổi kích thước mạng xã hội",
     "toggleMenu": "Bật hoặc tắt menu điều hướng"
   },
   "footer": {
@@ -20,9 +20,9 @@
   "sidebar": {
     "title": "Có thể bạn cần",
     "groups": {
-      "aiProcessing": "AI Processing",
-      "convert": "Convert",
-      "socialResize": "Social Resize"
+      "aiProcessing": "Xử lý bằng AI",
+      "convert": "Chuyển đổi",
+      "socialResize": "Đổi kích thước mạng xã hội"
     }
   },
   "breadcrumbs": {
@@ -39,7 +39,7 @@
     },
     "removeMetadata": {
       "name": "Xóa EXIF",
-      "description": "Xóa metadata để đảm bảo riêng tư trước khi đăng tải."
+      "description": "Xóa dữ liệu metadata để đảm bảo quyền riêng tư trước khi đăng tải."
     },
     "cropImage": {
       "name": "Cắt ảnh",
@@ -51,7 +51,7 @@
     },
     "upscaleImage": {
       "name": "Tăng độ nét ảnh",
-      "description": "Phóng to ảnh độ phân giải thấp bằng AI super resolution."
+      "description": "Phóng to ảnh độ phân giải thấp bằng AI siêu phân giải."
     },
     "convertToPng": {
       "name": "Chuyển sang PNG"

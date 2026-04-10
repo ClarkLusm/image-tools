@@ -2,6 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useLocale } from "next-intl";
 import { Download, Loader2 } from "lucide-react";
 import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
@@ -34,6 +35,8 @@ export default function TargetCompressClient({
   targetSizeKB,
   targetLabel,
 }: TargetCompressClientProps) {
+  const locale = useLocale();
+  const isVietnamese = locale === "vi";
   const targetSizeBytes = targetSizeKB * 1024;
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [jobs, setJobs] = useState<FileJob[]>([]);
@@ -97,7 +100,11 @@ export default function TargetCompressClient({
       const compressionResults = resolveDeepCompressionResults(completedJob);
 
       if (compressionResults.length === 0) {
-        throw new Error("Compression job completed without per-file results.");
+        throw new Error(
+          isVietnamese
+            ? "Tiến trình nén đã hoàn tất nhưng không trả về kết quả cho từng tệp."
+            : "Compression job completed without per-file results.",
+        );
       }
 
       const resolvedResults = await Promise.all(
@@ -116,7 +123,9 @@ export default function TargetCompressClient({
               error:
                 downloadError instanceof Error
                   ? downloadError.message
-                  : "Failed to download compressed image.",
+                  : isVietnamese
+                    ? "Không thể tải tệp ảnh đã nén."
+                    : "Failed to download compressed image.",
             };
           }
         }),
@@ -134,7 +143,9 @@ export default function TargetCompressClient({
               ...job,
               status: "failed",
               progress: 100,
-              error: "Compression result missing for this file.",
+              error: isVietnamese
+                ? "Thiếu kết quả nén cho tệp này."
+                : "Compression result missing for this file.",
             };
           }
 
@@ -152,7 +163,11 @@ export default function TargetCompressClient({
             ...job,
             status: "failed",
             progress: 100,
-            error: result.error ?? "Compression failed for this file.",
+            error:
+              result.error ??
+              (isVietnamese
+                ? "Nén thất bại cho tệp này."
+                : "Compression failed for this file."),
           };
         }),
       );
@@ -161,7 +176,13 @@ export default function TargetCompressClient({
         return;
       }
 
-      setError(err instanceof Error ? err.message : "Upload failed.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : isVietnamese
+            ? "Tải tệp lên thất bại."
+            : "Upload failed.",
+      );
       setJobs((prev) =>
         prev.map((job) =>
           job.status === "processing" || job.status === "pending"
@@ -297,32 +318,37 @@ export default function TargetCompressClient({
           <div className="flex flex-col gap-6">
             <div>
               <h3 className="text-xl font-semibold text-foreground">
-                {selectedFiles.length} file{selectedFiles.length > 1 ? "s" : ""} ready for {targetLabel}
+                {isVietnamese
+                  ? `${selectedFiles.length} tệp sẵn sàng cho mục tiêu ${targetLabel}`
+                  : `${selectedFiles.length} file${selectedFiles.length > 1 ? "s" : ""} ready for ${targetLabel}`}
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Total size: {formatBytes(totalSelectedSize)}. Start compression
-                when you want to target about {targetLabel} per file.
+                {isVietnamese
+                  ? `Tổng dung lượng: ${formatBytes(totalSelectedSize)}. Bắt đầu nén khi bạn muốn đưa mỗi tệp về khoảng ${targetLabel}.`
+                  : `Total size: ${formatBytes(totalSelectedSize)}. Start compression when you want to target about ${targetLabel} per file.`}
               </p>
               <div className="mt-4 space-y-2 text-sm">
                 <p className="rounded-xl border border-border/60 bg-background px-4 py-3 text-muted-foreground">
-                  Target compression is best effort. Some images can reach{" "}
-                  {targetLabel}, while others may stay larger to avoid extreme
-                  quality loss.
+                  {isVietnamese
+                    ? `Nén theo dung lượng mục tiêu là chế độ tối ưu theo khả năng. Một số ảnh có thể đạt ${targetLabel}, trong khi một số ảnh khác sẽ vẫn lớn hơn để tránh giảm chất lượng quá mức.`
+                    : `Target compression is best effort. Some images can reach ${targetLabel}, while others may stay larger to avoid extreme quality loss.`}
                 </p>
                 {selectionInsights.alreadyUnderTargetCount > 0 && (
                   <p className="rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sky-700 dark:border-sky-900/60 dark:bg-sky-950/30 dark:text-sky-300">
-                    {selectionInsights.alreadyUnderTargetCount} file
-                    {selectionInsights.alreadyUnderTargetCount > 1 ? "s are" : " is"}{" "}
-                    already at or below {targetLabel}. You may not need extra
-                    compression for those.
+                    {isVietnamese
+                      ? `${selectionInsights.alreadyUnderTargetCount} tệp đã ở mức ${targetLabel} hoặc thấp hơn. Bạn có thể không cần nén thêm các tệp này.`
+                      : `${selectionInsights.alreadyUnderTargetCount} file${selectionInsights.alreadyUnderTargetCount > 1 ? "s are" : " is"} already at or below ${targetLabel}. You may not need extra compression for those.`}
                   </p>
                 )}
                 {selectionInsights.aggressiveCount > 0 && (
                   <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-300">
-                    {selectionInsights.extremeCount > 0
-                      ? `${selectionInsights.extremeCount} file${selectionInsights.extremeCount > 1 ? "s need" : " needs"} extremely aggressive reduction to approach ${targetLabel}.`
-                      : `${selectionInsights.aggressiveCount} file${selectionInsights.aggressiveCount > 1 ? "s need" : " needs"} aggressive compression to approach ${targetLabel}.`}{" "}
-                    Quality may drop noticeably.
+                    {isVietnamese
+                      ? selectionInsights.extremeCount > 0
+                        ? `${selectionInsights.extremeCount} tệp cần giảm dung lượng rất mạnh để tiến gần ${targetLabel}. Chất lượng có thể giảm rõ rệt.`
+                        : `${selectionInsights.aggressiveCount} tệp cần nén khá mạnh để tiến gần ${targetLabel}. Chất lượng có thể giảm rõ rệt.`
+                      : `${selectionInsights.extremeCount > 0
+                          ? `${selectionInsights.extremeCount} file${selectionInsights.extremeCount > 1 ? "s need" : " needs"} extremely aggressive reduction to approach ${targetLabel}.`
+                          : `${selectionInsights.aggressiveCount} file${selectionInsights.aggressiveCount > 1 ? "s need" : " needs"} aggressive compression to approach ${targetLabel}.`} Quality may drop noticeably.`}
                   </p>
                 )}
               </div>
@@ -350,7 +376,7 @@ export default function TargetCompressClient({
                 onClick={handleProcess}
                 className="flex-1 rounded-xl bg-primary px-6 py-4 font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-xl"
               >
-                Compress to {targetLabel}
+                {isVietnamese ? `Nén về ${targetLabel}` : `Compress to ${targetLabel}`}
               </button>
               <button
                 type="button"
@@ -359,7 +385,9 @@ export default function TargetCompressClient({
                 }}
                 className="rounded-xl border border-border bg-white px-6 py-4 font-bold text-foreground shadow-sm transition-all hover:bg-secondary"
               >
-                Select Different Image{selectedFiles.length > 1 ? "s" : ""}
+                {isVietnamese
+                  ? `Chọn ${selectedFiles.length > 1 ? "ảnh khác" : "ảnh khác"}`
+                  : `Select Different Image${selectedFiles.length > 1 ? "s" : ""}`}
               </button>
             </div>
           </div>
@@ -375,67 +403,78 @@ export default function TargetCompressClient({
         >
           {totalSavings > 0 && (
             <div className="mb-4 text-sm font-semibold text-green-600 dark:text-green-400">
-              Saved {totalSavings}% total
+              {isVietnamese
+                ? `Đã giảm tổng cộng ${totalSavings}%`
+                : `Saved ${totalSavings}% total`}
             </div>
           )}
           <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
             <Download className="w-8 h-8" />
           </div>
-          <h3 className="text-2xl font-bold mb-2">Compression Results</h3>
+          <h3 className="text-2xl font-bold mb-2">
+            {isVietnamese ? "Kết quả nén" : "Compression Results"}
+          </h3>
           <p className="text-muted-foreground mb-6">
-            Target size: {targetLabel}
+            {isVietnamese ? "Dung lượng mục tiêu" : "Target size"}: {targetLabel}
           </p>
           {isBatchComplete && (
             <div className="mb-6 space-y-3 text-sm">
               <p className="rounded-xl border border-border/60 bg-background px-4 py-3 text-muted-foreground">
-                This tool aims for {targetLabel} per file, but results depend on
-                image detail, format, and how aggressively the file can be
-                reduced without collapsing quality.
+                {isVietnamese
+                  ? `Công cụ này cố gắng đưa từng tệp về khoảng ${targetLabel}, nhưng kết quả còn phụ thuộc vào mức độ chi tiết của ảnh, định dạng tệp và mức nén có thể áp dụng mà không làm giảm chất lượng quá mạnh.`
+                  : `This tool aims for ${targetLabel} per file, but results depend on image detail, format, and how aggressively the file can be reduced without collapsing quality.`}
               </p>
               {completedJobs.length > 0 && (
                 <p className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-green-700 dark:border-green-900/60 dark:bg-green-950/30 dark:text-green-300">
-                  {targetResults.targetMetCount} of {completedJobs.length} file
-                  {completedJobs.length > 1 ? "s" : ""} reached {targetLabel}
-                  {targetResults.alreadyUnderTargetCount > 0
-                    ? `, including ${targetResults.alreadyUnderTargetCount} that were already below target.`
-                    : "."}
+                  {isVietnamese
+                    ? `${targetResults.targetMetCount}/${completedJobs.length} tệp đã đạt ${targetLabel}${
+                        targetResults.alreadyUnderTargetCount > 0
+                          ? `, bao gồm ${targetResults.alreadyUnderTargetCount} tệp vốn đã thấp hơn mục tiêu.`
+                          : "."
+                      }`
+                    : `${targetResults.targetMetCount} of ${completedJobs.length} file${completedJobs.length > 1 ? "s" : ""} reached ${targetLabel}${
+                        targetResults.alreadyUnderTargetCount > 0
+                          ? `, including ${targetResults.alreadyUnderTargetCount} that were already below target.`
+                          : "."
+                      }`}
                 </p>
               )}
               {targetResults.bestEffortCount > 0 && (
                 <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-4 text-left text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200">
                   <p className="font-semibold">
-                    {targetResults.bestEffortCount} file
-                    {targetResults.bestEffortCount > 1 ? "s could" : " could"} not
-                    reach {targetLabel} exactly.
+                    {isVietnamese
+                      ? `${targetResults.bestEffortCount} tệp chưa thể đạt đúng ${targetLabel}.`
+                      : `${targetResults.bestEffortCount} file${targetResults.bestEffortCount > 1 ? "s could" : " could"} not reach ${targetLabel} exactly.`}
                   </p>
                   <p className="mt-1 text-sm">
-                    Try resizing dimensions, cropping unused areas, or switching
-                    to a more compression-friendly format first.
+                    {isVietnamese
+                      ? "Hãy thử đổi kích thước ảnh, cắt bớt vùng không cần thiết, hoặc chuyển sang định dạng dễ nén hơn trước."
+                      : "Try resizing dimensions, cropping unused areas, or switching to a more compression-friendly format first."}
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     <Link
                       href="/resize-image"
                       className="rounded-full border border-amber-300/70 bg-white px-3 py-1.5 text-xs font-medium text-amber-800 transition-colors hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100 dark:hover:bg-amber-900/40"
                     >
-                      Resize Image
+                      {isVietnamese ? "Đổi kích thước ảnh" : "Resize Image"}
                     </Link>
                     <Link
                       href="/crop-image"
                       className="rounded-full border border-amber-300/70 bg-white px-3 py-1.5 text-xs font-medium text-amber-800 transition-colors hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100 dark:hover:bg-amber-900/40"
                     >
-                      Crop Image
+                      {isVietnamese ? "Cắt ảnh" : "Crop Image"}
                     </Link>
                     <Link
                       href="/convert-to-jpg"
                       className="rounded-full border border-amber-300/70 bg-white px-3 py-1.5 text-xs font-medium text-amber-800 transition-colors hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100 dark:hover:bg-amber-900/40"
                     >
-                      Convert to JPG
+                      {isVietnamese ? "Đổi sang JPG" : "Convert to JPG"}
                     </Link>
                     <Link
                       href="/convert-to-webp"
                       className="rounded-full border border-amber-300/70 bg-white px-3 py-1.5 text-xs font-medium text-amber-800 transition-colors hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100 dark:hover:bg-amber-900/40"
                     >
-                      Convert to WebP
+                      {isVietnamese ? "Đổi sang WebP" : "Convert to WebP"}
                     </Link>
                   </div>
                 </div>
@@ -462,15 +501,19 @@ export default function TargetCompressClient({
                       <p className="text-xs">
                         {job.file.size <= targetSizeBytes ? (
                           <span className="font-medium text-sky-600 dark:text-sky-400">
-                            Already under {targetLabel} before compression.
+                            {isVietnamese
+                              ? `Đã dưới ${targetLabel} trước khi nén.`
+                              : `Already under ${targetLabel} before compression.`}
                           </span>
                         ) : job.blob.size <= targetSizeBytes ? (
                           <span className="font-medium text-green-600 dark:text-green-400">
-                            Target reached.
+                            {isVietnamese ? "Đã đạt mục tiêu." : "Target reached."}
                           </span>
                         ) : (
                           <span className="font-medium text-amber-600 dark:text-amber-400">
-                            Best effort result. This file stayed above {targetLabel}.
+                            {isVietnamese
+                              ? `Đây là kết quả tối ưu nhất. Tệp này vẫn lớn hơn ${targetLabel}.`
+                              : `Best effort result. This file stayed above ${targetLabel}.`}
                           </span>
                         )}
                       </p>
@@ -478,8 +521,10 @@ export default function TargetCompressClient({
                   ) : (
                     <p className="text-xs text-muted-foreground">
                       {job.status === "failed"
-                        ? (job.error ?? "Failed")
-                        : "Processing..."}
+                        ? job.error ?? (isVietnamese ? "Thất bại" : "Failed")
+                        : isVietnamese
+                          ? "Đang xử lý..."
+                          : "Processing..."}
                     </p>
                   )}
                 </div>
@@ -498,7 +543,7 @@ export default function TargetCompressClient({
                       onClick={() => handleDownload(job)}
                       className="px-3 py-2 text-sm font-semibold bg-primary text-white rounded-lg shadow hover:shadow-md transition-all"
                     >
-                      Download
+                      {isVietnamese ? "Tải xuống" : "Download"}
                     </button>
                   )}
                 </div>
@@ -513,7 +558,7 @@ export default function TargetCompressClient({
                 disabled={!isBatchComplete || completedJobs.length <= 1}
                 className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:shadow-none disabled:transform-none"
               >
-                Download All (ZIP)
+                {isVietnamese ? "Tải tất cả (ZIP)" : "Download All (ZIP)"}
               </button>
             ) : (
               <button
@@ -525,7 +570,7 @@ export default function TargetCompressClient({
                 disabled={!isBatchComplete || completedJobs.length === 0}
                 className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:shadow-none disabled:transform-none"
               >
-                Download Image
+                {isVietnamese ? "Tải ảnh xuống" : "Download Image"}
               </button>
             )}
             <button
@@ -533,7 +578,7 @@ export default function TargetCompressClient({
               disabled={!isBatchComplete}
               className="px-8 py-4 bg-white text-foreground border border-border font-bold rounded-xl shadow-sm hover:bg-secondary transition-all disabled:opacity-50 disabled:hover:bg-white"
             >
-              Compress Another
+              {isVietnamese ? "Nén ảnh khác" : "Compress Another"}
             </button>
           </div>
         </motion.div>
@@ -542,7 +587,9 @@ export default function TargetCompressClient({
       {isPending && jobs.length > 0 && (
         <div className="text-center text-sm text-muted-foreground flex items-center justify-center gap-2">
           <Loader2 className="w-4 h-4 animate-spin" />
-          Compressing {jobs.length} file{jobs.length > 1 ? "s" : ""}...
+          {isVietnamese
+            ? `Đang nén ${jobs.length} tệp...`
+            : `Compressing ${jobs.length} file${jobs.length > 1 ? "s" : ""}...`}
         </div>
       )}
     </div>

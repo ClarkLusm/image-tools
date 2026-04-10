@@ -1,0 +1,140 @@
+{
+  "metaTitle": "Chuyển ảnh sang JPG online miễn phí - Công cụ PNG sang JPG",
+  "metaDescription": "Chuyển ảnh sang JPG online miễn phí. Dùng công cụ PNG sang JPG này cho ảnh chụp, file nhẹ hơn, upload website và workflow chuyển ảnh sang JPG hằng ngày.",
+  "title": "Chuyển ảnh sang JPG online",
+  "description": "Chuyển PNG, WebP, GIF hoặc SVG sang JPG để có file nhẹ hơn, dễ chia sẻ hơn và tương thích rộng trên app, website và nhiều thiết bị.",
+  "breadcrumbs": {
+    "home": "Trang chủ",
+    "current": "Chuyển sang JPG"
+  },
+  "sourceLinkCta": "Bắt đầu chuyển đổi",
+  "converter": {
+    "buttonLabel": "Chuyển sang JPG",
+    "note": "Các vùng trong suốt sẽ được tô nền trắng."
+  },
+  "steps": [
+    {
+      "title": "Tải ảnh gốc lên",
+      "description": "Chọn file PNG, WebP, GIF hoặc SVG bạn muốn chuyển sang JPG."
+    },
+    {
+      "title": "Chỉnh chất lượng JPG",
+      "description": "Đặt mức chất lượng đầu ra để cân bằng giữa dung lượng, độ nét và tốc độ tải xuống."
+    },
+    {
+      "title": "Tải file JPG xuống",
+      "description": "Lưu file JPG đã chuyển đổi để đăng bài, chia sẻ hoặc dùng trên web."
+    }
+  ],
+  "faqs": [
+    {
+      "q": "JPG là định dạng gì?",
+      "a": "JPG là một trong những định dạng ảnh được hỗ trợ rộng nhất cho ảnh chụp và nhu cầu đăng tải thông thường. Nó dùng compression để giảm kích thước file, vì vậy rất thực tế cho website, email, sàn thương mại điện tử, CMS và workflow social media khi ảnh nhẹ là điều quan trọng."
+    },
+    {
+      "q": "Khi nào nên chuyển PNG sang JPG?",
+      "a": "Hãy chuyển PNG sang JPG khi bạn cần file nhỏ hơn cho ảnh chụp, ảnh blog, ảnh sản phẩm hoặc tài liệu không cần nền trong suốt. JPG thường là định dạng phát hành tốt hơn khi tốc độ và tính tương thích quan trọng hơn việc giữ từng chi tiết lossless."
+    },
+    {
+      "q": "JPG có hỗ trợ nền trong suốt không?",
+      "a": "Không. JPG không giữ được pixel trong suốt. Nếu ảnh gốc có transparency, đầu ra sẽ cần một màu nền. Vì thế PNG vẫn hợp hơn cho logo, overlay và tài sản giao diện, còn JPG hợp hơn cho ảnh chụp và file nhẹ."
+    },
+    {
+      "q": "JPG có tốt hơn PNG không?",
+      "a": "JPG thường tốt hơn cho ảnh chụp và file nhẹ hơn. PNG thường tốt hơn cho screenshot, đồ họa và tài sản có nền trong suốt. Không có định dạng nào thắng mọi tình huống. Lựa chọn phù hợp phụ thuộc vào mức ưu tiên của bạn về compression, compatibility hay độ sắc nét cạnh."
+    },
+    {
+      "q": "File của tôi có bị upload lên server không?",
+      "a": "Không. Quá trình chuyển đổi chạy ngay trong trình duyệt, nên ảnh gốc vẫn được giữ trên thiết bị của bạn."
+    }
+  ],
+  "relatedTools": [
+    { "name": "Chuyển sang PNG", "path": "/convert-to-png" },
+    { "name": "Chuyển sang WebP", "path": "/convert-to-webp" },
+    { "name": "Nén ảnh", "path": "/compress-image" },
+    { "name": "Resize ảnh", "path": "/resize-image" }
+  ],
+  "sourceLinks": [
+    {
+      "title": "PNG sang JPG",
+      "description": "Chuyển file PNG sang JPG để dùng hằng ngày gọn nhẹ hơn.",
+      "path": "/convert-to-jpg/png"
+    },
+    {
+      "title": "WebP sang JPG",
+      "description": "Đổi tài sản WebP sang JPG khi tính tương thích được ưu tiên.",
+      "path": "/convert-to-jpg/webp"
+    },
+    {
+      "title": "SVG sang JPG",
+      "description": "Raster hóa vector SVG thành JPG cho workflow ảnh chụp thông thường.",
+      "path": "/convert-to-jpg/svg"
+    }
+  ],
+  "quickGuide": {
+    "title": "Hướng dẫn nhanh về chuyển đổi JPG",
+    "description": "Nếu bạn muốn bản tóm tắt, JPG là lựa chọn phù hợp khi cần ảnh nhẹ hơn cho website, upload, email và chia sẻ. Nó đặc biệt mạnh cho ảnh chụp và nội dung thông thường khi kích thước file quan trọng hơn nền trong suốt."
+  },
+  "highlights": [
+    {
+      "title": "Phù hợp cho ảnh chụp",
+      "description": "JPG rất hợp với ảnh từ máy ảnh, ảnh lifestyle và ảnh sản phẩm khi ưu tiên dung lượng nhẹ."
+    },
+    {
+      "title": "File nhỏ hơn",
+      "description": "So với PNG, JPG thường tạo ra file nhẹ hơn, dễ upload, chia sẻ và đăng tải online."
+    },
+    {
+      "title": "Không giữ nền trong suốt",
+      "description": "JPG không lưu transparency, nên không phải đầu ra tốt nhất cho logo hoặc đồ họa cắt nền."
+    },
+    {
+      "title": "Tương thích rộng",
+      "description": "JPG hoạt động gần như mọi nơi, nên là kiểu xuất file an toàn cho client, CMS, app cũ và sàn thương mại."
+    }
+  ],
+  "gridOne": [
+    {
+      "title": "JPG là định dạng gì?",
+      "paragraphs": [
+        "JPG là định dạng ảnh nén được tạo ra để phát hành hiệu quả. Trên thực tế, đây là một trong những định dạng hữu dụng nhất cho ảnh chụp, nội dung đăng bài, danh sách sản phẩm, blog và upload khi file nhỏ sẽ giúp trang tải nhanh hơn và workflow trôi chảy hơn.",
+        "Vì lý do đó, các tìm kiếm như image to JPG converter và png to jpg thường bắt nguồn từ một bài toán về đầu ra, không chỉ là sự tò mò về định dạng. Người dùng thường cần file nhẹ hơn để chia sẻ hoặc upload, chứ không cần một tài sản phức tạp hơn để chỉnh sửa."
+      ]
+    },
+    {
+      "title": "Khi nào bạn nên dùng JPG?",
+      "paragraphs": [
+        "Hãy dùng JPG khi ảnh gốc chủ yếu là ảnh chụp và mục tiêu của bạn là phát hành gọn nhẹ. Đây là định dạng mạnh cho ảnh sản phẩm, ảnh du lịch, visual bài viết, ảnh danh sách và nội dung website thông thường không cần nền trong suốt.",
+        "Nếu bạn có một file PNG hoặc WebP quá nặng và chỉ muốn đầu ra nhỏ hơn, dễ dùng hơn, JPG thường là câu trả lời đơn giản nhất. Nếu ảnh cần transparency hoặc phải chỉnh sửa lặp lại, PNG thường là định dạng làm việc tốt hơn."
+      ]
+    }
+  ],
+  "gridTwo": [
+    {
+      "title": "PNG và JPG - định dạng nào tốt hơn?",
+      "paragraphs": [
+        "PNG thường tốt hơn cho logo, screenshot, tài sản trong suốt và các visual nặng về thiết kế. JPG thường tốt hơn cho ảnh chụp, tốc độ trang và việc đăng tải thông thường. Vì thế, một page như thế này không chỉ nên nói convert to JPG, mà còn phải giải thích vì sao người dùng lại chấp nhận rời PNG.",
+        "Trong nhiều trường hợp, câu trả lời là dung lượng và tính tương thích. Nếu đầu ra được đưa lên website, CMS, email hoặc gửi cho client, JPG thường dễ dùng hơn. Nếu bạn vẫn cần transparency hoặc cạnh đồ họa sạch hơn, hãy quay lại [PNG](/convert-to-png)."
+      ]
+    },
+    {
+      "title": "JPG và WebP - nên chọn định dạng nào?",
+      "paragraphs": [
+        "JPG thắng về sự quen thuộc và khả năng tương thích rộng. WebP thường thắng về hiệu năng web hiện đại vì có thể tạo file nhỏ hơn ở chất lượng tương đương. Nếu mục tiêu cuối cùng của bạn là tối ưu website, [WebP](/convert-to-webp) có thể là định dạng đầu ra mạnh hơn.",
+        "Nhưng nếu bạn cần một định dạng mà client, nền tảng và công cụ cũ có thể mở ngay lập tức, JPG vẫn là một trong những lựa chọn an toàn nhất. Ở khía cạnh đó, JPG thường là định dạng phát hành đơn giản nhất, ngay cả khi WebP hiệu quả hơn về kỹ thuật."
+      ]
+    }
+  ],
+  "howTo": {
+    "title": "Cách chuyển ảnh sang JPG",
+    "paragraphs": [
+      "Tải ảnh gốc lên, đặt chất lượng JPG và tải kết quả xuống. Nếu file cần đổi kích thước, hãy dùng tiếp [Resize Image](/resize-image). Nếu bạn cần file nhẹ hơn nữa cho web, hãy thử [Convert to WebP](/convert-to-webp). Nếu bạn cần chất lượng lossless hoặc nền trong suốt, hãy chuyển qua [Convert to PNG](/convert-to-png). Bạn cũng có thể giảm thêm dung lượng đầu ra với [Compress Image](/compress-image)."
+    ]
+  },
+  "workflow": {
+    "title": "Xây dựng workflow phát hành ảnh xoay quanh JPG",
+    "paragraphs": [
+      "JPG phát huy giá trị nhất khi nằm trong một workflow ảnh rộng hơn. Có những tài sản bắt đầu bằng PNG để chỉnh sửa, chuyển qua JPG để chia sẻ, rồi kết thúc bằng WebP để tối ưu website. Do đó, liên kết nội bộ giữa [PNG conversion](/convert-to-png), [WebP conversion](/convert-to-webp), [resizing](/resize-image) và [compression](/compress-image) rất quan trọng cho cả SEO lẫn hành vi người dùng."
+    ]
+  }
+}

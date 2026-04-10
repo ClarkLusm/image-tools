@@ -1,5 +1,8 @@
 import { Link } from "@/i18n/navigation";
 import { Clock3, ArrowRight } from "lucide-react";
+import { getRequestLanguage } from "@/app/lib/i18n-server";
+import { getToolLayoutLookup } from "@/app/lib/tool-layout-lookup";
+import { localizeReactTree } from "@/app/lib/react-translation";
 
 type ComingSoonPageProps = {
   title?: string;
@@ -13,11 +16,14 @@ const quickLinks = [
   { href: "/convert-to-webp", label: "Convert to WebP" },
 ];
 
-export function ComingSoonPage({
+export async function ComingSoonPage({
   title = "Coming Soon",
   description = "This page is on the way. In the meantime, you can keep working with the tools that are already live.",
 }: ComingSoonPageProps) {
-  return (
+  const languageCode = await getRequestLanguage();
+  const lookup = await getToolLayoutLookup(languageCode);
+
+  return localizeReactTree(
     <section className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-3xl rounded-3xl border border-border bg-white p-8 text-center shadow-[0_20px_60px_rgba(15,23,42,0.08)] sm:p-12">
         <div className="mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -44,6 +50,8 @@ export function ComingSoonPage({
           ))}
         </div>
       </div>
-    </section>
+    </section>,
+    languageCode,
+    lookup,
   );
 }

@@ -1,6 +1,9 @@
 import { SITE_NAME } from "@/lib/site";
 import { Sparkles } from "lucide-react";
 import { createPageMetadata } from "@/app/lib/metadata";
+import { getRequestLanguage } from "@/app/lib/i18n-server";
+import { getToolLayoutLookup } from "@/app/lib/tool-layout-lookup";
+import { localizeReactTree } from "@/app/lib/react-translation";
 
 export async function generateMetadata({
   params,
@@ -23,8 +26,11 @@ export async function generateMetadata({
   });
 }
 
-export default function Page() {
-  return (
+export default async function Page() {
+  const languageCode = await getRequestLanguage();
+  const lookup = await getToolLayoutLookup(languageCode);
+
+  return localizeReactTree(
     <main className="mx-auto container max-w-[960px] px-4 py-16 text-muted-foreground">
       <div className="tool-layout-header mb-6 text-center md:mb-8">
         <div className="mb-3 inline-flex items-center justify-center rounded-2xl bg-primary/10 p-2">
@@ -426,6 +432,8 @@ export default function Page() {
           </span>
         </p>
       </div>
-    </main>
+    </main>,
+    languageCode,
+    lookup,
   );
 }

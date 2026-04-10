@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import { useLocale } from "next-intl";
 import { type Crop, type PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import {
@@ -81,6 +82,8 @@ export default function SocialResizeClient({
   instagramOptimization = false,
   presetPicker = "cards",
 }: SocialResizeClientProps) {
+  const locale = useLocale();
+  const isVietnamese = locale === "vi";
   const [file, setFile] = useState<File | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(defaultPresetIndex);
@@ -257,7 +260,9 @@ export default function SocialResizeClient({
         }
 
         setOptimizationSummary(
-          "Auto-optimized for Instagram: cropped to the selected format, resized to the target dimensions, then exported as JPEG with smart quality tuning.",
+          isVietnamese
+            ? "Đã tự động tối ưu cho Instagram: ảnh được cắt theo đúng định dạng đã chọn, đổi kích thước theo chuẩn đích, rồi xuất JPEG với mức chất lượng phù hợp để giảm mờ sau khi Instagram nén lại."
+            : "Auto-optimized for Instagram: cropped to the selected format, resized to the target dimensions, then exported as JPEG with smart quality tuning.",
         );
       }
     }
@@ -384,7 +389,7 @@ export default function SocialResizeClient({
           isProcessing={isProcessing}
           accept={{ "image/*": [".jpg", ".jpeg", ".png", ".webp"] }}
           previewContent={renderLiveCropPreview()}
-          previewLabel="Crop Preview"
+          previewLabel={isVietnamese ? "Xem trước vùng cắt" : "Crop Preview"}
           interactivePreview
           aside={
             file && selectedPreset ? (
@@ -392,11 +397,13 @@ export default function SocialResizeClient({
                 <div className="mb-6 flex items-center gap-4">
                   <SlidersHorizontal className="h-5 w-5 text-primary" />
                   <div>
-                    <h3 className="font-semibold text-lg">Choose Format</h3>
+                    <h3 className="font-semibold text-lg">
+                      {isVietnamese ? "Chọn định dạng" : "Choose Format"}
+                    </h3>
                     {originalSize && (
                       <p className="text-xs text-muted-foreground">
-                        Original size: {originalSize.width} x{" "}
-                        {originalSize.height}px
+                        {isVietnamese ? "Kích thước gốc" : "Original size"}:{" "}
+                        {originalSize.width} x {originalSize.height}px
                       </p>
                     )}
                   </div>
@@ -412,8 +419,8 @@ export default function SocialResizeClient({
                         onChange={(event) =>
                           setSelectedIndex(Number(event.target.value))
                         }
-                        className="w-full rounded-xl border border-border bg-background p-3 outline-none transition-all focus:ring-2 focus:ring-primary/50"
-                      >
+                      className="w-full rounded-xl border border-border bg-background p-3 outline-none transition-all focus:ring-2 focus:ring-primary/50"
+                    >
                         {presets.map((preset, index) => (
                           <option key={preset.label} value={index}>
                             {preset.label} - {preset.width}x{preset.height}
@@ -432,10 +439,16 @@ export default function SocialResizeClient({
                   <div className="flex items-center justify-between rounded-xl border border-border/70 bg-muted/25 px-4 py-3 text-sm text-muted-foreground">
                     <span>
                       {completedCrop
-                        ? `Crop area: ${Math.round(completedCrop.width)} x ${Math.round(
-                            completedCrop.height,
-                          )}px`
-                        : "Set crop area"}
+                        ? isVietnamese
+                          ? `Vùng cắt: ${Math.round(completedCrop.width)} x ${Math.round(
+                              completedCrop.height,
+                            )}px`
+                          : `Crop area: ${Math.round(completedCrop.width)} x ${Math.round(
+                              completedCrop.height,
+                            )}px`
+                        : isVietnamese
+                          ? "Thiết lập vùng cắt"
+                          : "Set crop area"}
                     </span>
                     <button
                       type="button"
@@ -443,7 +456,7 @@ export default function SocialResizeClient({
                       className="inline-flex items-center gap-2 font-medium text-primary hover:underline"
                     >
                       <RefreshCcw className="h-4 w-4" />
-                      Reset crop
+                      {isVietnamese ? "Đặt lại vùng cắt" : "Reset crop"}
                     </button>
                   </div>
 
@@ -460,12 +473,14 @@ export default function SocialResizeClient({
                       <span className="text-muted-foreground">
                         <span className="inline-flex items-center gap-1 font-semibold text-foreground">
                           <Sparkles className="h-4 w-4 text-primary" />
-                          Instagram Optimization Engine
+                          {isVietnamese
+                            ? "Bộ tối ưu Instagram"
+                            : "Instagram Optimization Engine"}
                         </span>
                         <span className="mt-1 block">
-                          After crop + resize, auto-export to IG-friendly JPEG
-                          and tune quality to reduce blur after Instagram
-                          recompression.
+                          {isVietnamese
+                            ? "Sau khi cắt và đổi kích thước, công cụ sẽ tự xuất JPEG phù hợp với Instagram và tinh chỉnh chất lượng để giảm hiện tượng mờ sau khi Instagram nén lại."
+                            : "After crop + resize, auto-export to IG-friendly JPEG and tune quality to reduce blur after Instagram recompression."}
                         </span>
                       </span>
                     </label>
@@ -479,11 +494,13 @@ export default function SocialResizeClient({
                 >
                   {isProcessing ? (
                     <>
-                      <Loader2 className="h-5 w-5 animate-spin" /> Resizing in
-                      background...
+                      <Loader2 className="h-5 w-5 animate-spin" />{" "}
+                      {isVietnamese
+                        ? "Đang đổi kích thước trong nền..."
+                        : "Resizing in background..."}
                     </>
                   ) : (
-                    "Resize Image"
+                    isVietnamese ? "Đổi kích thước ảnh" : "Resize Image"
                   )}
                 </button>
               </div>
@@ -503,10 +520,13 @@ export default function SocialResizeClient({
           <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-900/50 dark:text-green-400">
             <Download className="h-8 w-8" />
           </div>
-          <h3 className="mb-2 text-2xl font-bold">Resize Complete!</h3>
+          <h3 className="mb-2 text-2xl font-bold">
+            {isVietnamese ? "Đổi kích thước hoàn tất!" : "Resize Complete!"}
+          </h3>
           <p className="mb-8 text-muted-foreground">
-            New size: {selectedPreset.width}×{selectedPreset.height}px. File
-            size:{" "}
+            {isVietnamese ? "Kích thước mới" : "New size"}:{" "}
+            {selectedPreset.width}×{selectedPreset.height}px.{" "}
+            {isVietnamese ? "Dung lượng tệp" : "File size"}:{" "}
             <span className="font-semibold">
               {formatBytes(resultBlob.size)}
             </span>
@@ -523,7 +543,7 @@ export default function SocialResizeClient({
               onClick={handleDownload}
               className="rounded-xl bg-primary px-8 py-4 font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
             >
-              Download Image
+              {isVietnamese ? "Tải ảnh xuống" : "Download Image"}
             </button>
             <button
               onClick={() => {
@@ -541,7 +561,7 @@ export default function SocialResizeClient({
               }}
               className="rounded-xl border border-border bg-white px-8 py-4 font-bold text-foreground shadow-sm transition-all hover:bg-secondary"
             >
-              Resize Another
+              {isVietnamese ? "Đổi ảnh khác" : "Resize Another"}
             </button>
           </div>
         </motion.div>

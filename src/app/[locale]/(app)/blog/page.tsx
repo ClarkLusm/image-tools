@@ -4,6 +4,9 @@ import { ArrowRight, BookOpen, Image as ImageIcon, Sparkles } from "lucide-react
 import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { createPageMetadata } from "@/app/lib/metadata";
+import { getRequestLanguage } from "@/app/lib/i18n-server";
+import { getToolLayoutLookup } from "@/app/lib/tool-layout-lookup";
+import { localizeReactTree } from "@/app/lib/react-translation";
 
 const upcomingPosts = [
   {
@@ -52,8 +55,11 @@ export async function generateMetadata({
   });
 }
 
-export default function BlogPage() {
-  return (
+export default async function BlogPage() {
+  const languageCode = await getRequestLanguage();
+  const lookup = await getToolLayoutLookup(languageCode);
+
+  return localizeReactTree(
     <main className="min-h-screen bg-background py-12 lg:py-20">
       <BreadcrumbsJsonLd
         scriptId="breadcrumbs-blog"
@@ -123,6 +129,8 @@ export default function BlogPage() {
           </div>
         </section>
       </div>
-    </main>
+    </main>,
+    languageCode,
+    lookup,
   );
 }

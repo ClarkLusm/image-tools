@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLocale } from "next-intl";
 import { Download, Loader2, Settings, Lock, Unlock } from "lucide-react";
 import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes, loadImage } from "@/lib/image-utils";
@@ -8,6 +9,8 @@ import { useImageWorker } from "@/hooks/use-image-worker";
 import { motion } from "framer-motion";
 
 export default function ResizeImageClient() {
+  const locale = useLocale();
+  const isVietnamese = locale === "vi";
   const [file, setFile] = useState<File | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
 
@@ -80,13 +83,15 @@ export default function ResizeImageClient() {
               <div>
                 <div className="mb-6 flex items-center gap-4">
                   <Settings className="h-5 w-5 text-primary" />
-                  <h3 className="text-lg font-semibold">Dimensions (Pixels)</h3>
+                  <h3 className="text-lg font-semibold">
+                    {isVietnamese ? "Kích thước (pixel)" : "Dimensions (Pixels)"}
+                  </h3>
                 </div>
 
                 <div className="flex flex-col items-center gap-6">
                   <div className="w-full space-y-2">
                     <label className="text-sm font-medium text-muted-foreground">
-                      Width
+                      {isVietnamese ? "Chiều rộng" : "Width"}
                     </label>
                     <input
                       type="number"
@@ -101,7 +106,13 @@ export default function ResizeImageClient() {
                       onClick={() => setMaintainRatio(!maintainRatio)}
                       className={`rounded-full p-2 transition-colors ${maintainRatio ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}`}
                       title={
-                        maintainRatio ? "Unlock aspect ratio" : "Lock aspect ratio"
+                        maintainRatio
+                          ? isVietnamese
+                            ? "Mở khóa tỷ lệ"
+                            : "Unlock aspect ratio"
+                          : isVietnamese
+                            ? "Khóa tỷ lệ"
+                            : "Lock aspect ratio"
                       }
                     >
                       {maintainRatio ? (
@@ -111,13 +122,19 @@ export default function ResizeImageClient() {
                       )}
                     </button>
                     <span className="text-xs text-muted-foreground">
-                      {maintainRatio ? "Ratio locked" : "Ratio unlocked"}
+                      {maintainRatio
+                        ? isVietnamese
+                          ? "Đã khóa tỷ lệ"
+                          : "Ratio locked"
+                        : isVietnamese
+                          ? "Đã mở khóa tỷ lệ"
+                          : "Ratio unlocked"}
                     </span>
                   </div>
 
                   <div className="w-full space-y-2">
                     <label className="text-sm font-medium text-muted-foreground">
-                      Height
+                      {isVietnamese ? "Chiều cao" : "Height"}
                     </label>
                     <input
                       type="number"
@@ -135,11 +152,13 @@ export default function ResizeImageClient() {
                 >
                   {isProcessing ? (
                     <>
-                      <Loader2 className="h-5 w-5 animate-spin" /> Resizing in
-                      background...
+                      <Loader2 className="h-5 w-5 animate-spin" />{" "}
+                      {isVietnamese
+                        ? "Đang đổi kích thước trong nền..."
+                        : "Resizing in background..."}
                     </>
                   ) : (
-                    "Resize Image"
+                    isVietnamese ? "Đổi kích thước ảnh" : "Resize Image"
                   )}
                 </button>
               </div>
@@ -160,10 +179,14 @@ export default function ResizeImageClient() {
             <Download className="w-8 h-8" />
           </div>
           <h3 className="text-2xl font-bold mb-2">
-            Image Resized Successfully!
+            {isVietnamese
+              ? "Đã đổi kích thước ảnh thành công!"
+              : "Image Resized Successfully!"}
           </h3>
           <p className="text-muted-foreground mb-8">
-            Your image is ready at {width}x{height}px. Size:{" "}
+            {isVietnamese
+              ? `Ảnh của bạn đã sẵn sàng ở kích thước ${width}x${height}px. Dung lượng: `
+              : `Your image is ready at ${width}x${height}px. Size: `}
             <span className="font-semibold">
               {formatBytes(resultBlob.size)}
             </span>
@@ -174,7 +197,7 @@ export default function ResizeImageClient() {
               onClick={handleDownload}
               className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
             >
-              Download Image
+              {isVietnamese ? "Tải ảnh xuống" : "Download Image"}
             </button>
             <button
               onClick={() => {
@@ -183,7 +206,7 @@ export default function ResizeImageClient() {
               }}
               className="px-8 py-4 bg-white text-foreground border border-border font-bold rounded-xl shadow-sm hover:bg-secondary transition-all"
             >
-              Resize Another
+              {isVietnamese ? "Đổi ảnh khác" : "Resize Another"}
             </button>
           </div>
         </motion.div>

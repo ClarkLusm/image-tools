@@ -2,6 +2,7 @@
 
 import { ReactNode, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import { useLocale } from "next-intl";
 import { Loader2, UploadCloud } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { UploaderProps } from "./uploader-core";
@@ -23,6 +24,9 @@ function UploaderShell({
   onPrimed: () => void;
   topRightAction?: ReactNode;
 }) {
+  const locale = useLocale();
+  const isVietnamese = locale === "vi";
+
   return (
     <div className={cn("w-full", className)}>
       <div
@@ -54,14 +58,18 @@ function UploaderShell({
             <UploadCloud className="w-10 h-10" />
           </div>
           <h3 className="text-xl font-display font-semibold text-foreground mb-2">
-            Upload image
+            {isVietnamese ? "Tải ảnh lên" : "Upload image"}
           </h3>
           <p className="text-muted-foreground mb-2">
-            Preparing uploader for drag-and-drop...
+            {isVietnamese
+              ? "Đang chuẩn bị khung tải ảnh kéo thả..."
+              : "Preparing uploader for drag-and-drop..."}
           </p>
           <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
             <Loader2 className="w-3.5 h-3.5 animate-spin" />
-            Loading interaction bundle
+            {isVietnamese
+              ? "Đang tải phần tương tác"
+              : "Loading interaction bundle"}
           </div>
         </div>
       </div>

@@ -1,0 +1,136 @@
+{
+  "metaTitle": "Chuyển ảnh sang PNG online miễn phí - Công cụ JPG sang PNG",
+  "metaDescription": "Chuyển ảnh sang PNG online miễn phí. Dùng công cụ JPG sang PNG này cho logo, đồ họa nền trong suốt, ảnh chụp màn hình và workflow chuyển ảnh sang PNG chất lượng cao.",
+  "title": "Chuyển ảnh sang PNG online",
+  "description": "Chuyển JPG, JPEG, WebP, GIF hoặc SVG sang PNG để giữ chất lượng lossless, hỗ trợ nền trong suốt và dễ chỉnh sửa hơn trong workflow thiết kế.",
+  "breadcrumbs": {
+    "home": "Trang chủ",
+    "current": "Chuyển sang PNG"
+  },
+  "sourceLinkCta": "Bắt đầu chuyển đổi",
+  "steps": [
+    {
+      "title": "Tải ảnh gốc lên",
+      "description": "Chọn file JPG, WebP, GIF hoặc SVG bạn muốn chuyển sang PNG."
+    },
+    {
+      "title": "Chuyển sang PNG",
+      "description": "Công cụ xử lý ảnh ngay trong trình duyệt và tạo file PNG gần như tức thì."
+    },
+    {
+      "title": "Tải file PNG xuống",
+      "description": "Lưu file PNG đã chuyển đổi để dùng cho thiết kế, đăng tải hoặc chỉnh sửa tiếp."
+    }
+  ],
+  "faqs": [
+    {
+      "q": "PNG là định dạng gì?",
+      "a": "PNG là định dạng ảnh lossless, phù hợp cho những hình cần cạnh sắc nét, chi tiết ổn định và hỗ trợ nền trong suốt. Đây là lựa chọn tốt cho logo, screenshot, icon, thành phần giao diện và mọi ảnh cần giữ độ nét sau nhiều lần chỉnh sửa."
+    },
+    {
+      "q": "Khi nào nên chuyển JPG sang PNG?",
+      "a": "Bạn nên chuyển JPG sang PNG khi cần file dễ chỉnh sửa hơn, muốn giữ cạnh chữ và đồ họa sạch hơn, hoặc dự định đưa ảnh vào tài liệu thiết kế, slide, UI mockup hay các workflow có nhiều lần xuất file. Việc này không khôi phục chi tiết đã mất trong JPG gốc, nhưng giúp giảm việc nén mất mát thêm ở các bước sau."
+    },
+    {
+      "q": "PNG có tốt hơn JPG không?",
+      "a": "PNG thường tốt hơn cho đồ họa, screenshot, logo và tài sản thiết kế vì đây là định dạng lossless và có thể giữ nền trong suốt. JPG thường phù hợp hơn cho ảnh chụp và xuất web khi kích thước file quan trọng hơn độ sắc nét tuyệt đối. Định dạng tốt hơn phụ thuộc vào mục đích sử dụng."
+    },
+    {
+      "q": "PNG có tốt hơn WebP không?",
+      "a": "PNG mạnh hơn về tính tương thích và quy trình chỉnh sửa, trong khi WebP thường tốt hơn khi bạn cần file nhẹ cho website hiện đại. Nếu bạn ưu tiên sự tương thích rộng giữa trình duyệt và phần mềm, PNG vẫn là lựa chọn thực tế. Nếu bạn ưu tiên file nhẹ để đăng tải web, WebP có thể là đầu ra hợp lý hơn."
+    },
+    {
+      "q": "File của tôi có bị upload lên server không?",
+      "a": "Không. Quá trình chuyển đổi chạy ngay trong trình duyệt, nên ảnh của bạn không cần upload lên server chỉ để đổi sang PNG."
+    }
+  ],
+  "relatedTools": [
+    { "name": "Chuyển sang JPG", "path": "/convert-to-jpg" },
+    { "name": "Chuyển sang WebP", "path": "/convert-to-webp" },
+    { "name": "Nén ảnh", "path": "/compress-image" },
+    { "name": "Resize ảnh", "path": "/resize-image" }
+  ],
+  "sourceLinks": [
+    {
+      "title": "JPG sang PNG",
+      "description": "Chuyển ảnh JPEG sang PNG để phục vụ workflow chỉnh sửa sạch hơn.",
+      "path": "/convert-to-png/jpg"
+    },
+    {
+      "title": "WebP sang PNG",
+      "description": "Đổi file WebP sang PNG khi tính tương thích quan trọng hơn.",
+      "path": "/convert-to-png/webp"
+    },
+    {
+      "title": "SVG sang PNG",
+      "description": "Raster hóa vector SVG thành PNG cho app, tài liệu và slide.",
+      "path": "/convert-to-png/svg"
+    }
+  ],
+  "quickGuide": {
+    "title": "Hướng dẫn nhanh về chuyển đổi PNG",
+    "description": "Nếu bạn chỉ cần bản tóm tắt, PNG là định dạng phù hợp khi độ sạch của hình ảnh quan trọng hơn kích thước file. Nó đặc biệt hữu ích cho screenshot, logo, đồ họa nhiều chữ, icon và các tài sản còn được chỉnh sửa tiếp."
+  },
+  "highlights": [
+    {
+      "title": "Phù hợp cho đồ họa",
+      "description": "PNG giữ cạnh, nhãn chữ và thành phần giao diện sạch hơn JPG trong nhiều workflow thiết kế."
+    },
+    {
+      "title": "Mạnh về nền trong suốt",
+      "description": "PNG hỗ trợ pixel trong suốt, vì vậy rất hợp cho logo, overlay và tài sản UI."
+    },
+    {
+      "title": "File thường lớn hơn",
+      "description": "PNG giữ lại cấu trúc và chi tiết nhiều hơn, nên kết quả thường nặng hơn JPG hoặc WebP."
+    },
+    {
+      "title": "Tốt cho chỉnh sửa",
+      "description": "Nếu file còn đi qua nhiều vòng review, tài liệu hoặc xuất lặp lại, PNG thường dễ làm việc hơn."
+    }
+  ],
+  "gridOne": [
+    {
+      "title": "PNG là định dạng gì?",
+      "paragraphs": [
+        "PNG là viết tắt của Portable Network Graphics. Trên thực tế, đây là một trong những định dạng hữu ích nhất khi bạn cần chất lượng ảnh ổn định qua các lần chỉnh sửa, xuất file và chuyển qua nhiều công cụ. Khác với JPG, PNG là lossless, tức là định dạng này ưu tiên giữ lại cấu trúc ảnh thay vì cố tình loại bỏ thông tin hình ảnh để tiết kiệm dung lượng.",
+        "Điều đó khiến PNG đặc biệt phù hợp cho tài sản thiết kế, screenshot sản phẩm, ảnh UI, sơ đồ, logo và mọi file có chữ hoặc cạnh sắc nét. Nếu nhu cầu tìm kiếm của bạn là image to PNG converter hoặc png converter online, lý do thực sự thường là kiểm soát chất lượng chứ không chỉ đơn thuần đổi định dạng."
+      ]
+    },
+    {
+      "title": "Khi nào bạn nên dùng PNG?",
+      "paragraphs": [
+        "Hãy dùng PNG khi bạn quan tâm đến cách hiển thị sạch sẽ, việc chỉnh sửa lặp lại hoặc nền trong suốt. Đây là lựa chọn mạnh cho logo, sticker, icon, tài sản cho slide, screenshot, biểu đồ, thành phần giao diện và đồ họa nhiều chữ, nơi JPG compression dễ làm mềm cạnh hơn mong muốn.",
+        "Vì lý do đó, nhiều người chuyển JPG sang PNG trước khi đưa tài sản vào phần mềm thiết kế, tài liệu hoặc template social media. Định dạng này không thể phục hồi chất lượng đã mất, nhưng có thể giúp tránh việc nén mất mát tiếp tục cộng dồn ở các bước sau."
+      ]
+    }
+  ],
+  "gridTwo": [
+    {
+      "title": "JPG và PNG - định dạng nào tốt hơn?",
+      "paragraphs": [
+        "JPG thường tốt hơn cho ảnh chụp và file web gọn nhẹ. PNG thường tốt hơn cho đồ họa, screenshot, tài sản thương hiệu và mọi thứ có chữ, màu phẳng hoặc hình khối sắc nét. Vì vậy, một page như thế này không chỉ cần nói convert to PNG, mà còn phải giải thích khi nào việc chuyển đổi mới thật sự có ý nghĩa.",
+        "Nếu ảnh gốc của bạn là ảnh chụp từ máy ảnh và mục tiêu là file nhẹ, JPG hoặc [WebP](/convert-to-webp) vẫn có thể là định dạng đầu ra tốt hơn. Nếu tài sản có logo, screenshot, chữ meme hoặc chi tiết giao diện, PNG thường cho kết quả sạch hơn."
+      ]
+    },
+    {
+      "title": "PNG và WebP - nên chọn định dạng nào?",
+      "paragraphs": [
+        "PNG mạnh về tính đơn giản và tương thích. WebP thường thắng về kích thước file, đặc biệt trên website. Nếu bạn đang chuẩn bị tài sản cho hợp tác, chỉnh sửa, công việc thiết kế nội bộ hoặc cần hỗ trợ rộng trên app, PNG vẫn là lựa chọn an toàn. Nếu bạn đang đăng ảnh lên website và muốn file nhẹ hơn, việc chuyển tiếp sang [WebP](/convert-to-webp) có thể là bước tối ưu thông minh hơn.",
+        "Nói cách khác, PNG thường là định dạng để làm việc, còn WebP thường là định dạng để phát hành. Sự khác biệt này giải thích vì sao các page về định dạng nên nằm trong một hệ sinh thái image tools lớn hơn thay vì chỉ là những converter đứng riêng lẻ."
+      ]
+    }
+  ],
+  "howTo": {
+    "title": "Cách chuyển ảnh sang PNG",
+    "paragraphs": [
+      "Tải ảnh gốc lên, chuyển đổi và tải file PNG về. Nếu ảnh cần đổi kích thước, hãy dùng tiếp [Resize Image](/resize-image). Nếu file PNG nặng hơn mong muốn, hãy đưa qua [Compress Image](/compress-image) hoặc xuất sang định dạng nhẹ hơn với [Convert to WebP](/convert-to-webp). Nếu bạn cần định dạng ảnh nhỏ hơn cho ảnh chụp, hãy dùng [Convert to JPG](/convert-to-jpg)."
+    ]
+  },
+  "workflow": {
+    "title": "Xây dựng workflow định dạng ảnh, không chỉ là một lần chuyển đổi",
+    "paragraphs": [
+      "Một page convert PNG mạnh sẽ giá trị hơn khi nó kết nối với một hub lớn hơn về định dạng ảnh. JPG, PNG và WebP giải quyết những bài toán khác nhau, nên người dùng thường đi qua cả chuyển đổi, resize và compression trong cùng một workflow. Vì thế, liên kết nội bộ giữa [JPG conversion](/convert-to-jpg), [WebP conversion](/convert-to-webp), [resizing](/resize-image) và [compression](/compress-image) rất quan trọng cho cả SEO lẫn hành vi người dùng thực tế."
+    ]
+  }
+}

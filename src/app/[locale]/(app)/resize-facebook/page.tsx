@@ -5,28 +5,32 @@ import { SITE_URL } from "@/lib/site";
 import { Link } from "@/i18n/navigation";
 import { createPageMetadata } from "@/app/lib/metadata";
 
-const presets = [
-  {
-    label: "Facebook Post",
-    width: 1200,
-    height: 630,
-  },
-  {
-    label: "Facebook Cover",
-    width: 851,
-    height: 315,
-  },
-  {
-    label: "Facebook Profile",
-    width: 320,
-    height: 320,
-  },
-  {
-    label: "Facebook Story",
-    width: 1080,
-    height: 1920,
-  },
-];
+function getPresets(locale: string) {
+  const isVietnamese = locale === "vi";
+
+  return [
+    {
+      label: isVietnamese ? "Bài đăng Facebook" : "Facebook Post",
+      width: 1200,
+      height: 630,
+    },
+    {
+      label: isVietnamese ? "Ảnh bìa Facebook" : "Facebook Cover",
+      width: 851,
+      height: 315,
+    },
+    {
+      label: isVietnamese ? "Ảnh hồ sơ Facebook" : "Facebook Profile",
+      width: 320,
+      height: 320,
+    },
+    {
+      label: isVietnamese ? "Tin Facebook" : "Facebook Story",
+      width: 1080,
+      height: 1920,
+    },
+  ];
+}
 
 export async function generateMetadata({
   params,
@@ -49,126 +53,171 @@ export async function generateMetadata({
   });
 }
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const isVietnamese = locale === "vi";
   const siteUrl = SITE_URL;
   return (
     <ToolLayout
-      title="Resize Facebook Images Online"
-      description="Resize for Facebook posts, cover photos, profile images, and stories with practical Facebook image dimensions and creator-friendly presets."
+      title={
+        isVietnamese
+          ? "Đổi kích thước ảnh Facebook online"
+          : "Resize Facebook Images Online"
+      }
+      description={
+        isVietnamese
+          ? "Đổi kích thước cho bài đăng, ảnh bìa, ảnh hồ sơ và tin Facebook với các preset thực tế và dễ dùng cho người sáng tạo."
+          : "Resize for Facebook posts, cover photos, profile images, and stories with practical Facebook image dimensions and creator-friendly presets."
+      }
       steps={[
         {
-          title: "Upload Image",
-          description:
-            "Choose the image you want to prepare for a Facebook post, cover, profile photo, or story.",
+          title: isVietnamese ? "Tải ảnh lên" : "Upload Image",
+          description: isVietnamese
+            ? "Chọn hình ảnh bạn muốn chuẩn bị cho bài đăng, ảnh bìa, ảnh hồ sơ hoặc tin Facebook."
+            : "Choose the image you want to prepare for a Facebook post, cover, profile photo, or story.",
         },
         {
-          title: "Select Preset",
-          description:
-            "Pick the Facebook format you need, from post size to cover photo and profile artwork.",
+          title: isVietnamese ? "Chọn preset" : "Select Preset",
+          description: isVietnamese
+            ? "Chọn đúng định dạng Facebook bạn cần, từ ảnh bài đăng đến ảnh bìa và ảnh hồ sơ."
+            : "Pick the Facebook format you need, from post size to cover photo and profile artwork.",
         },
         {
-          title: "Download",
-          description:
-            "Export the resized image instantly so it is ready for Facebook upload.",
+          title: isVietnamese ? "Tải xuống" : "Download",
+          description: isVietnamese
+            ? "Xuất ảnh đã đổi kích thước ngay để sẵn sàng tải lên Facebook."
+            : "Export the resized image instantly so it is ready for Facebook upload.",
         },
       ]}
       faqs={[
         {
-          q: "What is Facebook image size?",
-          a: "The answer depends on placement. A common Facebook post image size is 1200 x 630, Page cover photos work well at 851 x 315, and profile photos should be prepared as square images, ideally 320 x 320 for quality. That is why a strong Facebook resize page needs to cover more than one preset instead of treating every upload like a generic social graphic.",
+          q: isVietnamese
+            ? "Kích thước ảnh Facebook là bao nhiêu?"
+            : "What is Facebook image size?",
+          a: isVietnamese
+            ? "Câu trả lời phụ thuộc vào vị trí hiển thị. Kích thước phổ biến cho ảnh bài đăng Facebook là 1200 x 630, ảnh bìa Page hoạt động tốt ở 851 x 315, còn ảnh hồ sơ nên được chuẩn bị dưới dạng vuông, lý tưởng là 320 x 320 để có chất lượng tốt. Vì vậy một trang resize Facebook tốt cần bao phủ nhiều preset thay vì coi mọi ảnh tải lên như một đồ họa mạng xã hội chung chung."
+            : "The answer depends on placement. A common Facebook post image size is 1200 x 630, Page cover photos work well at 851 x 315, and profile photos should be prepared as square images, ideally 320 x 320 for quality. That is why a strong Facebook resize page needs to cover more than one preset instead of treating every upload like a generic social graphic.",
         },
         {
-          q: "What is Facebook cover size?",
-          a: "Facebook Help says Page cover photos should be at least 400 x 150 pixels and load fastest as an sRGB JPG at 851 x 315. That is the most practical starting point for cover artwork with text or brand elements, especially when you want a clean Facebook cover size that survives desktop and mobile cropping more gracefully.",
+          q: isVietnamese
+            ? "Kích thước ảnh bìa Facebook là bao nhiêu?"
+            : "What is Facebook cover size?",
+          a: isVietnamese
+            ? "Tài liệu trợ giúp của Facebook cho biết ảnh bìa Page nên có ít nhất 400 x 150 pixel và tải nhanh nhất dưới dạng JPG sRGB ở 851 x 315. Đây là điểm bắt đầu thực tế nhất cho ảnh bìa có chữ hoặc yếu tố thương hiệu, đặc biệt khi bạn muốn một kích thước cover hoạt động ổn hơn trên cả desktop lẫn mobile."
+            : "Facebook Help says Page cover photos should be at least 400 x 150 pixels and load fastest as an sRGB JPG at 851 x 315. That is the most practical starting point for cover artwork with text or brand elements, especially when you want a clean Facebook cover size that survives desktop and mobile cropping more gracefully.",
         },
         {
-          q: "What size should I use for a Facebook profile picture?",
-          a: "Facebook Help says Page profile photos display at 176 x 176 on desktop and 196 x 196 on smartphones, and recommends uploading a 320 x 320 square image for best quality.",
+          q: isVietnamese
+            ? "Tôi nên dùng kích thước nào cho ảnh hồ sơ Facebook?"
+            : "What size should I use for a Facebook profile picture?",
+          a: isVietnamese
+            ? "Facebook cho biết ảnh hồ sơ Page sẽ hiển thị ở 176 x 176 trên desktop và 196 x 196 trên điện thoại, đồng thời khuyến nghị tải lên ảnh vuông 320 x 320 để có chất lượng tốt nhất."
+            : "Facebook Help says Page profile photos display at 176 x 176 on desktop and 196 x 196 on smartphones, and recommends uploading a 320 x 320 square image for best quality.",
         },
         {
-          q: "Is Facebook event cover size the same as Page cover size?",
-          a: "No. Facebook event cover visuals behave like a separate wide placement, so reusing a Page cover often leads to awkward crops. If you are preparing event graphics, treat Facebook event cover size as its own asset workflow instead of assuming your standard Page cover will fit perfectly.",
+          q: isVietnamese
+            ? "Kích thước ảnh bìa sự kiện Facebook có giống ảnh bìa Page không?"
+            : "Is Facebook event cover size the same as Page cover size?",
+          a: isVietnamese
+            ? "Không. Ảnh bìa sự kiện Facebook hoạt động như một vị trí ngang riêng biệt, nên việc tái sử dụng ảnh bìa Page thường dẫn tới crop lệch. Nếu bạn đang chuẩn bị ảnh cho sự kiện, hãy coi đây là một workflow riêng thay vì giả định ảnh bìa Page sẽ khớp hoàn hảo."
+            : "No. Facebook event cover visuals behave like a separate wide placement, so reusing a Page cover often leads to awkward crops. If you are preparing event graphics, treat Facebook event cover size as its own asset workflow instead of assuming your standard Page cover will fit perfectly.",
         },
         {
-          q: "Do you support Facebook story format?",
-          a: "Yes. Use the 1080 x 1920 vertical preset when you need a Story-friendly layout for mobile viewing.",
+          q: isVietnamese
+            ? "Công cụ có hỗ trợ định dạng tin Facebook không?"
+            : "Do you support Facebook story format?",
+          a: isVietnamese
+            ? "Có. Hãy dùng preset dọc 1080 x 1920 khi bạn cần bố cục phù hợp cho tin Facebook trên di động."
+            : "Yes. Use the 1080 x 1920 vertical preset when you need a Story-friendly layout for mobile viewing.",
         },
         {
-          q: "Are my files uploaded?",
-          a: "No. All resizing happens locally in your browser, so you can prepare Facebook assets without sending the image to our server.",
+          q: isVietnamese ? "Tệp của tôi có bị tải lên không?" : "Are my files uploaded?",
+          a: isVietnamese
+            ? "Không. Toàn bộ quá trình resize diễn ra cục bộ trong trình duyệt, nên bạn có thể chuẩn bị tài sản cho Facebook mà không cần gửi ảnh lên máy chủ của chúng tôi."
+            : "No. All resizing happens locally in your browser, so you can prepare Facebook assets without sending the image to our server.",
         },
       ]}
       relatedTools={[
-        { name: "Resize Instagram Image", path: "/resize-instagram" },
-        { name: "Resize TikTok Image", path: "/resize-tiktok" },
-        { name: "Resize YouTube Image", path: "/resize-youtube" },
-        { name: "Compress Image", path: "/compress-image" },
+        { name: isVietnamese ? "Resize ảnh Instagram" : "Resize Instagram Image", path: "/resize-instagram" },
+        { name: isVietnamese ? "Resize ảnh TikTok" : "Resize TikTok Image", path: "/resize-tiktok" },
+        { name: isVietnamese ? "Resize ảnh YouTube" : "Resize YouTube Image", path: "/resize-youtube" },
+        { name: isVietnamese ? "Nén ảnh" : "Compress Image", path: "/compress-image" },
       ]}
     >
       <BreadcrumbsJsonLd
         scriptId="breadcrumbs-resize-facebook"
         items={[
           { name: "Home", url: `${siteUrl}/` },
-          { name: "Resize for Facebook", url: `${siteUrl}/resize-facebook` },
+          {
+            name: isVietnamese ? "Resize cho Facebook" : "Resize for Facebook",
+            url: `${siteUrl}/resize-facebook`,
+          },
         ]}
       />
-      <SocialResizeClient presets={presets} defaultPresetIndex={0} />
+      <SocialResizeClient presets={getPresets(locale)} defaultPresetIndex={0} />
 
       <section className="mt-24 space-y-12 bg-card">
         <div className="max-w-3xl">
           <h2 className="text-2xl font-display font-bold text-foreground">
-            Quick Facebook Size Guide
+            {isVietnamese
+              ? "Hướng dẫn nhanh về kích thước ảnh Facebook"
+              : "Quick Facebook Size Guide"}
           </h2>
           <p className="mt-2 leading-7 text-muted-foreground">
-            If you want the essentials first, start here. Facebook post, cover,
-            and profile placements each have different needs, so using a
-            dedicated preset is the fastest way to avoid awkward crops and
-            blurry uploads.
+            {isVietnamese
+              ? "Nếu bạn chỉ cần những thông tin cốt lõi, hãy bắt đầu từ đây. Ảnh bài đăng, ảnh bìa và ảnh hồ sơ trên Facebook có yêu cầu khác nhau, nên dùng preset riêng là cách nhanh nhất để tránh cắt lệch và ảnh bị mờ."
+              : "If you want the essentials first, start here. Facebook post, cover, and profile placements each have different needs, so using a dedicated preset is the fastest way to avoid awkward crops and blurry uploads."}
           </p>
         </div>
 
         <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           <article className="rounded-2xl border border-border/80 bg-card p-5">
             <h3 className="text-lg font-semibold text-foreground">
-              Facebook Cover Size
+              {isVietnamese ? "Kích thước ảnh bìa Facebook" : "Facebook Cover Size"}
             </h3>
             <p className="mt-2 text-sm leading-7 text-muted-foreground">
-              Facebook Help says Page cover images load fastest at 851 x 315.
-              Keep important text away from the far edges because cover art is
-              cropped differently across devices.
+              {isVietnamese
+                ? "Trung tâm trợ giúp Facebook cho biết ảnh bìa Trang tải nhanh nhất ở kích thước 851 x 315. Hãy giữ nội dung quan trọng cách xa mép ngoài vì ảnh bìa bị cắt khác nhau trên từng thiết bị."
+                : "Facebook Help says Page cover images load fastest at 851 x 315. Keep important text away from the far edges because cover art is cropped differently across devices."}
             </p>
           </article>
 
           <article className="rounded-2xl border border-border/80 bg-card p-5">
             <h3 className="text-lg font-semibold text-foreground">
-              Facebook Post Size
+              {isVietnamese ? "Kích thước ảnh bài đăng Facebook" : "Facebook Post Size"}
             </h3>
             <p className="mt-2 text-sm leading-7 text-muted-foreground">
-              1200 x 630 is a practical default for shared posts, previews, and
-              social graphics. It is one of the most useful long-tail Facebook
-              image dimensions to target.
+              {isVietnamese
+                ? "1200 x 630 là kích thước mặc định thực tế cho bài chia sẻ, ảnh preview và đồ họa mạng xã hội. Đây là một trong những kích thước Facebook hữu ích nhất để tối ưu."
+                : "1200 x 630 is a practical default for shared posts, previews, and social graphics. It is one of the most useful long-tail Facebook image dimensions to target."}
             </p>
           </article>
 
           <article className="rounded-2xl border border-border/80 bg-card p-5">
             <h3 className="text-lg font-semibold text-foreground">
-              Profile Image
+              {isVietnamese ? "Ảnh hồ sơ" : "Profile Image"}
             </h3>
             <p className="mt-2 text-sm leading-7 text-muted-foreground">
-              Profile images are displayed as circles, so a clean 320 x 320
-              square source gives you better control over logos, faces, and
-              centered branding.
+              {isVietnamese
+                ? "Ảnh hồ sơ được hiển thị theo dạng hình tròn, nên ảnh nguồn vuông 320 x 320 sạch sẽ giúp bạn kiểm soát logo, khuôn mặt và nhận diện trung tâm tốt hơn."
+                : "Profile images are displayed as circles, so a clean 320 x 320 square source gives you better control over logos, faces, and centered branding."}
             </p>
           </article>
 
           <article className="rounded-2xl border border-border/80 bg-card p-5">
             <h3 className="text-lg font-semibold text-foreground">
-              Event Cover Workflow
+              {isVietnamese
+                ? "Quy trình chuẩn bị ảnh bìa sự kiện"
+                : "Event Cover Workflow"}
             </h3>
             <p className="mt-2 text-sm leading-7 text-muted-foreground">
-              Event graphics should be treated as a separate wide asset. If you
-              are targeting Facebook event cover size searches, avoid reusing
-              your Page cover art and prepare a dedicated image instead.
+              {isVietnamese
+                ? "Đồ họa cho sự kiện nên được xử lý như một tài sản ngang riêng biệt. Nếu bạn đang tối ưu cho ảnh bìa sự kiện Facebook, đừng tái sử dụng ảnh bìa Page mà hãy chuẩn bị một ảnh riêng."
+                : "Event graphics should be treated as a separate wide asset. If you are targeting Facebook event cover size searches, avoid reusing your Page cover art and prepare a dedicated image instead."}
             </p>
           </article>
         </div>
@@ -176,17 +225,16 @@ export default function Page() {
         <section className="grid gap-8 lg:grid-cols-2">
           <article className="rounded-2xl border border-border bg-background p-6">
             <h2 className="text-2xl font-display font-bold text-foreground">
-              Facebook Post Size
+              {isVietnamese ? "Kích thước ảnh bài đăng Facebook" : "Facebook Post Size"}
             </h2>
             <p className="mt-3 leading-7 text-muted-foreground">
-              For feed posts and shared graphics, 1200 x 630 remains a clean
-              default because it balances quality with compatibility across link
-              previews and general Facebook post layouts. It is also one of the
-              most practical answers to searches like{" "}
+              {isVietnamese
+                ? "Với ảnh bài đăng và đồ họa chia sẻ, 1200 x 630 vẫn là lựa chọn mặc định rất thực tế vì nó cân bằng tốt giữa chất lượng và khả năng tương thích trong preview link cũng như bố cục bài đăng Facebook. Đây cũng là một trong những câu trả lời thực tế nhất cho các truy vấn như "
+                : "For feed posts and shared graphics, 1200 x 630 remains a clean default because it balances quality with compatibility across link previews and general Facebook post layouts. It is also one of the most practical answers to searches like "}
               <span className="font-medium text-foreground">
                 facebook post size
               </span>{" "}
-              and{" "}
+              {isVietnamese ? "và " : "and "}
               <span className="font-medium text-foreground">
                 facebook post dimensions
               </span>
@@ -196,14 +244,14 @@ export default function Page() {
 
           <article className="rounded-2xl border border-border bg-background p-6">
             <h2 className="text-2xl font-display font-bold text-foreground">
-              Facebook Profile Picture Size
+              {isVietnamese
+                ? "Kích thước ảnh hồ sơ Facebook"
+                : "Facebook Profile Picture Size"}
             </h2>
             <p className="mt-3 leading-7 text-muted-foreground">
-              Profile photos are cropped to a circle in the interface, so the
-              safest source image is still a square. Facebook says a Page
-              profile picture should be 320 x 320 for best quality, which makes
-              it easier to keep logos, faces, and centered brand marks visible
-              after the circular crop is applied.
+              {isVietnamese
+                ? "Ảnh hồ sơ sẽ bị cắt thành hình tròn trong giao diện, nên ảnh nguồn an toàn nhất vẫn là ảnh vuông. Facebook cho biết ảnh hồ sơ Page nên dùng 320 x 320 để có chất lượng tốt nhất, nhờ đó logo, khuôn mặt và nhận diện trung tâm sẽ dễ được giữ trọn hơn sau khi áp dụng crop tròn."
+                : "Profile photos are cropped to a circle in the interface, so the safest source image is still a square. Facebook says a Page profile picture should be 320 x 320 for best quality, which makes it easier to keep logos, faces, and centered brand marks visible after the circular crop is applied."}
             </p>
           </article>
         </section>
@@ -211,71 +259,86 @@ export default function Page() {
         <section className="grid gap-8 lg:grid-cols-2">
           <article className="rounded-2xl border border-border bg-background p-6">
             <h2 className="text-2xl font-display font-bold text-foreground">
-              Best Aspect Ratio for Facebook
+              {isVietnamese
+                ? "Tỷ lệ khung hình tốt nhất cho Facebook"
+                : "Best Aspect Ratio for Facebook"}
             </h2>
             <p className="mt-3 leading-7 text-muted-foreground">
-              There is no single best Facebook aspect ratio for every use case.
-              Wide images work best for covers and many shared post graphics,
-              square images are strongest for profile photos and simple branded
-              visuals, and vertical 9:16 is the right fit for Stories. Matching
-              the ratio to the placement is more important than forcing one
-              image size everywhere.
+              {isVietnamese
+                ? "Không có một tỷ lệ Facebook tốt nhất cho mọi trường hợp. Ảnh ngang phù hợp nhất cho cover và nhiều đồ họa bài đăng, ảnh vuông mạnh hơn cho ảnh hồ sơ và hình ảnh thương hiệu đơn giản, còn 9:16 dọc là lựa chọn đúng cho tin Facebook. Khớp tỷ lệ với vị trí hiển thị quan trọng hơn việc cố ép một kích thước dùng cho tất cả."
+                : "There is no single best Facebook aspect ratio for every use case. Wide images work best for covers and many shared post graphics, square images are strongest for profile photos and simple branded visuals, and vertical 9:16 is the right fit for Stories. Matching the ratio to the placement is more important than forcing one image size everywhere."}
             </p>
           </article>
 
           <article className="rounded-2xl border border-border bg-background p-6">
             <h2 className="text-2xl font-display font-bold text-foreground">
-              How to Resize Image for Facebook
+              {isVietnamese
+                ? "Cách đổi kích thước ảnh cho Facebook"
+                : "How to Resize Image for Facebook"}
             </h2>
             <p className="mt-3 leading-7 text-muted-foreground">
-              Upload your image, choose the right Facebook preset, and export
-              the final size. If you need better framing, open{" "}
+              {isVietnamese
+                ? "Tải ảnh lên, chọn đúng preset Facebook rồi xuất kích thước cuối cùng. Nếu cần căn lại bố cục tốt hơn, hãy mở "
+                : "Upload your image, choose the right Facebook preset, and export the final size. If you need better framing, open "}
               <Link
                 href="/crop-image"
                 className="font-medium text-primary hover:underline"
               >
-                Crop Image
+                {isVietnamese ? "Cắt ảnh" : "Crop Image"}
               </Link>{" "}
-              first. If the output file is still larger than needed, finish with{" "}
+              {isVietnamese
+                ? "trước. Nếu tệp đầu ra vẫn lớn hơn mức cần thiết, hãy hoàn tất bằng "
+                : "first. If the output file is still larger than needed, finish with "}
               <Link
                 href="/compress-image"
                 className="font-medium text-primary hover:underline"
               >
-                Compress Image
+                {isVietnamese ? "Nén ảnh" : "Compress Image"}
               </Link>{" "}
-              before publishing.
+              {isVietnamese ? "trước khi xuất bản." : "before publishing."}
             </p>
           </article>
         </section>
 
         <section className="rounded-2xl border border-border bg-background p-6">
           <h2 className="text-2xl font-display font-bold text-foreground">
-            Build a Better Social Workflow
+            {isVietnamese
+              ? "Xây dựng quy trình mạng xã hội tốt hơn"
+              : "Build a Better Social Workflow"}
           </h2>
           <p className="mt-3 max-w-4xl leading-7 text-muted-foreground">
-            Facebook resize works even better when it sits inside a broader
-            social publishing flow. Continue into{" "}
+            {isVietnamese
+              ? "Resize cho Facebook sẽ hiệu quả hơn nữa khi nằm trong một quy trình xuất bản mạng xã hội rộng hơn. Hãy tiếp tục sang "
+              : "Facebook resize works even better when it sits inside a broader social publishing flow. Continue into "}
             <Link
               href="/resize-instagram"
               className="font-medium text-primary hover:underline"
             >
-              Resize Instagram
+              {isVietnamese
+                ? "Đổi kích thước cho Instagram"
+                : "Resize Instagram"}
             </Link>
             ,{" "}
             <Link
               href="/resize-tiktok"
               className="font-medium text-primary hover:underline"
             >
-              Resize TikTok
+              {isVietnamese
+                ? "Đổi kích thước cho TikTok"
+                : "Resize TikTok"}
             </Link>
             , and{" "}
             <Link
               href="/resize-youtube"
               className="font-medium text-primary hover:underline"
             >
-              Resize YouTube
+              {isVietnamese
+                ? "Đổi kích thước cho YouTube"
+                : "Resize YouTube"}
             </Link>{" "}
-            when you want a more consistent multi-platform asset pipeline.
+            {isVietnamese
+              ? "khi bạn muốn một chuỗi tài sản đa nền tảng nhất quán hơn."
+              : "when you want a more consistent multi-platform asset pipeline."}
           </p>
         </section>
       </section>

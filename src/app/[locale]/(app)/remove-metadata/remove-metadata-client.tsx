@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLocale } from "next-intl";
 import { Download, Loader2, ShieldAlert } from "lucide-react";
 import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
@@ -8,6 +9,8 @@ import { useImageWorker } from "@/hooks/use-image-worker";
 import { motion } from "framer-motion";
 
 export default function RemoveMetadataClient() {
+  const locale = useLocale();
+  const isVietnamese = locale === "vi";
   const [file, setFile] = useState<File | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
 
@@ -54,11 +57,12 @@ export default function RemoveMetadataClient() {
                   <ShieldAlert className="h-8 w-8" />
                 </div>
                 <h3 className="font-display font-bold text-xl mb-2">
-                  Ready to Clean
+                  {isVietnamese ? "Sẵn sàng làm sạch" : "Ready to Clean"}
                 </h3>
                 <p className="mx-auto mb-8 max-w-md text-muted-foreground">
-                  This process will permanently delete camera models, dates, and
-                  GPS coordinates hidden inside this file.
+                  {isVietnamese
+                    ? "Quá trình này sẽ xóa vĩnh viễn model máy ảnh, ngày chụp và tọa độ GPS ẩn trong tệp này."
+                    : "This process will permanently delete camera models, dates, and GPS coordinates hidden inside this file."}
                 </p>
 
                 <button
@@ -68,11 +72,13 @@ export default function RemoveMetadataClient() {
                 >
                   {isProcessing ? (
                     <>
-                      <Loader2 className="h-5 w-5 animate-spin" /> Scrubbing in
-                      background...
+                      <Loader2 className="h-5 w-5 animate-spin" />{" "}
+                      {isVietnamese
+                        ? "Đang làm sạch trong nền..."
+                        : "Scrubbing in background..."}
                     </>
                   ) : (
-                    "Remove All Metadata"
+                    isVietnamese ? "Xóa toàn bộ metadata" : "Remove All Metadata"
                   )}
                 </button>
               </div>
@@ -93,9 +99,13 @@ export default function RemoveMetadataClient() {
           <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
             <Download className="w-8 h-8" />
           </div>
-          <h3 className="text-2xl font-bold mb-2">Image is 100% Clean!</h3>
+          <h3 className="text-2xl font-bold mb-2">
+            {isVietnamese ? "Ảnh đã được làm sạch hoàn toàn!" : "Image is 100% Clean!"}
+          </h3>
           <p className="text-muted-foreground mb-8">
-            All personal metadata has been stripped. File size:{" "}
+            {isVietnamese
+              ? "Toàn bộ metadata cá nhân đã được xóa. Dung lượng tệp: "
+              : "All personal metadata has been stripped. File size: "}
             <span className="font-semibold">
               {formatBytes(resultBlob.size)}
             </span>
@@ -106,7 +116,7 @@ export default function RemoveMetadataClient() {
               onClick={handleDownload}
               className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
             >
-              Download Safe Image
+              {isVietnamese ? "Tải ảnh an toàn xuống" : "Download Safe Image"}
             </button>
             <button
               onClick={() => {
@@ -115,7 +125,7 @@ export default function RemoveMetadataClient() {
               }}
               className="px-8 py-4 bg-white text-foreground border border-border font-bold rounded-xl shadow-sm hover:bg-secondary transition-all"
             >
-              Clean Another
+              {isVietnamese ? "Làm sạch ảnh khác" : "Clean Another"}
             </button>
           </div>
         </motion.div>

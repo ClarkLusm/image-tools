@@ -1,0 +1,139 @@
+{
+  "metaTitle": "Chuyển ảnh sang WebP online miễn phí - Công cụ JPG sang WebP",
+  "metaDescription": "Chuyển ảnh sang WebP online miễn phí. Dùng công cụ JPG sang WebP này để tạo ảnh website nhẹ hơn, tải nhanh hơn và tối ưu workflow hình ảnh hiện đại.",
+  "title": "Chuyển ảnh sang WebP online",
+  "description": "Chuyển JPG, PNG, GIF hoặc SVG sang WebP để có file nhỏ hơn, tải nhanh hơn và phù hợp hơn cho việc phát hành ảnh trên website hiện đại.",
+  "breadcrumbs": {
+    "home": "Trang chủ",
+    "current": "Chuyển sang WebP"
+  },
+  "sourceLinkCta": "Bắt đầu chuyển đổi",
+  "converter": {
+    "buttonLabel": "Chuyển sang WebP"
+  },
+  "steps": [
+    {
+      "title": "Tải ảnh gốc lên",
+      "description": "Chọn file JPG, PNG, GIF hoặc SVG bạn muốn chuyển sang WebP."
+    },
+    {
+      "title": "Đặt chất lượng WebP",
+      "description": "Điều chỉnh chất lượng đầu ra để cân bằng giữa độ trung thực hình ảnh và kích thước file."
+    },
+    {
+      "title": "Tải file WebP xuống",
+      "description": "Lưu file WebP đã chuyển đổi để dùng cho website, trang sản phẩm, blog hoặc app."
+    }
+  ],
+  "faqs": [
+    {
+      "q": "WebP là định dạng gì?",
+      "a": "WebP là định dạng ảnh hiện đại được tạo ra để giảm kích thước file trong khi vẫn giữ chất lượng hiển thị tốt. Nó đặc biệt hữu ích cho website vì ảnh nhẹ hơn có thể cải thiện tốc độ trang, trải nghiệm người dùng và hiệu năng trên cả mobile lẫn desktop."
+    },
+    {
+      "q": "Khi nào nên chuyển JPG sang WebP?",
+      "a": "Hãy chuyển JPG sang WebP khi mục tiêu của bạn là phát hành website nhanh hơn với file nhỏ hơn. Đây là bước thực tế cho blog, landing page, gallery ecommerce và các trang nhiều media, nơi trọng lượng ảnh ảnh hưởng trực tiếp đến tốc độ tải và UX."
+    },
+    {
+      "q": "WebP có hỗ trợ nền trong suốt không?",
+      "a": "Có. WebP có thể giữ transparency, đây là một trong những lý do nó thường được đặt lên bàn cân với PNG. Điều đó giúp WebP linh hoạt hơn JPG khi bạn muốn file nhỏ hơn mà vẫn giữ được nền trong suốt."
+    },
+    {
+      "q": "WebP có tốt hơn JPG hay PNG không?",
+      "a": "WebP thường tốt hơn cho phát hành trên web vì có thể tạo file nhỏ hơn mà vẫn giữ chất lượng tốt. JPG vẫn mạnh hơn về tính tương thích tối đa trong nhiều workflow cũ, còn PNG vẫn tốt hơn như một định dạng chỉnh sửa đơn giản cho một số loại đồ họa. WebP mạnh nhất khi điểm đến cuối cùng là website."
+    },
+    {
+      "q": "File của tôi có bị upload lên server không?",
+      "a": "Không. Quá trình chuyển đổi diễn ra ngay trong trình duyệt, nên ảnh gốc vẫn nằm trên thiết bị của bạn trong suốt workflow WebP."
+    }
+  ],
+  "relatedTools": [
+    { "name": "Chuyển sang JPG", "path": "/convert-to-jpg" },
+    { "name": "Chuyển sang PNG", "path": "/convert-to-png" },
+    { "name": "Nén ảnh", "path": "/compress-image" },
+    { "name": "Resize ảnh", "path": "/resize-image" }
+  ],
+  "sourceLinks": [
+    {
+      "title": "JPG sang WebP",
+      "description": "Chuyển ảnh JPEG sang WebP để phát hành website gọn nhẹ hơn.",
+      "path": "/convert-to-webp/jpg"
+    },
+    {
+      "title": "PNG sang WebP",
+      "description": "Chuyển file PNG sang WebP trong khi vẫn giữ hỗ trợ nền trong suốt.",
+      "path": "/convert-to-webp/png"
+    },
+    {
+      "title": "SVG sang WebP",
+      "description": "Raster hóa tác phẩm SVG thành WebP cho workflow web hiện đại.",
+      "path": "/convert-to-webp/svg"
+    }
+  ],
+  "quickGuide": {
+    "title": "Hướng dẫn nhanh về chuyển đổi WebP",
+    "description": "Nếu bạn chỉ cần bản tóm tắt, WebP là định dạng nên chọn khi hiệu năng website là ưu tiên. Nó đặc biệt hữu ích cho blog, landing page, danh sách sản phẩm và các trang nhiều media, nơi ảnh nhẹ hơn có thể cải thiện tốc độ tải."
+  },
+  "highlights": [
+    {
+      "title": "Phù hợp cho website",
+      "description": "WebP được sinh ra cho việc phát hành website hiện đại, nơi trọng lượng ảnh ảnh hưởng đến tốc độ và UX."
+    },
+    {
+      "title": "File nhỏ hơn",
+      "description": "WebP thường tạo ra file nhỏ hơn JPG hoặc PNG mà vẫn giữ chất lượng hiển thị tốt."
+    },
+    {
+      "title": "Hỗ trợ transparency",
+      "description": "WebP có thể giữ pixel trong suốt, nên linh hoạt hơn JPG trong nhiều workflow tài sản web."
+    },
+    {
+      "title": "Định dạng phát hành hiện đại",
+      "description": "WebP thường mạnh nhất khi được dùng làm định dạng xuất cuối cùng sau khi việc chỉnh sửa đã hoàn tất."
+    }
+  ],
+  "gridOne": [
+    {
+      "title": "WebP là định dạng gì?",
+      "paragraphs": [
+        "WebP là định dạng ảnh hiện đại được tạo ra để cải thiện hiệu năng trên web. Trên thực tế, nó cho chủ website, lập trình viên và team nội dung một cách để phát hành ảnh nhẹ hơn mà không phải phụ thuộc vào những đánh đổi của các định dạng cũ. Vì lý do đó, các tìm kiếm như image to WebP converter và jpg to webp thường mang động cơ về hiệu năng.",
+        "WebP không phải lúc nào cũng là định dạng làm việc tốt nhất cho chỉnh sửa, nhưng nó thường là một trong những định dạng đầu ra tốt nhất để phát hành. Đây là điểm khác biệt cốt lõi phía sau nhiều workflow image SEO và tối ưu website."
+      ]
+    },
+    {
+      "title": "Khi nào bạn nên dùng WebP?",
+      "paragraphs": [
+        "Hãy dùng WebP khi mục tiêu chính là hiệu năng web. Đây là lựa chọn mạnh cho ảnh blog, lưới sản phẩm ecommerce, landing page, upload CMS, trang tài liệu và mọi môi trường mà quá nhiều ảnh nặng có thể làm chậm trang.",
+        "Nếu bạn vẫn đang chỉnh sửa lặp lại ảnh, PNG hoặc JPG có thể là định dạng trung gian dễ làm việc hơn. Khi tài sản đã sẵn sàng để đăng, WebP thường trở thành định dạng xuất cuối hợp lý hơn."
+      ]
+    }
+  ],
+  "gridTwo": [
+    {
+      "title": "WebP và JPG - định dạng nào tốt hơn?",
+      "paragraphs": [
+        "WebP thường tốt hơn cho việc phát hành website hiện đại vì có thể giảm dung lượng mạnh hơn. JPG vẫn hợp hơn khi bạn cần tính tương thích phổ quát hoặc một định dạng handoff đơn giản. Nếu câu hỏi chính của bạn là hiệu quả khi đăng tải, WebP thường thắng. Nếu câu hỏi chính là compatibility, JPG thường an toàn hơn.",
+        "Điều đó có nghĩa là một workflow ảnh khỏe mạnh có thể bắt đầu bằng [JPG](/convert-to-jpg) cho việc chỉnh sửa hoặc gửi client, rồi kết thúc bằng WebP cho đầu ra web."
+      ]
+    },
+    {
+      "title": "WebP và PNG - nên chọn định dạng nào?",
+      "paragraphs": [
+        "PNG thường tốt hơn như một định dạng để chỉnh sửa sạch sẽ, đặc biệt cho đồ họa, screenshot và tài sản có transparency. WebP thường tốt hơn như một định dạng phát hành nhẹ cho website. Nếu tài sản vẫn cần tiếp tục thiết kế, [PNG](/convert-to-png) có thể là lựa chọn trung gian thông minh hơn.",
+        "Nếu tài sản đã sẵn sàng để đăng và tốc độ trang là điều quan trọng, WebP sẽ hấp dẫn hơn. Ở góc độ này, PNG thường là định dạng để làm việc, còn WebP là định dạng để phát hành."
+      ]
+    }
+  ],
+  "howTo": {
+    "title": "Cách chuyển ảnh sang WebP",
+    "paragraphs": [
+      "Tải ảnh gốc lên, chọn chất lượng WebP và tải kết quả về. Nếu ảnh cần đổi kích thước, hãy dùng [Resize Image](/resize-image). Nếu bạn muốn so sánh các định dạng đầu ra, hãy thử [Convert to JPG](/convert-to-jpg) hoặc [Convert to PNG](/convert-to-png). Nếu cần file nhẹ hơn nữa để phát hành, hãy kết hợp với [Compress Image](/compress-image)."
+    ]
+  },
+  "workflow": {
+    "title": "Xây dựng workflow hiệu năng web xoay quanh WebP",
+    "paragraphs": [
+      "WebP phát huy tốt nhất khi nó nằm trong một hệ thống tối ưu ảnh rộng hơn. Team thường resize trước, convert sau, rồi nén thêm hoặc so sánh đầu ra trước khi đăng. Do đó, liên kết nội bộ giữa [resizing](/resize-image), [compression](/compress-image), [JPG conversion](/convert-to-jpg) và [PNG conversion](/convert-to-png) rất quan trọng cho cả SEO topical authority lẫn workflow sản xuất ảnh thực tế."
+    ]
+  }
+}

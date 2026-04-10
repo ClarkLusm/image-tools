@@ -1,0 +1,92 @@
+{
+  "metaTitle": "Convert Image to SVG Online (Free) - JPG, PNG, WebP to SVG",
+  "metaDescription": "Convert image to SVG online free. Trace JPG, PNG, and WebP into scalable SVG files for logos, icons, signatures, and simple artwork.",
+  "title": "Convert Image to SVG Online",
+  "description": "Trace JPG, PNG, and WebP into clean SVG output for logos, icons, signatures, and simple graphics that need scalable vector results.",
+  "visualGuide": {
+    "eyebrow": "Vector Tracing",
+    "title": "See how raster artwork turns into scalable SVG",
+    "description": "This workflow is built for true SVG tracing, not fake file extension swaps. Cleaner source graphics lead to cleaner vector paths."
+  },
+  "imageAlts": {
+    "hero": "Illustration showing a raster image being traced into SVG vector paths",
+    "useCases": "Examples of logo, icon, signature, and badge graphics that work well for SVG conversion",
+    "comparison": "Side by side comparison of raster pixels and smooth SVG vector curves"
+  },
+  "steps": [
+    {
+      "title": "Upload a Raster Image",
+      "description": "Start with a JPG, PNG, or WebP file that has clear edges and simple shapes."
+    },
+    {
+      "title": "Trace It into SVG",
+      "description": "The tool converts pixels into vector-style paths automatically after upload."
+    },
+    {
+      "title": "Download the SVG",
+      "description": "Save the traced SVG for logos, print mockups, slides, or lightweight graphics workflows."
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Is this a real SVG conversion or just a file rename?",
+      "a": "This workflow performs raster-to-SVG tracing rather than simply renaming the file extension. The output is generated as SVG markup so it can scale more cleanly than the source bitmap, especially for simple graphics with defined edges and limited colors."
+    },
+    {
+      "q": "What images work best for Convert to SVG?",
+      "a": "The best source files are logos, icons, signatures, labels, badges, and flat illustrations. These images usually have clearer boundaries and fewer color transitions, which helps the tracer generate lighter and more usable SVG paths. Highly detailed photos can still be processed, but they often create larger and more complex SVG output."
+    },
+    {
+      "q": "Can I convert a photo to SVG?",
+      "a": "Yes, but photo-based SVG output is rarely as clean as logo or icon tracing. Photographs contain gradients, textures, and tiny detail changes, so the vector result can become dense and harder to edit. If your goal is a practical SVG for design use, start with simple artwork or clean the image first."
+    },
+    {
+      "q": "Are my files uploaded to the server?",
+      "a": "Yes. Convert to SVG is processed through our API because vector tracing is heavier than browser-only format conversion. Files are used only to generate the requested SVG output and temporary artifacts are cleaned up after the job expires."
+    }
+  ],
+  "cards": [
+    {
+      "title": "Best for Logos",
+      "description": "Brand marks and badges with clear edges usually trace into cleaner SVG output."
+    },
+    {
+      "title": "Best for Icons",
+      "description": "Simple UI graphics and symbols work well because they have limited colors and defined shapes."
+    },
+    {
+      "title": "Great for Signatures",
+      "description": "Handwritten marks and stamps can become scalable SVG assets for documents and mockups."
+    },
+    {
+      "title": "Less Ideal for Photos",
+      "description": "Busy photography can still convert, but the resulting SVG may become larger and harder to edit."
+    }
+  ],
+  "sectionA": {
+    "title": "When Should You Convert an Image to SVG?",
+    "body": [
+      "SVG is most useful when you need artwork that scales cleanly across different sizes. That makes it a strong choice for logos, icons, simple illustrations, and signature-style graphics used in branding, slides, mockups, and print-ready layouts.",
+      "If your search intent is image to SVG converter or convert PNG to SVG, the real need is usually scalability and cleaner reuse. Vector-style output can stay sharper across layouts than a small bitmap reused again and again."
+    ]
+  },
+  "sectionB": {
+    "title": "Raster vs SVG - What Changes?",
+    "body": [
+      "Raster files such as JPG, PNG, and WebP are built from pixels. SVG files describe shapes, curves, and fills with markup instead. That is why SVG can scale without the same kind of softness you see when a bitmap is enlarged too far.",
+      "However, raster-to-SVG conversion is not magic. A detailed source image can turn into a very complex SVG. The cleanest results usually come from flat artwork, high contrast edges, and images that are already visually simple."
+    ]
+  },
+  "ctas": {
+    "title": "Prepare your source before tracing",
+    "description": "Cleaning the image first often leads to a better SVG. Remove the background, crop tightly, or export a clean PNG before tracing.",
+    "primaryLabel": "Remove Background",
+    "primaryHref": "/remove-background",
+    "secondaryLabel": "Convert to PNG",
+    "secondaryHref": "/convert-to-png"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "current": "Convert to SVG"
+  }
+}

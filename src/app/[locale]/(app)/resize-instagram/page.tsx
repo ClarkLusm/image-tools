@@ -5,28 +5,32 @@ import { SITE_URL } from "@/lib/site";
 import { Link } from "@/i18n/navigation";
 import { createPageMetadata } from "@/app/lib/metadata";
 
-const presets = [
-  {
-    label: "Story",
-    width: 1080,
-    height: 1920,
-  },
-  {
-    label: "Square",
-    width: 1080,
-    height: 1080,
-  },
-  {
-    label: "Portrait",
-    width: 1080,
-    height: 1350,
-  },
-  {
-    label: "Landscape",
-    width: 1080,
-    height: 566,
-  },
-];
+function getPresets(locale: string) {
+  const isVietnamese = locale === "vi";
+
+  return [
+    {
+      label: isVietnamese ? "Tin" : "Story",
+      width: 1080,
+      height: 1920,
+    },
+    {
+      label: isVietnamese ? "Vuông" : "Square",
+      width: 1080,
+      height: 1080,
+    },
+    {
+      label: isVietnamese ? "Dọc" : "Portrait",
+      width: 1080,
+      height: 1350,
+    },
+    {
+      label: isVietnamese ? "Ngang" : "Landscape",
+      width: 1080,
+      height: 566,
+    },
+  ];
+}
 
 export async function generateMetadata({
   params,
@@ -49,52 +53,105 @@ export async function generateMetadata({
   });
 }
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const isVietnamese = locale === "vi";
   const siteUrl = SITE_URL;
   return (
     <ToolLayout
-      title="Resize Instagram Images Online"
-      description="Upload once, pick a format, and export IG-ready images with optional auto-optimization to reduce blur after Instagram compression."
+      title={
+        isVietnamese
+          ? "Đổi kích thước ảnh Instagram online"
+          : "Resize Instagram Images Online"
+      }
+      description={
+        isVietnamese
+          ? "Tải ảnh lên một lần, chọn đúng định dạng và xuất file tối ưu cho Instagram với tùy chọn tự động giảm mờ sau khi nền tảng nén lại."
+          : "Upload once, pick a format, and export IG-ready images with optional auto-optimization to reduce blur after Instagram compression."
+      }
       steps={[
-        { title: "Upload Image", description: "Drop your source image and keep everything browser-side." },
-        { title: "Pick IG Format", description: "Choose feed square, portrait, landscape, or story/reel output." },
-        { title: "Auto Optimize", description: "Enable Instagram Optimization Engine to tune JPEG output for IG recompression." },
-        { title: "Download and Publish", description: "Export the final file and post with less quality loss." }
+        {
+          title: isVietnamese ? "Tải ảnh lên" : "Upload Image",
+          description: isVietnamese
+            ? "Thả ảnh nguồn vào và giữ toàn bộ quá trình xử lý ngay trên trình duyệt."
+            : "Drop your source image and keep everything browser-side.",
+        },
+        {
+          title: isVietnamese ? "Chọn định dạng Instagram" : "Pick IG Format",
+          description: isVietnamese
+            ? "Chọn ảnh vuông cho feed, ảnh dọc, ảnh ngang hoặc đầu ra cho story/reel."
+            : "Choose feed square, portrait, landscape, or story/reel output.",
+        },
+        {
+          title: isVietnamese ? "Tự động tối ưu" : "Auto Optimize",
+          description: isVietnamese
+            ? "Bật công cụ tối ưu Instagram để tinh chỉnh JPEG phù hợp hơn với việc Instagram nén lại."
+            : "Enable Instagram Optimization Engine to tune JPEG output for IG recompression.",
+        },
+        {
+          title: isVietnamese ? "Tải xuống và đăng" : "Download and Publish",
+          description: isVietnamese
+            ? "Xuất tệp cuối cùng và đăng với ít suy giảm chất lượng hơn."
+            : "Export the final file and post with less quality loss.",
+        },
       ]}
       faqs={[
         {
-          q: "Why do Instagram images look blurry even when the original looks sharp?",
-          a: "Instagram recompresses uploaded media. If your file dimensions, format, or quality are not aligned to common Instagram outputs, IG may downscale and recompress aggressively, which can introduce softness and artifacts."
+          q: isVietnamese
+            ? "Vì sao ảnh Instagram bị mờ dù ảnh gốc vẫn sắc nét?"
+            : "Why do Instagram images look blurry even when the original looks sharp?",
+          a: isVietnamese
+            ? "Instagram sẽ nén lại nội dung bạn tải lên. Nếu kích thước, định dạng hoặc chất lượng tệp không khớp với đầu ra phổ biến của Instagram, nền tảng có thể giảm kích thước và nén mạnh tay hơn, gây mềm ảnh và xuất hiện lỗi nén."
+            : "Instagram recompresses uploaded media. If your file dimensions, format, or quality are not aligned to common Instagram outputs, IG may downscale and recompress aggressively, which can introduce softness and artifacts."
         },
         {
-          q: "Do you crop or stretch my image?",
-          a: "This flow is crop-first. When you choose a preset, the crop guide locks to that Instagram ratio so you can reframe the image before export. The tool then crops and resizes to the exact target dimensions."
+          q: isVietnamese
+            ? "Công cụ sẽ crop hay kéo giãn ảnh của tôi?"
+            : "Do you crop or stretch my image?",
+          a: isVietnamese
+            ? "Quy trình này ưu tiên crop trước. Khi bạn chọn preset, khung crop sẽ khóa theo đúng tỷ lệ Instagram đó để bạn có thể căn lại bố cục trước khi xuất. Sau đó công cụ sẽ crop và resize đúng theo kích thước mục tiêu."
+            : "This flow is crop-first. When you choose a preset, the crop guide locks to that Instagram ratio so you can reframe the image before export. The tool then crops and resizes to the exact target dimensions."
         },
         {
-          q: "Are my files uploaded to a server?",
-          a: "No for this flow. Instagram resize runs locally in your browser using our image worker, which keeps processing fast and private without requiring login."
+          q: isVietnamese
+            ? "Tệp của tôi có bị tải lên máy chủ không?"
+            : "Are my files uploaded to a server?",
+          a: isVietnamese
+            ? "Không với quy trình này. Resize cho Instagram chạy cục bộ trong trình duyệt bằng image worker, nên vừa nhanh vừa riêng tư mà không cần đăng nhập."
+            : "No for this flow. Instagram resize runs locally in your browser using our image worker, which keeps processing fast and private without requiring login."
         },
         {
-          q: "1080 vs 2048 on Instagram: which one should I use?",
-          a: "For most workflows, 1080-based outputs are reliable and efficient. Larger exports can still be recompressed by Instagram and do not always produce visibly better results after upload."
+          q: isVietnamese
+            ? "Trên Instagram nên dùng 1080 hay 2048?"
+            : "1080 vs 2048 on Instagram: which one should I use?",
+          a: isVietnamese
+            ? "Với phần lớn quy trình, đầu ra dựa trên chuẩn 1080 vẫn đáng tin cậy và hiệu quả. Tệp lớn hơn vẫn có thể bị Instagram nén lại và không phải lúc nào cũng cho kết quả nhìn thấy tốt hơn sau khi tải lên."
+            : "For most workflows, 1080-based outputs are reliable and efficient. Larger exports can still be recompressed by Instagram and do not always produce visibly better results after upload."
         }
       ]}
       relatedTools={[
-        { name: "Resize Image", path: "/resize-image" },
-        { name: "Crop Image", path: "/crop-image" },
-        { name: "Compress Image", path: "/compress-image" },
-        { name: "Upscale Image", path: "/upscale-image" }
+        { name: isVietnamese ? "Đổi kích thước ảnh" : "Resize Image", path: "/resize-image" },
+        { name: isVietnamese ? "Cắt ảnh" : "Crop Image", path: "/crop-image" },
+        { name: isVietnamese ? "Nén ảnh" : "Compress Image", path: "/compress-image" },
+        { name: isVietnamese ? "Tăng độ phân giải ảnh" : "Upscale Image", path: "/upscale-image" }
       ]}
     >
       <BreadcrumbsJsonLd
         scriptId="breadcrumbs-resize-instagram"
         items={[
           { name: "Home", url: `${siteUrl}/` },
-          { name: "Resize for Instagram", url: `${siteUrl}/resize-instagram` },
+          {
+            name: isVietnamese ? "Resize cho Instagram" : "Resize for Instagram",
+            url: `${siteUrl}/resize-instagram`,
+          },
         ]}
       />
       <SocialResizeClient
-        presets={presets}
+        presets={getPresets(locale)}
         defaultPresetIndex={0}
         instagramOptimization
       />
@@ -102,38 +159,56 @@ export default function Page() {
       <section className="mt-24 space-y-8 bg-card">
         <div>
           <h2 className="text-2xl font-display font-bold text-foreground">
-            Why Instagram quality drops after upload
+            {isVietnamese
+              ? "Vì sao chất lượng ảnh Instagram giảm sau khi tải lên"
+              : "Why Instagram quality drops after upload"}
           </h2>
           <p className="mt-3 leading-7 text-muted-foreground">
-            Instagram does not keep your original export untouched. It may resize,
-            recompress, and re-encode based on placement and device context. The
-            safest workflow is to pre-fit dimensions, keep clean composition, and
-            use upload-ready compression before posting.
+            {isVietnamese
+              ? "Instagram không giữ nguyên hoàn toàn tệp bạn xuất ra. Nền tảng có thể đổi kích thước, nén lại và mã hóa lại tùy theo vị trí hiển thị và thiết bị. Quy trình an toàn nhất là chuẩn hóa kích thước trước, giữ bố cục sạch và dùng mức nén phù hợp trước khi đăng."
+              : "Instagram does not keep your original export untouched. It may resize, recompress, and re-encode based on placement and device context. The safest workflow is to pre-fit dimensions, keep clean composition, and use upload-ready compression before posting."}
           </p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
           <article className="rounded-xl border border-border bg-background p-5">
             <h3 className="text-lg font-semibold text-foreground">
-              Best export settings before upload
+              {isVietnamese
+                ? "Thiết lập xuất ảnh tốt nhất trước khi tải lên"
+                : "Best export settings before upload"}
             </h3>
             <ul className="mt-3 space-y-2 text-sm leading-6 text-muted-foreground">
-              <li>Use exact target dimensions (1080x1080, 1080x1350, 1080x1920).</li>
-              <li>Prefer JPEG for photo content to avoid oversized files.</li>
-              <li>Apply moderate sharpening before export for mobile viewing.</li>
-              <li>Keep file size practical to reduce aggressive server recompression.</li>
+              <li>
+                {isVietnamese
+                  ? "Dùng đúng kích thước mục tiêu như 1080x1080, 1080x1350 hoặc 1080x1920."
+                  : "Use exact target dimensions (1080x1080, 1080x1350, 1080x1920)."}
+              </li>
+              <li>
+                {isVietnamese
+                  ? "Ưu tiên JPEG cho ảnh chụp để tránh tệp quá nặng."
+                  : "Prefer JPEG for photo content to avoid oversized files."}
+              </li>
+              <li>
+                {isVietnamese
+                  ? "Làm nét vừa phải trước khi xuất để tối ưu hiển thị trên di động."
+                  : "Apply moderate sharpening before export for mobile viewing."}
+              </li>
+              <li>
+                {isVietnamese
+                  ? "Giữ dung lượng ở mức hợp lý để giảm nguy cơ bị máy chủ nén lại quá mạnh."
+                  : "Keep file size practical to reduce aggressive server recompression."}
+              </li>
             </ul>
           </article>
 
           <article className="rounded-xl border border-border bg-background p-5">
             <h3 className="text-lg font-semibold text-foreground">
-              1080 vs 2048 myth
+              {isVietnamese ? "Hiểu lầm 1080 so với 2048" : "1080 vs 2048 myth"}
             </h3>
             <p className="mt-3 text-sm leading-7 text-muted-foreground">
-              Exporting bigger does not always win. In many cases, Instagram still
-              recompresses toward platform-friendly outputs. A clean 1080-based
-              file with balanced compression often looks better than an oversized
-              upload that gets heavily recompressed.
+              {isVietnamese
+                ? "Xuất ảnh lớn hơn không phải lúc nào cũng tốt hơn. Trong nhiều trường hợp, Instagram vẫn nén lại về đầu ra phù hợp với nền tảng. Một tệp sạch dựa trên chuẩn 1080 với mức nén cân bằng thường đẹp hơn một tệp quá lớn rồi bị nén rất mạnh."
+                : "Exporting bigger does not always win. In many cases, Instagram still recompresses toward platform-friendly outputs. A clean 1080-based file with balanced compression often looks better than an oversized upload that gets heavily recompressed."}
             </p>
           </article>
         </div>
@@ -141,12 +216,14 @@ export default function Page() {
         <div className="grid gap-4 rounded-xl border border-border bg-background p-5 md:grid-cols-3">
           <div className="md:col-span-2">
             <h3 className="text-lg font-semibold text-foreground">
-              Need more than one-off resize?
+              {isVietnamese
+                ? "Cần nhiều hơn một lần đổi kích thước đơn lẻ?"
+                : "Need more than one-off resize?"}
             </h3>
             <p className="mt-2 text-sm leading-7 text-muted-foreground">
-              For teams and power users, continue with batch-focused flows and
-              advanced tool chains. You can also expand to quality recovery before
-              resize when source assets are low resolution.
+              {isVietnamese
+                ? "Với team hoặc người dùng nâng cao, bạn có thể tiếp tục sang các quy trình theo lô và chuỗi công cụ nâng cao. Bạn cũng có thể phục hồi chất lượng trước khi đổi kích thước nếu ảnh nguồn có độ phân giải thấp."
+                : "For teams and power users, continue with batch-focused flows and advanced tool chains. You can also expand to quality recovery before resize when source assets are low resolution."}
             </p>
           </div>
           <div className="flex flex-col gap-3">
@@ -154,13 +231,13 @@ export default function Page() {
               href="/compress-image"
               className="rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-semibold text-primary-foreground hover:opacity-95"
             >
-              Open Batch Compress
+              {isVietnamese ? "Mở công cụ nén hàng loạt" : "Open Batch Compress"}
             </Link>
             <Link
               href="/upscale-image"
               className="rounded-lg border border-border bg-card px-4 py-2.5 text-center text-sm font-semibold text-foreground hover:bg-secondary"
             >
-              Improve Source Quality
+              {isVietnamese ? "Cải thiện chất lượng ảnh nguồn" : "Improve Source Quality"}
             </Link>
           </div>
         </div>
