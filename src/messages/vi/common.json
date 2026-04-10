@@ -62,6 +62,9 @@
     "convertToWebp": {
       "name": "Chuyển sang WebP"
     },
+    "convertToSvg": {
+      "name": "Chuyển sang SVG"
+    },
     "resizeInstagram": {
       "name": "Instagram"
     },

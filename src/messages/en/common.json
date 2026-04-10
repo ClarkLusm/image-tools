@@ -62,6 +62,9 @@
     "convertToWebp": {
       "name": "Convert to WebP"
     },
+    "convertToSvg": {
+      "name": "Convert to SVG"
+    },
     "resizeInstagram": {
       "name": "Instagram"
     },

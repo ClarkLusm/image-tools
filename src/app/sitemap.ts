@@ -23,6 +23,7 @@ const staticRoutes = [
   "/convert-to-png/jpg",
   "/convert-to-png/webp",
   "/convert-to-png/svg",
+  "/convert-to-svg",
   "/resize-instagram",
   "/resize-tiktok",
   "/resize-youtube",

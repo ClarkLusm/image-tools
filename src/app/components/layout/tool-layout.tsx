@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import Script from "next/script";
 import { getTranslations } from "next-intl/server";
 import { FAQAccordion } from "@/app/components/shared/faq-accordion";
+import ToolJsonLd from "@/app/components/seo/tool-jsonld";
 import { getRequestLanguage } from "@/app/lib/i18n-server";
 import { getToolLayoutLookup } from "@/app/lib/tool-layout-lookup";
 import { translateLookupText } from "@/app/lib/translation-lookup";
@@ -24,6 +25,7 @@ interface ToolLayoutProps {
   faqs: FAQ[];
   relatedTools: { name: string; path: string }[];
   collapseHeaderOnActiveImage?: boolean;
+  schemaPath?: string;
 }
 
 export async function ToolLayout({
@@ -33,6 +35,7 @@ export async function ToolLayout({
   steps,
   faqs,
   collapseHeaderOnActiveImage = true,
+  schemaPath,
 }: ToolLayoutProps) {
   const languageCode = await getRequestLanguage();
   const t = await getTranslations("tool-layout");
@@ -81,6 +84,14 @@ export async function ToolLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
+      <ToolJsonLd
+        title={localizedTitle}
+        description={localizedDescription}
+        steps={localizedSteps}
+        locale={languageCode}
+        path={schemaPath}
+        scriptIdBase={`tool-${localizedTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+      />
       <main className="flex-1 py-8 lg:py-12">
         <div className="mx-auto w-full max-w-[1200px] px-4 xl:px-0">
           {/* Header Section */}

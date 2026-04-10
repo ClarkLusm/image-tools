@@ -20,8 +20,8 @@ export function BrandLogo({
       <Image
         src="/logo.webp"
         alt={SITE_NAME}
-        width={1714}
-        height={504}
+        width={170}
+        height={50}
         priority
         className={cn("h-11 w-auto shrink-0 object-contain", iconClassName)}
       />

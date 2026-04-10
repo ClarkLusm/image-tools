@@ -12,10 +12,20 @@ import {
 import { motion } from "framer-motion";
 import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
+import {
+  createConvertToSvgJob,
+  downloadImageToolsArtifact,
+  resolveSingleJobDownloadUrl,
+  waitForImageToolsJobCompletion,
+} from "@/lib/image-tools-api";
 import { downloadZip } from "@/lib/zip-utils";
 import { useImageWorker } from "@/app/hooks/use-image-worker";
 
-type ConvertTask = "convert-to-jpg" | "convert-to-webp" | "convert-to-png";
+type WorkerConvertTask =
+  | "convert-to-jpg"
+  | "convert-to-webp"
+  | "convert-to-png";
+type ConvertTask = WorkerConvertTask | "convert-to-svg";
 
 type FormatConvertClientProps = {
   task: ConvertTask;
@@ -27,6 +37,10 @@ type FormatConvertClientProps = {
   buttonLabel?: string;
   note?: string;
   autoProcessOnSelect?: boolean;
+};
+
+type ManualFormatConvertClientProps = Omit<FormatConvertClientProps, "task"> & {
+  task: WorkerConvertTask;
 };
 
 type ManualResultItem = {
@@ -44,11 +58,11 @@ type AutoConversionItem = {
 };
 
 export default function FormatConvertClient(props: FormatConvertClientProps) {
-  if (props.autoProcessOnSelect) {
+  if (props.autoProcessOnSelect || props.task === "convert-to-svg") {
     return <AutoFormatConvertClient {...props} />;
   }
 
-  return <ManualFormatConvertClient {...props} />;
+  return <ManualFormatConvertClient {...(props as ManualFormatConvertClientProps)} />;
 }
 
 function ManualFormatConvertClient({
@@ -60,7 +74,7 @@ function ManualFormatConvertClient({
   showQuality = true,
   buttonLabel = "Convert",
   note,
-}: FormatConvertClientProps) {
+}: ManualFormatConvertClientProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [results, setResults] = useState<ManualResultItem[]>([]);
   const [status, setStatus] = useState<"idle" | "processing" | "done">(
@@ -327,6 +341,35 @@ function AutoFormatConvertClient({
     resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [items.length]);
 
+  const convertSelectedFile = async (file: File) => {
+    if (task === "convert-to-svg") {
+      const jobId = await createConvertToSvgJob(file);
+      const completedJob = await waitForImageToolsJobCompletion(jobId);
+      const downloadUrl = resolveSingleJobDownloadUrl(completedJob, [
+        "convertedUrl",
+        "resultUrl",
+      ]);
+
+      if (!downloadUrl) {
+        throw new Error("The SVG output is not available yet.");
+      }
+
+      return downloadImageToolsArtifact(downloadUrl);
+    }
+
+    const blob = await processImage(task, file, {
+      quality,
+      mimeType: outputMime,
+      fillWhite: outputMime === "image/jpeg",
+    });
+
+    if (!blob) {
+      throw new Error("Conversion failed. Please try another image.");
+    }
+
+    return blob;
+  };
+
   const buildFilename = (file: File) =>
     file.name.replace(/\.[^/.]+$/, "") + outputExt;
 
@@ -356,27 +399,30 @@ function AutoFormatConvertClient({
         error: undefined,
       }));
 
-      const blob = await processImage(task, item.file, {
-        quality,
-        mimeType: outputMime,
-        fillWhite: outputMime === "image/jpeg",
-      });
+      try {
+        const blob = await convertSelectedFile(item.file);
 
-      if (runIdRef.current !== currentRunId) {
-        return;
-      }
+        if (runIdRef.current !== currentRunId) {
+          return;
+        }
 
-      if (blob) {
         updateItem(item.id, (currentItem) => ({
           ...currentItem,
           status: "done",
           blob,
         }));
-      } else {
+      } catch (error) {
+        if (runIdRef.current !== currentRunId) {
+          return;
+        }
+
         updateItem(item.id, (currentItem) => ({
           ...currentItem,
           status: "failed",
-          error: "Conversion failed. Please try another image.",
+          error:
+            error instanceof Error
+              ? error.message
+              : "Conversion failed. Please try another image.",
         }));
       }
     }

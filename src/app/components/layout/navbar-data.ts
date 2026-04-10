@@ -4,6 +4,7 @@ import {
   Crop,
   Eraser,
   FileImage,
+  Shapes,
   Images,
   Image as ImageIcon,
   Maximize,
@@ -74,6 +75,7 @@ export const convertTools: NavItem[] = [
   { translationKey: "convertToPng", path: "/convert-to-png", icon: FileImage },
   { translationKey: "convertToJpg", path: "/convert-to-jpg", icon: ImageIcon },
   { translationKey: "convertToWebp", path: "/convert-to-webp", icon: Images },
+  { translationKey: "convertToSvg", path: "/convert-to-svg", icon: Shapes },
 ];
 
 export const socialResizeTools: NavItem[] = [

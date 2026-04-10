@@ -157,6 +157,52 @@ export async function createDeepCompressionJob(
   return data.id;
 }
 
+export async function createFormatConversionJob(
+  file: File,
+  options: {
+    targetFormat: "jpeg" | "png" | "webp" | "avif" | "tiff" | "svg";
+    colorSpace?: "srgb" | "display-p3" | "adobe-rgb";
+  },
+) {
+  const formData = new FormData();
+
+  formData.append("file", file);
+  formData.append("targetFormat", options.targetFormat);
+
+  if (options.colorSpace) {
+    formData.append("colorSpace", options.colorSpace);
+  }
+
+  const response = await fetch(
+    buildApiUrl("/image-tools/infrastructure/format-conversion"),
+    {
+      method: "POST",
+      body: formData,
+      headers: buildApiHeaders(),
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      await parseErrorMessage(response, "Failed to create conversion job."),
+    );
+  }
+
+  const data = (await response.json()) as { id?: string };
+
+  if (!data.id) {
+    throw new Error("Missing job id from image-tools-api.");
+  }
+
+  return data.id;
+}
+
+export async function createConvertToSvgJob(file: File) {
+  return createFormatConversionJob(file, {
+    targetFormat: "svg",
+  });
+}
+
 export async function createUpscaleJob(
   file: File,
   options: {
