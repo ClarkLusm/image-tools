@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { COMPRESS_SIZE_ENTRIES, COMPRESS_USE_CASE_ENTRIES } from "@/lib/seo";
-import { SITE_URL } from "@/lib/site";
+import { routing } from "@/i18n/routing";
+import { buildLocaleUrl } from "@/app/lib/metadata";
 
 const staticRoutes = [
   "",
@@ -41,23 +42,29 @@ const staticRoutes = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const entries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
-    url: `${SITE_URL}${route}`,
-    changefreq: "weekly",
-    priority: route === "" ? 1 : 0.7,
-  }));
+  const entries: MetadataRoute.Sitemap = routing.locales.flatMap((locale) =>
+    staticRoutes.map((route) => ({
+      url: buildLocaleUrl(locale, route || "/"),
+      changefreq: "weekly",
+      priority: route === "" ? 1 : 0.7,
+    })),
+  );
 
-  const compressEntries = COMPRESS_SIZE_ENTRIES.map((entry) => ({
-    url: `${SITE_URL}/compress-image-to/${entry.slug}`,
-    changefreq: "weekly",
-    priority: 0.8,
-  }));
+  const compressEntries = routing.locales.flatMap((locale) =>
+    COMPRESS_SIZE_ENTRIES.map((entry) => ({
+      url: buildLocaleUrl(locale, `/compress-image-to/${entry.slug}`),
+      changefreq: "weekly",
+      priority: 0.8,
+    })),
+  );
 
-  const useCaseEntries = COMPRESS_USE_CASE_ENTRIES.map((entry) => ({
-    url: `${SITE_URL}/compress-image/for/${entry.slug}`,
-    changefreq: "weekly",
-    priority: 0.75,
-  }));
+  const useCaseEntries = routing.locales.flatMap((locale) =>
+    COMPRESS_USE_CASE_ENTRIES.map((entry) => ({
+      url: buildLocaleUrl(locale, `/compress-image/for/${entry.slug}`),
+      changefreq: "weekly",
+      priority: 0.75,
+    })),
+  );
 
   return [...entries, ...compressEntries, ...useCaseEntries];
 }

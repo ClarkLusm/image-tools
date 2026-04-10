@@ -1,7 +1,11 @@
 import { ReactNode } from "react";
 import Script from "next/script";
+import { getTranslations } from "next-intl/server";
 import { ToolSidebar } from "./tool-sidebar";
 import { FAQAccordion } from "@/app/components/shared/faq-accordion";
+import { getRequestLanguage } from "@/app/lib/i18n-server";
+import { getToolLayoutLookup } from "@/app/lib/tool-layout-lookup";
+import { translateLookupText } from "@/app/lib/translation-lookup";
 
 interface Step {
   title: string;
@@ -23,7 +27,7 @@ interface ToolLayoutProps {
   collapseHeaderOnActiveImage?: boolean;
 }
 
-export function ToolLayout({
+export async function ToolLayout({
   title,
   description,
   children,
@@ -31,12 +35,29 @@ export function ToolLayout({
   faqs,
   collapseHeaderOnActiveImage = true,
 }: ToolLayoutProps) {
+  const languageCode = await getRequestLanguage();
+  const t = await getTranslations("tool-layout");
+  const lookup = await getToolLayoutLookup(languageCode);
+  const localizedTitle = translateLookupText(title, languageCode, lookup);
+  const localizedDescription = translateLookupText(
+    description,
+    languageCode,
+    lookup,
+  );
+  const localizedSteps = steps.map((step) => ({
+    title: translateLookupText(step.title, languageCode, lookup),
+    description: translateLookupText(step.description, languageCode, lookup),
+  }));
+  const localizedFaqs = faqs.map((faq) => ({
+    q: translateLookupText(faq.q, languageCode, lookup),
+    a: translateLookupText(faq.a, languageCode, lookup),
+  }));
   const faqSchema =
-    faqs && faqs.length > 0
+    localizedFaqs && localizedFaqs.length > 0
       ? {
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: faqs.map((faq) => ({
+          mainEntity: localizedFaqs.map((faq) => ({
             "@type": "Question",
             name: faq.q,
             acceptedAnswer: {
@@ -56,7 +77,7 @@ export function ToolLayout({
     >
       {faqSchema && (
         <Script
-          id={`faq-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+          id={`faq-${localizedTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
@@ -72,10 +93,10 @@ export function ToolLayout({
               {/* Header Section */}
               <div className="tool-layout-header mb-6 text-center md:mb-8">
                 <h1 className="page-title-gradient mb-3 text-3xl font-display font-extrabold tracking-tight md:text-4xl">
-                  {title}
+                  {localizedTitle}
                 </h1>
                 <p className="mx-auto max-w-2xl text-base text-muted-foreground">
-                  {description}
+                  {localizedDescription}
                 </p>
               </div>
 
@@ -88,10 +109,10 @@ export function ToolLayout({
                   {/* How it works */}
                   <section className="mx-auto max-w-4xl">
                     <h2 className="mb-8 text-center text-2xl font-display font-bold text-foreground">
-                      How it works
+                      {t("ui.howItWorks")}
                     </h2>
                     <div className="space-y-6">
-                      {steps.map((step, index) => (
+                      {localizedSteps.map((step, index) => (
                         <div key={index} className="flex gap-4">
                           <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
                             {index + 1}
@@ -112,9 +133,9 @@ export function ToolLayout({
                   {/* FAQs */}
                   <section className="mx-auto max-w-5xl">
                     <h2 className="mb-8 text-center text-2xl font-display font-bold text-foreground">
-                      Frequently Asked Questions
+                      {t("ui.frequentlyAskedQuestions")}
                     </h2>
-                    <FAQAccordion items={faqs} />
+                    <FAQAccordion items={localizedFaqs} />
                   </section>
                 </div>
               </div>

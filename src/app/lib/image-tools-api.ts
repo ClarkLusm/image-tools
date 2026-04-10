@@ -58,6 +58,22 @@ function getApiBaseUrl() {
   return trimTrailingSlash(configuredUrl);
 }
 
+function getCurrentLocale() {
+  if (typeof document === "undefined") {
+    return "en";
+  }
+
+  const locale = document.documentElement.lang.trim().toLowerCase();
+  return locale === "vi" ? "vi" : "en";
+}
+
+function buildApiHeaders(headers?: HeadersInit) {
+  return {
+    "x-locale": getCurrentLocale(),
+    ...headers,
+  };
+}
+
 function buildApiUrl(path: string) {
   const baseUrl = getApiBaseUrl();
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
@@ -122,6 +138,7 @@ export async function createDeepCompressionJob(
     {
       method: "POST",
       body: formData,
+      headers: buildApiHeaders(),
     },
   );
 
@@ -159,6 +176,7 @@ export async function createUpscaleJob(
   const response = await fetch(buildApiUrl("/image-tools/ai/super-resolution"), {
     method: "POST",
     body: formData,
+    headers: buildApiHeaders(),
   });
 
   if (!response.ok) {
@@ -179,6 +197,7 @@ export async function createUpscaleJob(
 export async function getImageToolsJob(jobId: string) {
   const response = await fetch(buildApiUrl(`/image-tools/jobs/${jobId}`), {
     cache: "no-store",
+    headers: buildApiHeaders(),
   });
 
   if (!response.ok) {
@@ -295,7 +314,9 @@ export async function waitForImageToolsJobCompletion(
 }
 
 export async function downloadImageToolsArtifact(pathOrUrl: string) {
-  const response = await fetch(resolveImageToolsAssetUrl(pathOrUrl));
+  const response = await fetch(resolveImageToolsAssetUrl(pathOrUrl), {
+    headers: buildApiHeaders(),
+  });
 
   if (!response.ok) {
     throw new Error(

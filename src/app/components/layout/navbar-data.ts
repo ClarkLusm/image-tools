@@ -16,80 +16,83 @@ import {
   Video,
   type LucideIcon,
 } from "lucide-react";
-import { SITE_NAME } from "@/lib/site";
 
 export type NavItem = {
-  name: string;
+  translationKey: string;
   path: string;
   icon: LucideIcon;
-  description?: string;
   activePaths?: string[];
+  hasDescription?: boolean;
+};
+
+export type LocalizedNavItem = NavItem & {
+  name: string;
+  description?: string;
 };
 
 export const primaryTools: NavItem[] = [
   {
-    name: "Resize Image",
+    translationKey: "resizeImage",
     path: "/resize-image",
     icon: Maximize,
-    description: "Adjust image dimensions while preserving detail.",
+    hasDescription: true,
   },
   {
-    name: "Compress",
+    translationKey: "compressImage",
     path: "/compress-image",
     icon: Minimize,
-    description: "Reduce file size for web, email, and sharing.",
     activePaths: ["/compress-image", "/compress-image-to"],
+    hasDescription: true,
   },
   {
-    name: "Remove EXIF",
+    translationKey: "removeMetadata",
     path: "/remove-metadata",
     icon: Eraser,
-    description: "Strip metadata for privacy before publishing.",
+    hasDescription: true,
   },
   {
-    name: "Crop Image",
+    translationKey: "cropImage",
     path: "/crop-image",
     icon: Crop,
-    description: "Trim photos to the exact area you need.",
+    hasDescription: true,
   },
   {
-    name: "Remove Background",
+    translationKey: "removeBackground",
     path: "/remove-background",
     icon: Scissors,
-    description: "Create transparent cutouts in a few clicks.",
+    hasDescription: true,
   },
   {
-    name: "Upscale Image",
+    translationKey: "upscaleImage",
     path: "/upscale-image",
     icon: Sparkles,
-    description: "Enlarge low-resolution images with AI super resolution.",
+    hasDescription: true,
   },
 ];
 
 export const convertTools: NavItem[] = [
-  { name: "Convert to PNG", path: "/convert-to-png", icon: FileImage },
-  { name: "Convert to JPG", path: "/convert-to-jpg", icon: ImageIcon },
-  { name: "Convert to WebP", path: "/convert-to-webp", icon: Images },
+  { translationKey: "convertToPng", path: "/convert-to-png", icon: FileImage },
+  { translationKey: "convertToJpg", path: "/convert-to-jpg", icon: ImageIcon },
+  { translationKey: "convertToWebp", path: "/convert-to-webp", icon: Images },
 ];
 
 export const socialResizeTools: NavItem[] = [
-  { name: "Instagram", path: "/resize-instagram", icon: Camera },
-  { name: "TikTok", path: "/resize-tiktok", icon: Smartphone },
-  { name: "YouTube", path: "/resize-youtube", icon: Video },
-  { name: "Facebook", path: "/resize-facebook", icon: ThumbsUp },
+  { translationKey: "resizeInstagram", path: "/resize-instagram", icon: Camera },
+  { translationKey: "resizeTiktok", path: "/resize-tiktok", icon: Smartphone },
+  { translationKey: "resizeYoutube", path: "/resize-youtube", icon: Video },
+  { translationKey: "resizeFacebook", path: "/resize-facebook", icon: ThumbsUp },
 ];
 
 export const topLevelNavItems: NavItem[] = [
   {
-    name: "Blog",
+    translationKey: "blog",
     path: "/blog",
     icon: Newspaper,
-    description: `Guides, tips, and updates from ${SITE_NAME}.`,
+    hasDescription: true,
   },
 ];
 
 export const toolsMenu = {
-  name: "Tools",
   icon: Blocks,
   items: primaryTools,
 };

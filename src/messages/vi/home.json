@@ -1,0 +1,214 @@
+{
+  "hero": {
+    "title": "{siteName} cho nén ảnh, chuyển đổi định dạng, resize và crop",
+    "introLead": "Chọn đúng workflow xử lý ảnh bạn đang cần:",
+    "compressImages": "nén ảnh",
+    "forPerformance": "để tối ưu hiệu năng,",
+    "convertFormats": "chuyển đổi định dạng",
+    "resizePhotos": "resize ảnh",
+    "forSocialMediaOr": "cho mạng xã hội, hoặc",
+    "cropPictures": "crop ảnh",
+    "introTail": "chính xác. Nhanh, thực tế và ưu tiên quyền riêng tư.",
+    "primaryCta": "Bắt đầu với Nén ảnh",
+    "secondaryCta": "Chuyển sang WebP"
+  },
+  "toolGrid": {
+    "title": "Khám phá bộ công cụ ảnh online miễn phí cho công việc hằng ngày",
+    "description": "Mở thẳng công cụ theo đúng nhu cầu của bạn, dù là nén ảnh miễn phí, resize ảnh online, chuyển JPG sang PNG hay xóa nền nhanh chóng.",
+    "tryNow": "Dùng thử ngay"
+  },
+  "toolCards": {
+    "resizeImage": {
+      "title": "Resize ảnh",
+      "description": "Dùng công cụ resize ảnh online để thay đổi kích thước mà vẫn giữ chất lượng."
+    },
+    "compressImage": {
+      "title": "Nén ảnh",
+      "description": "Dùng công cụ nén ảnh miễn phí để giảm dung lượng mà vẫn giữ độ rõ nét."
+    },
+    "removeMetadata": {
+      "title": "Xóa dữ liệu EXIF",
+      "description": "Xóa metadata EXIF để bảo vệ riêng tư trước khi chia sẻ file online."
+    },
+    "convertToWebp": {
+      "title": "Chuyển sang WebP",
+      "description": "Chuyển ảnh sang định dạng WebP hiện đại để có file nhẹ hơn và thân thiện với web."
+    },
+    "convertToPng": {
+      "title": "Chuyển sang PNG",
+      "description": "Chuyển file JPG hoặc WebP sang PNG lossless có hỗ trợ nền trong suốt."
+    },
+    "cropImage": {
+      "title": "Cắt ảnh",
+      "description": "Crop ảnh online đúng vùng bạn cần."
+    },
+    "removeBackground": {
+      "title": "Xóa nền",
+      "description": "Xóa nền online và xuất ảnh PNG nền trong suốt."
+    },
+    "upscaleImage": {
+      "title": "Tăng độ nét ảnh",
+      "description": "Dùng công cụ upscale ảnh AI để tăng độ phân giải và làm sắc nét chi tiết."
+    }
+  },
+  "spotlight": {
+    "eyebrow": "XỬ LÝ THÔNG MINH",
+    "title": "Chỉnh sửa ảnh chất lượng cao mà không cần workflow phức tạp.",
+    "from": "Từ",
+    "imageCompression": "nén ảnh",
+    "and": "và",
+    "formatConversion": "chuyển đổi định dạng",
+    "to": "đến",
+    "backgroundRemoval": "xóa nền",
+    "descriptionTail": ", {siteName} giúp bạn tối ưu hình ảnh chỉ trong vài giây với các tùy chọn thực tế và đầu ra sạch đẹp.",
+    "description": "Trang chủ này tập hợp các công cụ thực tế cho publisher, chủ shop, designer, marketer và creator cần làm việc nhanh. Thay vì phải chuyển qua lại giữa nhiều ứng dụng, bạn có thể dùng một nơi để giảm dung lượng ảnh nặng, đổi JPG sang PNG hoặc PNG sang JPG, chuẩn bị ảnh cho mạng xã hội, xóa EXIF để bảo vệ riêng tư, và thậm chí upscale ảnh bằng AI khi file gốc quá nhỏ cho một bố cục mới.",
+    "bullets": {
+      "pageSpeed": "Tối ưu kích thước để trang tải nhanh hơn.",
+      "batchProcessing": "Hỗ trợ xử lý nhiều ảnh theo lô.",
+      "realTasks": "Được xây cho các tác vụ thực tế: xuất bản web, mạng xã hội và vận hành nội dung."
+    },
+    "primaryCta": "Thử xóa nền",
+    "secondaryCta": "Nén ảnh"
+  },
+  "popular": {
+    "compressBySizeTitle": "Nén theo dung lượng",
+    "compressBySizeDescription": "Nhắm tới các mốc dung lượng như 50 KB, 100 KB hoặc 200 KB.",
+    "convertFormatsTitle": "Chuyển đổi định dạng",
+    "convertFormatsDescription": "Chuyển đổi giữa PNG, JPG, JPEG và WebP để tối ưu tương thích và tốc độ.",
+    "socialPresetsTitle": "Preset mạng xã hội",
+    "socialPresetsDescription": "Resize cho các nền tảng phổ biến với kích thước dựng sẵn.",
+    "resizeForInstagram": "Resize cho Instagram",
+    "resizeForTiktok": "Resize cho TikTok",
+    "resizeForYoutube": "Resize cho YouTube",
+    "resizeForFacebook": "Resize cho Facebook"
+  },
+  "features": {
+    "title": "Vì sao nên dùng {siteName}",
+    "items": {
+      "lightningFast": {
+        "title": "Xử lý cực nhanh",
+        "description": "Từng công cụ được tối ưu để xử lý nhanh bằng pipeline trên trình duyệt hoặc trên server tùy trường hợp."
+      },
+      "privacyFirst": {
+        "title": "Ưu tiên riêng tư",
+        "description": "File của bạn chỉ được dùng để xử lý và không bị lưu trữ như dữ liệu lâu dài."
+      },
+      "highQuality": {
+        "title": "Chất lượng cao",
+        "description": "Các thuật toán tối ưu giúp đầu ra đạt chất lượng tốt nhất có thể."
+      }
+    }
+  },
+  "overview": {
+    "title": "Bộ công cụ ảnh online miễn phí để xuất bản nhanh hơn, gọn hơn",
+    "subtitlePrefix": "Tổng quan nhanh về các workflow được dùng nhiều nhất trên {siteName}, từ",
+    "freeImageCompressor": "công cụ nén ảnh miễn phí",
+    "toAn": "đến",
+    "aiImageUpscaler": "công cụ upscale ảnh bằng AI",
+    "description": "Phần lớn người dùng không cần một trình chỉnh sửa nặng nề cho các tác vụ hằng ngày. Họ cần một cách đáng tin cậy để resize ảnh trước khi upload, chuyển đổi file cho tương thích trình duyệt, xóa nền rối khỏi ảnh sản phẩm, và đạt các mốc dung lượng nghiêm ngặt như 100 KB cho biểu mẫu hay sàn thương mại. Các section này bao quát những workflow cốt lõi để giải quyết nhanh các bài toán đó mà vẫn giữ đầu ra thực tế cho website, catalog ecommerce, bài blog và chiến dịch social."
+  },
+  "seoSections": {
+    "compressionConversion": {
+      "eyebrow": "Nén & Chuyển đổi",
+      "title": "Chuẩn bị ảnh nhẹ hơn mà không làm chậm workflow của bạn.",
+      "description": "Dùng {siteName} để nén file lớn, chuyển đổi giữa PNG, JPG và WebP, đồng thời giữ kích thước ảnh phù hợp với trang hoặc nền tảng sẽ đăng tải. Điều này hữu ích dù bạn cần một công cụ nén ảnh miễn phí cho website, một bộ chuyển JPG sang PNG, hay cách nhanh hơn để tạo tài nguyên WebP nhẹ hơn.",
+      "bullets": {
+        "websitesAndEmail": "Giảm dung lượng upload cho website và email.",
+        "speedOrCompatibility": "Chuyển đổi định dạng để tối ưu tốc độ hoặc tương thích.",
+        "realPublishing": "Giữ đầu ra thực tế cho các tác vụ xuất bản thật."
+      },
+      "cta": "Mở Nén ảnh"
+    },
+    "socialResize": {
+      "eyebrow": "Resize mạng xã hội",
+      "title": "Tạo hình ảnh chuẩn nền tảng cho mọi kênh nhanh hơn.",
+      "description": "Thay vì phải đoán tỷ lệ khung hình, bạn có thể vào ngay các flow resize preset cho Instagram, TikTok, YouTube và Facebook, rồi xuất ảnh khớp từng nền tảng gọn hơn. Đây là một lối tắt thực tế khi bạn cần resize ảnh online cho campaign, thumbnail, bài đăng creator hoặc tài nguyên quảng cáo social.",
+      "bullets": {
+        "skipCanvas": "Bỏ qua việc tính canvas thủ công.",
+        "consistentGraphics": "Giữ đồ họa social đồng nhất trên nhiều kênh.",
+        "commonFormats": "Làm việc với preset được dựng sẵn cho các format nội dung phổ biến."
+      },
+      "cta": "Xem preset social"
+    },
+    "privacyCleanup": {
+      "eyebrow": "Riêng tư & Làm sạch",
+      "title": "Loại bỏ những thứ gây nhiễu trước khi bạn đăng hoặc chia sẻ.",
+      "description": "Với nhiều team, chỉnh sửa ảnh không nằm ở hiệu ứng. Nó là việc xóa nền rối, cắt lại khung và gỡ metadata để file sạch hơn và an toàn hơn khi phân phối. Vì vậy workflow này đặc biệt hữu ích khi bạn cần công cụ xóa nền online và xóa EXIF trong cùng một nơi.",
+      "bullets": {
+        "removeExif": "Xóa chi tiết EXIF trước khi chia sẻ file.",
+        "cropFocalArea": "Crop đúng vùng trọng tâm bạn cần.",
+        "cleanerCutouts": "Tạo cutout sạch hơn cho ecommerce hoặc thiết kế."
+      },
+      "cta": "Thử xóa nền"
+    },
+    "qualityBoost": {
+      "eyebrow": "Tăng chất lượng",
+      "title": "Upscale các tài nguyên cũ khi bạn cần hình ảnh sắc nét hơn.",
+      "description": "File độ phân giải thấp rất phổ biến trong các tài nguyên marketing tái sử dụng, ảnh hồ sơ và đồ họa tải về. Upscale Image cho bạn một lối đi nhanh hơn để trình bày sạch hơn khi file nguồn quá nhỏ cho bố cục mới, đặc biệt nếu bạn đang tìm công cụ upscale ảnh AI cho tài nguyên web cũ hoặc social creative nhỏ.",
+      "bullets": {
+        "improveClarity": "Cải thiện độ rõ cho các tài nguyên hình ảnh tái sử dụng.",
+        "prepareSmallFiles": "Chuẩn bị file nguồn nhỏ cho các khung hiển thị lớn hơn.",
+        "combineWorkflow": "Kết hợp upscale với crop và nén khi cần."
+      },
+      "cta": "Mở Upscale Image"
+    }
+  },
+  "faq": {
+    "title": "Câu hỏi thường gặp",
+    "items": {
+      "free": {
+        "question": "Tôi có thể dùng các công cụ ảnh này miễn phí không?",
+        "answer": "Có. {siteName} cho phép bạn nén ảnh, chuyển đổi định dạng, resize ảnh, crop ảnh và chuẩn bị hình ảnh cho web mà không cần tạo tài khoản. Trang chủ được thiết kế để bạn đi thẳng vào các workflow thực tế như tối ưu ảnh, resize cho mạng xã hội và làm sạch nền chỉ với vài bước đơn giản trên trình duyệt."
+      },
+      "websiteSpeed": {
+        "question": "Nếu muốn tối ưu tốc độ website thì tôi nên bắt đầu với công cụ nào?",
+        "answer": "Nếu mục tiêu của bạn là tăng tốc độ tải trang, hãy bắt đầu với Compress Image để giảm dung lượng file, sau đó dùng Convert to WebP khi website hoặc CMS của bạn hỗ trợ định dạng này. Trong đa số workflow xuất bản, kết quả tốt nhất đến từ việc kết hợp công cụ nén ảnh miễn phí, chuyển đổi định dạng và kích thước ảnh phù hợp để tránh upload file quá lớn ngay từ đầu."
+      },
+      "socialMedia": {
+        "question": "Làm sao để chuẩn bị ảnh cho mạng xã hội?",
+        "answer": "Hãy dùng các công cụ Social Resize khi bạn cần kích thước ảnh chuẩn cho Instagram, TikTok, YouTube hoặc Facebook. Những preset page này rất hữu ích khi bạn muốn chuẩn bị ảnh social nhanh hơn, giữ bố cục đồng nhất trên nhiều kênh và giảm thao tác chỉnh tay trước khi đăng campaign graphic, thumbnail hoặc ảnh quảng bá. Chúng cũng phù hợp khi bạn cần resize ảnh online mà không phải tự tính kích thước."
+      },
+      "specificFileSize": {
+        "question": "Tôi có thể nhắm tới một dung lượng cụ thể như 100 KB không?",
+        "answer": "Có. Bạn có thể dùng page nén theo dung lượng như Compress Image to 100 KB khi cần đáp ứng giới hạn upload cho biểu mẫu, cổng việc làm, marketplace hoặc file đính kèm email. Điều này đặc biệt hữu ích khi bạn cần nén ảnh online theo một mốc dung lượng cụ thể thay vì chỉ chọn chất lượng chung, và đây là một trong những cách nhanh nhất để xử lý các giới hạn upload nghiêm ngặt mà không phải thử đi thử lại."
+      }
+    }
+  },
+  "visuals": {
+    "compress": {
+      "eyebrow": "Nén ảnh",
+      "title": "Xuất ra file nhẹ hơn",
+      "original": "Gốc",
+      "compressed": "Đã nén",
+      "formatLabel": "Định dạng",
+      "formatValue": "PNG sang WebP",
+      "workflowLabel": "Quy trình",
+      "workflowValue": "Nén, chuyển đổi, xuất bản",
+      "footer": "File nhẹ hơn để tải nhanh hơn"
+    },
+    "social": {
+      "eyebrow": "Resize mạng xã hội",
+      "title": "Preset theo nền tảng",
+      "story": "Story",
+      "squarePost": "Bài vuông",
+      "footer": "Kích thước sẵn sàng cho xuất bản đa kênh"
+    },
+    "cleanup": {
+      "backgroundCleanup": "Làm sạch nền",
+      "backgroundDescription": "Hình ảnh sản phẩm và hồ sơ gọn gàng hơn",
+      "metadataRemoval": "Xóa metadata",
+      "metadataDescription": "Xóa chi tiết EXIF trước khi chia sẻ",
+      "footer": "Crop, làm sạch và chia sẻ file an toàn hơn"
+    },
+    "upscale": {
+      "eyebrow": "AI Upscale",
+      "title": "Cải thiện tài nguyên độ phân giải thấp",
+      "before": "Trước",
+      "after": "Sau",
+      "sharperOutput": "Đầu ra sắc nét hơn",
+      "betterPresentation": "Hiển thị đẹp hơn",
+      "betterPresentationDescription": "Hữu ích cho banner dùng lại, ảnh hồ sơ và các đồ họa nhỏ.",
+      "footer": "Mang lại đời sống mới gọn gàng hơn cho các tài nguyên cũ"
+    }
+  }
+}

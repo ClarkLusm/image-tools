@@ -1,0 +1,82 @@
+{
+  "navigation": {
+    "tools": "Tools",
+    "convertImage": "Convert Image",
+    "socialResize": "Social Resize",
+    "toggleMenu": "Toggle navigation menu"
+  },
+  "footer": {
+    "about": "About",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "blog": "Blog"
+  },
+  "language": {
+    "label": "Language"
+  },
+  "uploadBox": {
+    "prompt": "What would you like to do with this image?"
+  },
+  "sidebar": {
+    "title": "Maybe You Need",
+    "groups": {
+      "aiProcessing": "AI Processing",
+      "convert": "Convert",
+      "socialResize": "Social Resize"
+    }
+  },
+  "breadcrumbs": {
+    "home": "Home"
+  },
+  "navItems": {
+    "resizeImage": {
+      "name": "Resize Image",
+      "description": "Adjust image dimensions while preserving detail."
+    },
+    "compressImage": {
+      "name": "Compress",
+      "description": "Reduce file size for web, email, and sharing."
+    },
+    "removeMetadata": {
+      "name": "Remove EXIF",
+      "description": "Strip metadata for privacy before publishing."
+    },
+    "cropImage": {
+      "name": "Crop Image",
+      "description": "Trim photos to the exact area you need."
+    },
+    "removeBackground": {
+      "name": "Remove Background",
+      "description": "Create transparent cutouts in a few clicks."
+    },
+    "upscaleImage": {
+      "name": "Upscale Image",
+      "description": "Enlarge low-resolution images with AI super resolution."
+    },
+    "convertToPng": {
+      "name": "Convert to PNG"
+    },
+    "convertToJpg": {
+      "name": "Convert to JPG"
+    },
+    "convertToWebp": {
+      "name": "Convert to WebP"
+    },
+    "resizeInstagram": {
+      "name": "Instagram"
+    },
+    "resizeTiktok": {
+      "name": "TikTok"
+    },
+    "resizeYoutube": {
+      "name": "YouTube"
+    },
+    "resizeFacebook": {
+      "name": "Facebook"
+    },
+    "blog": {
+      "name": "Blog",
+      "description": "Guides, tips, and updates from {siteName}."
+    }
+  }
+}

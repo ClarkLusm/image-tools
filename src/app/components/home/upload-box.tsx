@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Uploader } from "@/app/components/shared/uploader";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -8,6 +9,7 @@ import { tools } from "./_tools";
 
 export default function UploadBox() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const t = useTranslations("common");
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -23,7 +25,7 @@ export default function UploadBox() {
           className="mt-8 p-6 bg-card rounded-2xl border border-border shadow-lg"
         >
           <h3 className="font-display font-semibold text-lg mb-4 text-center">
-            What would you like to do with this image?
+            {t("uploadBox.prompt")}
           </h3>
           <div className="grid grid-cols-2 gap-3">
             {tools.map((tool) => (
@@ -35,7 +37,9 @@ export default function UploadBox() {
                 <div className={`${tool.bg} ${tool.color} p-2 rounded-lg`}>
                   <tool.icon className="w-5 h-5" />
                 </div>
-                <span className="font-medium text-sm">{tool.title}</span>
+                <span className="font-medium text-sm">
+                  {t(`navItems.${tool.translationKey}.name`)}
+                </span>
               </Link>
             ))}
           </div>

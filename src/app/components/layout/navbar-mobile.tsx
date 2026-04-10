@@ -1,18 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { Menu, X, Camera, FileImage } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import {
   convertTools,
   socialResizeTools,
   toolsMenu,
   topLevelNavItems,
+  type LocalizedNavItem,
   type NavItem,
 } from "./navbar-data";
+import { MobileLanguageMenu } from "./language-switcher";
+import { localizeNavItem, useI18n } from "@/app/lib/i18n";
 
-function getItemPaths(item: NavItem) {
+function getItemPaths(item: NavItem | LocalizedNavItem) {
   return item.activePaths ?? [item.path];
 }
 
@@ -26,6 +28,19 @@ export function NavbarMobile() {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const [isConvertOpen, setIsConvertOpen] = useState(false);
   const [isSocialOpen, setIsSocialOpen] = useState(false);
+  const { t } = useI18n();
+  const localizedToolsMenuItems = toolsMenu.items.map((item) =>
+    localizeNavItem(item, t),
+  );
+  const localizedConvertTools = convertTools.map((item) =>
+    localizeNavItem(item, t),
+  );
+  const localizedSocialResizeTools = socialResizeTools.map((item) =>
+    localizeNavItem(item, t),
+  );
+  const localizedTopLevelNavItems = topLevelNavItems.map((item) =>
+    localizeNavItem(item, t),
+  );
 
   const closeMenu = () => {
     setIsOpen(false);
@@ -34,13 +49,13 @@ export function NavbarMobile() {
     setIsSocialOpen(false);
   };
 
-  const isToolsActive = toolsMenu.items.some((tool) =>
+  const isToolsActive = localizedToolsMenuItems.some((tool) =>
     getItemPaths(tool).some((path) => matchesPath(pathname, path))
   );
-  const isConvertActive = convertTools.some((tool) =>
+  const isConvertActive = localizedConvertTools.some((tool) =>
     matchesPath(pathname, tool.path)
   );
-  const isSocialActive = socialResizeTools.some((tool) =>
+  const isSocialActive = localizedSocialResizeTools.some((tool) =>
     matchesPath(pathname, tool.path)
   );
   const ToolsIcon = toolsMenu.icon;
@@ -49,7 +64,7 @@ export function NavbarMobile() {
     <div className="md:hidden">
       <button
         type="button"
-        aria-label="Toggle navigation menu"
+        aria-label={t("navigation.toggleMenu")}
         aria-expanded={isOpen}
         onClick={() => {
           if (isOpen) {
@@ -77,14 +92,14 @@ export function NavbarMobile() {
             >
               <span className="flex items-center gap-3">
                 <ToolsIcon className="w-5 h-5" />
-                {toolsMenu.name}
+                {t("navigation.tools")}
               </span>
               <span className="text-sm">{isToolsOpen ? "−" : "+"}</span>
             </button>
 
             {isToolsOpen && (
               <div className="ml-4 flex flex-col gap-2">
-                {toolsMenu.items.map((tool) => {
+                {localizedToolsMenuItems.map((tool) => {
                   const Icon = tool.icon;
                   const isActive = getItemPaths(tool).some((path) =>
                     matchesPath(pathname, path)
@@ -120,14 +135,14 @@ export function NavbarMobile() {
             >
               <span className="flex items-center gap-3">
                 <FileImage className="w-5 h-5" />
-                Convert Image
+                {t("navigation.convertImage")}
               </span>
               <span className="text-sm">{isConvertOpen ? "−" : "+"}</span>
             </button>
 
             {isConvertOpen && (
               <div className="ml-4 flex flex-col gap-2">
-                {convertTools.map((tool) => {
+                {localizedConvertTools.map((tool) => {
                   const Icon = tool.icon;
                   const isActive = matchesPath(pathname, tool.path);
 
@@ -161,14 +176,14 @@ export function NavbarMobile() {
             >
               <span className="flex items-center gap-3">
                 <Camera className="w-5 h-5" />
-                Social Resize
+                {t("navigation.socialResize")}
               </span>
               <span className="text-sm">{isSocialOpen ? "−" : "+"}</span>
             </button>
 
             {isSocialOpen && (
               <div className="ml-4 flex flex-col gap-2">
-                {socialResizeTools.map((tool) => {
+                {localizedSocialResizeTools.map((tool) => {
                   const Icon = tool.icon;
                   const isActive = matchesPath(pathname, tool.path);
 
@@ -191,7 +206,7 @@ export function NavbarMobile() {
               </div>
             )}
 
-            {topLevelNavItems.map((item) => {
+            {localizedTopLevelNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = getItemPaths(item).some((path) =>
                 matchesPath(pathname, path)
@@ -213,6 +228,8 @@ export function NavbarMobile() {
                 </Link>
               );
             })}
+
+            <MobileLanguageMenu />
           </nav>
         </div>
       )}

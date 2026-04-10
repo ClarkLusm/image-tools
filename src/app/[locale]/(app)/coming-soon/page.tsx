@@ -1,0 +1,32 @@
+import type { Metadata } from "next";
+import { ComingSoonPage } from "@/app/components/shared/coming-soon-page";
+import { createPageMetadata } from "@/app/lib/metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  return createPageMetadata({
+    locale,
+    path: "/coming-soon",
+    title: {
+      en: "Coming Soon",
+      vi: "Sắp ra mắt",
+    },
+    description: {
+      en: "This page is not live yet. Explore the image tools that are already available.",
+      vi: "Trang này chưa hoạt động. Hãy khám phá các công cụ ảnh đã có sẵn.",
+    },
+    robots: {
+      index: false,
+      follow: false,
+    },
+  });
+}
+
+export default function Page() {
+  return <ComingSoonPage />;
+}

@@ -1,0 +1,82 @@
+{
+  "navigation": {
+    "tools": "Công cụ",
+    "convertImage": "Đổi định dạng ảnh",
+    "socialResize": "Resize mạng xã hội",
+    "toggleMenu": "Bật hoặc tắt menu điều hướng"
+  },
+  "footer": {
+    "about": "Giới thiệu",
+    "privacy": "Quyền riêng tư",
+    "terms": "Điều khoản",
+    "blog": "Blog"
+  },
+  "language": {
+    "label": "Ngôn ngữ"
+  },
+  "uploadBox": {
+    "prompt": "Bạn muốn làm gì với ảnh này?"
+  },
+  "sidebar": {
+    "title": "Có thể bạn cần",
+    "groups": {
+      "aiProcessing": "AI Processing",
+      "convert": "Convert",
+      "socialResize": "Social Resize"
+    }
+  },
+  "breadcrumbs": {
+    "home": "Trang chủ"
+  },
+  "navItems": {
+    "resizeImage": {
+      "name": "Resize ảnh",
+      "description": "Điều chỉnh kích thước ảnh mà vẫn giữ chi tiết."
+    },
+    "compressImage": {
+      "name": "Nén ảnh",
+      "description": "Giảm dung lượng ảnh cho web, email và chia sẻ."
+    },
+    "removeMetadata": {
+      "name": "Xóa EXIF",
+      "description": "Xóa metadata để đảm bảo riêng tư trước khi đăng tải."
+    },
+    "cropImage": {
+      "name": "Cắt ảnh",
+      "description": "Cắt ảnh đúng vùng bạn cần."
+    },
+    "removeBackground": {
+      "name": "Xóa nền",
+      "description": "Tạo ảnh nền trong suốt chỉ với vài thao tác."
+    },
+    "upscaleImage": {
+      "name": "Tăng độ nét ảnh",
+      "description": "Phóng to ảnh độ phân giải thấp bằng AI super resolution."
+    },
+    "convertToPng": {
+      "name": "Chuyển sang PNG"
+    },
+    "convertToJpg": {
+      "name": "Chuyển sang JPG"
+    },
+    "convertToWebp": {
+      "name": "Chuyển sang WebP"
+    },
+    "resizeInstagram": {
+      "name": "Instagram"
+    },
+    "resizeTiktok": {
+      "name": "TikTok"
+    },
+    "resizeYoutube": {
+      "name": "YouTube"
+    },
+    "resizeFacebook": {
+      "name": "Facebook"
+    },
+    "blog": {
+      "name": "Blog",
+      "description": "Hướng dẫn, mẹo và cập nhật từ {siteName}."
+    }
+  }
+}

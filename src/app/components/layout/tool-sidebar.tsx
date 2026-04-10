@@ -1,30 +1,30 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import {
   convertTools,
   primaryTools,
   socialResizeTools,
   type NavItem,
 } from "./navbar-data";
+import { localizeNavItem, useI18n } from "@/app/lib/i18n";
 
 type ToolGroup = {
-  label: string;
+  key: "aiProcessing" | "convert" | "socialResize";
   items: NavItem[];
 };
 
 const toolGroups: ToolGroup[] = [
   {
-    label: "AI Processing",
+    key: "aiProcessing",
     items: primaryTools,
   },
   {
-    label: "Convert",
+    key: "convert",
     items: convertTools,
   },
   {
-    label: "Social Resize",
+    key: "socialResize",
     items: socialResizeTools,
   },
 ];
@@ -54,10 +54,16 @@ function isItemActive(pathname: string, item: NavItem) {
 
 export function ToolSidebar() {
   const pathname = usePathname();
-  const currentGroupLabel = toolGroups.find((group) =>
+  const { t } = useI18n();
+  const localizedGroups = toolGroups.map((group) => ({
+    ...group,
+    label: t(`sidebar.groups.${group.key}`),
+    items: group.items.map((item) => localizeNavItem(item, t)),
+  }));
+  const currentGroupLabel = localizedGroups.find((group) =>
     group.items.some((item) => isItemActive(pathname, item)),
   )?.label;
-  const visibleGroups = toolGroups.filter(
+  const visibleGroups = localizedGroups.filter(
     (group) => group.label !== currentGroupLabel,
   );
 
@@ -65,7 +71,7 @@ export function ToolSidebar() {
     <aside className="hidden xl:sticky xl:top-24 xl:block xl:self-start">
       <div className="bg-[#FCFCFC] p-4">
         <h3 className="text-lg font-display font-bold text-foreground">
-          Maybe You Need
+          {t("sidebar.title")}
         </h3>
 
         <div className="py-6">

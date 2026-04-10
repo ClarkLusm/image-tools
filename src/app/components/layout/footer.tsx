@@ -1,8 +1,13 @@
-import Link from "next/link";
+"use client";
+
+import { Link } from "@/i18n/navigation";
 import { SITE_NAME } from "@/lib/site";
 import { BrandLogo } from "./brand-logo";
+import { useI18n } from "@/app/lib/i18n";
 
 export function Footer() {
+  const { t } = useI18n();
+
   return (
     <footer className="bg-white border-t border-border/50 py-12 mt-auto">
       <div className="container mx-auto px-4">
@@ -20,22 +25,22 @@ export function Footer() {
               href="/about"
               className="hover:text-primary transition-colors"
             >
-              About
+              {t("footer.about")}
             </Link>
             <Link
               href="/privacy"
               className="hover:text-primary transition-colors"
             >
-              Privacy
+              {t("footer.privacy")}
             </Link>
             <Link
               href="/terms"
               className="hover:text-primary transition-colors"
             >
-              Terms
+              {t("footer.terms")}
             </Link>
             <Link href="/blog" className="hover:text-primary transition-colors">
-              Blog
+              {t("footer.blog")}
             </Link>
           </div>
         </div>

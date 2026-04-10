@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type FocusEvent } from "react";
-import Link from "next/link";
 import { Camera, FileImage, type LucideIcon } from "lucide-react";
 import { NavbarMobile } from "./navbar-mobile";
 import { BrandLogo } from "./brand-logo";
@@ -10,11 +9,15 @@ import {
   socialResizeTools,
   toolsMenu,
   topLevelNavItems,
+  type LocalizedNavItem,
   type NavItem,
 } from "./navbar-data";
 import { NavActiveButton, NavLink } from "./nav-link";
 import { SITE_NAME } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { DesktopLanguageMenu } from "./language-switcher";
+import { localizeNavItem, useI18n } from "@/app/lib/i18n";
+import { Link } from "@/i18n/navigation";
 
 type DesktopMenuKey = "tools" | "convert" | "social";
 
@@ -54,7 +57,7 @@ function DesktopDropdown({
 }: {
   label: string;
   icon: LucideIcon;
-  items: NavItem[];
+  items: LocalizedNavItem[];
   panelWidthClass: string;
   menuKey: DesktopMenuKey;
   openMenu: DesktopMenuKey | null;
@@ -122,7 +125,7 @@ function DesktopMegaMenu({
 }: {
   label: string;
   icon: LucideIcon;
-  items: NavItem[];
+  items: LocalizedNavItem[];
   menuKey: DesktopMenuKey;
   openMenu: DesktopMenuKey | null;
   onOpen: (menuKey: DesktopMenuKey) => void;
@@ -150,7 +153,7 @@ function DesktopMegaMenu({
         {label}
       </NavActiveButton>
 
-      <div className={cn("right-0", getPanelClassName(isOpen))}>
+      <div className={cn("left-0", getPanelClassName(isOpen))}>
         <div className="w-[min(36rem,calc(100vw-2rem))] rounded-2xl border border-border bg-white p-3 shadow-xl">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {items.map((tool) => {
@@ -190,14 +193,27 @@ function DesktopMegaMenu({
 
 export function Navbar() {
   const [openMenu, setOpenMenu] = useState<DesktopMenuKey | null>(null);
+  const { t } = useI18n();
+  const localizedToolsMenuItems = toolsMenu.items.map((item) =>
+    localizeNavItem(item, t),
+  );
+  const localizedConvertTools = convertTools.map((item) =>
+    localizeNavItem(item, t),
+  );
+  const localizedSocialResizeTools = socialResizeTools.map((item) =>
+    localizeNavItem(item, t),
+  );
+  const localizedTopLevelNavItems = topLevelNavItems.map((item) =>
+    localizeNavItem(item, t),
+  );
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-border/40 relative">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="container mx-auto grid h-16 grid-cols-[auto_1fr_auto] items-center gap-4 px-4 md:grid-cols-[1fr_auto_1fr]">
         <Link
           href="/"
           aria-label={SITE_NAME}
-          className="transition-transform duration-300 hover:scale-[1.01]"
+          className="justify-self-start transition-transform duration-300 hover:scale-[1.01]"
         >
           <BrandLogo
             iconClassName="h-10"
@@ -205,11 +221,11 @@ export function Navbar() {
           />
         </Link>
 
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden items-center justify-self-center gap-1 md:flex">
           <DesktopMegaMenu
-            label={toolsMenu.name}
+            label={t("navigation.tools")}
             icon={toolsMenu.icon}
-            items={toolsMenu.items}
+            items={localizedToolsMenuItems}
             menuKey="tools"
             openMenu={openMenu}
             onOpen={setOpenMenu}
@@ -217,9 +233,9 @@ export function Navbar() {
           />
 
           <DesktopDropdown
-            label="Convert Image"
+            label={t("navigation.convertImage")}
             icon={FileImage}
-            items={convertTools}
+            items={localizedConvertTools}
             panelWidthClass="w-48"
             menuKey="convert"
             openMenu={openMenu}
@@ -228,9 +244,9 @@ export function Navbar() {
           />
 
           <DesktopDropdown
-            label="Social Resize"
+            label={t("navigation.socialResize")}
             icon={Camera}
-            items={socialResizeTools}
+            items={localizedSocialResizeTools}
             panelWidthClass="w-52"
             menuKey="social"
             openMenu={openMenu}
@@ -238,7 +254,7 @@ export function Navbar() {
             onClose={() => setOpenMenu(null)}
           />
 
-          {topLevelNavItems.map((item) => {
+          {localizedTopLevelNavItems.map((item) => {
             const Icon = item.icon;
 
             return (
@@ -258,7 +274,10 @@ export function Navbar() {
           })}
         </nav>
 
-        <NavbarMobile />
+        <div className="flex items-center justify-end gap-2">
+          <DesktopLanguageMenu />
+          <NavbarMobile />
+        </div>
       </div>
     </header>
   );

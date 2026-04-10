@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Download, Loader2 } from "lucide-react";
 import { Uploader } from "@/app/components/shared/uploader";

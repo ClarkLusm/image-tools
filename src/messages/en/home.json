@@ -1,0 +1,214 @@
+{
+  "hero": {
+    "title": "{siteName} for Compression, Conversion, Resizing, and Cropping",
+    "introLead": "Choose the exact image workflow you need:",
+    "compressImages": "compress images",
+    "forPerformance": "for performance,",
+    "convertFormats": "convert formats",
+    "resizePhotos": "resize photos",
+    "forSocialMediaOr": "for social media, or",
+    "cropPictures": "crop pictures",
+    "introTail": "with precision. Fast, practical, and privacy-first.",
+    "primaryCta": "Start with Compress",
+    "secondaryCta": "Convert to WebP"
+  },
+  "toolGrid": {
+    "title": "Explore Free Online Image Tools for Everyday Work",
+    "description": "Open a tool directly based on your goal, whether you need a free image compressor, an image resizer online, a JPG to PNG converter, or a quick remove background online workflow.",
+    "tryNow": "Try it now"
+  },
+  "toolCards": {
+    "resizeImage": {
+      "title": "Resize Image",
+      "description": "Use an image resizer online to change dimensions while preserving quality."
+    },
+    "compressImage": {
+      "title": "Compress Image",
+      "description": "Use a free image compressor to reduce file size without losing clarity."
+    },
+    "removeMetadata": {
+      "title": "Remove EXIF Data",
+      "description": "Remove EXIF metadata for privacy before sharing files online."
+    },
+    "convertToWebp": {
+      "title": "Convert to WebP",
+      "description": "Convert images to modern WebP format for smaller web-friendly files."
+    },
+    "convertToPng": {
+      "title": "Convert to PNG",
+      "description": "Convert JPG or WebP files to lossless PNG with transparency support."
+    },
+    "cropImage": {
+      "title": "Crop Image",
+      "description": "Crop pictures online to the exact area you need."
+    },
+    "removeBackground": {
+      "title": "Remove Background",
+      "description": "Remove background online and export transparent PNG cutouts."
+    },
+    "upscaleImage": {
+      "title": "Upscale Image",
+      "description": "Use AI image upscaler tools to increase resolution and sharpen details."
+    }
+  },
+  "spotlight": {
+    "eyebrow": "SMART PROCESSING",
+    "title": "Professional-quality image editing without complicated workflows.",
+    "from": "From",
+    "imageCompression": "image compression",
+    "and": "and",
+    "formatConversion": "format conversion",
+    "to": "to",
+    "backgroundRemoval": "background removal",
+    "descriptionTail": ", {siteName} helps you optimize visuals in seconds with practical controls and clean output.",
+    "description": "This homepage brings together practical tools for publishers, store owners, designers, marketers, and creators who need to move quickly. Instead of jumping between multiple apps, you can use one place to shrink heavy uploads, convert JPG to PNG or PNG to JPG, prepare social graphics, remove EXIF metadata for privacy, and even run an AI image upscaler when the source file is too small for a new layout.",
+    "bullets": {
+      "pageSpeed": "Size optimization for faster page loading.",
+      "batchProcessing": "Batch processing support for multiple images.",
+      "realTasks": "Built for real tasks: web publishing, social media, and content ops."
+    },
+    "primaryCta": "Try Remove Background",
+    "secondaryCta": "Compress Images"
+  },
+  "popular": {
+    "compressBySizeTitle": "Compress by Size",
+    "compressBySizeDescription": "Target file-size limits like 50 KB, 100 KB, or 200 KB.",
+    "convertFormatsTitle": "Convert Formats",
+    "convertFormatsDescription": "Convert between PNG, JPG, JPEG, and WebP for compatibility and speed.",
+    "socialPresetsTitle": "Social Presets",
+    "socialPresetsDescription": "Resize for popular platforms with ready dimensions.",
+    "resizeForInstagram": "Resize for Instagram",
+    "resizeForTiktok": "Resize for TikTok",
+    "resizeForYoutube": "Resize for YouTube",
+    "resizeForFacebook": "Resize for Facebook"
+  },
+  "features": {
+    "title": "Why Use {siteName}",
+    "items": {
+      "lightningFast": {
+        "title": "Lightning Fast",
+        "description": "Processing is optimized for speed with browser-side or server-side pipelines based on the tool."
+      },
+      "privacyFirst": {
+        "title": "Privacy First",
+        "description": "Your files are used only for processing and are not kept as permanent storage."
+      },
+      "highQuality": {
+        "title": "High Quality",
+        "description": "Advanced algorithms ensure you get the best possible output quality."
+      }
+    }
+  },
+  "overview": {
+    "title": "Free Online Image Tools for Faster, Cleaner Publishing",
+    "subtitlePrefix": "A quick overview of the main workflows people use most often on {siteName}, from a",
+    "freeImageCompressor": "free image compressor",
+    "toAn": "to an",
+    "aiImageUpscaler": "AI image upscaler",
+    "description": "Most users do not need a heavy editor for everyday tasks. They need a reliable way to resize images before upload, convert files for browser compatibility, remove background clutter from product shots, and hit strict size targets such as 100 KB for forms or marketplaces. These sections cover the core workflows that solve those problems quickly while keeping output practical for real websites, ecommerce catalogs, blog posts, and social campaigns."
+  },
+  "seoSections": {
+    "compressionConversion": {
+      "eyebrow": "Compression & Conversion",
+      "title": "Prepare lighter images without slowing down your workflow.",
+      "description": "Use {siteName} to compress large files, switch between PNG, JPG, and WebP, and keep image dimensions aligned with the page or platform where they will be published. This helps whether you need a free image compressor for websites, a JPG to PNG converter, or a faster way to create lighter WebP assets.",
+      "bullets": {
+        "websitesAndEmail": "Reduce upload size for websites and email.",
+        "speedOrCompatibility": "Convert formats for speed or compatibility.",
+        "realPublishing": "Keep output practical for real publishing tasks."
+      },
+      "cta": "Open Compress Image"
+    },
+    "socialResize": {
+      "eyebrow": "Social Resize",
+      "title": "Create platform-ready visuals for every channel faster.",
+      "description": "Instead of guessing aspect ratios, you can jump into preset resize flows for Instagram, TikTok, YouTube, and Facebook, then export images that fit each platform more cleanly. It is a practical shortcut when you need an image resizer online for campaigns, thumbnails, creator posts, or paid social assets.",
+      "bullets": {
+        "skipCanvas": "Skip manual canvas calculations.",
+        "consistentGraphics": "Keep social graphics consistent across channels.",
+        "commonFormats": "Work from presets built for common content formats."
+      },
+      "cta": "See Social Presets"
+    },
+    "privacyCleanup": {
+      "eyebrow": "Privacy & Cleanup",
+      "title": "Remove distractions before you publish or share.",
+      "description": "For many teams, image editing is not about effects. It is about removing background clutter, trimming the frame, and stripping metadata so files are cleaner and safer to distribute. That makes this workflow especially helpful when you need remove background online and remove EXIF metadata tools in one place.",
+      "bullets": {
+        "removeExif": "Remove EXIF details before sharing files.",
+        "cropFocalArea": "Crop to the exact focal area you need.",
+        "cleanerCutouts": "Create cleaner cutouts for ecommerce or design use."
+      },
+      "cta": "Try Remove Background"
+    },
+    "qualityBoost": {
+      "eyebrow": "Quality Boost",
+      "title": "Upscale older assets when you need a sharper presentation.",
+      "description": "Low-resolution files are common in reused marketing assets, profile photos, and downloaded graphics. Upscale Image gives you a faster route to cleaner presentation when the source is too small for a new layout, especially if you are looking for an AI image upscaler for old web assets or small social creatives.",
+      "bullets": {
+        "improveClarity": "Improve clarity for reused visual assets.",
+        "prepareSmallFiles": "Prepare small source files for larger surfaces.",
+        "combineWorkflow": "Combine upscale with crop and compression when needed."
+      },
+      "cta": "Open Upscale Image"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "items": {
+      "free": {
+        "question": "Can I use these image tools for free?",
+        "answer": "Yes. {siteName} lets you compress images, convert image formats, resize photos, crop pictures, and prepare visuals for the web without creating an account. The homepage is designed to help you jump directly into practical workflows such as image optimization, social media resizing, and background cleanup with simple browser-based steps."
+      },
+      "websiteSpeed": {
+        "question": "Which tool should I start with for website speed?",
+        "answer": "If your goal is faster page speed, start with Compress Image to reduce file size, then move to Convert to WebP when your website or CMS supports that format. In most publishing workflows, the best result comes from combining a free image compressor, format conversion, and correct image dimensions so you are not uploading oversized files to begin with."
+      },
+      "socialMedia": {
+        "question": "How do I prepare images for social media?",
+        "answer": "Use the Social Resize tools when you need platform-ready image sizes for Instagram, TikTok, YouTube, or Facebook. These preset pages are useful when you want faster social media image preparation, more consistent layouts across channels, and fewer manual adjustments before posting campaign graphics, thumbnails, or promotional images. They also work well when you need an image resizer online without calculating dimensions manually."
+      },
+      "specificFileSize": {
+        "question": "Can I target a specific file size like 100 KB?",
+        "answer": "Yes. You can use a dedicated compress-by-size page such as Compress Image to 100 KB when you need to meet upload limits for forms, job portals, marketplaces, or email attachments. This is especially useful when you need online image compression with a specific target size instead of only choosing a general quality setting, and it is one of the fastest ways to handle strict upload rules without trial and error."
+      }
+    }
+  },
+  "visuals": {
+    "compress": {
+      "eyebrow": "Compress image",
+      "title": "Export a smaller file",
+      "original": "Original",
+      "compressed": "Compressed",
+      "formatLabel": "Format",
+      "formatValue": "PNG to WebP",
+      "workflowLabel": "Workflow",
+      "workflowValue": "Compress, convert, publish",
+      "footer": "Smaller files for faster delivery"
+    },
+    "social": {
+      "eyebrow": "Social resize",
+      "title": "Presets by platform",
+      "story": "Story",
+      "squarePost": "Square Post",
+      "footer": "Ready sizes for multi-channel publishing"
+    },
+    "cleanup": {
+      "backgroundCleanup": "Background cleanup",
+      "backgroundDescription": "Cleaner product and profile visuals",
+      "metadataRemoval": "Metadata removal",
+      "metadataDescription": "Strip EXIF details before sharing",
+      "footer": "Crop, clean, and share safer files"
+    },
+    "upscale": {
+      "eyebrow": "AI Upscale",
+      "title": "Improve low-resolution assets",
+      "before": "Before",
+      "after": "After",
+      "sharperOutput": "Sharper output",
+      "betterPresentation": "Better presentation",
+      "betterPresentationDescription": "Useful for reused banners, profile images, and small graphics.",
+      "footer": "Give older assets a cleaner second life"
+    }
+  }
+}

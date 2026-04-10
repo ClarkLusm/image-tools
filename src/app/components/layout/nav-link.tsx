@@ -1,8 +1,7 @@
 "use client";
 
 import type { MouseEventHandler, ReactNode } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 type MatchMode = "exact" | "startsWith";

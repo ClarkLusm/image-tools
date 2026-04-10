@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Clock3, ArrowRight } from "lucide-react";
 
 type ComingSoonPageProps = {
