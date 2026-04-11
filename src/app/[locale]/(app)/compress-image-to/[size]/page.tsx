@@ -5,7 +5,12 @@ import TargetCompressClient from "@/app/components/tools/target-compress-client"
 import { COMPRESS_SIZE_ENTRIES } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
-import { createPageMetadata } from "@/app/lib/metadata";
+import {
+  createPageMetadata,
+  resolveSupportedLanguage,
+} from "@/app/lib/metadata";
+import ToolNextActions from "@/app/components/tools/tool-next-actions";
+import { getToolNextActions } from "@/app/lib/tool-next-actions";
 
 function getUseCaseCopy(sizeKB: number) {
   if (sizeKB <= 100) {
@@ -82,6 +87,8 @@ export default async function Page({
   if (!entry) notFound();
 
   const content = getUseCaseCopy(entry.sizeKB);
+  const languageCode = resolveSupportedLanguage(locale);
+  const nextActions = getToolNextActions("target-compress", languageCode);
   const otherSizes = COMPRESS_SIZE_ENTRIES.filter(
     (item) => item.slug !== entry.slug,
   );
@@ -142,6 +149,12 @@ export default async function Page({
         <TargetCompressClient
           targetSizeKB={entry.sizeKB}
           targetLabel={entry.label}
+        />
+
+        <ToolNextActions
+          title={nextActions.title}
+          description={nextActions.description}
+          items={nextActions.items}
         />
 
         <section className="rounded-2xl border border-border bg-card p-6">

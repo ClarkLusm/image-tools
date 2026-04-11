@@ -3,7 +3,12 @@ import SocialResizeClient from "@/app/components/tools/social-resize-client";
 import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 import { SITE_URL } from "@/lib/site";
 import { Link } from "@/i18n/navigation";
-import { createPageMetadata } from "@/app/lib/metadata";
+import {
+  createPageMetadata,
+  resolveSupportedLanguage,
+} from "@/app/lib/metadata";
+import ToolNextActions from "@/app/components/tools/tool-next-actions";
+import { getToolNextActions } from "@/app/lib/tool-next-actions";
 
 function getPresets(locale: string) {
   const isVietnamese = locale === "vi";
@@ -55,6 +60,8 @@ export default async function Page({
   const isVietnamese = locale === "vi";
   const isGerman = locale === "de";
   const siteUrl = SITE_URL;
+  const languageCode = resolveSupportedLanguage(locale);
+  const nextActions = getToolNextActions("social-resize", languageCode);
   return (
     <ToolLayout
       locale={locale}
@@ -169,6 +176,13 @@ export default async function Page({
         ]}
       />
       <SocialResizeClient presets={getPresets(locale)} defaultPresetIndex={0} />
+
+      <ToolNextActions
+        className="mt-10"
+        title={nextActions.title}
+        description={nextActions.description}
+        items={nextActions.items}
+      />
 
       <section className="mt-24 space-y-12 bg-card">
         <div className="max-w-3xl">

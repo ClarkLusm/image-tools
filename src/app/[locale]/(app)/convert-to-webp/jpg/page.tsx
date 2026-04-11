@@ -1,5 +1,6 @@
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import FormatConvertClient from "@/app/components/tools/format-convert-client";
+import FormatConvertNextActions from "@/app/components/tools/format-convert-next-actions";
 import { SITE_URL } from "@/lib/site";
 import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 import { createPageMetadata } from "@/app/lib/metadata";
@@ -69,6 +70,11 @@ export default async function Page({
         buttonLabel="Convert JPG to WebP"
         note="Lower quality produces smaller files."
         autoProcessOnSelect
+      />
+      <FormatConvertNextActions
+        locale={locale}
+        task="convert-to-webp"
+        className="mt-10"
       />
     </ToolLayout>
   );

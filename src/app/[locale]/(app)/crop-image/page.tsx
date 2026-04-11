@@ -3,7 +3,12 @@ import { ToolLayout } from "@/app/components/layout/tool-layout";
 import CropImageClient from "./crop-image-client";
 import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 import { SITE_URL } from "@/lib/site";
-import { createPageMetadata } from "@/app/lib/metadata";
+import {
+  createPageMetadata,
+  resolveSupportedLanguage,
+} from "@/app/lib/metadata";
+import ToolNextActions from "@/app/components/tools/tool-next-actions";
+import { getToolNextActions } from "@/app/lib/tool-next-actions";
 
 export async function generateMetadata({
   params,
@@ -34,6 +39,8 @@ export default async function Page({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const languageCode = resolveSupportedLanguage(locale);
+  const nextActions = getToolNextActions("crop-image", languageCode);
 
   return (
     <ToolLayout
@@ -98,7 +105,13 @@ export default async function Page({
 
         <CropImageClient />
 
-        <section className="mt-24 space-y-12">
+        <ToolNextActions
+          title={nextActions.title}
+          description={nextActions.description}
+          items={nextActions.items}
+        />
+
+        <section className="mt-16 space-y-12">
           <div className="max-w-3xl">
             <h2 className="text-2xl font-display font-bold text-foreground">
               Quick Cropping Guide

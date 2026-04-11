@@ -4,7 +4,12 @@ import CompressImageClient from "./compress-image-client";
 import { COMPRESS_SIZE_ENTRIES } from "@/lib/seo";
 import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 import { SITE_URL } from "@/lib/site";
-import { createPageMetadata } from "@/app/lib/metadata";
+import {
+  createPageMetadata,
+  resolveSupportedLanguage,
+} from "@/app/lib/metadata";
+import ToolNextActions from "@/app/components/tools/tool-next-actions";
+import { getToolNextActions } from "@/app/lib/tool-next-actions";
 
 export async function generateMetadata({
   params,
@@ -35,6 +40,8 @@ export default async function Page({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const languageCode = resolveSupportedLanguage(locale);
+  const nextActions = getToolNextActions("compress-image", languageCode);
 
   return (
     <ToolLayout
@@ -99,7 +106,13 @@ export default async function Page({
 
         <CompressImageClient />
 
-        <section className="mt-10 space-y-12">
+        <ToolNextActions
+          title={nextActions.title}
+          description={nextActions.description}
+          items={nextActions.items}
+        />
+
+        <section className="mt-16 space-y-12">
           <section className="rounded-2xl border border-border bg-card p-6">
             <h3 className="mb-3 text-lg font-semibold">
               Compress to a specific size

@@ -5,7 +5,12 @@ import TargetCompressClient from "@/app/components/tools/target-compress-client"
 import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 import { COMPRESS_USE_CASE_ENTRIES } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
-import { createPageMetadata } from "@/app/lib/metadata";
+import {
+  createPageMetadata,
+  resolveSupportedLanguage,
+} from "@/app/lib/metadata";
+import ToolNextActions from "@/app/components/tools/tool-next-actions";
+import { getToolNextActions } from "@/app/lib/tool-next-actions";
 
 const useCaseMetadataVi: Record<
   string,
@@ -85,6 +90,8 @@ export default async function Page({
   const otherEntries = COMPRESS_USE_CASE_ENTRIES.filter(
     (item) => item.slug !== entry.slug
   );
+  const languageCode = resolveSupportedLanguage(locale);
+  const nextActions = getToolNextActions("target-compress", languageCode);
 
   return (
     <ToolLayout
@@ -128,6 +135,12 @@ export default async function Page({
                   300
           }
           targetLabel={entry.recommendedSizes[0]?.label ?? "300 KB"}
+        />
+
+        <ToolNextActions
+          title={nextActions.title}
+          description={nextActions.description}
+          items={nextActions.items}
         />
 
         <section className="rounded-2xl border border-border bg-card p-6">

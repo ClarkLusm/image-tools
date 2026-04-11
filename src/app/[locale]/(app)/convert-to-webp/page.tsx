@@ -29,6 +29,7 @@ export default async function Page({
 
   return (
     <FormatConvertLandingPage
+      locale={locale}
       path="/convert-to-webp"
       task="convert-to-webp"
       accept={{

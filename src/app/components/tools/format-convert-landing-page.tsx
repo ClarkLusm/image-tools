@@ -6,6 +6,9 @@ import FormatConvertClient from "@/app/components/tools/format-convert-client";
 import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 import LinkedRichText from "@/app/components/shared/linked-rich-text";
 import { SITE_URL } from "@/lib/site";
+import ToolNextActions from "@/app/components/tools/tool-next-actions";
+import { getToolNextActions } from "@/app/lib/tool-next-actions";
+import { resolveSupportedLanguage } from "@/app/lib/metadata";
 
 export type FormatConvertLandingPageContent = {
   metaTitle: string;
@@ -49,6 +52,7 @@ export type FormatConvertLandingPageContent = {
 };
 
 type FormatConvertLandingPageProps = {
+  locale: string;
   path: string;
   task: "convert-to-png" | "convert-to-jpg" | "convert-to-webp";
   accept: Record<string, string[]>;
@@ -63,6 +67,7 @@ type FormatConvertLandingPageProps = {
 };
 
 export default function FormatConvertLandingPage({
+  locale,
   path,
   task,
   accept,
@@ -75,8 +80,12 @@ export default function FormatConvertLandingPage({
   buttonLabel,
   note,
 }: FormatConvertLandingPageProps) {
+  const languageCode = resolveSupportedLanguage(locale);
+  const nextActions = getToolNextActions(task, languageCode);
+
   return (
     <ToolLayout
+      locale={locale}
       title={content.title}
       description={content.description}
       schemaPath={path}
@@ -105,7 +114,13 @@ export default function FormatConvertLandingPage({
           autoProcessOnSelect
         />
 
-        <section className="mt-24 space-y-12">
+        <ToolNextActions
+          title={nextActions.title}
+          description={nextActions.description}
+          items={nextActions.items}
+        />
+
+        <section className="mt-16 space-y-12">
           <div className="max-w-3xl">
             <h2 className="text-2xl font-display font-bold text-foreground">
               {content.quickGuide.title}

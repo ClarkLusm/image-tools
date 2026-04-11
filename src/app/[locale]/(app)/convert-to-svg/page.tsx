@@ -16,8 +16,13 @@ import { ToolLayout } from "@/app/components/layout/tool-layout";
 import FormatConvertClient from "@/app/components/tools/format-convert-client";
 import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 import { SITE_URL } from "@/lib/site";
-import { createPageMetadata } from "@/app/lib/metadata";
+import {
+  createPageMetadata,
+  resolveSupportedLanguage,
+} from "@/app/lib/metadata";
 import { getConvertToSvgContent } from "./content";
+import ToolNextActions from "@/app/components/tools/tool-next-actions";
+import { getToolNextActions } from "@/app/lib/tool-next-actions";
 
 type VisualCard = {
   icon: LucideIcon;
@@ -71,6 +76,8 @@ export default async function Page({
 }) {
   const { locale } = await params;
   const content = await getConvertToSvgContent(locale);
+  const languageCode = resolveSupportedLanguage(locale);
+  const nextActions = getToolNextActions("convert-to-svg", languageCode);
 
   return (
     <ToolLayout
@@ -110,6 +117,12 @@ export default async function Page({
           outputMime="image/svg+xml"
           showQuality={false}
           autoProcessOnSelect
+        />
+
+        <ToolNextActions
+          title={nextActions.title}
+          description={nextActions.description}
+          items={nextActions.items}
         />
 
         <section className="overflow-hidden rounded-xl border border-primary/10 bg-gradient-to-r from-primary/[0.08] via-white to-white shadow-[0_24px_70px_rgba(15,23,42,0.08)]">

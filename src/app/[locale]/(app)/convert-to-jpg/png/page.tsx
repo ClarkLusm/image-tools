@@ -1,5 +1,6 @@
 import { ToolLayout } from "@/app/components/layout/tool-layout";
 import FormatConvertClient from "@/app/components/tools/format-convert-client";
+import FormatConvertNextActions from "@/app/components/tools/format-convert-next-actions";
 import { SITE_URL } from "@/lib/site";
 import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 import { createPageMetadata } from "@/app/lib/metadata";
@@ -68,6 +69,11 @@ export default async function Page({
         buttonLabel="Convert PNG to JPG"
         note="Higher quality means larger file size."
         autoProcessOnSelect
+      />
+      <FormatConvertNextActions
+        locale={locale}
+        task="convert-to-jpg"
+        className="mt-10"
       />
     </ToolLayout>
   );
