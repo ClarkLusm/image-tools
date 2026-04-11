@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { Clock3, ArrowRight } from "lucide-react";
-import { getRequestLanguage } from "@/app/lib/i18n-server";
+import { resolveSupportedLanguage } from "@/app/lib/metadata";
 import { getToolLayoutLookup } from "@/app/lib/tool-layout-lookup";
 import { localizeReactTree } from "@/app/lib/react-translation";
 
@@ -17,10 +17,11 @@ const quickLinks = [
 ];
 
 export async function ComingSoonPage({
+  locale,
   title = "Coming Soon",
   description = "This page is on the way. In the meantime, you can keep working with the tools that are already live.",
-}: ComingSoonPageProps) {
-  const languageCode = await getRequestLanguage();
+}: ComingSoonPageProps & { locale: string }) {
+  const languageCode = resolveSupportedLanguage(locale);
   const lookup = await getToolLayoutLookup(languageCode);
 
   return localizeReactTree(

@@ -1,7 +1,9 @@
 import { SITE_NAME } from "@/lib/site";
 import { Sparkles } from "lucide-react";
-import { createPageMetadata } from "@/app/lib/metadata";
-import { getRequestLanguage } from "@/app/lib/i18n-server";
+import {
+  createPageMetadata,
+  resolveSupportedLanguage,
+} from "@/app/lib/metadata";
 import { getToolLayoutLookup } from "@/app/lib/tool-layout-lookup";
 import { localizeReactTree } from "@/app/lib/react-translation";
 
@@ -18,16 +20,23 @@ export async function generateMetadata({
     title: {
       en: "Privacy Policy",
       vi: "Chính sách quyền riêng tư",
+      de: "Datenschutzerklärung",
     },
     description: {
       en: `Read how ${SITE_NAME} processes your images and protects your privacy.`,
       vi: `Xem cách ${SITE_NAME} xử lý hình ảnh của bạn và bảo vệ quyền riêng tư của bạn.`,
+      de: `Erfahre, wie ${SITE_NAME} deine Bilder verarbeitet und deine Privatsphäre schützt.`,
     },
   });
 }
 
-export default async function Page() {
-  const languageCode = await getRequestLanguage();
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const languageCode = resolveSupportedLanguage(locale);
   const lookup = await getToolLayoutLookup(languageCode);
 
   return localizeReactTree(

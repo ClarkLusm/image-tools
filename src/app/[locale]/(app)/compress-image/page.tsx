@@ -19,17 +19,26 @@ export async function generateMetadata({
     title: {
       en: "Compress Image Online (Free) - Reduce Image Size Without Losing Quality",
       vi: "Nén ảnh online miễn phí - Giảm dung lượng mà vẫn giữ chất lượng",
+      de: "Bild online komprimieren (kostenlos) - Dateigröße ohne sichtbaren Qualitätsverlust reduzieren",
     },
     description: {
       en: "Compress image online free to reduce image size without losing quality. Optimize JPG, PNG, and WebP files for websites, mobile, email, and faster page speed.",
       vi: "Nén ảnh online miễn phí để giảm dung lượng mà vẫn giữ chất lượng. Tối ưu file JPG, PNG và WebP cho website, mobile, email và tốc độ tải trang nhanh hơn.",
+      de: "Bilder kostenlos online komprimieren, um Dateigröße ohne sichtbaren Qualitätsverlust zu reduzieren. Optimiere JPG-, PNG- und WebP-Dateien für Websites, Mobilgeräte, E-Mail und schnellere Ladezeiten.",
     },
   });
 }
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
   return (
     <ToolLayout
+      locale={locale}
       title="Compress Image Online"
       description="Compress JPG, PNG, and WebP files for websites, social media, uploads, and everyday sharing with a practical image optimizer."
       steps={[

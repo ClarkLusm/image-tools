@@ -18,17 +18,26 @@ export async function generateMetadata({
     title: {
       en: "Crop Image Online (Free) - Crop Photo to Any Size and Ratio",
       vi: "Cắt ảnh online miễn phí - Crop ảnh theo mọi kích thước và tỷ lệ",
+      de: "Bild online zuschneiden (kostenlos) - Foto auf jede Größe und jedes Verhältnis zuschneiden",
     },
     description: {
       en: "Crop image online free with exact aspect ratios and precise framing. Crop photos for social media, thumbnails, profile images, and any custom size.",
       vi: "Cắt ảnh online miễn phí với tỷ lệ chuẩn và bố cục chính xác. Crop ảnh cho mạng xã hội, thumbnail, ảnh hồ sơ và mọi kích thước tùy chỉnh.",
+      de: "Bilder kostenlos online mit exakten Seitenverhältnissen und präzisem Framing zuschneiden. Für Social Media, Thumbnails, Profilbilder und jede benutzerdefinierte Größe.",
     },
   });
 }
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
   return (
     <ToolLayout
+      locale={locale}
       title="Crop Image Online"
       description="Crop photos and graphics to the exact area, size, and ratio you need for social media, thumbnails, profile images, and everyday design work."
       collapseHeaderOnActiveImage

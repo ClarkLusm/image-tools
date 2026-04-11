@@ -1,4 +1,4 @@
-export type SupportedLanguage = "en" | "vi";
+export type SupportedLanguage = "en" | "vi" | "de";
 
 export type LanguageOption = {
   code: SupportedLanguage;
@@ -9,6 +9,7 @@ export type LanguageOption = {
 export const LANGUAGE_OPTIONS: LanguageOption[] = [
   { code: "en", label: "English", nativeLabel: "English" },
   { code: "vi", label: "Vietnamese", nativeLabel: "Tiếng Việt" },
+  { code: "de", label: "German", nativeLabel: "Deutsch" },
 ];
 
 export const DEFAULT_LANGUAGE: SupportedLanguage = "en";

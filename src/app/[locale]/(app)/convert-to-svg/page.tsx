@@ -74,6 +74,7 @@ export default async function Page({
 
   return (
     <ToolLayout
+      locale={locale}
       title={content.title}
       description={content.description}
       schemaPath="/convert-to-svg"

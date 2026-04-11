@@ -1,6 +1,8 @@
 import { SITE_NAME } from "@/lib/site";
-import { createPageMetadata } from "@/app/lib/metadata";
-import { getRequestLanguage } from "@/app/lib/i18n-server";
+import {
+  createPageMetadata,
+  resolveSupportedLanguage,
+} from "@/app/lib/metadata";
 import { getToolLayoutLookup } from "@/app/lib/tool-layout-lookup";
 import { localizeReactTree } from "@/app/lib/react-translation";
 
@@ -17,16 +19,23 @@ export async function generateMetadata({
     title: {
       en: "Terms of Service",
       vi: "Điều khoản dịch vụ",
+      de: "Nutzungsbedingungen",
     },
     description: {
       en: `Read the terms for using ${SITE_NAME} and our image processing services.`,
       vi: `Xem các điều khoản khi sử dụng ${SITE_NAME} và dịch vụ xử lý ảnh của chúng tôi.`,
+      de: `Lies die Bedingungen für die Nutzung von ${SITE_NAME} und unserer Bildverarbeitungsdienste.`,
     },
   });
 }
 
-export default async function Page() {
-  const languageCode = await getRequestLanguage();
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const languageCode = resolveSupportedLanguage(locale);
   const lookup = await getToolLayoutLookup(languageCode);
 
   return localizeReactTree(

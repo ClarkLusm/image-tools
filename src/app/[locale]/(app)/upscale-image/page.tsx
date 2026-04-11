@@ -18,17 +18,26 @@ export async function generateMetadata({
     title: {
       en: "Upscale Image Online (Free) - AI Image Enhancer and Resolution Tool",
       vi: "Tăng độ phân giải ảnh online miễn phí - Công cụ AI nâng cấp ảnh",
+      de: "Bild online hochskalieren (kostenlos) - KI-Bildverbesserung und Auflösungs-Tool",
     },
     description: {
       en: "Upscale image online free with AI super resolution. Increase image resolution, enhance image quality, and improve low-resolution photos, portraits, and graphics.",
       vi: "Tăng độ phân giải ảnh online miễn phí với AI super resolution. Cải thiện độ phân giải, nâng chất lượng ảnh và làm sắc nét ảnh chân dung, ảnh cũ và đồ họa độ phân giải thấp.",
+      de: "Bilder kostenlos online mit KI-Super-Resolution hochskalieren. Erhöhe die Auflösung, verbessere die Bildqualität und optimiere niedrig aufgelöste Fotos, Porträts und Grafiken.",
     },
   });
 }
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
   return (
     <ToolLayout
+      locale={locale}
       title="Upscale Image Online"
       description="Increase image resolution with AI upscaling for portraits, products, old photos, digital art, and low-resolution assets that need a cleaner export."
       steps={[

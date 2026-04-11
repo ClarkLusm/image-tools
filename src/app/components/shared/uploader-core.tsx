@@ -62,8 +62,14 @@ export function UploaderCore({
 }: UploaderProps) {
   const locale = useLocale();
   const isVietnamese = locale === "vi";
+  const isGerman = locale === "de";
   const resolvedPreviewLabel =
-    previewLabel ?? (isVietnamese ? "Xem trước ảnh tải lên" : "Upload Preview");
+    previewLabel ??
+    (isVietnamese
+      ? "Xem trước ảnh tải lên"
+      : isGerman
+        ? "Upload-Vorschau"
+        : "Upload Preview");
   const [error, setError] = useState<string | null>(null);
   const [previews, setPreviews] = useState<
     { url: string; name: string; size: number }[]
@@ -105,9 +111,13 @@ export function UploaderCore({
           acceptedFiles.length > 0
             ? isVietnamese
               ? `Một số tệp đã bị bỏ qua. Kích thước tối đa là ${maxSizeMB}MB cho mỗi tệp.`
+              : isGerman
+                ? `Einige Dateien wurden übersprungen. Die maximale Größe beträgt ${maxSizeMB}MB pro Datei.`
               : `Some files were skipped. Max size is ${maxSizeMB}MB per file.`
             : isVietnamese
               ? `Tệp quá lớn. Kích thước tối đa là ${maxSizeMB}MB.`
+              : isGerman
+                ? `Die Datei ist zu groß. Die maximale Größe beträgt ${maxSizeMB}MB.`
               : `File is too large. Max size is ${maxSizeMB}MB.`,
         );
       } else if (rejection.errors[0]?.code === "file-invalid-type") {
@@ -115,9 +125,13 @@ export function UploaderCore({
           acceptedFiles.length > 0
             ? isVietnamese
               ? "Một số tệp đã bị bỏ qua vì định dạng không được hỗ trợ."
+              : isGerman
+                ? "Einige Dateien wurden übersprungen, weil das Format nicht unterstützt wird."
               : "Some files were skipped because the format is not supported."
             : isVietnamese
               ? "Định dạng tệp không được hỗ trợ. Vui lòng tải lên một hình ảnh."
+              : isGerman
+                ? "Nicht unterstütztes Dateiformat. Bitte lade ein Bild hoch."
               : "Unsupported file format. Please upload an image.",
         );
       } else {
@@ -125,6 +139,8 @@ export function UploaderCore({
           rejection.errors[0]?.message ||
             (isVietnamese
               ? "Tải tệp lên thất bại."
+              : isGerman
+                ? "Datei konnte nicht hochgeladen werden."
               : "Failed to upload file."),
         );
       }
@@ -201,23 +217,33 @@ export function UploaderCore({
       <h3 className="mb-2 text-xl font-display font-semibold text-foreground">
         {isVietnamese
           ? "Kéo và thả ảnh của bạn vào đây"
+          : isGerman
+            ? "Ziehe dein Bild hierher"
           : "Drag & drop your image here"}
       </h3>
       <p className="mb-6 text-muted-foreground">
         {isVietnamese
           ? "hoặc bấm để chọn từ thiết bị của bạn"
+          : isGerman
+            ? "oder klicke, um es von deinem Gerät auszuwählen"
           : "or click to browse from your device"}
       </p>
       <div className="flex flex-wrap justify-center gap-3 text-xs font-medium text-muted-foreground/80">
         {maxFiles == 0 && (
           <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1">
-            {isVietnamese ? "Không giới hạn số tệp" : "No file limit"}
+            {isVietnamese
+              ? "Không giới hạn số tệp"
+              : isGerman
+                ? "Keine Dateibegrenzung"
+                : "No file limit"}
           </span>
         )}
         {maxTotal > 0 ? (
           <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1">
             {isVietnamese
               ? `Tổng ${maxTotal}MB cho mỗi lần tải lên`
+              : isGerman
+                ? `${maxTotal}MB insgesamt pro Upload`
               : `${maxTotal}MB total per upload`}
           </span>
         ) : null}
@@ -225,6 +251,8 @@ export function UploaderCore({
           <ImageIcon className="h-3 w-3" />
           {isVietnamese
             ? `Tối đa ${maxSizeMB}MB${maxFiles == 0 ? " mỗi tệp" : ""}`
+            : isGerman
+              ? `Max. ${maxSizeMB}MB${maxFiles == 0 ? " pro Datei" : ""}`
             : `Max ${maxSizeMB}MB${maxFiles == 0 ? " each" : ""}`}
         </span>
         {acceptedFormatLabels.length > 0 ? (
@@ -253,6 +281,8 @@ export function UploaderCore({
               <span>
                 {isVietnamese
                   ? `${previews.length} tệp sẵn sàng`
+                  : isGerman
+                    ? `${previews.length} Datei${previews.length > 1 ? "en" : ""} bereit`
                   : `${previews.length} file${previews.length > 1 ? "s" : ""} ready`}
               </span>
             </div>
@@ -269,6 +299,8 @@ export function UploaderCore({
               <RefreshCcw className="h-4 w-4" />
               {isVietnamese
                 ? `Chọn ${previews.length > 1 ? "các ảnh khác" : "ảnh khác"}`
+                : isGerman
+                  ? `Andere${previews.length > 1 ? " Bilder" : "s Bild"} wählen`
                 : `Select different image${previews.length > 1 ? "s" : ""}`}
             </button>
           )}

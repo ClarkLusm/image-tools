@@ -1,0 +1,139 @@
+{
+  "metaTitle": "Bild online in WebP konvertieren (kostenlos) - JPG-zu-WebP-Konverter",
+  "metaDescription": "Bild kostenlos online in WebP konvertieren. Nutze diesen JPG-zu-WebP-Konverter für kleinere Website-Bilder, schnellere Ladezeiten und moderne Bildoptimierungs-Workflows.",
+  "title": "Bild online in WebP konvertieren",
+  "description": "JPG, PNG, GIF oder SVG in WebP umwandeln, ideal für kleinere Dateien, schnellere Ladezeiten und modernere Bildauslieferung im Web.",
+  "breadcrumbs": {
+    "home": "Startseite",
+    "current": "In WebP konvertieren"
+  },
+  "sourceLinkCta": "Jetzt konvertieren",
+  "converter": {
+    "buttonLabel": "In WebP konvertieren"
+  },
+  "steps": [
+    {
+      "title": "Quelldatei hochladen",
+      "description": "Wähle die JPG-, PNG-, GIF- oder SVG-Datei aus, die du in WebP umwandeln möchtest."
+    },
+    {
+      "title": "WebP-Qualität festlegen",
+      "description": "Passe die Ausgabequalität an, um sichtbare Qualität und Dateigröße auszubalancieren."
+    },
+    {
+      "title": "WebP-Datei herunterladen",
+      "description": "Speichere das konvertierte WebP-Bild für Websites, Produktseiten, Blogs oder Apps."
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Was ist das WebP-Format?",
+      "a": "WebP ist ein modernes Bildformat, das die Dateigröße reduziert und gleichzeitig eine starke sichtbare Qualität beibehält. Besonders nützlich ist es für Websites, weil leichtere Bilder die Seitengeschwindigkeit, Nutzererfahrung und Performance auf Mobil- und Desktop-Geräten verbessern können."
+    },
+    {
+      "q": "Wann sollte ich JPG in WebP umwandeln?",
+      "a": "Wandle JPG in WebP um, wenn dein Ziel eine schnellere Website-Auslieferung mit kleineren Dateien ist. Das ist ein praktischer Schritt für Blogs, Landingpages, E-Commerce-Galerien und contentlastige Seiten, bei denen das Bildgewicht Ladezeit und UX beeinflusst."
+    },
+    {
+      "q": "Unterstützt WebP Transparenz?",
+      "a": "Ja. WebP kann Transparenz bewahren, weshalb es oft mit PNG verglichen wird. Dadurch ist es flexibler als JPG, wenn du kleinere Dateien möchtest, ohne transparente Hintergründe aufzugeben."
+    },
+    {
+      "q": "Ist WebP besser als JPG oder PNG?",
+      "a": "WebP ist oft besser für die Web-Auslieferung, weil es kleinere Dateien bei guter Qualität erzeugen kann. JPG ist weiterhin stärker für maximale Kompatibilität in älteren Workflows, und PNG bleibt für bestimmte Grafiken ein einfaches Bearbeitungsformat. WebP ist besonders stark, wenn das finale Ziel das Web ist."
+    },
+    {
+      "q": "Werden meine Dateien hochgeladen?",
+      "a": "Nein. Die Konvertierung läuft lokal in deinem Browser, daher bleibt das Quellbild während des WebP-Konvertierungsprozesses auf deinem Gerät."
+    }
+  ],
+  "relatedTools": [
+    { "name": "In JPG konvertieren", "path": "/convert-to-jpg" },
+    { "name": "In PNG konvertieren", "path": "/convert-to-png" },
+    { "name": "Bild komprimieren", "path": "/compress-image" },
+    { "name": "Bildgröße ändern", "path": "/resize-image" }
+  ],
+  "sourceLinks": [
+    {
+      "title": "JPG zu WebP",
+      "description": "JPEG-Bilder in WebP umwandeln, ideal für leichtere Website-Auslieferung.",
+      "path": "/convert-to-webp/jpg"
+    },
+    {
+      "title": "PNG zu WebP",
+      "description": "PNG-Dateien in WebP umwandeln und Transparenz erhalten.",
+      "path": "/convert-to-webp/png"
+    },
+    {
+      "title": "SVG zu WebP",
+      "description": "SVG-Grafiken in WebP rastern, passend für moderne Web-Workflows.",
+      "path": "/convert-to-webp/svg"
+    }
+  ],
+  "quickGuide": {
+    "title": "Kurzanleitung zur WebP-Konvertierung",
+    "description": "Wenn du nur die Kurzfassung brauchst: WebP ist das richtige Format, wenn Website-Performance wichtig ist. Es eignet sich besonders für Blogs, Landingpages, Produktlisten und medienlastige Seiten, bei denen leichtere Bilder die Ladegeschwindigkeit verbessern."
+  },
+  "highlights": [
+    {
+      "title": "Ideal für Websites",
+      "description": "WebP ist für moderne Website-Auslieferung gebaut, bei der das Bildgewicht Seitengeschwindigkeit und UX beeinflusst."
+    },
+    {
+      "title": "Kleinere Dateigröße",
+      "description": "WebP erzeugt oft kleinere Dateien als JPG oder PNG und behält dennoch eine starke sichtbare Qualität."
+    },
+    {
+      "title": "Transparenz-Unterstützung",
+      "description": "WebP kann transparente Pixel beibehalten und ist dadurch für viele Web-Asset-Workflows flexibler als JPG."
+    },
+    {
+      "title": "Modernes Auslieferungsformat",
+      "description": "WebP ist oft am stärksten als finales Veröffentlichungsformat, wenn die Bearbeitung bereits abgeschlossen ist."
+    }
+  ],
+  "gridOne": [
+    {
+      "title": "Was ist das WebP-Format?",
+      "paragraphs": [
+        "WebP ist ein modernes Bildformat zur Verbesserung der Web-Performance. Praktisch bietet es Website-Betreibern, Entwicklern und Content-Teams eine Möglichkeit, leichtere Bilder auszuliefern, ohne sich auf deutlich ältere Format-Kompromisse verlassen zu müssen. Deshalb sind Suchanfragen wie image to WebP converter und jpg to webp meist performancegetrieben.",
+        "WebP ist nicht immer das beste Arbeitsformat für Bearbeitung, aber oft eines der besten Endformate für die Auslieferung. Genau dieser Unterschied steckt hinter vielen Bild-SEO- und Website-Optimierungs-Workflows."
+      ]
+    },
+    {
+      "title": "Wann solltest du WebP verwenden?",
+      "paragraphs": [
+        "Nutze WebP, wenn Web-Performance das Hauptziel ist. Das Format ist eine starke Wahl für Blog-Bilder, E-Commerce-Produktgrids, Landingpages, CMS-Uploads, Dokumentationsseiten und andere Umgebungen, in denen zu viele schwere Bilder die Seite ausbremsen.",
+        "Wenn du das Bild noch wiederholt bearbeitest, können PNG oder JPG die einfacheren Zwischenformate sein. Sobald das Asset veröffentlichungsbereit ist, wird WebP oft zum besseren finalen Export."
+      ]
+    }
+  ],
+  "gridTwo": [
+    {
+      "title": "WebP vs. JPG - Welches ist besser?",
+      "paragraphs": [
+        "WebP ist oft besser für moderne Web-Auslieferung, weil es die Dateigröße aggressiver reduzieren kann. JPG bleibt stärker, wenn du universelle Kompatibilität oder ein einfacheres Übergabeformat brauchst. Wenn deine Hauptfrage Publishing-Effizienz ist, gewinnt oft WebP. Wenn deine Hauptfrage Kompatibilität ist, bleibt JPG meist sicherer.",
+        "Das bedeutet, dass ein gesunder Bild-Workflow mit [JPG](/convert-to-jpg) für Bearbeitung oder Kundenübergabe beginnen und mit WebP für die finale Web-Ausgabe enden kann."
+      ]
+    },
+    {
+      "title": "WebP vs. PNG - Welches solltest du wählen?",
+      "paragraphs": [
+        "PNG ist oft besser als sauberes Bearbeitungsformat, besonders für Grafiken, Screenshots und transparente Assets. WebP ist oft besser als leichtes Auslieferungsformat für Websites. Wenn das Asset noch Design-Arbeit braucht, kann [PNG](/convert-to-png) die klügere Zwischenwahl sein.",
+        "Wenn das Asset veröffentlichungsbereit ist und Seitengeschwindigkeit zählt, wird WebP attraktiver. In diesem Sinn ist PNG oft das Arbeitsformat und WebP das finale Veröffentlichungsformat."
+      ]
+    }
+  ],
+  "howTo": {
+    "title": "So konvertierst du Bilder in WebP",
+    "paragraphs": [
+      "Lade das Quellbild hoch, wähle die WebP-Qualität und lade das Ergebnis herunter. Wenn das Bild zusätzlich neue Abmessungen braucht, nutze [Bildgröße ändern](/resize-image). Wenn du Ausgabeformate vergleichen möchtest, probiere [In JPG konvertieren](/convert-to-jpg) oder [In PNG konvertieren](/convert-to-png). Für noch leichtere Auslieferungsdateien kombiniere das Ergebnis mit [Bild komprimieren](/compress-image)."
+    ]
+  },
+  "workflow": {
+    "title": "Baue einen Web-Performance-Workflow rund um WebP",
+    "paragraphs": [
+      "WebP funktioniert am besten als Teil eines größeren Bildoptimierungs-Systems. Teams ändern oft zuerst die Größe, konvertieren danach und komprimieren oder vergleichen Ausgaben vor der Veröffentlichung. Genau deshalb sind interne Links zwischen [Größenänderung](/resize-image), [Komprimierung](/compress-image), [JPG-Konvertierung](/convert-to-jpg) und [PNG-Konvertierung](/convert-to-png) sowohl für thematische SEO-Autorität als auch für echte Produktions-Workflows mit Bildern so wichtig."
+    ]
+  }
+}

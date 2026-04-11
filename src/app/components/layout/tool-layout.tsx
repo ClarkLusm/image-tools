@@ -1,10 +1,14 @@
 import { ReactNode } from "react";
 import Script from "next/script";
-import { getTranslations } from "next-intl/server";
 import { FAQAccordion } from "@/app/components/shared/faq-accordion";
 import ToolJsonLd from "@/app/components/seo/tool-jsonld";
 import { getRequestLanguage } from "@/app/lib/i18n-server";
 import { getToolLayoutLookup } from "@/app/lib/tool-layout-lookup";
+import { resolveSupportedLanguage } from "@/app/lib/metadata";
+import {
+  createMessageTranslator,
+  getNamespaceMessages,
+} from "@/app/lib/namespace-messages";
 import { localizeReactTree } from "@/app/lib/react-translation";
 import { translateLookupText } from "@/app/lib/translation-lookup";
 
@@ -27,6 +31,7 @@ interface ToolLayoutProps {
   relatedTools: { name: string; path: string }[];
   collapseHeaderOnActiveImage?: boolean;
   schemaPath?: string;
+  locale?: string;
 }
 
 export async function ToolLayout({
@@ -37,9 +42,13 @@ export async function ToolLayout({
   faqs,
   collapseHeaderOnActiveImage = true,
   schemaPath,
+  locale,
 }: ToolLayoutProps) {
-  const languageCode = await getRequestLanguage();
-  const t = await getTranslations("tool-layout");
+  const languageCode = locale
+    ? resolveSupportedLanguage(locale)
+    : await getRequestLanguage();
+  const messages = await getNamespaceMessages(languageCode, "tool-layout");
+  const t = createMessageTranslator(messages);
   const lookup = await getToolLayoutLookup(languageCode);
   const localizedTitle = translateLookupText(title, languageCode, lookup);
   const localizedDescription = translateLookupText(

@@ -25,10 +25,16 @@ export async function generateMetadata({
   });
 }
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const siteUrl = SITE_URL;
   return (
     <ToolLayout
+      locale={locale}
       title="SVG to WebP"
       description="Convert SVG vector graphics into WebP for smaller web-friendly images."
       steps={[

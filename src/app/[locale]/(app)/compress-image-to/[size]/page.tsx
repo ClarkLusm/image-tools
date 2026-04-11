@@ -75,9 +75,9 @@ export async function generateMetadata({
 export default async function Page({
   params,
 }: {
-  params: Promise<{ size: string }>;
+  params: Promise<{ locale: string; size: string }>;
 }) {
-  const { size } = await params;
+  const { locale, size } = await params;
   const entry = COMPRESS_SIZE_ENTRIES.find((item) => item.slug === size);
   if (!entry) notFound();
 
@@ -103,6 +103,7 @@ export default async function Page({
 
   return (
     <ToolLayout
+      locale={locale}
       title={`Compress Image to ${entry.label}`}
       description={`Compress your image to about ${entry.label} - ideal for ${entry.purpose}, upload limits, and lightweight sharing.`}
       steps={[

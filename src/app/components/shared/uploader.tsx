@@ -26,6 +26,7 @@ function UploaderShell({
 }) {
   const locale = useLocale();
   const isVietnamese = locale === "vi";
+  const isGerman = locale === "de";
 
   return (
     <div className={cn("w-full", className)}>
@@ -58,18 +59,26 @@ function UploaderShell({
             <UploadCloud className="w-10 h-10" />
           </div>
           <h3 className="text-xl font-display font-semibold text-foreground mb-2">
-            {isVietnamese ? "Tải ảnh lên" : "Upload image"}
+            {isVietnamese
+              ? "Tải ảnh lên"
+              : isGerman
+                ? "Bild hochladen"
+                : "Upload image"}
           </h3>
           <p className="text-muted-foreground mb-2">
             {isVietnamese
               ? "Đang chuẩn bị khung tải ảnh kéo thả..."
-              : "Preparing uploader for drag-and-drop..."}
+              : isGerman
+                ? "Drag-and-drop-Uploader wird vorbereitet..."
+                : "Preparing uploader for drag-and-drop..."}
           </p>
           <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
             <Loader2 className="w-3.5 h-3.5 animate-spin" />
             {isVietnamese
               ? "Đang tải phần tương tác"
-              : "Loading interaction bundle"}
+              : isGerman
+                ? "Interaktionsmodul wird geladen"
+                : "Loading interaction bundle"}
           </div>
         </div>
       </div>

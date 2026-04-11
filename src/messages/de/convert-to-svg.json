@@ -1,0 +1,92 @@
+{
+  "metaTitle": "Bild online in SVG konvertieren (kostenlos) - JPG, PNG, WebP zu SVG",
+  "metaDescription": "Bild kostenlos online in SVG konvertieren. JPG, PNG und WebP in skalierbare SVG-Dateien für Logos, Icons, Signaturen und einfache Grafiken umwandeln.",
+  "title": "Bild online in SVG konvertieren",
+  "description": "JPG, PNG und WebP in saubere SVG-Ausgabe umwandeln, ideal für Logos, Icons, Signaturen und einfache Grafiken mit skalierbaren Vektorergebnissen.",
+  "visualGuide": {
+    "eyebrow": "Vektor-Nachzeichnung",
+    "title": "So wird Rastergrafik zu skalierbarem SVG",
+    "description": "Dieser Ablauf erstellt echtes SVG-Tracing und benennt nicht nur die Dateiendung um. Je sauberer die Ausgangsgrafik, desto sauberer die Vektorpfade."
+  },
+  "imageAlts": {
+    "hero": "Illustration, die zeigt, wie ein Rasterbild in SVG-Vektorpfade umgewandelt wird",
+    "useCases": "Beispiele für Logos, Icons, Signaturen und Abzeichen, die sich gut für eine SVG-Konvertierung eignen",
+    "comparison": "Vergleich zwischen Rasterpixeln und sauberen SVG-Vektorkurven"
+  },
+  "steps": [
+    {
+      "title": "Rasterbild hochladen",
+      "description": "Starte mit einer JPG-, PNG- oder WebP-Datei mit klaren Kanten und einfachen Formen."
+    },
+    {
+      "title": "In SVG nachzeichnen",
+      "description": "Das Tool wandelt Pixel nach dem Upload automatisch in vektorartige Pfade um."
+    },
+    {
+      "title": "SVG herunterladen",
+      "description": "Speichere das nachgezeichnete SVG für Logos, Druck-Mockups, Präsentationen oder leichte Grafik-Workflows."
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Ist das eine echte SVG-Konvertierung oder nur ein Umbenennen der Datei?",
+      "a": "Dieser Ablauf führt ein echtes Raster-zu-SVG-Tracing durch und benennt nicht nur die Dateiendung um. Die Ausgabe wird als SVG-Markup erzeugt und lässt sich deshalb sauberer skalieren als die ursprüngliche Bitmap, besonders bei einfachen Grafiken mit klaren Kanten und wenigen Farben."
+    },
+    {
+      "q": "Welche Bilder eignen sich am besten für die SVG-Konvertierung?",
+      "a": "Am besten funktionieren Logos, Icons, Signaturen, Labels, Badges und flache Illustrationen. Solche Bilder haben meist klarere Grenzen und weniger Farbverläufe, wodurch der Tracer leichtere und besser nutzbare SVG-Pfade erzeugen kann. Detailreiche Fotos lassen sich zwar ebenfalls verarbeiten, führen aber oft zu größeren und komplexeren SVG-Dateien."
+    },
+    {
+      "q": "Kann ich ein Foto in SVG umwandeln?",
+      "a": "Ja, aber SVG-Ausgaben aus Fotos sind selten so sauber wie Logo- oder Icon-Tracing. Fotos enthalten Verläufe, Texturen und viele kleine Detailänderungen, wodurch das Vektorergebnis dichter und schwerer editierbar werden kann. Wenn du ein praktisches SVG für Designzwecke brauchst, starte besser mit einfacher Grafik oder bereinige das Bild zuerst."
+    },
+    {
+      "q": "Werden meine Dateien auf den Server hochgeladen?",
+      "a": "Ja. Die SVG-Konvertierung wird über unsere API verarbeitet, weil Vektor-Tracing aufwendiger ist als reine Browser-Konvertierung. Die Dateien werden nur für die gewünschte SVG-Ausgabe genutzt und temporäre Artefakte nach Ablauf des Jobs wieder gelöscht."
+    }
+  ],
+  "cards": [
+    {
+      "title": "Ideal für Logos",
+      "description": "Markenzeichen und Badges mit klaren Kanten ergeben meist sauberere SVG-Dateien."
+    },
+    {
+      "title": "Ideal für Icons",
+      "description": "Einfache UI-Grafiken und Symbole funktionieren gut, weil sie wenige Farben und definierte Formen haben."
+    },
+    {
+      "title": "Gut für Signaturen",
+      "description": "Handschriftliche Zeichen und Stempel lassen sich in skalierbare SVG-Assets für Dokumente und Mockups umwandeln."
+    },
+    {
+      "title": "Weniger ideal für Fotos",
+      "description": "Komplexe Fotos lassen sich zwar konvertieren, die SVG-Datei wird dabei aber oft größer und schwerer editierbar."
+    }
+  ],
+  "sectionA": {
+    "title": "Wann solltest du ein Bild in SVG konvertieren?",
+    "body": [
+      "SVG ist besonders nützlich, wenn Grafiken in unterschiedlichen Größen sauber skaliert werden müssen. Deshalb eignet sich das Format hervorragend für Logos, Icons, einfache Illustrationen und signaturähnliche Grafiken in Branding, Präsentationen, Mockups und drucknahen Layouts.",
+      "Wenn deine Suchabsicht etwa image to SVG converter oder convert PNG to SVG ist, steckt dahinter meist der Wunsch nach besserer Skalierbarkeit und sauberer Wiederverwendung. Vektorartige Ausgabe bleibt in vielen Layouts schärfer als eine kleine Bitmap, die immer wieder vergrößert wird."
+    ]
+  },
+  "sectionB": {
+    "title": "Raster vs. SVG - Was ändert sich?",
+    "body": [
+      "Rasterdateien wie JPG, PNG und WebP bestehen aus Pixeln. SVG-Dateien beschreiben stattdessen Formen, Kurven und Flächen per Markup. Deshalb kann SVG ohne die typische Unschärfe skaliert werden, die bei stark vergrößerten Bitmaps sichtbar wird.",
+      "Raster-zu-SVG-Konvertierung ist jedoch keine Magie. Ein detailreiches Ausgangsbild kann zu einer sehr komplexen SVG-Datei führen. Die saubersten Ergebnisse entstehen meist mit flachen Grafiken, kontrastreichen Kanten und Motiven, die ohnehin schon visuell einfach aufgebaut sind."
+    ]
+  },
+  "ctas": {
+    "title": "Bereite die Vorlage vor dem Tracing vor",
+    "description": "Ein sauberes Ausgangsbild führt oft zu besseren SVG-Ergebnissen. Entferne zuerst den Hintergrund, schneide das Motiv enger zu oder exportiere eine saubere PNG-Datei, bevor du nachzeichnest.",
+    "primaryLabel": "Hintergrund entfernen",
+    "primaryHref": "/remove-background",
+    "secondaryLabel": "In PNG konvertieren",
+    "secondaryHref": "/convert-to-png"
+  },
+  "breadcrumbs": {
+    "home": "Startseite",
+    "current": "In SVG konvertieren"
+  }
+}

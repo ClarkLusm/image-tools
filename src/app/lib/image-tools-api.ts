@@ -64,7 +64,7 @@ function getCurrentLocale() {
   }
 
   const locale = document.documentElement.lang.trim().toLowerCase();
-  return locale === "vi" ? "vi" : "en";
+  return locale === "vi" || locale === "de" ? locale : "en";
 }
 
 function buildApiHeaders(headers?: HeadersInit) {

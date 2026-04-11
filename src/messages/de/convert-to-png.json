@@ -1,0 +1,136 @@
+{
+  "metaTitle": "Bild online in PNG konvertieren (kostenlos) - JPG-zu-PNG-Konverter",
+  "metaDescription": "Bild kostenlos online in PNG konvertieren. Nutze diesen JPG-zu-PNG-Konverter für Logos, transparente Grafiken, Screenshots und hochwertige Bild-zu-PNG-Konvertierung.",
+  "title": "Bild online in PNG konvertieren",
+  "description": "JPG, JPEG, WebP, GIF oder SVG in PNG umwandeln, ideal für verlustfreie Qualität, transparente Grafiken und sauberere Bearbeitungs-Workflows.",
+  "breadcrumbs": {
+    "home": "Startseite",
+    "current": "In PNG konvertieren"
+  },
+  "sourceLinkCta": "Jetzt konvertieren",
+  "steps": [
+    {
+      "title": "Quelldatei hochladen",
+      "description": "Wähle die JPG-, WebP-, GIF- oder SVG-Datei aus, die du in PNG umwandeln möchtest."
+    },
+    {
+      "title": "In PNG konvertieren",
+      "description": "Das Tool verarbeitet das Bild direkt im Browser und erstellt sofort eine PNG-Version."
+    },
+    {
+      "title": "PNG-Datei herunterladen",
+      "description": "Speichere die konvertierte PNG-Datei auf deinem Gerät für Design, Publishing oder Bearbeitung."
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Was ist das PNG-Format?",
+      "a": "PNG ist ein verlustfreies Bildformat für Grafiken mit sauberen Kanten, zuverlässigen Details und Transparenzunterstützung. Es eignet sich besonders gut für Logos, Screenshots, Icons, UI-Elemente und alle Bilder, die auch nach wiederholter Bearbeitung scharf bleiben sollen."
+    },
+    {
+      "q": "Wann sollte ich JPG in PNG umwandeln?",
+      "a": "Die Umwandlung von JPG in PNG ist sinnvoll, wenn du eine bearbeitungsfreundlichere Datei brauchst, Text und Grafikkanten sauberer erhalten willst oder das Ergebnis in Design-Dokumenten, Präsentationen, UI-Mockups oder mehrschichtigen Workflows einsetzen möchtest. Verlorene Details aus dem ursprünglichen JPG werden dadurch nicht wiederhergestellt, aber der nächste Bearbeitungsschritt wird oft einfacher."
+    },
+    {
+      "q": "Ist PNG besser als JPG?",
+      "a": "PNG ist meist besser für Grafiken, Screenshots, Logos und Design-Assets, weil es verlustfrei ist und Transparenz erhalten kann. JPG ist meist besser für Fotos und Web-Auslieferung, wenn die Dateigröße wichtiger ist als perfekte Kantenschärfe. Welches Format besser ist, hängt von der Aufgabe ab und nicht von einer allgemeinen Rangfolge."
+    },
+    {
+      "q": "Ist PNG besser als WebP?",
+      "a": "PNG ist stärker bei Kompatibilität und Bearbeitungs-Workflows, während WebP oft besser ist, wenn du kleinere Dateien für moderne Websites möchtest. Wenn du breite Browser- oder Software-Kompatibilität brauchst, ist PNG weiterhin ein sehr praktisches Ausgabeformat. Wenn du leichtere Website-Assets willst, kann WebP der bessere finale Export sein."
+    },
+    {
+      "q": "Werden meine Dateien hochgeladen?",
+      "a": "Nein. Die Konvertierung läuft lokal in deinem Browser, daher muss dein Bild nicht auf unseren Server hochgeladen werden, nur um es in PNG umzuwandeln."
+    }
+  ],
+  "relatedTools": [
+    { "name": "In JPG konvertieren", "path": "/convert-to-jpg" },
+    { "name": "In WebP konvertieren", "path": "/convert-to-webp" },
+    { "name": "Bild komprimieren", "path": "/compress-image" },
+    { "name": "Bildgröße ändern", "path": "/resize-image" }
+  ],
+  "sourceLinks": [
+    {
+      "title": "JPG zu PNG",
+      "description": "JPEG-Bilder in PNG umwandeln, ideal für sauberere Bearbeitungs-Workflows.",
+      "path": "/convert-to-png/jpg"
+    },
+    {
+      "title": "WebP zu PNG",
+      "description": "WebP-Dateien in PNG umwandeln, wenn Kompatibilität wichtiger ist.",
+      "path": "/convert-to-png/webp"
+    },
+    {
+      "title": "SVG zu PNG",
+      "description": "SVG-Vektoren in PNG rastern, ideal für Apps, Dokumente und Präsentationen.",
+      "path": "/convert-to-png/svg"
+    }
+  ],
+  "quickGuide": {
+    "title": "Kurzanleitung zur PNG-Konvertierung",
+    "description": "Wenn du nur die Kurzfassung brauchst: PNG ist die richtige Wahl, wenn visuelle Sauberkeit wichtiger ist als Dateigröße. Das Format eignet sich besonders für Screenshots, Logos, textlastige Grafiken, Icons und Assets, die später noch bearbeitet werden sollen."
+  },
+  "highlights": [
+    {
+      "title": "Ideal für Grafiken",
+      "description": "PNG hält Kanten, Beschriftungen und UI-Elemente in vielen designlastigen Workflows sauberer als JPG."
+    },
+    {
+      "title": "Stark bei Transparenz",
+      "description": "PNG unterstützt transparente Pixel und ist deshalb eine häufige Wahl für Logos, Overlays und UI-Assets."
+    },
+    {
+      "title": "Größere Dateien",
+      "description": "PNG bewahrt mehr Struktur und Details, wodurch die Datei oft schwerer wird als JPG oder WebP."
+    },
+    {
+      "title": "Gut für Bearbeitung",
+      "description": "Wenn die Datei durch Design-Reviews, Dokumente oder wiederholte Exporte geht, ist PNG meist einfacher weiterzuverarbeiten."
+    }
+  ],
+  "gridOne": [
+    {
+      "title": "Was ist das PNG-Format?",
+      "paragraphs": [
+        "PNG steht für Portable Network Graphics. Praktisch gesehen ist es eines der nützlichsten Formate, wenn Bildqualität über Bearbeitungen, Exporte und Tool-Übergaben hinweg stabil bleiben soll. Im Gegensatz zu JPG ist PNG verlustfrei, was bedeutet, dass das Format Struktur bewahrt, statt bewusst Bildinformationen zu verwerfen, um Speicherplatz zu sparen.",
+        "Dadurch ist PNG besonders wertvoll für Design-Assets, Produkt-Screenshots, UI-Aufnahmen, Diagramme, Logos und alle Dateien mit Text oder scharfen Kanten. Wenn hinter Suchanfragen wie image to PNG converter oder png converter online ein echter Bedarf steckt, geht es meistens eher um Qualitätskontrolle als um die reine Formatumwandlung."
+      ]
+    },
+    {
+      "title": "Wann solltest du PNG verwenden?",
+      "paragraphs": [
+        "Nutze PNG, wenn saubere Darstellung, wiederholte Bearbeitung oder transparente Hintergründe wichtig sind. Das Format eignet sich hervorragend für Logos, Sticker, Icons, Präsentations-Assets, Screenshots, Diagramme, UI-Elemente und textbasierte Grafiken, bei denen JPG-Kompression die Kanten zu weich machen kann.",
+        "Deshalb wandeln viele Nutzer JPG in PNG um, bevor sie ein Asset in Design-Software, Dokumentationen oder Social-Media-Templates einsetzen. Das Format stellt verlorene Qualität zwar nicht magisch wieder her, kann aber verhindern, dass sich in späteren Bearbeitungsschritten zusätzliche verlustbehaftete Kompression aufsummiert."
+      ]
+    }
+  ],
+  "gridTwo": [
+    {
+      "title": "JPG vs. PNG - Welches ist besser?",
+      "paragraphs": [
+        "JPG ist meist besser für Fotos und kleinere webtaugliche Dateien. PNG ist meist besser für Grafiken, Screenshots, Marken-Assets und alles mit Text, flächigen Farben oder scharfen Formen. Eine Seite wie diese sollte deshalb nicht nur sagen in PNG konvertieren, sondern auch erklären, wann der Wechsel wirklich sinnvoll ist.",
+        "Wenn dein Original ein Kamerafoto ist und dein Ziel eine kleine Dateigröße, sind JPG oder [WebP](/convert-to-webp) oft das bessere Endformat. Wenn dein Asset ein Logo, einen Screenshot, Meme-Text oder UI-Details enthält, liefert PNG in vielen Fällen das sauberere Ergebnis."
+      ]
+    },
+    {
+      "title": "PNG vs. WebP - Welches solltest du wählen?",
+      "paragraphs": [
+        "PNG punktet bei Einfachheit und Kompatibilität. WebP gewinnt oft bei der Dateigröße, besonders für Websites. Wenn du Assets für Zusammenarbeit, Bearbeitung, internes Design oder breite App-Unterstützung vorbereitest, bleibt PNG ein sicheres Ausgabeformat. Wenn du für das Web veröffentlichst und leichtere Dateien willst, ist ein späterer Export nach [WebP](/convert-to-webp) oft der klügere letzte Optimierungsschritt.",
+        "Anders gesagt: PNG ist oft das beste Arbeitsformat, während WebP oft das beste Auslieferungsformat ist. Genau dieser Unterschied erklärt, warum Formatseiten besser in ein größeres Bildtool-Ökosystem eingebettet sind, statt als isolierte Konverter zu stehen."
+      ]
+    }
+  ],
+  "howTo": {
+    "title": "So konvertierst du Bilder in PNG",
+    "paragraphs": [
+      "Lade das Quellbild hoch, konvertiere es und lade das PNG-Ergebnis herunter. Wenn das Bild zusätzlich eine neue Größe braucht, wechsle zu [Bildgröße ändern](/resize-image). Wenn die PNG-Datei schwerer wird als gewünscht, nutze [Bild komprimieren](/compress-image) oder exportiere ein leichteres Auslieferungsformat über [In WebP konvertieren](/convert-to-webp). Wenn du stattdessen ein kleineres Fotoformat brauchst, verwende [In JPG konvertieren](/convert-to-jpg)."
+    ]
+  },
+  "workflow": {
+    "title": "Baue einen Bildformat-Workflow auf, nicht nur eine Einmal-Konvertierung",
+    "paragraphs": [
+      "Eine starke PNG-Konverter-Seite ist am nützlichsten, wenn sie mit einem größeren Bildformat-Hub verbunden ist. JPG, PNG und WebP lösen unterschiedliche Probleme, daher wechseln Nutzer oft innerhalb eines Workflows zwischen Konvertierung, Größenänderung und Komprimierung. Genau deshalb sind interne Links zwischen [JPG-Konvertierung](/convert-to-jpg), [WebP-Konvertierung](/convert-to-webp), [Größenänderung](/resize-image) und [Komprimierung](/compress-image) für SEO und echtes Nutzerverhalten so wichtig."
+    ]
+  }
+}

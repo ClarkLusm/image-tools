@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import { Inter } from "next/font/google";
 import { GoogleAnalytics } from "./components/analytics/google-analytics";
 import "./globals.css";
-import { getRequestLanguage } from "./lib/i18n-server";
 import { SITE_URL } from "./lib/site";
 
 const inter = Inter({
@@ -15,15 +14,13 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const languageCode = await getRequestLanguage();
-
   return (
-    <html lang={languageCode}>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${inter.className} antialiased`}
       >

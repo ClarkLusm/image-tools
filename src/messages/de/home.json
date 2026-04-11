@@ -1,0 +1,214 @@
+{
+  "hero": {
+    "title": "{siteName} für Komprimierung, Konvertierung, Größenänderung und Zuschnitt",
+    "introLead": "Wähle genau den Bild-Workflow, den du brauchst:",
+    "compressImages": "Bilder komprimieren",
+    "forPerformance": "für Performance,",
+    "convertFormats": "Formate konvertieren",
+    "resizePhotos": "Fotos skalieren",
+    "forSocialMediaOr": "für Social Media oder",
+    "cropPictures": "Bilder zuschneiden",
+    "introTail": "mit Präzision. Schnell, praktisch und datenschutzfreundlich.",
+    "primaryCta": "Mit Komprimieren starten",
+    "secondaryCta": "In WebP konvertieren"
+  },
+  "toolGrid": {
+    "title": "Kostenlose Online-Bildtools für die tägliche Arbeit entdecken",
+    "description": "Öffne direkt das passende Tool für dein Ziel, egal ob du einen kostenlosen Bildkompressor, einen Online-Bildgrößenänderer, einen JPG-zu-PNG-Konverter oder einen schnellen Online-Hintergrundentferner brauchst.",
+    "tryNow": "Jetzt ausprobieren"
+  },
+  "toolCards": {
+    "resizeImage": {
+      "title": "Bildgröße ändern",
+      "description": "Ein Online-Bildgrößenänderer, um Abmessungen zu ändern und die Qualität zu erhalten."
+    },
+    "compressImage": {
+      "title": "Bild komprimieren",
+      "description": "Mit einem kostenlosen Bildkompressor Dateigrößen reduzieren, ohne Klarheit zu verlieren."
+    },
+    "removeMetadata": {
+      "title": "EXIF-Daten entfernen",
+      "description": "EXIF-Metadaten vor dem Teilen online entfernen."
+    },
+    "convertToWebp": {
+      "title": "In WebP konvertieren",
+      "description": "Bilder in das moderne WebP-Format für kleinere, webfreundliche Dateien umwandeln."
+    },
+    "convertToPng": {
+      "title": "In PNG konvertieren",
+      "description": "JPG- oder WebP-Dateien in verlustfreies PNG mit Transparenzunterstützung umwandeln."
+    },
+    "cropImage": {
+      "title": "Bild zuschneiden",
+      "description": "Bilder online exakt auf den benötigten Bereich zuschneiden."
+    },
+    "removeBackground": {
+      "title": "Hintergrund entfernen",
+      "description": "Hintergrund online entfernen und transparente PNG-Freisteller exportieren."
+    },
+    "upscaleImage": {
+      "title": "Bild hochskalieren",
+      "description": "Mit KI-Bildvergrößerung die Auflösung erhöhen und Details schärfen."
+    }
+  },
+  "spotlight": {
+    "eyebrow": "SMARTE VERARBEITUNG",
+    "title": "Bildbearbeitung in Profiqualität ohne komplizierte Workflows.",
+    "from": "Von",
+    "imageCompression": "Bildkomprimierung",
+    "and": "und",
+    "formatConversion": "Formatkonvertierung",
+    "to": "bis hin zu",
+    "backgroundRemoval": "Hintergrundentfernung",
+    "descriptionTail": "hilft dir {siteName}, Bilder in Sekunden mit praktischen Steuerungen und sauberer Ausgabe zu optimieren.",
+    "description": "Diese Startseite bündelt praktische Tools für Publisher, Shop-Betreiber, Designer, Marketer und Creator, die schnell arbeiten müssen. Statt zwischen mehreren Apps zu springen, kannst du an einem Ort große Uploads verkleinern, JPG in PNG oder PNG in JPG umwandeln, Social-Media-Grafiken vorbereiten, EXIF-Metadaten für mehr Privatsphäre entfernen und sogar eine KI-Hochskalierung nutzen, wenn die Ausgangsdatei für ein neues Layout zu klein ist.",
+    "bullets": {
+      "pageSpeed": "Größenoptimierung für schnellere Seitenladezeiten.",
+      "batchProcessing": "Batch-Verarbeitung für mehrere Bilder.",
+      "realTasks": "Für echte Aufgaben gebaut: Web-Publishing, Social Media und Content Operations."
+    },
+    "primaryCta": "Hintergrund entfernen testen",
+    "secondaryCta": "Bilder komprimieren"
+  },
+  "popular": {
+    "compressBySizeTitle": "Nach Zielgröße komprimieren",
+    "compressBySizeDescription": "Dateigrößen wie 50 KB, 100 KB oder 200 KB gezielt erreichen.",
+    "convertFormatsTitle": "Formate konvertieren",
+    "convertFormatsDescription": "Zwischen PNG, JPG, JPEG und WebP für Kompatibilität und Geschwindigkeit wechseln.",
+    "socialPresetsTitle": "Social-Presets",
+    "socialPresetsDescription": "Für beliebte Plattformen mit fertigen Abmessungen skalieren.",
+    "resizeForInstagram": "Für Instagram skalieren",
+    "resizeForTiktok": "Für TikTok skalieren",
+    "resizeForYoutube": "Für YouTube skalieren",
+    "resizeForFacebook": "Für Facebook skalieren"
+  },
+  "features": {
+    "title": "Warum {siteName}",
+    "items": {
+      "lightningFast": {
+        "title": "Blitzschnell",
+        "description": "Die Verarbeitung ist auf Geschwindigkeit optimiert, mit Browser- oder Server-Pipelines je nach Tool."
+      },
+      "privacyFirst": {
+        "title": "Datenschutz zuerst",
+        "description": "Deine Dateien werden nur zur Verarbeitung genutzt und nicht dauerhaft gespeichert."
+      },
+      "highQuality": {
+        "title": "Hohe Qualität",
+        "description": "Fortschrittliche Algorithmen sorgen für die bestmögliche Ausgabequalität."
+      }
+    }
+  },
+  "overview": {
+    "title": "Kostenlose Online-Bildtools für schnelleres und saubereres Publishing",
+    "subtitlePrefix": "Ein schneller Überblick über die wichtigsten Workflows, die Nutzer auf {siteName} am häufigsten einsetzen, von einem",
+    "freeImageCompressor": "kostenlosen Bildkompressor",
+    "toAn": "bis zu einem",
+    "aiImageUpscaler": "KI-Bild-Upscales",
+    "description": "Die meisten Nutzer brauchen keinen schweren Editor für tägliche Aufgaben. Sie brauchen eine zuverlässige Möglichkeit, Bilder vor dem Upload zu skalieren, Dateien für Browser-Kompatibilität zu konvertieren, störende Hintergründe aus Produktfotos zu entfernen und feste Größen wie 100 KB für Formulare oder Marktplätze einzuhalten. Diese Bereiche decken die Kern-Workflows ab, die solche Probleme schnell lösen und zugleich praktische Ergebnisse für echte Websites, E-Commerce-Kataloge, Blogposts und Social-Kampagnen liefern."
+  },
+  "seoSections": {
+    "compressionConversion": {
+      "eyebrow": "Komprimierung & Konvertierung",
+      "title": "Leichtere Bilder vorbereiten, ohne deinen Workflow auszubremsen.",
+      "description": "Nutze {siteName}, um große Dateien zu komprimieren, zwischen PNG, JPG und WebP zu wechseln und Bildabmessungen an die Zielseite oder Plattform anzupassen. Das hilft, wenn du einen kostenlosen Bildkompressor für Websites, einen JPG-zu-PNG-Konverter oder einen schnelleren Weg zu leichteren WebP-Dateien brauchst.",
+      "bullets": {
+        "websitesAndEmail": "Upload-Größen für Websites und E-Mail reduzieren.",
+        "speedOrCompatibility": "Formate für Geschwindigkeit oder Kompatibilität konvertieren.",
+        "realPublishing": "Ausgabe praxisnah für echtes Publishing halten."
+      },
+      "cta": "Bild komprimieren öffnen"
+    },
+    "socialResize": {
+      "eyebrow": "Social Resize",
+      "title": "Plattformgerechte Visuals für jeden Kanal schneller erstellen.",
+      "description": "Statt Seitenverhältnisse zu erraten, kannst du direkt in Preset-Workflows für Instagram, TikTok, YouTube und Facebook springen und Bilder exportieren, die sauberer auf die jeweilige Plattform passen. Das ist eine praktische Abkürzung, wenn du einen Online-Bildgrößenänderer für Kampagnen, Thumbnails, Creator-Posts oder Paid-Social-Assets brauchst.",
+      "bullets": {
+        "skipCanvas": "Manuelle Berechnungen von Canvas-Größen überspringen.",
+        "consistentGraphics": "Social-Grafiken über mehrere Kanäle hinweg konsistent halten.",
+        "commonFormats": "Mit Presets für gängige Content-Formate arbeiten."
+      },
+      "cta": "Social-Presets ansehen"
+    },
+    "privacyCleanup": {
+      "eyebrow": "Datenschutz & Bereinigung",
+      "title": "Störungen entfernen, bevor du veröffentlichst oder teilst.",
+      "description": "Für viele Teams geht es bei Bildbearbeitung nicht um Effekte, sondern darum, störende Hintergründe zu entfernen, den Bildausschnitt enger zu setzen und Metadaten zu löschen, damit Dateien sauberer und sicherer verteilt werden können. Dieser Workflow ist besonders hilfreich, wenn du Online-Hintergrundentfernung und EXIF-Entfernung an einem Ort brauchst.",
+      "bullets": {
+        "removeExif": "EXIF-Details vor dem Teilen entfernen.",
+        "cropFocalArea": "Auf den exakten Fokusbereich zuschneiden.",
+        "cleanerCutouts": "Sauberere Freisteller für E-Commerce oder Design erstellen."
+      },
+      "cta": "Hintergrund entfernen testen"
+    },
+    "qualityBoost": {
+      "eyebrow": "Qualitäts-Boost",
+      "title": "Ältere Assets hochskalieren, wenn du eine schärfere Darstellung brauchst.",
+      "description": "Niedrig aufgelöste Dateien sind in wiederverwendeten Marketing-Assets, Profilbildern und heruntergeladenen Grafiken üblich. Bild hochskalieren bietet dir einen schnelleren Weg zu einer saubereren Darstellung, wenn die Vorlage für ein neues Layout zu klein ist, besonders wenn du nach einem KI-Bild-Upscales für ältere Web-Assets oder kleine Social-Creatives suchst.",
+      "bullets": {
+        "improveClarity": "Klarheit für wiederverwendete visuelle Assets verbessern.",
+        "prepareSmallFiles": "Kleine Quelldateien für größere Flächen vorbereiten.",
+        "combineWorkflow": "Upscale bei Bedarf mit Zuschnitt und Komprimierung kombinieren."
+      },
+      "cta": "Bild hochskalieren öffnen"
+    }
+  },
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "items": {
+      "free": {
+        "question": "Kann ich diese Bildtools kostenlos nutzen?",
+        "answer": "Ja. Mit {siteName} kannst du Bilder komprimieren, Bildformate konvertieren, Fotos skalieren, Bilder zuschneiden und Web-Grafiken vorbereiten, ohne ein Konto anzulegen. Die Startseite hilft dir dabei, direkt in praktische Workflows wie Bildoptimierung, Social-Media-Resize und Hintergrundbereinigung zu springen."
+      },
+      "websiteSpeed": {
+        "question": "Mit welchem Tool sollte ich für bessere Website-Geschwindigkeit starten?",
+        "answer": "Wenn du die Ladezeit deiner Website verbessern möchtest, starte mit Bild komprimieren, um die Dateigröße zu reduzieren, und wechsle anschließend zu In WebP konvertieren, wenn dein CMS oder deine Website dieses Format unterstützt. In den meisten Publishing-Workflows erzielt man die besten Ergebnisse mit einer Kombination aus Bildkomprimierung, Formatkonvertierung und korrekten Bildabmessungen."
+      },
+      "socialMedia": {
+        "question": "Wie bereite ich Bilder für Social Media vor?",
+        "answer": "Nutze die Social-Resize-Tools, wenn du plattformgerechte Größen für Instagram, TikTok, YouTube oder Facebook brauchst. Diese Preset-Seiten helfen bei schnellerer Bildvorbereitung für Social Media, konsistenteren Layouts über mehrere Kanäle hinweg und weniger manuellen Anpassungen vor dem Veröffentlichen von Kampagnengrafiken, Thumbnails oder Werbemotiven."
+      },
+      "specificFileSize": {
+        "question": "Kann ich eine bestimmte Dateigröße wie 100 KB anpeilen?",
+        "answer": "Ja. Du kannst eine dedizierte Seite wie Bild auf 100 KB komprimieren nutzen, wenn du Upload-Limits für Formulare, Jobportale, Marktplätze oder E-Mail-Anhänge einhalten musst. Das ist besonders nützlich, wenn du Online-Bildkomprimierung mit Zielgröße brauchst, statt nur eine allgemeine Qualitätseinstellung zu wählen."
+      }
+    }
+  },
+  "visuals": {
+    "compress": {
+      "eyebrow": "Bild komprimieren",
+      "title": "Kleinere Datei exportieren",
+      "original": "Original",
+      "compressed": "Komprimiert",
+      "formatLabel": "Format",
+      "formatValue": "PNG zu WebP",
+      "workflowLabel": "Workflow",
+      "workflowValue": "Komprimieren, konvertieren, veröffentlichen",
+      "footer": "Kleinere Dateien für schnellere Auslieferung"
+    },
+    "social": {
+      "eyebrow": "Social Resize",
+      "title": "Presets nach Plattform",
+      "story": "Story",
+      "squarePost": "Quadratischer Beitrag",
+      "footer": "Fertige Größen für kanalübergreifendes Publishing"
+    },
+    "cleanup": {
+      "backgroundCleanup": "Hintergrund bereinigen",
+      "backgroundDescription": "Sauberere Produkt- und Profilbilder",
+      "metadataRemoval": "Metadaten entfernen",
+      "metadataDescription": "EXIF-Details vor dem Teilen löschen",
+      "footer": "Zuschneiden, bereinigen und Dateien sicherer teilen"
+    },
+    "upscale": {
+      "eyebrow": "KI-Upscale",
+      "title": "Niedrig aufgelöste Assets verbessern",
+      "before": "Vorher",
+      "after": "Nachher",
+      "sharperOutput": "Schärfere Ausgabe",
+      "betterPresentation": "Bessere Darstellung",
+      "betterPresentationDescription": "Nützlich für wiederverwendete Banner, Profilbilder und kleine Grafiken.",
+      "footer": "Älteren Assets ein saubereres zweites Leben geben"
+    }
+  }
+}

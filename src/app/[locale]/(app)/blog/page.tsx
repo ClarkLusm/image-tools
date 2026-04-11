@@ -3,8 +3,10 @@ import { Link } from "@/i18n/navigation";
 import { ArrowRight, BookOpen, Image as ImageIcon, Sparkles } from "lucide-react";
 import BreadcrumbsJsonLd from "@/app/components/seo/breadcrumbs-jsonld";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
-import { createPageMetadata } from "@/app/lib/metadata";
-import { getRequestLanguage } from "@/app/lib/i18n-server";
+import {
+  createPageMetadata,
+  resolveSupportedLanguage,
+} from "@/app/lib/metadata";
 import { getToolLayoutLookup } from "@/app/lib/tool-layout-lookup";
 import { localizeReactTree } from "@/app/lib/react-translation";
 
@@ -39,24 +41,33 @@ export async function generateMetadata({
     title: {
       en: "Blog",
       vi: "Blog",
+      de: "Blog",
     },
     description: {
       en: `Read upcoming guides, tutorials, and practical image optimization tips from ${SITE_NAME}.`,
       vi: `Đọc các hướng dẫn sắp ra mắt, tutorial và mẹo tối ưu ảnh thực tế từ ${SITE_NAME}.`,
+      de: `Lies kommende Guides, Tutorials und praktische Tipps zur Bildoptimierung von ${SITE_NAME}.`,
     },
     openGraphTitle: {
       en: `${SITE_NAME} Blog`,
       vi: `Blog ${SITE_NAME}`,
+      de: `${SITE_NAME} Blog`,
     },
     openGraphDescription: {
       en: "Upcoming guides and practical tutorials for compression, conversion, resizing, and image workflows.",
       vi: "Các hướng dẫn sắp ra mắt và tutorial thực tế về nén ảnh, chuyển đổi định dạng, resize và workflow xử lý ảnh.",
+      de: "Kommende Guides und praktische Tutorials zu Komprimierung, Konvertierung, Größenänderung und Bild-Workflows.",
     },
   });
 }
 
-export default async function BlogPage() {
-  const languageCode = await getRequestLanguage();
+export default async function BlogPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const languageCode = resolveSupportedLanguage(locale);
   const lookup = await getToolLayoutLookup(languageCode);
 
   return localizeReactTree(

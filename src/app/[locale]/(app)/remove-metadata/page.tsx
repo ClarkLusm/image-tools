@@ -18,17 +18,26 @@ export async function generateMetadata({
     title: {
       en: "Remove Image Metadata Online (Free) - Delete EXIF Data Tool",
       vi: "Xóa metadata ảnh online miễn phí - Công cụ xóa dữ liệu EXIF",
+      de: "Bild-Metadaten online entfernen (kostenlos) - EXIF-Daten löschen",
     },
     description: {
       en: "Remove image metadata online free. Delete EXIF data, strip GPS location, and clean hidden camera information before sharing photos online.",
       vi: "Xóa metadata ảnh online miễn phí. Gỡ dữ liệu EXIF, vị trí GPS và thông tin máy ảnh ẩn trước khi chia sẻ ảnh lên mạng.",
+      de: "Bild-Metadaten kostenlos online entfernen. Lösche EXIF-Daten, entferne GPS-Standorte und bereinige versteckte Kamerainformationen, bevor du Fotos online teilst.",
     },
   });
 }
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
   return (
     <ToolLayout
+      locale={locale}
       title="Remove Image Metadata Online"
       description="Delete EXIF data, hidden location details, device information, and camera tags from photos before you share them online."
       steps={[

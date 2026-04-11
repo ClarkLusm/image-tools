@@ -76,9 +76,9 @@ export async function generateMetadata({
 export default async function Page({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const entry = COMPRESS_USE_CASE_ENTRIES.find((item) => item.slug === slug);
   if (!entry) notFound();
 
@@ -88,6 +88,7 @@ export default async function Page({
 
   return (
     <ToolLayout
+      locale={locale}
       title={entry.title}
       description={entry.description}
       steps={[

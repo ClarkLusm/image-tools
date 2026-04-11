@@ -1,0 +1,85 @@
+{
+  "navigation": {
+    "tools": "Tools",
+    "convertImage": "Bild konvertieren",
+    "socialResize": "Social Media",
+    "toggleMenu": "Navigationsmenü umschalten"
+  },
+  "footer": {
+    "about": "Über uns",
+    "privacy": "Datenschutz",
+    "terms": "Nutzungsbedingungen",
+    "blog": "Blog"
+  },
+  "language": {
+    "label": "Sprache"
+  },
+  "uploadBox": {
+    "prompt": "Was möchtest du mit diesem Bild machen?"
+  },
+  "sidebar": {
+    "title": "Vielleicht brauchst du auch",
+    "groups": {
+      "aiProcessing": "KI-Bearbeitung",
+      "convert": "Konvertieren",
+      "socialResize": "Social Media"
+    }
+  },
+  "breadcrumbs": {
+    "home": "Startseite"
+  },
+  "navItems": {
+    "resizeImage": {
+      "name": "Bildgröße ändern",
+      "description": "Bildabmessungen anpassen und Details erhalten."
+    },
+    "compressImage": {
+      "name": "Bild komprimieren",
+      "description": "Dateigröße für Web, E-Mail und Teilen reduzieren."
+    },
+    "removeMetadata": {
+      "name": "EXIF entfernen",
+      "description": "Metadaten vor der Veröffentlichung für mehr Privatsphäre entfernen."
+    },
+    "cropImage": {
+      "name": "Bild zuschneiden",
+      "description": "Fotos exakt auf den gewünschten Bereich zuschneiden."
+    },
+    "removeBackground": {
+      "name": "Hintergrund entfernen",
+      "description": "Transparente Freisteller in wenigen Klicks erstellen."
+    },
+    "upscaleImage": {
+      "name": "Bild hochskalieren",
+      "description": "Niedrig aufgelöste Bilder mit KI-Super-Resolution vergrößern."
+    },
+    "convertToPng": {
+      "name": "In PNG konvertieren"
+    },
+    "convertToJpg": {
+      "name": "In JPG konvertieren"
+    },
+    "convertToWebp": {
+      "name": "In WebP konvertieren"
+    },
+    "convertToSvg": {
+      "name": "In SVG konvertieren"
+    },
+    "resizeInstagram": {
+      "name": "Instagram"
+    },
+    "resizeTiktok": {
+      "name": "TikTok"
+    },
+    "resizeYoutube": {
+      "name": "YouTube"
+    },
+    "resizeFacebook": {
+      "name": "Facebook"
+    },
+    "blog": {
+      "name": "Blog",
+      "description": "Anleitungen, Tipps und Updates von {siteName}."
+    }
+  }
+}

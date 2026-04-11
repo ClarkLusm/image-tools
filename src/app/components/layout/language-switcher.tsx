@@ -6,11 +6,23 @@ import { Check, ChevronDown, Languages } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LANGUAGE_OPTIONS, useI18n } from "@/app/lib/i18n";
 
-function LanguageMark({ code }: { code: string }) {
+const LANGUAGE_FLAG_SRC: Record<string, string> = {
+  en: "/images/en.svg",
+  vi: "/images/vi.svg",
+  de: "/images/de.svg",
+};
+
+function LanguageMark({
+  code,
+  label,
+}: {
+  code: string;
+  label: string;
+}) {
   return (
     <Image
-      src={`/images/${code}.svg`}
-      alt="English"
+      src={LANGUAGE_FLAG_SRC[code] ?? "/images/en.svg"}
+      alt={label}
       width={18}
       height={18}
       className="h-[18px] w-[18px] rounded-full object-cover"
@@ -50,7 +62,10 @@ export function DesktopLanguageMenu() {
         aria-expanded={isOpen}
         className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
       >
-        <LanguageMark code={activeLanguage.code} />
+        <LanguageMark
+          code={activeLanguage.code}
+          label={activeLanguage.nativeLabel}
+        />
         <span>{activeLanguage.code.toUpperCase()}</span>
         <ChevronDown
           className={cn(
@@ -94,7 +109,10 @@ export function DesktopLanguageMenu() {
                 )}
               >
                 <div className="flex items-center gap-3">
-                  <LanguageMark code={option.code} />
+                  <LanguageMark
+                    code={option.code}
+                    label={option.nativeLabel}
+                  />
                   <div>
                     <p className="text-sm font-semibold">
                       {option.nativeLabel}
@@ -141,7 +159,10 @@ export function MobileLanguageMenu() {
               )}
             >
               <div className="flex items-center gap-3">
-                <LanguageMark code={option.code} />
+                <LanguageMark
+                  code={option.code}
+                  label={option.nativeLabel}
+                />
                 <div>
                   <p className="text-sm font-semibold">{option.nativeLabel}</p>
                   <p className="mt-1 text-xs text-muted-foreground">

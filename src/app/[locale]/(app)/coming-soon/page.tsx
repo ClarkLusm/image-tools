@@ -15,10 +15,12 @@ export async function generateMetadata({
     title: {
       en: "Coming Soon",
       vi: "Sắp ra mắt",
+      de: "Demnächst verfügbar",
     },
     description: {
       en: "This page is not live yet. Explore the image tools that are already available.",
       vi: "Trang này chưa hoạt động. Hãy khám phá các công cụ ảnh đã có sẵn.",
+      de: "Diese Seite ist noch nicht live. Entdecke die Bildtools, die bereits verfügbar sind.",
     },
     robots: {
       index: false,
@@ -27,6 +29,11 @@ export async function generateMetadata({
   });
 }
 
-export default function Page() {
-  return <ComingSoonPage />;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  return <ComingSoonPage locale={locale} />;
 }

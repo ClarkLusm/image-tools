@@ -112,7 +112,9 @@ export function localizeReactTree(
   }
 
   if (Array.isArray(node)) {
-    return node.map((child) => localizeReactTree(child, languageCode, lookup));
+    return Children.map(node, (child) =>
+      localizeReactTree(child, languageCode, lookup),
+    );
   }
 
   if (!isValidElement(node)) {

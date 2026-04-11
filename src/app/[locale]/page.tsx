@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Script from "next/script";
-import { getTranslations } from "next-intl/server";
 import {
   Layers,
   ShieldCheck,
@@ -25,7 +24,14 @@ import { FAQAccordion } from "@/app/components/shared/faq-accordion";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { tools } from "@/app/components/home/_tools";
 import { COMPRESS_SIZE_ENTRIES, type CompressSizeEntry } from "@/lib/seo";
-import { createPageMetadata } from "@/app/lib/metadata";
+import {
+  createPageMetadata,
+  resolveSupportedLanguage,
+} from "@/app/lib/metadata";
+import {
+  createMessageTranslator,
+  getNamespaceMessages,
+} from "@/app/lib/namespace-messages";
 
 type TranslationFn = (
   key: string,
@@ -83,14 +89,17 @@ export async function generateMetadata({
     title: {
       en: `${SITE_NAME}: Free Image Compressor, Resizer, Converter, and Crop Tool`,
       vi: `${SITE_NAME}: Công cụ nén, resize, chuyển đổi và crop ảnh miễn phí`,
+      de: `${SITE_NAME}: Kostenloses Bildtool für Komprimierung, Größenänderung, Konvertierung und Zuschnitt`,
     },
     description: {
       en: "Free online image tools to compress images, resize photos, convert JPG PNG WebP files, crop pictures, remove backgrounds, and upscale images with practical privacy-first workflows.",
       vi: "Bộ công cụ ảnh online miễn phí để nén ảnh, resize ảnh, chuyển đổi JPG PNG WebP, crop ảnh, xóa nền và upscale ảnh với workflow thực tế và ưu tiên quyền riêng tư.",
+      de: "Kostenlose Online-Bildtools zum Komprimieren, Skalieren, Konvertieren, Zuschneiden, Hintergrundentfernen und Hochskalieren mit praktischen, datenschutzfreundlichen Workflows.",
     },
     openGraphDescription: {
       en: "Use one toolkit for image compression, format conversion, resizing, cropping, background removal, and AI upscale workflows.",
       vi: "Dùng một bộ công cụ duy nhất cho nén ảnh, chuyển đổi định dạng, resize, crop, xóa nền và workflow upscale bằng AI.",
+      de: "Nutze ein Toolkit für Bildkomprimierung, Formatkonvertierung, Größenänderung, Zuschnitt, Hintergrundentfernung und KI-Upscaling.",
     },
   });
 }
@@ -423,10 +432,26 @@ function SeoVisual({
   );
 }
 
-export default async function Home() {
-  const tHome = await getTranslations("home");
-  const tCommon = await getTranslations("common");
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const languageCode = resolveSupportedLanguage(locale);
+  const tHome = createMessageTranslator(
+    await getNamespaceMessages(languageCode, "home"),
+  );
+  const tCommon = createMessageTranslator(
+    await getNamespaceMessages(languageCode, "common"),
+  );
   const withSiteName = { siteName: SITE_NAME };
+
+  const localizedToolCards = tools.map((tool) => ({
+    ...tool,
+    title: tHome(`toolCards.${tool.translationKey}.title`),
+    description: tHome(`toolCards.${tool.translationKey}.description`),
+  }));
 
   const localizedFeatures = features.map((feature) => ({
     ...feature,
@@ -574,7 +599,10 @@ export default async function Home() {
             </p>
           </div>
 
-          <Hero />
+          <Hero
+            cards={localizedToolCards}
+            tryNowLabel={tHome("toolGrid.tryNow")}
+          />
         </div>
       </section>
 

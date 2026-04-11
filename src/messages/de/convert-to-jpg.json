@@ -1,0 +1,140 @@
+{
+  "metaTitle": "Bild online in JPG konvertieren (kostenlos) - PNG-zu-JPG-Konverter",
+  "metaDescription": "Bild kostenlos online in JPG konvertieren. Nutze diesen PNG-zu-JPG-Konverter für Fotos, kleinere Dateigrößen, Website-Uploads und alltägliche Bild-zu-JPG-Konvertierung.",
+  "title": "Bild online in JPG konvertieren",
+  "description": "PNG, WebP, GIF oder SVG in JPG umwandeln, ideal für kleinere Dateien, einfacheres Teilen und breite Kompatibilität mit Apps, Websites und Geräten.",
+  "breadcrumbs": {
+    "home": "Startseite",
+    "current": "In JPG konvertieren"
+  },
+  "sourceLinkCta": "Jetzt konvertieren",
+  "converter": {
+    "buttonLabel": "In JPG konvertieren",
+    "note": "Transparente Pixel werden mit Weiß gefüllt."
+  },
+  "steps": [
+    {
+      "title": "Quelldatei hochladen",
+      "description": "Wähle die PNG-, WebP-, GIF- oder SVG-Datei aus, die du in JPG umwandeln möchtest."
+    },
+    {
+      "title": "JPG-Qualität anpassen",
+      "description": "Stelle die Ausgabequalität ein, um Dateigröße, Schärfe und Download-Geschwindigkeit auszubalancieren."
+    },
+    {
+      "title": "JPG-Datei herunterladen",
+      "description": "Speichere die konvertierte JPG-Datei auf deinem Gerät für Publishing, Teilen oder Web-Nutzung."
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Was ist das JPG-Format?",
+      "a": "JPG ist eines der am weitesten unterstützten Bildformate für Fotos und allgemeines Publishing. Es nutzt Kompression zur Reduzierung der Dateigröße und eignet sich dadurch besonders für Websites, E-Mail-Anhänge, Marktplätze, CMS-Uploads und Social-Media-Workflows, in denen leichte Bilder wichtig sind."
+    },
+    {
+      "q": "Wann sollte ich PNG in JPG umwandeln?",
+      "a": "Wandle PNG in JPG um, wenn du für Fotos, Blog-Bilder, Produkt-Uploads oder Dokumente eine kleinere Datei brauchst und keine Transparenz erforderlich ist. JPG ist meist das bessere Auslieferungsformat, wenn Geschwindigkeit und Kompatibilität wichtiger sind als perfekte verlustfreie Details."
+    },
+    {
+      "q": "Unterstützt JPG Transparenz?",
+      "a": "Nein. JPG bewahrt keine transparenten Pixel. Wenn das Quellbild Transparenz enthält, braucht das Ergebnis eine Hintergrundfüllung. Deshalb bleibt PNG besser für Logos, Overlays und UI-Assets, während JPG stärker für Fotos und kleinere Dateigrößen ist."
+    },
+    {
+      "q": "Ist JPG besser als PNG?",
+      "a": "JPG ist in der Regel besser für Fotografien und kleinere Dateigrößen. PNG ist meist besser für Screenshots, Grafiken und Assets mit Transparenz. Kein Format gewinnt immer. Die bessere Wahl hängt davon ab, ob dir Kompression, Kompatibilität oder Kantenschärfe wichtiger ist."
+    },
+    {
+      "q": "Werden meine Dateien hochgeladen?",
+      "a": "Nein. Die Konvertierung läuft lokal in deinem Browser, daher bleibt dein Ausgangsbild während des JPG-Konvertierungsprozesses auf deinem Gerät."
+    }
+  ],
+  "relatedTools": [
+    { "name": "In PNG konvertieren", "path": "/convert-to-png" },
+    { "name": "In WebP konvertieren", "path": "/convert-to-webp" },
+    { "name": "Bild komprimieren", "path": "/compress-image" },
+    { "name": "Bildgröße ändern", "path": "/resize-image" }
+  ],
+  "sourceLinks": [
+    {
+      "title": "PNG zu JPG",
+      "description": "PNG-Dateien in JPG umwandeln, ideal für leichtere Alltagsbilder.",
+      "path": "/convert-to-jpg/png"
+    },
+    {
+      "title": "WebP zu JPG",
+      "description": "WebP-Assets in JPG umwandeln, wenn Kompatibilität an erster Stelle steht.",
+      "path": "/convert-to-jpg/webp"
+    },
+    {
+      "title": "SVG zu JPG",
+      "description": "SVG-Vektoren in JPG rastern, passend für Standard-Foto-Workflows.",
+      "path": "/convert-to-jpg/svg"
+    }
+  ],
+  "quickGuide": {
+    "title": "Kurzanleitung zur JPG-Konvertierung",
+    "description": "Wenn du nur die Kurzfassung brauchst: JPG ist die bessere Wahl, wenn du leichtere Bilder für Websites, Uploads, E-Mail und Teilen benötigst. Besonders stark ist das Format für Fotos und allgemeine Inhalte, bei denen eine kleinere Datei wichtiger ist als Transparenz."
+  },
+  "highlights": [
+    {
+      "title": "Ideal für Fotos",
+      "description": "JPG passt hervorragend zu Kamerabildern, Lifestyle-Fotos und Produktaufnahmen, bei denen eine kleine Dateigröße Priorität hat."
+    },
+    {
+      "title": "Kleinere Dateigröße",
+      "description": "Im Vergleich zu PNG erzeugt JPG meist ein leichteres Ergebnis, das sich einfacher hochladen, teilen und online veröffentlichen lässt."
+    },
+    {
+      "title": "Keine Transparenz",
+      "description": "JPG behält keine transparenten Pixel, daher ist es nicht das beste Endformat für Logos oder Freisteller."
+    },
+    {
+      "title": "Breite Kompatibilität",
+      "description": "JPG funktioniert fast überall und ist dadurch ein sicherer Export für Kunden, CMS-Tools, ältere Apps und Marktplätze."
+    }
+  ],
+  "gridOne": [
+    {
+      "title": "Was ist das JPG-Format?",
+      "paragraphs": [
+        "JPG ist ein komprimiertes Bildformat für effiziente Auslieferung. Praktisch gesehen ist es eines der nützlichsten Formate für Fotos, Content-Publishing, Listings, Blogs und Uploads, bei denen eine kleinere Datei zu schnelleren Seiten und flüssigeren Workflows beiträgt.",
+        "Deshalb kommen Suchanfragen wie image to JPG converter und png to jpg meist aus einem Auslieferungsproblem und nicht aus reiner Format-Neugier. Nutzer brauchen oft eine leichtere Datei, die sich einfacher teilen oder hochladen lässt, und nicht unbedingt ein komplexeres Bearbeitungs-Asset."
+      ]
+    },
+    {
+      "title": "Wann solltest du JPG verwenden?",
+      "paragraphs": [
+        "Nutze JPG, wenn die Quelle hauptsächlich fotografisch ist und dein Ziel eine leichtere Auslieferung ist. Das Format eignet sich gut für Produktbilder, Reisefotos, redaktionelle Visuals, Listing-Bilder und allgemeine Website-Inhalte ohne transparente Hintergründe.",
+        "Wenn du eine schwere PNG- oder WebP-Datei hast und einfach ein kleineres, universelleres Ergebnis möchtest, ist JPG oft die schnellste Antwort. Wenn das Bild Transparenz oder wiederholte Bearbeitung braucht, bleibt PNG meist das bessere Arbeitsformat."
+      ]
+    }
+  ],
+  "gridTwo": [
+    {
+      "title": "PNG vs. JPG - Welches ist besser?",
+      "paragraphs": [
+        "PNG ist meist besser für Logos, Screenshots, transparente Assets und designlastige Visuals. JPG ist meist besser für Fotos, Seitengeschwindigkeit und allgemeines Publishing. Eine Seite wie diese sollte deshalb nicht nur sagen in JPG konvertieren, sondern auch erklären, warum jemand PNG überhaupt aufgeben möchte.",
+        "In vielen Fällen lautet die Antwort Dateigröße und Kompatibilität. Wenn das Ergebnis für eine Website, ein CMS, E-Mail oder eine Kundenübergabe gedacht ist, ist JPG oft einfacher zu nutzen. Wenn du weiterhin Transparenz oder sauberere Grafikkanten brauchst, gehe zurück zu [PNG](/convert-to-png)."
+      ]
+    },
+    {
+      "title": "JPG vs. WebP - Welches solltest du wählen?",
+      "paragraphs": [
+        "JPG gewinnt bei universeller Vertrautheit und Kompatibilität. WebP gewinnt oft bei moderner Web-Performance, weil es kleinere Dateien bei vergleichbarer sichtbarer Qualität erzeugen kann. Wenn dein Endziel Website-Optimierung ist, kann [WebP](/convert-to-webp) das stärkere Endformat sein.",
+        "Wenn du jedoch ein Format brauchst, das Kunden, Plattformen und ältere Tools ohne Reibung öffnen können, bleibt JPG eine der sichersten Optionen. In diesem Sinn ist JPG oft das einfachste Auslieferungsformat, auch wenn WebP technisch effizienter sein kann."
+      ]
+    }
+  ],
+  "howTo": {
+    "title": "So konvertierst du Bilder in JPG",
+    "paragraphs": [
+      "Lade das Quellbild hoch, stelle die JPG-Qualität ein und lade das Ergebnis herunter. Wenn die Datei zusätzlich neue Abmessungen braucht, gehe zu [Bildgröße ändern](/resize-image). Wenn du danach noch eine leichtere webfreundliche Datei willst, probiere [In WebP konvertieren](/convert-to-webp). Wenn du stattdessen verlustfreie Qualität oder Transparenz brauchst, wechsle zu [In PNG konvertieren](/convert-to-png). Mit [Bild komprimieren](/compress-image) kannst du die Ausgabe weiter verkleinern."
+    ]
+  },
+  "workflow": {
+    "title": "Baue einen Bild-Auslieferungs-Workflow rund um JPG",
+    "paragraphs": [
+      "JPG funktioniert am besten als Teil eines größeren Bild-Workflows. Manche Assets starten in PNG zur Bearbeitung, wechseln dann zu JPG zum Teilen und enden schließlich in WebP für finale Website-Performance. Genau deshalb sind interne Links zwischen [PNG-Konvertierung](/convert-to-png), [WebP-Konvertierung](/convert-to-webp), [Größenänderung](/resize-image) und [Komprimierung](/compress-image) sowohl für SEO als auch für das tatsächliche Nutzerverhalten so wertvoll."
+    ]
+  }
+}

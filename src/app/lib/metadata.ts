@@ -14,6 +14,7 @@ export type LocaleMetadataParams = {
 const OPEN_GRAPH_LOCALE: Record<SupportedLanguage, string> = {
   en: "en_US",
   vi: "vi_VN",
+  de: "de_DE",
 };
 
 function trimTrailingSlash(value: string) {
@@ -29,7 +30,9 @@ function normalizePath(path: string) {
 }
 
 export function resolveSupportedLanguage(locale: string): SupportedLanguage {
-  return locale === "vi" ? "vi" : DEFAULT_LANGUAGE;
+  return routing.locales.includes(locale as SupportedLanguage)
+    ? (locale as SupportedLanguage)
+    : DEFAULT_LANGUAGE;
 }
 
 export function resolveLocalizedText(

@@ -46,7 +46,9 @@ export async function getConvertToSvgContent(locale: string) {
   const contentModule =
     languageCode === "vi"
       ? await import("@/messages/vi/convert-to-svg.json")
-      : await import("@/messages/en/convert-to-svg.json");
+      : languageCode === "de"
+        ? await import("@/messages/de/convert-to-svg.json")
+        : await import("@/messages/en/convert-to-svg.json");
 
   return contentModule.default as ConvertToSvgContent;
 }

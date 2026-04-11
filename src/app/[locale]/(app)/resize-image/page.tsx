@@ -18,19 +18,27 @@ export async function generateMetadata({
     title: {
       en: "Resize Image Online (Free) - Image Resizer Without Losing Quality",
       vi: "Resize ảnh online miễn phí - Thay đổi kích thước mà vẫn giữ chất lượng",
+      de: "Bildgröße online ändern (kostenlos) - Bild-Resizer ohne sichtbaren Qualitätsverlust",
     },
     description: {
       en: "Resize image online free with an image resizer built for web, social media, and photo workflows. Change dimensions, resize photos, and reduce image size more intelligently.",
       vi: "Resize ảnh online miễn phí với công cụ thay đổi kích thước cho web, mạng xã hội và workflow ảnh thực tế. Điều chỉnh kích thước, resize ảnh và giảm kích thước ảnh thông minh hơn.",
+      de: "Bilder kostenlos online skalieren mit einem Bild-Resizer für Web, Social Media und Foto-Workflows. Abmessungen ändern, Fotos skalieren und Bildgrößen intelligenter reduzieren.",
     },
   });
 }
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const siteUrl = SITE_URL;
 
   return (
     <ToolLayout
+      locale={locale}
       title="Resize Image Online"
       description="Resize photos and graphics for websites, social media, products, documents, and everyday publishing with a browser-based image resizer."
       steps={[

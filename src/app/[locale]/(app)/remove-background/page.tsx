@@ -18,17 +18,26 @@ export async function generateMetadata({
     title: {
       en: "Remove Background Online (Free) - Background Remover Tool",
       vi: "Xóa nền online miễn phí - Công cụ tách nền ảnh",
+      de: "Hintergrund online entfernen (kostenlos) - Hintergrundentferner",
     },
     description: {
       en: "Remove background from image online free with a fast background remover tool for product photos, avatars, thumbnails, and clean PNG exports.",
       vi: "Xóa nền ảnh online miễn phí với công cụ tách nền nhanh cho ảnh sản phẩm, avatar, thumbnail và file PNG trong suốt sạch hơn.",
+      de: "Hintergrund kostenlos online aus Bildern entfernen mit einem schnellen Tool für Produktfotos, Avatare, Thumbnails und saubere PNG-Exporte.",
     },
   });
 }
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
   return (
     <ToolLayout
+      locale={locale}
       title="Remove Background from Image Online"
       description="Remove backgrounds from product photos, avatars, social graphics, and content assets so the subject stands out more cleanly."
       steps={[
