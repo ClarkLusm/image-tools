@@ -3,11 +3,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import {
+  CheckCircle2,
   Download,
   Loader2,
   RefreshCcw,
   Settings2,
-  CheckCircle2,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import type { Crop, PixelCrop } from "react-image-crop";
@@ -15,7 +15,6 @@ import "react-image-crop/dist/ReactCrop.css";
 import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes, loadImage } from "@/lib/image-utils";
 import { useImageWorker } from "@/hooks/use-image-worker";
-import { motion } from "framer-motion";
 
 const aspectOptions = [
   { label: "Free", value: 0 },
@@ -84,6 +83,10 @@ export default function CropImageClient() {
     () => (file ? URL.createObjectURL(file) : null),
     [file],
   );
+  const resultUrl = useMemo(
+    () => (resultBlob ? URL.createObjectURL(resultBlob) : null),
+    [resultBlob],
+  );
 
   useEffect(() => {
     if (!imageUrl) return;
@@ -92,6 +95,14 @@ export default function CropImageClient() {
       URL.revokeObjectURL(imageUrl);
     };
   }, [imageUrl]);
+
+  useEffect(() => {
+    if (!resultUrl) return;
+
+    return () => {
+      URL.revokeObjectURL(resultUrl);
+    };
+  }, [resultUrl]);
 
   useEffect(() => {
     return () => {
@@ -147,6 +158,15 @@ export default function CropImageClient() {
     downloadBlob(resultBlob, filename);
   };
 
+  const resetSelection = () => {
+    setFile(null);
+    setResultBlob(null);
+    setCrop(undefined);
+    setCompletedCrop(null);
+    setDimensions(null);
+    setUploaderKey((key) => key + 1);
+  };
+
   const cropDetails = useMemo(() => {
     if (!completedCrop) return null;
     return `${Math.round(completedCrop.width)} × ${Math.round(completedCrop.height)}px`;
@@ -196,16 +216,40 @@ export default function CropImageClient() {
       className="space-y-8"
       data-tool-active-image={file ? "true" : undefined}
     >
-      {!resultBlob && (
-        <Uploader
-          key={uploaderKey}
-          onFileSelect={applyFileSelection}
-          accept={{ "image/*": [".jpg", ".jpeg", ".png", ".webp"] }}
-          isProcessing={isProcessing}
-          previewLabel={isVietnamese ? "Xem trước vùng cắt" : "Crop Preview"}
-          interactivePreview
-          previewContent={
-            file && imageUrl ? (
+      <Uploader
+        key={uploaderKey}
+        onFileSelect={applyFileSelection}
+        accept={{ "image/*": [".jpg", ".jpeg", ".png", ".webp"] }}
+        isProcessing={isProcessing}
+        previewLabel={
+          resultBlob
+            ? isVietnamese
+              ? "Ảnh sau khi cắt"
+              : "Cropped Result"
+            : isVietnamese
+              ? "Xem trước vùng cắt"
+              : "Crop Preview"
+        }
+        interactivePreview
+        previewContent={
+          resultBlob && resultUrl ? (
+            <div className="flex h-full w-full flex-col items-center justify-center gap-5">
+              <div className="flex min-h-[360px] w-full items-center justify-center rounded-xl bg-white p-4 shadow-inner sm:min-h-[440px] lg:min-h-[520px] xl:min-h-[600px]">
+                {/* eslint-disable-next-line @next/next/no-img-element -- Blob preview URLs cannot be optimized by next/image. */}
+                <img
+                  src={resultUrl}
+                  alt={isVietnamese ? "Ảnh đã cắt" : "Cropped image"}
+                  className="max-h-[600px] w-auto max-w-full rounded-lg object-contain"
+                />
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
+                <CheckCircle2 className="h-4 w-4" />
+                {isVietnamese
+                  ? `Đã cắt xong - ${formatBytes(resultBlob.size)}`
+                  : `Crop complete - ${formatBytes(resultBlob.size)}`}
+              </div>
+            </div>
+          ) : file && imageUrl ? (
               <div className="flex h-full w-full flex-col items-center justify-center gap-5">
                 <ReactCrop
                   key={cropKey}
@@ -216,6 +260,7 @@ export default function CropImageClient() {
                   className="inline-flex max-w-full items-center justify-center max-h-[360px] sm:max-h-[440px] lg:max-h-[520px] xl:max-h-[600px] [&>.ReactCrop__child-wrapper]:inline-block [&>.ReactCrop__child-wrapper]:w-auto [&>.ReactCrop__child-wrapper]:max-w-full"
                   keepSelection
                 >
+                  {/* eslint-disable-next-line @next/next/no-img-element -- Blob preview URLs cannot be optimized by next/image. */}
                   <img
                     ref={imageRef}
                     src={imageUrl}
@@ -230,10 +275,71 @@ export default function CropImageClient() {
                   />
                 </ReactCrop>
               </div>
-            ) : undefined
-          }
-          aside={
-            file ? (
+          ) : undefined
+        }
+        aside={
+          file ? (
+            resultBlob ? (
+              <div>
+                <div className="mb-6 flex items-center gap-3">
+                  <div className="rounded-xl bg-primary/10 p-3 text-primary">
+                    <CheckCircle2 className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-display font-semibold text-foreground">
+                      {isVietnamese ? "Kết quả cắt ảnh" : "Crop Result"}
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {isVietnamese
+                        ? "Ảnh đã cắt đang hiển thị ở khung preview bên trái."
+                        : "The cropped image is now shown in the preview area."}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-3 rounded-xl border border-border/70 bg-white px-4 py-4 shadow-sm">
+                  <div className="flex items-start gap-3">
+                    <Download className="mt-0.5 h-5 w-5 text-primary" />
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">
+                        {isVietnamese ? "Dung lượng mới" : "New size"}
+                      </p>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        {formatBytes(resultBlob.size)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 space-y-3">
+                  <button
+                    onClick={handleDownload}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-xl"
+                  >
+                    <Download className="h-5 w-5" />
+                    {isVietnamese ? "Tải ảnh đã cắt" : "Download Cropped Image"}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setResultBlob(null)}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-white px-5 py-4 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-secondary"
+                  >
+                    <RefreshCcw className="h-4 w-4" />
+                    {isVietnamese ? "Chỉnh lại vùng cắt" : "Adjust Crop Again"}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={resetSelection}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-white px-5 py-4 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-secondary"
+                  >
+                    <RefreshCcw className="h-4 w-4" />
+                    {isVietnamese ? "Cắt ảnh khác" : "Crop Another"}
+                  </button>
+                </div>
+              </div>
+            ) : (
               <div>
                 <div className="mb-6 flex items-center gap-3">
                   <div className="rounded-xl bg-primary/10 p-3 text-primary">
@@ -333,51 +439,12 @@ export default function CropImageClient() {
                   </button>
                 </div>
               </div>
-            ) : undefined
-          }
-        />
-      )}
+            )
+          ) : undefined
+        }
+      />
 
       {error && <p className="text-sm text-red-500 text-center">{error}</p>}
-
-      {resultBlob && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center p-8 bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/50 rounded-xl"
-        >
-          <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Download className="w-8 h-8" />
-          </div>
-          <h3 className="text-2xl font-bold mb-2">
-            {isVietnamese ? "Cắt ảnh hoàn tất!" : "Crop Complete!"}
-          </h3>
-          <p className="text-muted-foreground mb-8">
-            {isVietnamese ? "Dung lượng mới" : "New size"}:{" "}
-            <span className="font-semibold">
-              {formatBytes(resultBlob.size)}
-            </span>
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={handleDownload}
-              className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
-            >
-              {isVietnamese ? "Tải ảnh đã cắt" : "Download Cropped Image"}
-            </button>
-            <button
-              onClick={() => {
-                setFile(null);
-                setResultBlob(null);
-              }}
-              className="px-8 py-4 bg-white text-foreground border border-border font-bold rounded-xl shadow-sm hover:bg-secondary transition-all"
-            >
-              {isVietnamese ? "Cắt ảnh khác" : "Crop Another"}
-            </button>
-          </div>
-        </motion.div>
-      )}
     </div>
   );
 }
