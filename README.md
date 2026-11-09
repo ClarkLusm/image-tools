@@ -3,9 +3,10 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ## Project Notes
 
 - Frontend app: `image-tools`
-- Required build env:
+- Required build env (copy `.env.example` to `.env`):
   - `NEXT_PUBLIC_IMAGE_TOOLS_API_URL`
   - `NEXT_PUBLIC_SITE_URL`
+  - `next build` fails if either is missing or not an absolute http(s) URL (`next dev` only warns).
 - Gitflow/deploy guide: [docs/gitflow-deploy.md](./docs/gitflow-deploy.md)
 - VPS CI/CD guide: [docs/vps-cicd.md](./docs/vps-cicd.md)
 

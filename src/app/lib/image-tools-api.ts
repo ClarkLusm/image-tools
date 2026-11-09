@@ -54,7 +54,14 @@ function trimTrailingSlash(value: string) {
 }
 
 function getApiBaseUrl() {
-  const configuredUrl = process.env.NEXT_PUBLIC_IMAGE_TOOLS_API_URL!;
+  const configuredUrl = process.env.NEXT_PUBLIC_IMAGE_TOOLS_API_URL?.trim();
+
+  if (!configuredUrl) {
+    throw new Error(
+      "NEXT_PUBLIC_IMAGE_TOOLS_API_URL is not configured. Set it before building the app (see .env.example).",
+    );
+  }
+
   return trimTrailingSlash(configuredUrl);
 }
 
