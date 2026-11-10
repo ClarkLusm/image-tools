@@ -23,8 +23,7 @@
       "@/components/*": ["./src/app/components/*"],
       "@/hooks/*": ["./src/app/hooks/*"],
       "@/lib/*": ["./src/app/lib/*"],
-      "@/workers/*": ["./src/app/workers/*"],
-      "@/queues/*": ["./src/app/queues/*"],
+      "@/workers/*": ["./src/app/workers/*"]
     }
   },
   "include": [
