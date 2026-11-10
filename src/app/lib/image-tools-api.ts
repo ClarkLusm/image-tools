@@ -85,8 +85,63 @@ function buildApiUrl(path: string) {
   return `${baseUrl}${pathWithoutVersionPrefix}`;
 }
 
+/**
+ * The API issues a secret `accessToken` per job. It is required to read,
+ * stream or download that job, so keep it in memory for the page lifetime.
+ */
+const jobAccessTokens = new Map<string, string>();
+const JOB_PATH_PATTERN = /\/image-tools\/jobs\/([^/?#]+)/;
+
+function getJobAccessToken(jobId: string) {
+  return jobAccessTokens.get(jobId);
+}
+
+function appendJobToken(url: string) {
+  const jobId = url.match(JOB_PATH_PATTERN)?.[1];
+  const token = jobId ? getJobAccessToken(decodeURIComponent(jobId)) : undefined;
+
+  if (!token || /[?&]token=/.test(url)) {
+    return url;
+  }
+
+  const separator = url.includes("?") ? "&" : "?";
+  return `${url}${separator}token=${encodeURIComponent(token)}`;
+}
+
 export function resolveImageToolsAssetUrl(pathOrUrl: string) {
-  return pathOrUrl.startsWith("http") ? pathOrUrl : buildApiUrl(pathOrUrl);
+  const url = pathOrUrl.startsWith("http") ? pathOrUrl : buildApiUrl(pathOrUrl);
+  return appendJobToken(url);
+}
+
+async function submitImageToolsJob(
+  path: string,
+  formData: FormData,
+  fallbackError: string,
+) {
+  const response = await fetch(buildApiUrl(path), {
+    method: "POST",
+    body: formData,
+    headers: buildApiHeaders(),
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseErrorMessage(response, fallbackError));
+  }
+
+  const data = (await response.json()) as {
+    id?: string;
+    accessToken?: string;
+  };
+
+  if (!data.id) {
+    throw new Error("Missing job id from image-tools-api.");
+  }
+
+  if (data.accessToken) {
+    jobAccessTokens.set(data.id, data.accessToken);
+  }
+
+  return data.id;
 }
 
 async function parseErrorMessage(response: Response, fallback: string) {
@@ -133,28 +188,11 @@ export async function createDeepCompressionJob(
     formData.append("targetSizeKb", String(options.targetSizeKb));
   }
 
-  const response = await fetch(
-    buildApiUrl("/image-tools/infrastructure/deep-compression"),
-    {
-      method: "POST",
-      body: formData,
-      headers: buildApiHeaders(),
-    },
+  return submitImageToolsJob(
+    "/image-tools/infrastructure/deep-compression",
+    formData,
+    "Failed to create compression job.",
   );
-
-  if (!response.ok) {
-    throw new Error(
-      await parseErrorMessage(response, "Failed to create compression job."),
-    );
-  }
-
-  const data = (await response.json()) as { id?: string };
-
-  if (!data.id) {
-    throw new Error("Missing job id from image-tools-api.");
-  }
-
-  return data.id;
 }
 
 export async function createFormatConversionJob(
@@ -173,28 +211,11 @@ export async function createFormatConversionJob(
     formData.append("colorSpace", options.colorSpace);
   }
 
-  const response = await fetch(
-    buildApiUrl("/image-tools/infrastructure/format-conversion"),
-    {
-      method: "POST",
-      body: formData,
-      headers: buildApiHeaders(),
-    },
+  return submitImageToolsJob(
+    "/image-tools/infrastructure/format-conversion",
+    formData,
+    "Failed to create conversion job.",
   );
-
-  if (!response.ok) {
-    throw new Error(
-      await parseErrorMessage(response, "Failed to create conversion job."),
-    );
-  }
-
-  const data = (await response.json()) as { id?: string };
-
-  if (!data.id) {
-    throw new Error("Missing job id from image-tools-api.");
-  }
-
-  return data.id;
 }
 
 export async function createConvertToSvgJob(file: File) {
@@ -219,31 +240,18 @@ export async function createUpscaleJob(
     formData.append("faceEnhance", String(options.faceEnhance));
   }
 
-  const response = await fetch(buildApiUrl("/image-tools/ai/super-resolution"), {
-    method: "POST",
-    body: formData,
-    headers: buildApiHeaders(),
-  });
-
-  if (!response.ok) {
-    throw new Error(
-      await parseErrorMessage(response, "Failed to create upscale job."),
-    );
-  }
-
-  const data = (await response.json()) as { id?: string };
-
-  if (!data.id) {
-    throw new Error("Missing job id from image-tools-api.");
-  }
-
-  return data.id;
+  return submitImageToolsJob(
+    "/image-tools/ai/super-resolution",
+    formData,
+    "Failed to create upscale job.",
+  );
 }
 
 export async function getImageToolsJob(jobId: string) {
+  const token = getJobAccessToken(jobId);
   const response = await fetch(buildApiUrl(`/image-tools/jobs/${jobId}`), {
     cache: "no-store",
-    headers: buildApiHeaders(),
+    headers: buildApiHeaders(token ? { "x-job-token": token } : undefined),
   });
 
   if (!response.ok) {
@@ -298,7 +306,7 @@ export async function waitForImageToolsJobCompletion(
     }
 
     const eventSource = new EventSource(
-      buildApiUrl(`/image-tools/jobs/${jobId}/stream`),
+      appendJobToken(buildApiUrl(`/image-tools/jobs/${jobId}/stream`)),
     );
 
     const cleanup = () => {
