@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import { Uploader } from "@/app/components/shared/uploader";
 import { ImageToolWorkspace } from "@/app/components/shared/image-tool-workspace";
 import { ToolBatchStatus } from "@/app/components/shared/tool-batch-status";
+import { BatchFileManager } from "@/app/components/shared/batch-file-manager";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
 import {
   createConvertToSvgJob,
@@ -653,13 +654,34 @@ function AutoFormatConvertClient({
       )}
 
       {items.length > 0 && (
+        <BatchFileManager
+          items={items.map((item) => ({
+            id: item.id,
+            file: item.file,
+            status: item.status,
+            outputSize: item.blob?.size,
+            error: item.error,
+          }))}
+          locale={locale}
+          onDownload={(id) => {
+            const item = items.find((entry) => entry.id === id);
+            if (item?.blob) handleDownload(item);
+          }}
+          onRetry={(id) => {
+            const item = items.find((entry) => entry.id === id);
+            if (item && status !== "processing") void handleProcess([item.file]);
+          }}
+        />
+      )}
+
+      {items.length > 0 && (
         <motion.div
           ref={resultsRef}
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          className="overflow-hidden rounded-xl border border-border/70 bg-white shadow-[0_28px_80px_rgba(15,23,42,0.08)]"
+          className="overflow-hidden rounded-xl border border-border bg-card shadow-sm"
         >
-          <div className="border-b border-border/60 bg-gradient-to-r from-primary/[0.08] via-white to-white px-4 py-4 sm:px-6">
+          <div className="border-b border-border bg-muted/30 px-4 py-4 sm:px-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
