@@ -8,6 +8,7 @@ import { downloadBlob, formatBytes, loadImage } from "@/lib/image-utils";
 import { useImageWorker } from "@/hooks/use-image-worker";
 import { ImageComparisonWorkspace } from "@/app/components/shared/image-comparison-workspace";
 import { ToolResultPanel } from "@/app/components/shared/tool-result-panel";
+import { ToolExportPanel } from "@/app/components/shared/tool-export-panel";
 
 export default function ResizeImageClient() {
   const locale = useLocale();
@@ -97,12 +98,12 @@ export default function ResizeImageClient() {
     if (blob) setResultBlob(blob);
   };
 
-  const handleDownload = () => {
+  const handleDownload = (filename?: string) => {
     if (!resultBlob || !file) return;
     const parts = file.name.split(".");
     const ext = parts.pop();
     const base = parts.join(".");
-    downloadBlob(resultBlob, `${base}_${width}x${height}.${ext}`);
+    downloadBlob(resultBlob, filename ?? `${base}_${width}x${height}.${ext}`);
   };
 
   return (
@@ -247,11 +248,21 @@ export default function ResizeImageClient() {
               <button type="button" onClick={() => { setFile(null); setResultBlob(null); }} className="rounded-xl border border-border bg-card px-5 py-3 font-semibold hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary">
                 {isVietnamese ? "Đổi ảnh khác" : "Resize another"}
               </button>
-              <button type="button" onClick={handleDownload} className="rounded-xl bg-primary px-6 py-3 font-semibold text-primary-foreground hover:opacity-90 focus-visible:ring-2 focus-visible:ring-primary">
-                {isVietnamese ? "Tải ảnh xuống" : "Download image"}
-              </button>
+
             </>
           }
+        />
+      )}
+      {resultBlob && file && (
+        <ToolExportPanel
+          locale={locale}
+          originalName={file.name.replace(/\.[^/.]+$/, "") + "_" + width + "x" + height}
+          extension={file.name.split(".").pop() || "png"}
+          outputSize={resultBlob.size}
+          originalSize={file.size}
+          dimensions={`${width} × ${height} px`}
+          onDownload={handleDownload}
+          onAdjust={() => setResultBlob(null)}
         />
       )}
     </div>
