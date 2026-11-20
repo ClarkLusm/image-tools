@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CheckCircle2, AlertCircle, Loader2, FileImage } from "lucide-react";
 import { formatBytes } from "@/lib/image-utils";
 
@@ -23,7 +23,6 @@ export function BatchFileManager({ items, locale = "en", onDownload, onRetry }: 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const vi = locale === "vi";
   const selected = items.find((item) => item.id === selectedId) ?? items[0];
-  useEffect(() => { if (selectedId && !items.some(item => item.id === selectedId)) setSelectedId(null); }, [items, selectedId]);
   if (!items.length) return null;
   return (
     <section aria-label={vi ? "Danh sách ảnh" : "Image files"} className="grid min-w-0 gap-4 rounded-xl border border-border bg-card p-3 sm:p-4 lg:grid-cols-[minmax(220px,300px)_minmax(0,1fr)]">
