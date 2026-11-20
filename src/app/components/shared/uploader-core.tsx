@@ -273,7 +273,7 @@ export function UploaderCore({
         key="preview"
         initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="flex h-full flex-col gap-5"
+        className="flex h-full min-w-0 flex-col gap-5"
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -308,7 +308,7 @@ export function UploaderCore({
         </div>
 
         {hasMultiplePreviews ? (
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
             {previews.map((preview) => (
               <div
                 key={preview.url}
@@ -399,16 +399,16 @@ export function UploaderCore({
   return (
     <div className={cn("w-full", className)}>
       {previews.length > 0 && aside ? (
-        <div className="grid gap-6 xl:grid-cols-12 xl:items-start">
-          <div className="xl:col-span-8">
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
+          <div className="min-w-0 lg:col-span-8 2xl:col-span-9">
             {interactivePreview
               ? renderStaticPreviewCard(renderPreviewContent(), "p-4 md:p-5")
               : renderDropzoneCard(renderPreviewContent(), "p-4 md:p-5")}
           </div>
-          <div className="xl:col-span-4">
+          <div className="min-w-0 lg:col-span-4 2xl:col-span-3">
             <div
               className={cn(
-                "rounded-xl border border-border bg-card p-4 shadow-sm sm:p-5",
+                "rounded-xl border border-border bg-card p-4 shadow-sm sm:p-5 lg:sticky lg:top-24",
                 asideClassName,
               )}
             >
