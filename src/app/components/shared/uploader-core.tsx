@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { formatBytes } from "@/lib/image-utils";
+import { ImageToolWorkspace } from "@/app/components/shared/image-tool-workspace";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -399,23 +400,12 @@ export function UploaderCore({
   return (
     <div className={cn("w-full", className)}>
       {previews.length > 0 && aside ? (
-        <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
-          <div className="min-w-0 lg:col-span-8 2xl:col-span-9">
-            {interactivePreview
-              ? renderStaticPreviewCard(renderPreviewContent(), "p-4 md:p-5")
-              : renderDropzoneCard(renderPreviewContent(), "p-4 md:p-5")}
-          </div>
-          <div className="min-w-0 lg:col-span-4 2xl:col-span-3">
-            <div
-              className={cn(
-                "rounded-xl border border-border bg-card p-4 shadow-sm sm:p-5 lg:sticky lg:top-24",
-                asideClassName,
-              )}
-            >
-              {aside}
-            </div>
-          </div>
-        </div>
+        <ImageToolWorkspace
+          preview={interactivePreview
+            ? renderStaticPreviewCard(renderPreviewContent(), "p-3 sm:p-5")
+            : renderDropzoneCard(renderPreviewContent(), "p-3 sm:p-5")}
+          settings={<div className={asideClassName}>{aside}</div>}
+        />
       ) : (
         renderDropzoneCard(
           previews.length === 0 ? renderPrompt() : renderPreviewContent(),
