@@ -667,10 +667,6 @@ function AutoFormatConvertClient({
             const item = items.find((entry) => entry.id === id);
             if (item?.blob) handleDownload(item);
           }}
-          onRetry={(id) => {
-            const item = items.find((entry) => entry.id === id);
-            if (item && status !== "processing") void handleProcess([item.file]);
-          }}
         />
       )}
 
