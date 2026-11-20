@@ -27,7 +27,7 @@ export function ImagePreviewWorkspace({
     : undefined;
 
   return (
-    <div key={src} className="min-w-0 overflow-hidden rounded-xl border border-border bg-card">
+    <div className="min-w-0 overflow-hidden rounded-xl border border-border bg-card">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-3 py-3 sm:px-5">
         <div className="min-w-0">
           {filename ? <p className="max-w-[24rem] truncate text-sm font-semibold" title={filename}>{filename}</p> : <p className="text-sm font-semibold">{alt}</p>}
