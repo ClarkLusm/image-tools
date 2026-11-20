@@ -7,6 +7,8 @@ import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes, loadImage } from "@/lib/image-utils";
 import { useImageWorker } from "@/hooks/use-image-worker";
 import { motion } from "framer-motion";
+import { ImagePreviewWorkspace } from "@/app/components/shared/image-preview-workspace";
+import { ToolResultPanel } from "@/app/components/shared/tool-result-panel";
 
 export default function ResizeImageClient() {
   const locale = useLocale();
@@ -188,51 +190,32 @@ export default function ResizeImageClient() {
       {error && <p role="alert" className="text-sm text-destructive text-center">{error}</p>}
 
       {resultBlob && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center p-4 sm:p-8 bg-card border border-border rounded-2xl"
-        >
-          <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Download className="w-8 h-8" />
-          </div>
-          <h3 className="text-2xl font-bold mb-2">
-            {isVietnamese
-              ? "Đã đổi kích thước ảnh thành công!"
-              : "Image Resized Successfully!"}
-          </h3>
-          <p className="text-muted-foreground mb-8">
-            {isVietnamese
-              ? `Ảnh của bạn đã sẵn sàng ở kích thước ${width}x${height}px. Dung lượng: `
-              : `Your image is ready at ${width}x${height}px. Size: `}
-            <span className="font-semibold">
-              {formatBytes(resultBlob.size)}
-            </span>
-          </p>
-
-          {resultUrl && (
-            <div className="mx-auto mb-6 max-w-3xl overflow-hidden rounded-xl border border-border bg-muted/30 p-3 sm:p-6">
-              <img src={resultUrl} alt={isVietnamese ? "Xem trước ảnh sau khi đổi kích thước" : "Resized image preview"} className="mx-auto max-h-[480px] w-full object-contain" />
-            </div>
-          )}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={handleDownload}
-              className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
-            >
-              {isVietnamese ? "Tải ảnh xuống" : "Download Image"}
-            </button>
-            <button
-              onClick={() => {
-                setFile(null);
-                setResultBlob(null);
-              }}
-              className="px-8 py-4 bg-white text-foreground border border-border font-bold rounded-xl shadow-sm hover:bg-secondary transition-all"
-            >
-              {isVietnamese ? "Đổi ảnh khác" : "Resize Another"}
-            </button>
-          </div>
-        </motion.div>
+        <ToolResultPanel
+          title={isVietnamese ? "Đã đổi kích thước ảnh thành công!" : "Image resized successfully!"}
+          description={`${width} × ${height} px · ${formatBytes(file?.size ?? 0)} → ${formatBytes(resultBlob.size)}`}
+          preview={resultUrl ? (
+            <ImagePreviewWorkspace
+              src={resultUrl}
+              alt={isVietnamese ? "Ảnh đã đổi kích thước" : "Resized image"}
+              filename={file?.name}
+              details={`${width} × ${height} px · ${formatBytes(resultBlob.size)}`}
+              transparent={resultBlob.type === "image/png"}
+            />
+          ) : null}
+          actions={
+            <>
+              <button type="button" onClick={() => setResultBlob(null)} className="rounded-xl border border-border bg-card px-5 py-3 font-semibold hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary">
+                {isVietnamese ? "Chỉnh lại kích thước" : "Adjust dimensions"}
+              </button>
+              <button type="button" onClick={() => { setFile(null); setResultBlob(null); }} className="rounded-xl border border-border bg-card px-5 py-3 font-semibold hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary">
+                {isVietnamese ? "Đổi ảnh khác" : "Resize another"}
+              </button>
+              <button type="button" onClick={handleDownload} className="rounded-xl bg-primary px-6 py-3 font-semibold text-primary-foreground hover:opacity-90 focus-visible:ring-2 focus-visible:ring-primary">
+                {isVietnamese ? "Tải ảnh xuống" : "Download image"}
+              </button>
+            </>
+          }
+        />
       )}
     </div>
   );
