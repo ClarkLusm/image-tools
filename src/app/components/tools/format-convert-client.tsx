@@ -165,7 +165,7 @@ function ManualFormatConvertClient({
 
                     <div className="space-y-4">
                       <div className="flex justify-between">
-                        <label className="text-sm font-medium">
+                        <label htmlFor="manual-convert-quality" className="text-sm font-medium">
                           {isVietnamese
                             ? "Chất lượng"
                             : isGerman
@@ -177,6 +177,9 @@ function ManualFormatConvertClient({
                         </span>
                       </div>
                       <input
+                        id="manual-convert-quality"
+                        aria-valuetext={`${Math.round(quality * 100)}%`}
+                        disabled={status === "processing"}
                         type="range"
                         min="0.1"
                         max="1.0"
@@ -197,7 +200,8 @@ function ManualFormatConvertClient({
 
                 <button
                   onClick={handleProcess}
-                  disabled={isProcessing}
+                  disabled={isProcessing || status === "processing"}
+                  aria-busy={status === "processing"}
                   className="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-4 font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-50 disabled:transform-none"
                 >
                   {isProcessing || status === "processing" ? (
@@ -219,14 +223,14 @@ function ManualFormatConvertClient({
         />
       )}
 
-      {error && <p className="text-center text-sm text-red-500">{error}</p>}
+      {error && <p role="alert" className="text-center text-sm text-destructive">{error}</p>}
 
       {results.length > 0 && (
         <motion.div
           ref={resultsRef}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="rounded-xl border border-green-200 bg-green-50/50 p-8 text-center dark:border-green-900/50 dark:bg-green-900/10"
+          className="rounded-xl border border-border bg-card p-4 text-center sm:p-8"
         >
           <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-900/50 dark:text-green-400">
             <Download className="h-8 w-8" />
@@ -306,7 +310,7 @@ function ManualFormatConvertClient({
                 setResults([]);
                 setStatus("idle");
               }}
-              className="rounded-xl border border-border bg-white px-8 py-4 font-bold text-foreground shadow-sm transition-all hover:bg-secondary"
+              className="rounded-xl border border-border bg-card px-8 py-4 font-bold text-foreground shadow-sm transition-all hover:bg-secondary"
             >
               {isVietnamese
                 ? "Chuyển ảnh khác"
@@ -548,7 +552,7 @@ function AutoFormatConvertClient({
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <label className="text-sm font-medium">
+          <label htmlFor="auto-convert-quality" className="text-sm font-medium">
             {isVietnamese
               ? "Chất lượng"
               : isGerman
@@ -560,6 +564,9 @@ function AutoFormatConvertClient({
           </span>
         </div>
         <input
+          id="auto-convert-quality"
+          aria-valuetext={`${Math.round(quality * 100)}%`}
+          disabled={status === "processing"}
           type="range"
           min="0.1"
           max="1.0"
