@@ -19,6 +19,7 @@ export function ImagePreviewWorkspace({
   transparent = false,
 }: ImagePreviewWorkspaceProps) {
   const [zoom, setZoom] = useState<number | null>(null);
+  const [naturalWidth, setNaturalWidth] = useState(0);
   useEffect(() => setZoom(null), [src]);
   const currentZoom = zoom ?? 100;
   const checkerboard = transparent
@@ -41,7 +42,7 @@ export function ImagePreviewWorkspace({
         </div>
       </div>
       <div className="flex min-h-[320px] max-h-[min(70vh,760px)] items-center justify-center overflow-auto bg-muted/30 p-4 lg:min-h-[480px]" style={checkerboard}>
-        <img src={src} alt={alt} draggable={false} className={zoom === null ? "max-h-[min(65vh,720px)] max-w-full object-contain" : "max-w-none object-contain"} style={zoom === null ? undefined : { width: `${zoom}%` }} />
+        <img src={src} alt={alt} draggable={false} onLoad={(event) => setNaturalWidth(event.currentTarget.naturalWidth)} className={zoom === null ? "max-h-[min(65vh,720px)] max-w-full object-contain" : "max-w-none object-contain"} style={zoom === null ? undefined : { width: `${naturalWidth * zoom / 100}px` }} />
       </div>
     </div>
   );
