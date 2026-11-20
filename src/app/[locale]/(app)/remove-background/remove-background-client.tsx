@@ -8,6 +8,7 @@ import { Uploader } from "@/app/components/shared/uploader";
 import { useImageWorker } from "@/hooks/use-image-worker";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
 import BeforeAfterSlider from "@/app/components/home/before-after-slider";
+import { ToolResultPanel } from "@/app/components/shared/tool-result-panel";
 
 export default function RemoveBackgroundClient() {
   const locale = useLocale();
@@ -149,53 +150,34 @@ export default function RemoveBackgroundClient() {
       {error && <p role="alert" className="text-sm text-destructive text-center">{error}</p>}
 
       {resultBlob && (
-        <motion.section
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="rounded-2xl p-4 sm:p-8 text-center border border-border bg-card"
-        >
-          <h3 className="text-2xl font-bold mb-2">
-            {isVietnamese ? "Đã xóa nền" : "Background Removed"}
-          </h3>
-          <p className="text-muted-foreground mb-6">
-            {isVietnamese ? "Dung lượng tệp đầu ra" : "Output file size"}:{" "}
-            <span className="font-semibold">{formatBytes(resultBlob.size)}</span>
-          </p>
-
-          {beforeUrl && afterUrl && (
-            <div className="mx-auto mb-8 max-w-4xl">
+        <ToolResultPanel
+          title={isVietnamese ? "Đã xóa nền" : "Background removed"}
+          description={`${formatBytes(file?.size ?? 0)} → ${formatBytes(resultBlob.size)} · PNG`}
+          preview={beforeUrl && afterUrl ? (
+            <div className="mx-auto max-w-6xl overflow-hidden rounded-xl border border-border bg-card p-3 sm:p-5">
               <BeforeAfterSlider
                 beforeSrc={beforeUrl}
                 afterSrc={afterUrl}
-                alt={
-                  isVietnamese
-                    ? "So sánh trước và sau khi xóa nền"
-                    : "Before and after background removal comparison"
-                }
+                alt={isVietnamese ? "So sánh trước và sau khi xóa nền" : "Before and after background removal"}
                 imageFit="contain"
                 className="aspect-[16/10] bg-white"
               />
             </div>
-          )}
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={handleDownload}
-              className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
-            >
-              {isVietnamese ? "Tải PNG xuống" : "Download PNG"}
-            </button>
-            <button
-              onClick={() => {
-                setFile(null);
-                setResultBlob(null);
-              }}
-              className="px-8 py-4 bg-white text-foreground border border-border font-bold rounded-xl shadow-sm hover:bg-secondary transition-all"
-            >
-              {isVietnamese ? "Xử lý ảnh khác" : "Process Another"}
-            </button>
-          </div>
-        </motion.section>
+          ) : null}
+          actions={
+            <>
+              <button type="button" onClick={() => setResultBlob(null)} className="rounded-xl border border-border bg-card px-5 py-3 font-semibold hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary">
+                {isVietnamese ? "Chỉnh lại thông số" : "Adjust settings"}
+              </button>
+              <button type="button" onClick={() => { setFile(null); setResultBlob(null); }} className="rounded-xl border border-border bg-card px-5 py-3 font-semibold hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary">
+                {isVietnamese ? "Xử lý ảnh khác" : "Process another"}
+              </button>
+              <button type="button" onClick={handleDownload} className="rounded-xl bg-primary px-6 py-3 font-semibold text-primary-foreground hover:opacity-90 focus-visible:ring-2 focus-visible:ring-primary">
+                {isVietnamese ? "Tải PNG xuống" : "Download PNG"}
+              </button>
+            </>
+          }
+        />
       )}
     </div>
   );
