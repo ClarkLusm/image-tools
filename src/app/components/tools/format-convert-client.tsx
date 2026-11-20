@@ -529,7 +529,7 @@ function AutoFormatConvertClient({
   };
 
   const renderSettingsPanel = () => (
-    <div className="rounded-xl border border-border/70 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+    <div className="rounded-xl border border-border/70 bg-card p-5 shadow-sm lg:sticky lg:top-24">
       <div className="mb-6 flex items-center gap-3">
         <SlidersHorizontal className="h-5 w-5 text-primary" />
         <div>
@@ -608,7 +608,7 @@ function AutoFormatConvertClient({
     >
       {showQuality && isSettingsOpen ? (
         <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
-          <div className="lg:col-span-8">
+          <div className="min-w-0 lg:col-span-8 2xl:col-span-9">
             <Uploader
               onFileSelect={(file) => {
                 void handleProcess([file]);
@@ -623,7 +623,7 @@ function AutoFormatConvertClient({
               topRightAction={settingsTrigger}
             />
           </div>
-          <div className="lg:col-span-4">{renderSettingsPanel()}</div>
+          <div className="min-w-0 lg:col-span-4 2xl:col-span-3">{renderSettingsPanel()}</div>
         </div>
       ) : (
         <Uploader
@@ -693,7 +693,7 @@ function AutoFormatConvertClient({
             </div>
           </div>
 
-          <div className="space-y-3 px-4 py-4 sm:px-6 sm:py-6">
+          <div className="grid gap-3 px-4 py-4 sm:px-6 sm:py-6 2xl:grid-cols-2">
             {items.map((item) => {
               const sizeLabel = item.blob
                 ? `${formatBytes(item.file.size)} -> ${formatBytes(item.blob.size)}`
@@ -702,7 +702,7 @@ function AutoFormatConvertClient({
               return (
                 <div
                   key={item.id}
-                  className="flex flex-col gap-4 border-b border-border/70 py-2.5 sm:flex-row sm:items-center"
+                  className="flex min-w-0 flex-col gap-4 rounded-xl border border-border/70 bg-card p-3 sm:flex-row sm:items-center"
                 >
                   <div className="flex min-w-0 flex-1 items-center gap-4">
                     <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border/60 bg-muted/40">
