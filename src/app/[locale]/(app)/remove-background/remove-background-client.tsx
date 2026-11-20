@@ -82,12 +82,13 @@ export default function RemoveBackgroundClient() {
                 <div className="space-y-5">
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <label className="font-medium">
+                      <label htmlFor="remove-bg-threshold" className="font-medium">
                         {isVietnamese ? "Ngưỡng nhận diện" : "Threshold"}
                       </label>
                       <span className="text-muted-foreground">{threshold}</span>
                     </div>
                     <input
+                      id="remove-bg-threshold"
                       type="range"
                       min={8}
                       max={120}
@@ -101,12 +102,13 @@ export default function RemoveBackgroundClient() {
 
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <label className="font-medium">
+                      <label htmlFor="remove-bg-softness" className="font-medium">
                         {isVietnamese ? "Độ mềm viền" : "Edge Softness"}
                       </label>
                       <span className="text-muted-foreground">{softness}</span>
                     </div>
                     <input
+                      id="remove-bg-softness"
                       type="range"
                       min={0}
                       max={60}
@@ -144,13 +146,13 @@ export default function RemoveBackgroundClient() {
         />
       )}
 
-      {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+      {error && <p role="alert" className="text-sm text-destructive text-center">{error}</p>}
 
       {resultBlob && (
         <motion.section
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="rounded-2xl p-8 text-center bg-gray-100"
+          className="rounded-2xl p-4 sm:p-8 text-center border border-border bg-card"
         >
           <h3 className="text-2xl font-bold mb-2">
             {isVietnamese ? "Đã xóa nền" : "Background Removed"}
