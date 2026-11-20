@@ -125,6 +125,8 @@ export const downloadBlob = (blob: Blob, filename: string) => {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+  // Give the browser time to start the download before revoking the blob URL.
+  window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
 };
 
 export const formatBytes = (bytes: number, decimals = 2) => {
