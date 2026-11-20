@@ -334,16 +334,16 @@ export function UploaderCore({
           </div>
         ) : (
           <div className="overflow-hidden rounded-xl border border-border/70 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
-            <div className="flex items-center justify-between border-b border-border/60 px-5 py-4">
+            <div className="flex flex-col gap-2 border-b border-border/60 px-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-4">
               <div>
-                <p className="text-sm font-semibold text-foreground">
+                <p className="break-all text-sm font-semibold text-foreground">
                   {previews[0]?.name}
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
                   {formatBytes(previews[0]?.size ?? 0)}
                 </p>
               </div>
-              <div className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+              <div className="inline-flex w-fit items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                 <Layers3 className="h-3.5 w-3.5" />
                 {resolvedPreviewLabel}
               </div>
@@ -408,7 +408,7 @@ export function UploaderCore({
           <div className="xl:col-span-4">
             <div
               className={cn(
-                "rounded-xl border border-border bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)]",
+                "rounded-xl border border-border bg-card p-4 shadow-sm sm:p-5",
                 asideClassName,
               )}
             >
