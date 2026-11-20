@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Maximize2, Minus, Plus, RotateCcw } from "lucide-react";
 
 type ImagePreviewWorkspaceProps = {
@@ -20,14 +20,14 @@ export function ImagePreviewWorkspace({
 }: ImagePreviewWorkspaceProps) {
   const [zoom, setZoom] = useState<number | null>(null);
   const [naturalWidth, setNaturalWidth] = useState(0);
-  useEffect(() => setZoom(null), [src]);
+
   const currentZoom = zoom ?? 100;
   const checkerboard = transparent
     ? { backgroundImage: "linear-gradient(45deg, #d1d5db 25%, transparent 25%), linear-gradient(-45deg, #d1d5db 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #d1d5db 75%), linear-gradient(-45deg, transparent 75%, #d1d5db 75%)", backgroundSize: "24px 24px", backgroundPosition: "0 0, 0 12px, 12px -12px, -12px 0" }
     : undefined;
 
   return (
-    <div className="min-w-0 overflow-hidden rounded-xl border border-border bg-card">
+    <div key={src} className="min-w-0 overflow-hidden rounded-xl border border-border bg-card">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-3 py-3 sm:px-5">
         <div className="min-w-0">
           {filename ? <p className="max-w-[24rem] truncate text-sm font-semibold" title={filename}>{filename}</p> : <p className="text-sm font-semibold">{alt}</p>}
@@ -41,8 +41,8 @@ export function ImagePreviewWorkspace({
           <button type="button" aria-label="Fit to view" onClick={() => setZoom(null)} className="rounded-lg p-2 hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary"><RotateCcw className="h-4 w-4" /></button>
         </div>
       </div>
-      <div className="flex min-h-[320px] max-h-[min(70vh,760px)] items-center justify-center overflow-auto bg-muted/30 p-4 lg:min-h-[480px]" style={checkerboard}>
-        <img src={src} alt={alt} draggable={false} onLoad={(event) => setNaturalWidth(event.currentTarget.naturalWidth)} className={zoom === null ? "max-h-[min(65vh,720px)] max-w-full object-contain" : "max-w-none object-contain"} style={zoom === null ? undefined : { width: `${naturalWidth * zoom / 100}px` }} />
+      <div className="flex min-h-[320px] max-h-[min(70vh,760px)] items-center justify-start overflow-auto bg-muted/30 p-4 lg:min-h-[480px]" style={checkerboard}>
+        <img src={src} alt={alt} draggable={false} onLoad={(event) => setNaturalWidth(event.currentTarget.naturalWidth)} className={zoom === null ? "m-auto max-h-[min(65vh,720px)] max-w-full object-contain" : "m-auto max-w-none shrink-0 object-contain"} style={zoom === null ? undefined : { width: `${naturalWidth * zoom / 100}px` }} />
       </div>
     </div>
   );
