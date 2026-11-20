@@ -6,7 +6,7 @@ import { Loader2, Settings, Lock, Unlock } from "lucide-react";
 import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes, loadImage } from "@/lib/image-utils";
 import { useImageWorker } from "@/hooks/use-image-worker";
-import { ImagePreviewWorkspace } from "@/app/components/shared/image-preview-workspace";
+import { ImageComparisonWorkspace } from "@/app/components/shared/image-comparison-workspace";
 import { ToolResultPanel } from "@/app/components/shared/tool-result-panel";
 
 export default function ResizeImageClient() {
@@ -15,6 +15,9 @@ export default function ResizeImageClient() {
   const [file, setFile] = useState<File | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [originalUrl, setOriginalUrl] = useState<string | null>(null);
+  const [originalWidth, setOriginalWidth] = useState(0);
+  const [originalHeight, setOriginalHeight] = useState(0);
 
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
@@ -34,14 +37,38 @@ export default function ResizeImageClient() {
   }, [resultBlob]);
 
   useEffect(() => {
-    if (file) {
-      loadImage(file).then((img) => {
-        setWidth(img.width);
-        setHeight(img.height);
-        setOriginalRatio(img.width / img.height);
-      });
+    if (!file) {
+      setOriginalUrl(null);
+      return;
     }
+    let cancelled = false;
+    const url = URL.createObjectURL(file);
+    setOriginalUrl(url);
+    loadImage(file).then((img) => {
+      if (cancelled) return;
+      setWidth(img.width);
+      setHeight(img.height);
+      setOriginalWidth(img.width);
+      setOriginalHeight(img.height);
+      setOriginalRatio(img.width / img.height);
+    }).catch(() => {});
+    return () => {
+      cancelled = true;
+      URL.revokeObjectURL(url);
+    };
   }, [file]);
+
+  const presets = [
+    { label: "Full HD", width: 1920, height: 1080 },
+    { label: "HD", width: 1280, height: 720 },
+    { label: "Square", width: 1080, height: 1080 },
+  ];
+  const applyPreset = (nextWidth: number, nextHeight: number) => {
+    setWidth(nextWidth);
+    setHeight(nextHeight);
+    setMaintainRatio(false);
+    setResultBlob(null);
+  };
 
   const handleWidthChange = (val: string) => {
     const w = parseInt(val) || 0;
@@ -100,6 +127,15 @@ export default function ResizeImageClient() {
                   </h3>
                 </div>
 
+                <div className="mb-5 space-y-2">
+                  <p className="text-sm font-medium text-muted-foreground">{isVietnamese ? "Kích thước nhanh" : "Size presets"}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {presets.map((preset) => (
+                      <button key={preset.label} type="button" disabled={isProcessing} onClick={() => applyPreset(preset.width, preset.height)} className="rounded-lg border border-border bg-background px-3 py-2 text-xs font-semibold hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50">{preset.label}</button>
+                    ))}
+                    <button type="button" disabled={isProcessing || originalWidth === 0} onClick={() => applyPreset(originalWidth, originalHeight)} className="rounded-lg border border-border bg-background px-3 py-2 text-xs font-semibold hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-50">{isVietnamese ? "Gốc" : "Original"}</button>
+                  </div>
+                </div>
                 <div className="flex flex-col items-center gap-6">
                   <div className="w-full space-y-2">
                     <label htmlFor="resize-width" className="text-sm font-medium text-muted-foreground">
@@ -192,10 +228,12 @@ export default function ResizeImageClient() {
         <ToolResultPanel
           title={isVietnamese ? "Đã đổi kích thước ảnh thành công!" : "Image resized successfully!"}
           description={`${width} × ${height} px · ${formatBytes(file?.size ?? 0)} → ${formatBytes(resultBlob.size)}`}
-          preview={resultUrl ? (
-            <ImagePreviewWorkspace
-              src={resultUrl}
-              alt={isVietnamese ? "Ảnh đã đổi kích thước" : "Resized image"}
+          preview={resultUrl && originalUrl ? (
+            <ImageComparisonWorkspace
+              beforeSrc={originalUrl}
+              afterSrc={resultUrl}
+              beforeLabel={isVietnamese ? "Ảnh gốc" : "Original"}
+              afterLabel={isVietnamese ? "Kết quả" : "Result"}
               filename={file?.name}
               details={`${width} × ${height} px · ${formatBytes(resultBlob.size)}`}
               transparent={resultBlob.type === "image/png"}
