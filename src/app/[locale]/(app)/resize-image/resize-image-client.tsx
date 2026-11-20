@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
-import { Download, Loader2, Settings, Lock, Unlock } from "lucide-react";
+import { Loader2, Settings, Lock, Unlock } from "lucide-react";
 import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes, loadImage } from "@/lib/image-utils";
 import { useImageWorker } from "@/hooks/use-image-worker";
-import { motion } from "framer-motion";
 import { ImagePreviewWorkspace } from "@/app/components/shared/image-preview-workspace";
 import { ToolResultPanel } from "@/app/components/shared/tool-result-panel";
 
