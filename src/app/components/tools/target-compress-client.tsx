@@ -6,6 +6,7 @@ import { useLocale } from "next-intl";
 import { Download, Loader2 } from "lucide-react";
 import { Uploader } from "@/app/components/shared/uploader";
 import { ToolBatchStatus } from "@/app/components/shared/tool-batch-status";
+import { BatchFileManager } from "@/app/components/shared/batch-file-manager";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
 import {
   createDeepCompressionJob,
@@ -397,6 +398,23 @@ export default function TargetCompressClient({
 
       {jobs.length > 0 && (
         <ToolBatchStatus total={jobs.length} completed={jobs.filter((job) => job.status === "done").length} failed={jobs.filter((job) => job.status === "failed").length} processing={jobs.filter((job) => job.status === "pending" || job.status === "processing").length} locale={locale} />
+      )}
+
+      {jobs.length > 0 && (
+        <BatchFileManager
+          items={jobs.map((job, index) => ({
+            id: String(index),
+            file: job.file,
+            status: job.status,
+            outputSize: job.blob?.size,
+            error: job.error,
+          }))}
+          locale={locale}
+          onDownload={(id) => {
+            const job = jobs[Number(id)];
+            if (job?.blob && isBatchComplete) handleDownload(job);
+          }}
+        />
       )}
 
       {jobs.length > 0 && (
