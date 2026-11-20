@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Uploader } from "@/app/components/shared/uploader";
+import { ImageToolWorkspace } from "@/app/components/shared/image-tool-workspace";
+import { ToolBatchStatus } from "@/app/components/shared/tool-batch-status";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
 import {
   createConvertToSvgJob,
@@ -529,7 +531,7 @@ function AutoFormatConvertClient({
   };
 
   const renderSettingsPanel = () => (
-    <div className="rounded-xl border border-border/70 bg-card p-5 shadow-sm lg:sticky lg:top-24">
+    <div className="space-y-4">
       <div className="mb-6 flex items-center gap-3">
         <SlidersHorizontal className="h-5 w-5 text-primary" />
         <div>
@@ -607,8 +609,8 @@ function AutoFormatConvertClient({
       data-tool-active-image={items.length > 0 ? "true" : undefined}
     >
       {showQuality && isSettingsOpen ? (
-        <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
-          <div className="min-w-0 lg:col-span-8 2xl:col-span-9">
+        <ImageToolWorkspace preview={
+          <>
             <Uploader
               onFileSelect={(file) => {
                 void handleProcess([file]);
@@ -622,9 +624,8 @@ function AutoFormatConvertClient({
               showSelectedPreview={false}
               topRightAction={settingsTrigger}
             />
-          </div>
-          <div className="min-w-0 lg:col-span-4 2xl:col-span-3">{renderSettingsPanel()}</div>
-        </div>
+          </>
+        } settings={renderSettingsPanel()} />
       ) : (
         <Uploader
           onFileSelect={(file) => {
@@ -646,6 +647,10 @@ function AutoFormatConvertClient({
           {note}
         </div>
       ) : null}
+
+      {items.length > 0 && (
+        <ToolBatchStatus total={items.length} completed={doneItems.length} failed={failedCount} processing={processingCount} locale={locale} />
+      )}
 
       {items.length > 0 && (
         <motion.div
