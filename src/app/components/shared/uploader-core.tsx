@@ -194,6 +194,7 @@ export function UploaderCore({
       : "border-border bg-card hover:bg-secondary/50",
     isDragReject ? "border-destructive bg-destructive/5" : "",
     isProcessing ? "opacity-60 cursor-not-allowed pointer-events-none" : "",
+    "focus-within:ring-2 focus-within:ring-primary/60 focus-within:ring-offset-2",
   );
 
   const renderPrompt = () => (
@@ -290,7 +291,7 @@ export function UploaderCore({
 
           {!isProcessing && (
             <button
-              className="inline-flex items-center gap-2 self-start rounded-xl border border-border bg-white px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+              className="inline-flex items-center gap-2 self-start rounded-xl border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               onClick={(event) => {
                 event.stopPropagation();
                 clearPreviews();
@@ -347,7 +348,7 @@ export function UploaderCore({
                 {resolvedPreviewLabel}
               </div>
             </div>
-            <div className="flex min-h-[420px] items-center justify-center bg-gray-100 p-4">
+            <div className="flex min-h-[240px] items-center justify-center bg-muted/40 p-3 sm:min-h-[360px] sm:p-4">
               {previewContent ?? (
                 <img
                   src={previews[0]?.url}
@@ -418,7 +419,7 @@ export function UploaderCore({
       ) : (
         renderDropzoneCard(
           previews.length === 0 ? renderPrompt() : renderPreviewContent(),
-          previews.length > 0 ? "p-4" : "p-12",
+          previews.length > 0 ? "p-3 sm:p-4" : "p-6 sm:p-12",
         )
       )}
 
@@ -428,6 +429,7 @@ export function UploaderCore({
             initial={{ opacity: 0, y: -10, height: 0 }}
             animate={{ opacity: 1, y: 0, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
+            role="alert"
             className="mt-4 p-4 bg-destructive/10 border border-destructive/20 rounded-xl flex items-start gap-3 text-destructive"
           >
             <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
