@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { Download, Loader2 } from "lucide-react";
 import { Uploader } from "@/app/components/shared/uploader";
+import { ToolBatchStatus } from "@/app/components/shared/tool-batch-status";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
 import {
   createDeepCompressionJob,
@@ -307,7 +308,7 @@ export default function TargetCompressClient({
         />
       )}
 
-      {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+      {error && <p role="alert" className="text-sm text-destructive text-center">{error}</p>}
 
       {selectedFiles.length > 0 && jobs.length === 0 && (
         <motion.div
@@ -395,11 +396,15 @@ export default function TargetCompressClient({
       )}
 
       {jobs.length > 0 && (
+        <ToolBatchStatus total={jobs.length} completed={jobs.filter((job) => job.status === "done").length} failed={jobs.filter((job) => job.status === "failed").length} processing={jobs.filter((job) => job.status === "pending" || job.status === "processing").length} locale={locale} />
+      )}
+
+      {jobs.length > 0 && (
         <motion.div
           ref={resultsRef}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center p-8 bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/50 rounded-2xl"
+          className="rounded-2xl border border-border bg-card p-4 text-center sm:p-8"
         >
           {totalSavings > 0 && (
             <div className="mb-4 text-sm font-semibold text-green-600 dark:text-green-400">
@@ -482,11 +487,11 @@ export default function TargetCompressClient({
             </div>
           )}
 
-          <div className="space-y-3 mb-6">
+          <div className="mb-6 grid gap-3 2xl:grid-cols-2">
             {jobs.map((job) => (
               <div
                 key={job.file.name}
-                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-xl border border-border/50 bg-secondary/30 px-4 py-3 text-left"
+                className="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-muted/20 px-4 py-3 text-left sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="min-w-0">
                   <p className="text-sm font-medium truncate">{job.file.name}</p>
@@ -576,7 +581,7 @@ export default function TargetCompressClient({
             <button
               onClick={resetSelection}
               disabled={!isBatchComplete}
-              className="px-8 py-4 bg-white text-foreground border border-border font-bold rounded-xl shadow-sm hover:bg-secondary transition-all disabled:opacity-50 disabled:hover:bg-white"
+              className="px-8 py-4 bg-card text-foreground border border-border font-bold rounded-xl shadow-sm hover:bg-secondary transition-all disabled:opacity-50"
             >
               {isVietnamese ? "Nén ảnh khác" : "Compress Another"}
             </button>
