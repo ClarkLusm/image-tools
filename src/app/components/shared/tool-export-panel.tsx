@@ -17,21 +17,17 @@ type ToolExportPanelProps = {
   disabled?: boolean;
 };
 
-function stripExtension(filename: string) {
-  return filename.replace(/\.[^/.]+$/, "");
-}
-
 export function ToolExportPanel({
   locale = "en", originalName, extension, outputSize, originalSize,
   dimensions, formatLabel, onDownload, onAdjust, disabled = false,
 }: ToolExportPanelProps) {
   const vi = locale === "vi";
   const de = locale === "de";
-  const [baseName, setBaseName] = useState(() => stripExtension(originalName));
+  const [baseName, setBaseName] = useState(originalName);
   const ext = extension.replace(/^\./, "").toLowerCase();
-  const cleanName = baseName.trim().replace(/[\\/:*?"<>|\x00-\x1f]/g, "-").replace(/\.+$/, "").slice(0, 180);
+  const cleanName = Array.from(baseName.trim()).map((char) => char.charCodeAt(0) < 32 || "\\/:*?\"<>|".includes(char) ? "-" : char).join("").replace(/\.+$/, "").slice(0, 180);
   const filename = `${cleanName || "image"}.${ext}`;
-  useEffect(() => setBaseName(stripExtension(originalName)), [originalName]);
+  useEffect(() => setBaseName(originalName), [originalName]);
 
   return (
     <section aria-label={vi ? "Xuất ảnh" : de ? "Bild exportieren" : "Export image"} className="min-w-0 space-y-4 rounded-xl border border-border bg-card p-4 sm:p-5">
