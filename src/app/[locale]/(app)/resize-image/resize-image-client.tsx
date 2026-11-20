@@ -13,6 +13,7 @@ export default function ResizeImageClient() {
   const isVietnamese = locale === "vi";
   const [file, setFile] = useState<File | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
+  const [resultUrl, setResultUrl] = useState<string | null>(null);
 
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
@@ -20,6 +21,16 @@ export default function ResizeImageClient() {
   const [originalRatio, setOriginalRatio] = useState(1);
 
   const { processImage, isProcessing, error } = useImageWorker();
+
+  useEffect(() => {
+    if (!resultBlob) {
+      setResultUrl(null);
+      return;
+    }
+    const url = URL.createObjectURL(resultBlob);
+    setResultUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [resultBlob]);
 
   useEffect(() => {
     if (file) {
@@ -90,10 +101,12 @@ export default function ResizeImageClient() {
 
                 <div className="flex flex-col items-center gap-6">
                   <div className="w-full space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">
+                    <label htmlFor="resize-width" className="text-sm font-medium text-muted-foreground">
                       {isVietnamese ? "Chiều rộng" : "Width"}
                     </label>
                     <input
+                      id="resize-width"
+                      min={1}
                       type="number"
                       value={width || ""}
                       onChange={(e) => handleWidthChange(e.target.value)}
@@ -104,6 +117,9 @@ export default function ResizeImageClient() {
                   <div className="flex flex-col items-center gap-2">
                     <button
                       onClick={() => setMaintainRatio(!maintainRatio)}
+                      type="button"
+                      aria-pressed={maintainRatio}
+                      aria-label={maintainRatio ? (isVietnamese ? "Mở khóa tỷ lệ khung hình" : "Unlock aspect ratio") : (isVietnamese ? "Khóa tỷ lệ khung hình" : "Lock aspect ratio")}
                       className={`rounded-full p-2 transition-colors ${maintainRatio ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}`}
                       title={
                         maintainRatio
@@ -133,10 +149,12 @@ export default function ResizeImageClient() {
                   </div>
 
                   <div className="w-full space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">
+                    <label htmlFor="resize-height" className="text-sm font-medium text-muted-foreground">
                       {isVietnamese ? "Chiều cao" : "Height"}
                     </label>
                     <input
+                      id="resize-height"
+                      min={1}
                       type="number"
                       value={height || ""}
                       onChange={(e) => handleHeightChange(e.target.value)}
@@ -147,7 +165,7 @@ export default function ResizeImageClient() {
 
                 <button
                   onClick={handleProcess}
-                  disabled={isProcessing}
+                  disabled={isProcessing || width <= 0 || height <= 0}
                   className="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-4 font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-50 disabled:transform-none"
                 >
                   {isProcessing ? (
@@ -167,13 +185,13 @@ export default function ResizeImageClient() {
         />
       )}
 
-      {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+      {error && <p role="alert" className="text-sm text-destructive text-center">{error}</p>}
 
       {resultBlob && (
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center p-8 bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/50 rounded-2xl"
+          className="text-center p-4 sm:p-8 bg-card border border-border rounded-2xl"
         >
           <div className="w-16 h-16 bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
             <Download className="w-8 h-8" />
@@ -192,6 +210,11 @@ export default function ResizeImageClient() {
             </span>
           </p>
 
+          {resultUrl && (
+            <div className="mx-auto mb-6 max-w-3xl overflow-hidden rounded-xl border border-border bg-muted/30 p-3 sm:p-6">
+              <img src={resultUrl} alt={isVietnamese ? "Xem trước ảnh sau khi đổi kích thước" : "Resized image preview"} className="mx-auto max-h-[480px] w-full object-contain" />
+            </div>
+          )}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={handleDownload}
