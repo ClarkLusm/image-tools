@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocale } from "next-intl";
 import { Loader2, Scissors } from "lucide-react";
-import { motion } from "framer-motion";
 import { Uploader } from "@/app/components/shared/uploader";
 import { useImageWorker } from "@/hooks/use-image-worker";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
