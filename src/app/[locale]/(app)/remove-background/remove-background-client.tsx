@@ -8,6 +8,7 @@ import { useImageWorker } from "@/hooks/use-image-worker";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
 import BeforeAfterSlider from "@/app/components/home/before-after-slider";
 import { ToolResultPanel } from "@/app/components/shared/tool-result-panel";
+import { ToolExportPanel } from "@/app/components/shared/tool-export-panel";
 
 export default function RemoveBackgroundClient() {
   const locale = useLocale();
@@ -49,10 +50,9 @@ export default function RemoveBackgroundClient() {
     if (blob) setResultBlob(blob);
   };
 
-  const handleDownload = () => {
+  const handleDownload = (filename?: string) => {
     if (!resultBlob || !file) return;
-    const filename = file.name.replace(/\.[^/.]+$/, "") + "_no-bg.png";
-    downloadBlob(resultBlob, filename);
+    downloadBlob(resultBlob, filename ?? file.name.replace(/\.[^/.]+$/, "") + "_no-bg.png");
   };
 
   return (
@@ -171,11 +171,21 @@ export default function RemoveBackgroundClient() {
               <button type="button" onClick={() => { setFile(null); setResultBlob(null); }} className="rounded-xl border border-border bg-card px-5 py-3 font-semibold hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary">
                 {isVietnamese ? "Xử lý ảnh khác" : "Process another"}
               </button>
-              <button type="button" onClick={handleDownload} className="rounded-xl bg-primary px-6 py-3 font-semibold text-primary-foreground hover:opacity-90 focus-visible:ring-2 focus-visible:ring-primary">
-                {isVietnamese ? "Tải PNG xuống" : "Download PNG"}
-              </button>
+
             </>
           }
+        />
+      )}
+      {resultBlob && file && (
+        <ToolExportPanel
+          locale={locale}
+          originalName={file.name.replace(/\.[^/.]+$/, "") + "_no-bg"}
+          extension="png"
+          formatLabel="PNG"
+          outputSize={resultBlob.size}
+          originalSize={file.size}
+          onDownload={handleDownload}
+          onAdjust={() => setResultBlob(null)}
         />
       )}
     </div>
