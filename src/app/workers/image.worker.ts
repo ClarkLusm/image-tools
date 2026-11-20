@@ -77,7 +77,6 @@ async function handlePngToJpg(
 ): Promise<Blob> {
   const canvas = drawBitmapToCanvas(bitmap, bitmap.width, bitmap.height, true);
   const blob = await canvas.convertToBlob({ type: "image/jpeg", quality });
-  bitmap.close();
   return blob;
 }
 
@@ -123,7 +122,6 @@ async function handleResize(
     type: mimeType,
     quality: 0.95,
   });
-  bitmap.close();
   return blob;
 }
 
@@ -135,7 +133,6 @@ async function handleRemoveMetadata(
   // convertToBlob only encodes raw pixel data, not the original file headers.
   const canvas = drawBitmapToCanvas(bitmap, bitmap.width, bitmap.height);
   const blob = await canvas.convertToBlob({ type: mimeType, quality: 1.0 });
-  bitmap.close();
   return blob;
 }
 
@@ -297,7 +294,6 @@ async function handleRemoveBackground(
 
   ctx.putImageData(imageData, 0, 0);
   const blob = await canvas.convertToBlob({ type: "image/png" });
-  bitmap.close();
   return blob;
 }
 
@@ -309,7 +305,6 @@ async function handleConvert(
 ): Promise<Blob> {
   const canvas = drawBitmapToCanvas(bitmap, bitmap.width, bitmap.height, fillWhite);
   const blob = await canvas.convertToBlob({ type: mimeType, quality });
-  bitmap.close();
   return blob;
 }
 
@@ -350,7 +345,20 @@ async function handleCrop(
   );
 
   const blob = await canvas.convertToBlob({ type: mimeType, quality });
-  bitmap.close();
+  return blob;
+}
+
+const SUPPORTED_OUTPUT_TYPES = new Set(["image/png", "image/jpeg", "image/webp"]);
+
+function requireOutputType(type: string): string {
+  if (!SUPPORTED_OUTPUT_TYPES.has(type)) throw new Error(`Unsupported output format: ${type}`);
+  return type;
+}
+
+function assertOutput(blob: Blob, expectedType: string): Blob {
+  if (blob.type !== expectedType) {
+    throw new Error(`Browser encoded ${blob.type || "unknown"} instead of ${expectedType}`);
+  }
   return blob;
 }
 
@@ -433,6 +441,14 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
         throw new Error(`Unknown task type: ${type}`);
     }
 
+    const expectedType = type === "png-to-jpg" || type === "convert-to-jpg"
+      ? "image/jpeg"
+      : type === "convert-to-webp"
+        ? "image/webp"
+        : type === "convert-to-png" || type === "remove-background"
+          ? "image/png"
+          : requireOutputType(options.mimeType ?? (type === "crop" ? "image/png" : "image/jpeg"));
+    assertOutput(blob, expectedType);
     const response: WorkerResponse = { id, blob };
     self.postMessage(response);
   } catch (err) {
@@ -441,5 +457,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerRequest>) => {
       error: err instanceof Error ? err.message : String(err),
     };
     self.postMessage(response);
+  } finally {
+    bitmap.close();
   }
 });
