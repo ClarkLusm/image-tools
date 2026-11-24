@@ -7,7 +7,13 @@
     "dev:debug": "DEBUG_IMAGE_TOOLS=1 NEXT_PUBLIC_DEBUG_IMAGE_TOOLS=1 next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc --noEmit",
+    "i18n:check": "node scripts/check-i18n.mjs",
+    "i18n:report": "node scripts/i18n-report.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -23,6 +29,7 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -30,6 +37,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.7"
   }
 }

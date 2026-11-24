@@ -145,7 +145,7 @@ export default async function Page({
 
         <section className="rounded-2xl border border-border bg-card p-6">
           <h3 className="text-lg font-semibold mb-3">
-            How to optimize for {entry.purpose}
+            {`How to optimize for ${entry.purpose}`}
           </h3>
           <div className="space-y-2 text-sm text-muted-foreground">
             {entry.howTo.map((tip) => (

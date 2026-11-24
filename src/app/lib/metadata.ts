@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { routing } from "@/i18n/routing";
 import { DEFAULT_LANGUAGE, type SupportedLanguage } from "./i18n-config";
 import { SITE_NAME, SITE_URL } from "./site";
+import { getToolLayoutLookup } from "./tool-layout-lookup";
+import { translateLookupText } from "./translation-lookup";
 
 type LocalizedText =
   | string
@@ -38,12 +40,21 @@ export function resolveSupportedLanguage(locale: string): SupportedLanguage {
 export function resolveLocalizedText(
   locale: SupportedLanguage,
   value: LocalizedText,
+  lookup?: Record<string, string>,
 ) {
   if (typeof value === "string") {
-    return value;
+    return lookup ? translateLookupText(value, locale, lookup) : value;
   }
 
-  return value[locale] ?? value.en ?? "";
+  const explicit = value[locale];
+  if (explicit) {
+    return explicit;
+  }
+
+  // No hand-written text for this locale: translate the English text through
+  // the shared lookup (falls back to English when there is no entry).
+  const english = value.en ?? "";
+  return lookup ? translateLookupText(english, locale, lookup) : english;
 }
 
 export function buildLocalePath(locale: SupportedLanguage, path = "/") {
@@ -84,7 +95,7 @@ type CreatePageMetadataOptions = {
   robots?: Metadata["robots"];
 };
 
-export function createPageMetadata({
+export async function createPageMetadata({
   locale,
   path,
   title,
@@ -94,26 +105,35 @@ export function createPageMetadata({
   twitterTitle,
   twitterDescription,
   robots,
-}: CreatePageMetadataOptions): Metadata {
+}: CreatePageMetadataOptions): Promise<Metadata> {
   const languageCode = resolveSupportedLanguage(locale);
+  const lookup = await getToolLayoutLookup(languageCode);
   const canonical = buildLocaleUrl(languageCode, path);
-  const resolvedTitle = resolveLocalizedText(languageCode, title);
-  const resolvedDescription = resolveLocalizedText(languageCode, description);
+  const resolvedTitle = resolveLocalizedText(languageCode, title, lookup);
+  const resolvedDescription = resolveLocalizedText(
+    languageCode,
+    description,
+    lookup,
+  );
   const resolvedOpenGraphTitle = resolveLocalizedText(
     languageCode,
     openGraphTitle ?? title,
+    lookup,
   );
   const resolvedOpenGraphDescription = resolveLocalizedText(
     languageCode,
     openGraphDescription ?? description,
+    lookup,
   );
   const resolvedTwitterTitle = resolveLocalizedText(
     languageCode,
     twitterTitle ?? openGraphTitle ?? title,
+    lookup,
   );
   const resolvedTwitterDescription = resolveLocalizedText(
     languageCode,
     twitterDescription ?? openGraphDescription ?? description,
+    lookup,
   );
 
   return {

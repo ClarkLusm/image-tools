@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_IMAGE_TOOLS_API_URL: http://localhost:3000/v1
-      NEXT_PUBLIC_SITE_URL: http://localhost:3001
+      NEXT_PUBLIC_SITE_URL: http://localhost:3100
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,5 +37,30 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: i18n check
+        run: pnpm i18n:check
+
+      - name: Unit tests
+        run: pnpm test
+
       - name: Build
         run: pnpm build
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: E2E smoke tests
+        run: pnpm test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

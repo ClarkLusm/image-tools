@@ -7,6 +7,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
   - `NEXT_PUBLIC_IMAGE_TOOLS_API_URL`
   - `NEXT_PUBLIC_SITE_URL`
   - `next build` fails if either is missing or not an absolute http(s) URL (`next dev` only warns).
+- Checks: `pnpm lint`, `pnpm typecheck`, `pnpm i18n:check`, `pnpm test` (Vitest), `pnpm test:e2e` (Playwright smoke tests against a production build; first run `pnpm exec playwright install chromium`).
+- Translation coverage: build, `pnpm start -p 3011`, then `pnpm i18n:report http://localhost:3011` lists English text still shown on `/vi` and `/de` pages.
 - Gitflow/deploy guide: [docs/gitflow-deploy.md](./docs/gitflow-deploy.md)
 - VPS CI/CD guide: [docs/vps-cicd.md](./docs/vps-cicd.md)
 

@@ -21,7 +21,7 @@ export async function generateMetadata({
   const languageCode = resolveSupportedLanguage(locale);
 
   return {
-    ...createPageMetadata({
+    ...(await createPageMetadata({
       locale: languageCode,
       path: "/",
       title: {
@@ -34,7 +34,7 @@ export async function generateMetadata({
         vi: "Bộ công cụ ảnh nhanh, miễn phí và an toàn để nén, chuyển đổi, resize, crop và tối ưu ảnh chỉ trong vài giây.",
         de: "Schnelle, kostenlose und sichere Bildtools. Bilder in Sekunden komprimieren, konvertieren, skalieren, zuschneiden und optimieren.",
       },
-    }),
+    })),
     title: {
       default:
         languageCode === "vi"

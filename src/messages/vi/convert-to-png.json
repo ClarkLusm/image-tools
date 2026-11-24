@@ -124,13 +124,13 @@
   "howTo": {
     "title": "Cách chuyển ảnh sang PNG",
     "paragraphs": [
-      "Tải ảnh gốc lên, chuyển đổi và tải file PNG về. Nếu ảnh cần đổi kích thước, hãy dùng tiếp [Resize Image](/resize-image). Nếu file PNG nặng hơn mong muốn, hãy đưa qua [Compress Image](/compress-image) hoặc xuất sang định dạng nhẹ hơn với [Convert to WebP](/convert-to-webp). Nếu bạn cần định dạng ảnh nhỏ hơn cho ảnh chụp, hãy dùng [Convert to JPG](/convert-to-jpg)."
+      "Tải ảnh gốc lên, chuyển đổi và tải file PNG về. Nếu ảnh cần đổi kích thước, hãy dùng tiếp [Đổi kích thước ảnh](/resize-image). Nếu file PNG nặng hơn mong muốn, hãy đưa qua [Nén ảnh](/compress-image) hoặc xuất sang định dạng nhẹ hơn với [Chuyển sang WebP](/convert-to-webp). Nếu bạn cần định dạng ảnh nhỏ hơn cho ảnh chụp, hãy dùng [Chuyển sang JPG](/convert-to-jpg)."
     ]
   },
   "workflow": {
     "title": "Xây dựng workflow định dạng ảnh, không chỉ là một lần chuyển đổi",
     "paragraphs": [
-      "Một page convert PNG mạnh sẽ giá trị hơn khi nó kết nối với một hub lớn hơn về định dạng ảnh. JPG, PNG và WebP giải quyết những bài toán khác nhau, nên người dùng thường đi qua cả chuyển đổi, resize và compression trong cùng một workflow. Vì thế, liên kết nội bộ giữa [JPG conversion](/convert-to-jpg), [WebP conversion](/convert-to-webp), [resizing](/resize-image) và [compression](/compress-image) rất quan trọng cho cả SEO lẫn hành vi người dùng thực tế."
+      "Một page convert PNG mạnh sẽ giá trị hơn khi nó kết nối với một hub lớn hơn về định dạng ảnh. JPG, PNG và WebP giải quyết những bài toán khác nhau, nên người dùng thường đi qua cả chuyển đổi, resize và compression trong cùng một workflow. Vì thế, liên kết nội bộ giữa [chuyển sang JPG](/convert-to-jpg), [chuyển sang WebP](/convert-to-webp), [đổi kích thước](/resize-image) và [nén ảnh](/compress-image) rất quan trọng cho cả SEO lẫn hành vi người dùng thực tế."
     ]
   }
 }

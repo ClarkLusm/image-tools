@@ -128,13 +128,13 @@
   "howTo": {
     "title": "Cách chuyển ảnh sang JPG",
     "paragraphs": [
-      "Tải ảnh gốc lên, đặt chất lượng JPG và tải kết quả xuống. Nếu file cần đổi kích thước, hãy dùng tiếp [Resize Image](/resize-image). Nếu bạn cần file nhẹ hơn nữa cho web, hãy thử [Convert to WebP](/convert-to-webp). Nếu bạn cần chất lượng lossless hoặc nền trong suốt, hãy chuyển qua [Convert to PNG](/convert-to-png). Bạn cũng có thể giảm thêm dung lượng đầu ra với [Compress Image](/compress-image)."
+      "Tải ảnh gốc lên, đặt chất lượng JPG và tải kết quả xuống. Nếu file cần đổi kích thước, hãy dùng tiếp [Đổi kích thước ảnh](/resize-image). Nếu bạn cần file nhẹ hơn nữa cho web, hãy thử [Chuyển sang WebP](/convert-to-webp). Nếu bạn cần chất lượng lossless hoặc nền trong suốt, hãy chuyển qua [Chuyển sang PNG](/convert-to-png). Bạn cũng có thể giảm thêm dung lượng đầu ra với [Nén ảnh](/compress-image)."
     ]
   },
   "workflow": {
     "title": "Xây dựng workflow phát hành ảnh xoay quanh JPG",
     "paragraphs": [
-      "JPG phát huy giá trị nhất khi nằm trong một workflow ảnh rộng hơn. Có những tài sản bắt đầu bằng PNG để chỉnh sửa, chuyển qua JPG để chia sẻ, rồi kết thúc bằng WebP để tối ưu website. Do đó, liên kết nội bộ giữa [PNG conversion](/convert-to-png), [WebP conversion](/convert-to-webp), [resizing](/resize-image) và [compression](/compress-image) rất quan trọng cho cả SEO lẫn hành vi người dùng."
+      "JPG phát huy giá trị nhất khi nằm trong một workflow ảnh rộng hơn. Có những tài sản bắt đầu bằng PNG để chỉnh sửa, chuyển qua JPG để chia sẻ, rồi kết thúc bằng WebP để tối ưu website. Do đó, liên kết nội bộ giữa [chuyển sang PNG](/convert-to-png), [chuyển sang WebP](/convert-to-webp), [đổi kích thước](/resize-image) và [nén ảnh](/compress-image) rất quan trọng cho cả SEO lẫn hành vi người dùng."
     ]
   }
 }

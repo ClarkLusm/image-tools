@@ -127,13 +127,13 @@
   "howTo": {
     "title": "Cách chuyển ảnh sang WebP",
     "paragraphs": [
-      "Tải ảnh gốc lên, chọn chất lượng WebP và tải kết quả về. Nếu ảnh cần đổi kích thước, hãy dùng [Resize Image](/resize-image). Nếu bạn muốn so sánh các định dạng đầu ra, hãy thử [Convert to JPG](/convert-to-jpg) hoặc [Convert to PNG](/convert-to-png). Nếu cần file nhẹ hơn nữa để phát hành, hãy kết hợp với [Compress Image](/compress-image)."
+      "Tải ảnh gốc lên, chọn chất lượng WebP và tải kết quả về. Nếu ảnh cần đổi kích thước, hãy dùng [Đổi kích thước ảnh](/resize-image). Nếu bạn muốn so sánh các định dạng đầu ra, hãy thử [Chuyển sang JPG](/convert-to-jpg) hoặc [Chuyển sang PNG](/convert-to-png). Nếu cần file nhẹ hơn nữa để phát hành, hãy kết hợp với [Nén ảnh](/compress-image)."
     ]
   },
   "workflow": {
     "title": "Xây dựng workflow hiệu năng web xoay quanh WebP",
     "paragraphs": [
-      "WebP phát huy tốt nhất khi nó nằm trong một hệ thống tối ưu ảnh rộng hơn. Team thường resize trước, convert sau, rồi nén thêm hoặc so sánh đầu ra trước khi đăng. Do đó, liên kết nội bộ giữa [resizing](/resize-image), [compression](/compress-image), [JPG conversion](/convert-to-jpg) và [PNG conversion](/convert-to-png) rất quan trọng cho cả SEO topical authority lẫn workflow sản xuất ảnh thực tế."
+      "WebP phát huy tốt nhất khi nó nằm trong một hệ thống tối ưu ảnh rộng hơn. Team thường resize trước, convert sau, rồi nén thêm hoặc so sánh đầu ra trước khi đăng. Do đó, liên kết nội bộ giữa [đổi kích thước](/resize-image), [nén ảnh](/compress-image), [chuyển sang JPG](/convert-to-jpg) và [chuyển sang PNG](/convert-to-png) rất quan trọng cho cả SEO topical authority lẫn workflow sản xuất ảnh thực tế."
     ]
   }
 }

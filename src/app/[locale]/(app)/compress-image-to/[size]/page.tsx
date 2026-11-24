@@ -178,7 +178,7 @@ export default async function Page({
         <section className="grid gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-border bg-card p-6">
             <h2 className="text-lg font-semibold mb-2">
-              Why {entry.label} Is Often Required
+              {`Why ${entry.label} Is Often Required`}
             </h2>
             <p className="text-sm leading-7 text-muted-foreground">
               {content.why}
@@ -207,23 +207,18 @@ export default async function Page({
           <div className="rounded-2xl border border-border bg-card p-6">
             <h2 className="text-lg font-semibold mb-2">Quick Rule of Thumb</h2>
             <p className="text-sm leading-7 text-muted-foreground">
-              The bigger the gap between the source file and {entry.label}, the
-              more likely you will need resizing or cropping in addition to
-              compression.
+              {`The bigger the gap between the source file and ${entry.label}, the more likely you will need resizing or cropping in addition to compression.`}
             </p>
           </div>
         </section>
 
         <section className="rounded-2xl border border-border bg-card p-6">
           <h2 className="text-xl font-semibold mb-3">
-            How to Compress Image to {entry.label} Without Losing Quality
+            {`How to Compress Image to ${entry.label} Without Losing Quality`}
           </h2>
           <div className="space-y-3 text-sm leading-7 text-muted-foreground">
             <p>
-              The cleanest way to hit {entry.label} is to treat it as a
-              file-size target, not just a slider setting. Start by using the
-              smallest image dimensions that still fit your final use case. Then
-              apply compression in a format that suits the image type.
+              {`The cleanest way to hit ${entry.label} is to treat it as a file-size target, not just a slider setting. Start by using the smallest image dimensions that still fit your final use case. Then apply compression in a format that suits the image type.`}
             </p>
             {entry.howTo.map((tip) => (
               <p key={tip}>{tip}</p>
@@ -250,7 +245,7 @@ export default async function Page({
 
         <section className="bg-card">
           <h2 className="text-xl font-semibold mb-3">
-            Best Use Cases for {entry.label} Images
+            {`Best Use Cases for ${entry.label} Images`}
           </h2>
           <div className="grid gap-4 md:grid-cols-3">
             {content.useCases.map((useCase) => (
@@ -266,15 +261,11 @@ export default async function Page({
 
         <section className="rounded-2xl border border-border bg-card p-6">
           <h2 className="text-xl font-semibold mb-3">
-            Resize vs Compress to {entry.label}
+            {`Resize vs Compress to ${entry.label}`}
           </h2>
           <div className="space-y-3 text-sm leading-7 text-muted-foreground">
             <p>
-              Compression reduces file weight, while resizing changes the actual
-              image dimensions. If your goal is to meet a strict upload rule
-              like {entry.label}, compression should usually be the first step.
-              But if the original image is extremely large, resizing can make
-              the target much easier to reach.
+              {`Compression reduces file weight, while resizing changes the actual image dimensions. If your goal is to meet a strict upload rule like ${entry.label}, compression should usually be the first step. But if the original image is extremely large, resizing can make the target much easier to reach.`}
             </p>
             <p>
               A practical workflow is: compress first, then resize if needed,
@@ -290,9 +281,7 @@ export default async function Page({
             Build a Better Compression Workflow
           </h2>
           <p className="text-sm leading-7 text-muted-foreground">
-            If one pass does not get your image close enough to {entry.label},
-            move through the rest of the toolkit instead of forcing extreme
-            compression. Start with{" "}
+            {`If one pass does not get your image close enough to ${entry.label}, move through the rest of the toolkit instead of forcing extreme compression. Start with`}{" "}
             <Link
               href="/compress-image"
               className="font-medium text-primary hover:text-primary/80"
