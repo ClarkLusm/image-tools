@@ -21,6 +21,7 @@ import {
 } from "@/lib/image-tools-api";
 import { downloadZip } from "@/lib/zip-utils";
 import { useImageWorker } from "@/app/hooks/use-image-worker";
+import { pickText } from "@/lib/localized-text";
 
 type WorkerConvertTask =
   | "convert-to-jpg"
@@ -77,8 +78,6 @@ function ManualFormatConvertClient({
   note,
 }: ManualFormatConvertClientProps) {
   const locale = useLocale();
-  const isVietnamese = locale === "vi";
-  const isGerman = locale === "de";
   const [files, setFiles] = useState<File[]>([]);
   const [results, setResults] = useState<ManualResultItem[]>([]);
   const [status, setStatus] = useState<"idle" | "processing" | "done">(
@@ -155,22 +154,22 @@ function ManualFormatConvertClient({
                     <div className="mb-6 flex items-center gap-4">
                       <SlidersHorizontal className="h-5 w-5 text-primary" />
                       <h3 className="font-semibold text-lg">
-                        {isVietnamese
-                          ? "Cài đặt chất lượng"
-                          : isGerman
-                            ? "Qualitätseinstellungen"
-                            : "Quality Settings"}
+                        {pickText(locale, {
+                          en: "Quality Settings",
+                          vi: "Cài đặt chất lượng",
+                          de: "Qualitätseinstellungen",
+                        })}
                       </h3>
                     </div>
 
                     <div className="space-y-4">
                       <div className="flex justify-between">
                         <label className="text-sm font-medium">
-                          {isVietnamese
-                            ? "Chất lượng"
-                            : isGerman
-                              ? "Qualität"
-                              : "Quality"}
+                          {pickText(locale, {
+                            en: "Quality",
+                            vi: "Chất lượng",
+                            de: "Qualität",
+                          })}
                         </label>
                         <span className="text-sm text-muted-foreground">
                           {Math.round(quality * 100)}%
@@ -203,14 +202,22 @@ function ManualFormatConvertClient({
                   {isProcessing || status === "processing" ? (
                     <>
                       <Loader2 className="h-5 w-5 animate-spin" />{" "}
-                      {isVietnamese
-                        ? "Đang chuyển đổi trong nền..."
-                        : isGerman
-                          ? "Wird im Hintergrund konvertiert..."
-                        : "Converting in background..."}
+                      {pickText(locale, {
+                        en: "Converting in background...",
+                        vi: "Đang chuyển đổi trong nền...",
+                        de: "Wird im Hintergrund konvertiert...",
+                      })}
                     </>
                   ) : (
-                    `${buttonLabel ?? (isVietnamese ? "Chuyển đổi" : isGerman ? "Konvertieren" : "Convert")}${files.length > 1 ? ` (${files.length} ${isVietnamese ? "tệp" : isGerman ? "Dateien" : "files"})` : ""}`
+                    `${buttonLabel ?? (pickText(locale, {
+                      en: "Convert",
+                      vi: "Chuyển đổi",
+                      de: "Konvertieren",
+                    }))}${files.length > 1 ? ` (${files.length} ${pickText(locale, {
+                      en: "files",
+                      vi: "tệp",
+                      de: "Dateien",
+                    })})` : ""}`
                   )}
                 </button>
               </div>
@@ -232,18 +239,18 @@ function ManualFormatConvertClient({
             <Download className="h-8 w-8" />
           </div>
           <h3 className="mb-2 text-2xl font-bold">
-            {isVietnamese
-              ? "Chuyển đổi hoàn tất!"
-              : isGerman
-                ? "Konvertierung abgeschlossen!"
-                : "Conversion Complete!"}
+            {pickText(locale, {
+              en: "Conversion Complete!",
+              vi: "Chuyển đổi hoàn tất!",
+              de: "Konvertierung abgeschlossen!",
+            })}
           </h3>
           <p className="mb-6 text-muted-foreground">
-            {isVietnamese
-              ? `Đã chuyển đổi ${results.length} tệp.`
-              : isGerman
-                ? `${results.length} Datei${results.length > 1 ? "en" : ""} konvertiert.`
-              : `Converted ${results.length} file${results.length > 1 ? "s" : ""}.`}
+            {pickText(locale, {
+              en: `Converted ${results.length} file${results.length > 1 ? "s" : ""}.`,
+              vi: `Đã chuyển đổi ${results.length} tệp.`,
+              de: `${results.length} Datei${results.length > 1 ? "en" : ""} konvertiert.`,
+            })}
           </p>
 
           <div className="mb-6 space-y-3">
@@ -264,11 +271,11 @@ function ManualFormatConvertClient({
                   onClick={() => handleDownload(item)}
                   className="rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-white shadow transition-all hover:shadow-md"
                 >
-                  {isVietnamese
-                    ? "Tải xuống"
-                    : isGerman
-                      ? "Herunterladen"
-                      : "Download"}
+                  {pickText(locale, {
+                    en: "Download",
+                    vi: "Tải xuống",
+                    de: "Herunterladen",
+                  })}
                 </button>
               </div>
             ))}
@@ -282,22 +289,22 @@ function ManualFormatConvertClient({
                 }}
                 className="rounded-xl bg-primary px-8 py-4 font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
               >
-                {isVietnamese
-                  ? "Tải xuống tất cả"
-                  : isGerman
-                    ? "Alle herunterladen"
-                    : "Download All"}
+                {pickText(locale, {
+                  en: "Download All",
+                  vi: "Tải xuống tất cả",
+                  de: "Alle herunterladen",
+                })}
               </button>
             ) : (
               <button
                 onClick={() => handleDownload(results[0])}
                 className="rounded-xl bg-primary px-8 py-4 font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
               >
-                {isVietnamese
-                  ? "Tải ảnh xuống"
-                  : isGerman
-                    ? "Bild herunterladen"
-                    : "Download Image"}
+                {pickText(locale, {
+                  en: "Download Image",
+                  vi: "Tải ảnh xuống",
+                  de: "Bild herunterladen",
+                })}
               </button>
             )}
             <button
@@ -308,11 +315,11 @@ function ManualFormatConvertClient({
               }}
               className="rounded-xl border border-border bg-white px-8 py-4 font-bold text-foreground shadow-sm transition-all hover:bg-secondary"
             >
-              {isVietnamese
-                ? "Chuyển ảnh khác"
-                : isGerman
-                  ? "Weitere Datei konvertieren"
-                  : "Convert Another"}
+              {pickText(locale, {
+                en: "Convert Another",
+                vi: "Chuyển ảnh khác",
+                de: "Weitere Datei konvertieren",
+              })}
             </button>
           </div>
         </motion.div>
@@ -331,8 +338,6 @@ function AutoFormatConvertClient({
   note,
 }: FormatConvertClientProps) {
   const locale = useLocale();
-  const isVietnamese = locale === "vi";
-  const isGerman = locale === "de";
   const [items, setItems] = useState<AutoConversionItem[]>([]);
   const [status, setStatus] = useState<"idle" | "processing" | "done">("idle");
   const [quality, setQuality] = useState(qualityDefault);
@@ -401,11 +406,11 @@ function AutoFormatConvertClient({
 
       if (!downloadUrl) {
         throw new Error(
-          isVietnamese
-            ? "Tệp SVG đầu ra hiện chưa sẵn sàng."
-            : isGerman
-              ? "Die SVG-Ausgabe ist noch nicht verfügbar."
-            : "The SVG output is not available yet.",
+          pickText(locale, {
+            en: "The SVG output is not available yet.",
+            vi: "Tệp SVG đầu ra hiện chưa sẵn sàng.",
+            de: "Die SVG-Ausgabe ist noch nicht verfügbar.",
+          }),
         );
       }
 
@@ -420,11 +425,11 @@ function AutoFormatConvertClient({
 
     if (!blob) {
       throw new Error(
-        isVietnamese
-          ? "Chuyển đổi thất bại. Vui lòng thử ảnh khác."
-          : isGerman
-            ? "Die Konvertierung ist fehlgeschlagen. Bitte versuche es mit einem anderen Bild."
-          : "Conversion failed. Please try another image.",
+        pickText(locale, {
+          en: "Conversion failed. Please try another image.",
+          vi: "Chuyển đổi thất bại. Vui lòng thử ảnh khác.",
+          de: "Die Konvertierung ist fehlgeschlagen. Bitte versuche es mit einem anderen Bild.",
+        }),
       );
     }
 
@@ -483,11 +488,11 @@ function AutoFormatConvertClient({
           error:
             error instanceof Error
               ? error.message
-              : isVietnamese
-                ? "Chuyển đổi thất bại. Vui lòng thử ảnh khác."
-                : isGerman
-                  ? "Die Konvertierung ist fehlgeschlagen. Bitte versuche es mit einem anderen Bild."
-                : "Conversion failed. Please try another image.",
+              : pickText(locale, {
+                en: "Conversion failed. Please try another image.",
+                vi: "Chuyển đổi thất bại. Vui lòng thử ảnh khác.",
+                de: "Die Konvertierung ist fehlgeschlagen. Bitte versuche es mit einem anderen Bild.",
+              }),
         }));
       }
     }
@@ -530,18 +535,18 @@ function AutoFormatConvertClient({
         <SlidersHorizontal className="h-5 w-5 text-primary" />
         <div>
           <h3 className="font-semibold text-lg">
-            {isVietnamese
-              ? "Cài đặt chất lượng"
-              : isGerman
-                ? "Qualitätseinstellungen"
-                : "Quality Settings"}
+            {pickText(locale, {
+              en: "Quality Settings",
+              vi: "Cài đặt chất lượng",
+              de: "Qualitätseinstellungen",
+            })}
           </h3>
           <p className="text-xs text-muted-foreground">
-            {isVietnamese
-              ? `Chất lượng hiện tại ${Math.round(quality * 100)}%`
-              : isGerman
-                ? `Aktuelle Qualität ${Math.round(quality * 100)}%`
-              : `Current quality ${Math.round(quality * 100)}%`}
+            {pickText(locale, {
+              en: `Current quality ${Math.round(quality * 100)}%`,
+              vi: `Chất lượng hiện tại ${Math.round(quality * 100)}%`,
+              de: `Aktuelle Qualität ${Math.round(quality * 100)}%`,
+            })}
           </p>
         </div>
       </div>
@@ -549,11 +554,11 @@ function AutoFormatConvertClient({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <label className="text-sm font-medium">
-            {isVietnamese
-              ? "Chất lượng"
-              : isGerman
-                ? "Qualität"
-                : "Quality"}
+            {pickText(locale, {
+              en: "Quality",
+              vi: "Chất lượng",
+              de: "Qualität",
+            })}
           </label>
           <span className="text-sm text-muted-foreground">
             {Math.round(quality * 100)}%
@@ -582,11 +587,11 @@ function AutoFormatConvertClient({
           : "border-border bg-white/95 text-foreground hover:bg-secondary"
       }`}
       aria-label={
-        isVietnamese
-          ? "Bật hoặc tắt cài đặt chất lượng"
-          : isGerman
-            ? "Qualitätseinstellungen ein- oder ausblenden"
-            : "Toggle quality settings"
+        pickText(locale, {
+          en: "Toggle quality settings",
+          vi: "Bật hoặc tắt cài đặt chất lượng",
+          de: "Qualitätseinstellungen ein- oder ausblenden",
+        })
       }
       aria-pressed={isSettingsOpen}
     >
@@ -652,16 +657,16 @@ function AutoFormatConvertClient({
               <div>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
                   {processingCount > 0
-                    ? isVietnamese
-                      ? `${doneItems.length}/${items.length} tệp đã xong. Các tệp còn lại vẫn đang xử lý.`
-                      : isGerman
-                        ? `${doneItems.length} von ${items.length} Dateien sind fertig. Die übrigen werden noch verarbeitet.`
-                      : `${doneItems.length} of ${items.length} files finished. The rest are still processing.`
-                    : isVietnamese
-                      ? `${doneItems.length} tệp đã được chuyển đổi thành công.${failedCount > 0 ? ` ${failedCount} tệp thất bại.` : ""}`
-                      : isGerman
-                        ? `${doneItems.length} Datei${doneItems.length > 1 ? "en wurden" : " wurde"} erfolgreich konvertiert.${failedCount > 0 ? ` ${failedCount} Datei${failedCount > 1 ? "en sind" : " ist"} fehlgeschlagen.` : ""}`
-                      : `${doneItems.length} file${doneItems.length > 1 ? "s" : ""} converted successfully.${failedCount > 0 ? ` ${failedCount} file${failedCount > 1 ? "s" : ""} failed.` : ""}`}
+                    ? pickText(locale, {
+                      en: `${doneItems.length} of ${items.length} files finished. The rest are still processing.`,
+                      vi: `${doneItems.length}/${items.length} tệp đã xong. Các tệp còn lại vẫn đang xử lý.`,
+                      de: `${doneItems.length} von ${items.length} Dateien sind fertig. Die übrigen werden noch verarbeitet.`,
+                    })
+                    : pickText(locale, {
+                      en: `${doneItems.length} file${doneItems.length > 1 ? "s" : ""} converted successfully.${failedCount > 0 ? ` ${failedCount} file${failedCount > 1 ? "s" : ""} failed.` : ""}`,
+                      vi: `${doneItems.length} tệp đã được chuyển đổi thành công.${failedCount > 0 ? ` ${failedCount} tệp thất bại.` : ""}`,
+                      de: `${doneItems.length} Datei${doneItems.length > 1 ? "en wurden" : " wurde"} erfolgreich konvertiert.${failedCount > 0 ? ` ${failedCount} Datei${failedCount > 1 ? "en sind" : " ist"} fehlgeschlagen.` : ""}`,
+                    })}
                 </p>
               </div>
 
@@ -675,11 +680,11 @@ function AutoFormatConvertClient({
                     className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-[0_16px_36px_rgba(37,99,235,0.24)] transition-transform hover:-translate-y-0.5"
                   >
                     <Download className="h-4 w-4" />
-                    {isVietnamese
-                      ? "Tải xuống tất cả"
-                      : isGerman
-                        ? "Alle herunterladen"
-                        : "Download All"}
+                    {pickText(locale, {
+                      en: "Download All",
+                      vi: "Tải xuống tất cả",
+                      de: "Alle herunterladen",
+                    })}
                   </button>
                 )}
               </div>
@@ -739,22 +744,22 @@ function AutoFormatConvertClient({
                         <Loader2 className="h-4 w-4 animate-spin" />
                       )}
                       {item.status === "done"
-                        ? isVietnamese
-                          ? "Sẵn sàng"
-                          : isGerman
-                            ? "Bereit"
-                          : "Ready"
+                        ? pickText(locale, {
+                          en: "Ready",
+                          vi: "Sẵn sàng",
+                          de: "Bereit",
+                        })
                         : item.status === "failed"
-                          ? isVietnamese
-                            ? "Thất bại"
-                            : isGerman
-                              ? "Fehlgeschlagen"
-                            : "Failed"
-                          : isVietnamese
-                            ? "Đang chuyển đổi"
-                            : isGerman
-                              ? "Wird konvertiert"
-                            : "Converting"}
+                          ? pickText(locale, {
+                            en: "Failed",
+                            vi: "Thất bại",
+                            de: "Fehlgeschlagen",
+                          })
+                          : pickText(locale, {
+                            en: "Converting",
+                            vi: "Đang chuyển đổi",
+                            de: "Wird konvertiert",
+                          })}
                     </div>
 
                     {item.blob && (
@@ -764,11 +769,11 @@ function AutoFormatConvertClient({
                         className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(37,99,235,0.2)] transition-transform hover:-translate-y-0.5"
                       >
                         <Download className="h-4 w-4" />
-                        {isVietnamese
-                          ? "Tải xuống"
-                          : isGerman
-                            ? "Herunterladen"
-                            : "Download"}
+                        {pickText(locale, {
+                          en: "Download",
+                          vi: "Tải xuống",
+                          de: "Herunterladen",
+                        })}
                       </button>
                     )}
                   </div>

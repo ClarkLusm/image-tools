@@ -75,3 +75,19 @@ test("sitemap and robots are served", async ({ request }) => {
   expect(robots.ok()).toBe(true);
   expect(await robots.text()).toContain("Sitemap:");
 });
+
+test.describe("client tool UI is localized", () => {
+  const cases = [
+    { path: "/compress-image", texts: { en: "Compression Settings", vi: "Cài đặt nén", de: "Komprimierungseinstellungen" } },
+    { path: "/upscale-image", texts: { en: "Upscale Settings", vi: "Thiết lập tăng độ phân giải", de: "Einstellungen für die Vergrößerung" } },
+  ] as const;
+
+  for (const { path, texts } of cases) {
+    for (const locale of LOCALES) {
+      test(`${locale.prefix}${path} shows ${locale.code} labels`, async ({ page }) => {
+        await page.goto(`${locale.prefix}${path}`);
+        await expect(page.getByText(texts[locale.code], { exact: false }).first()).toBeVisible();
+      });
+    }
+  }
+});

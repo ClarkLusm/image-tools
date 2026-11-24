@@ -15,6 +15,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { formatBytes } from "@/lib/image-utils";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { pickText } from "@/lib/localized-text";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -61,15 +62,13 @@ export function UploaderCore({
   topRightAction,
 }: UploaderProps) {
   const locale = useLocale();
-  const isVietnamese = locale === "vi";
-  const isGerman = locale === "de";
   const resolvedPreviewLabel =
     previewLabel ??
-    (isVietnamese
-      ? "Xem trước ảnh tải lên"
-      : isGerman
-        ? "Upload-Vorschau"
-        : "Upload Preview");
+    (pickText(locale, {
+      en: "Upload Preview",
+      vi: "Xem trước ảnh tải lên",
+      de: "Upload-Vorschau",
+    }));
   const [error, setError] = useState<string | null>(null);
   const [previews, setPreviews] = useState<
     { url: string; name: string; size: number }[]
@@ -109,39 +108,39 @@ export function UploaderCore({
       if (rejection.errors[0]?.code === "file-too-large") {
         setError(
           acceptedFiles.length > 0
-            ? isVietnamese
-              ? `Một số tệp đã bị bỏ qua. Kích thước tối đa là ${maxSizeMB}MB cho mỗi tệp.`
-              : isGerman
-                ? `Einige Dateien wurden übersprungen. Die maximale Größe beträgt ${maxSizeMB}MB pro Datei.`
-              : `Some files were skipped. Max size is ${maxSizeMB}MB per file.`
-            : isVietnamese
-              ? `Tệp quá lớn. Kích thước tối đa là ${maxSizeMB}MB.`
-              : isGerman
-                ? `Die Datei ist zu groß. Die maximale Größe beträgt ${maxSizeMB}MB.`
-              : `File is too large. Max size is ${maxSizeMB}MB.`,
+            ? pickText(locale, {
+              en: `Some files were skipped. Max size is ${maxSizeMB}MB per file.`,
+              vi: `Một số tệp đã bị bỏ qua. Kích thước tối đa là ${maxSizeMB}MB cho mỗi tệp.`,
+              de: `Einige Dateien wurden übersprungen. Die maximale Größe beträgt ${maxSizeMB}MB pro Datei.`,
+            })
+            : pickText(locale, {
+              en: `File is too large. Max size is ${maxSizeMB}MB.`,
+              vi: `Tệp quá lớn. Kích thước tối đa là ${maxSizeMB}MB.`,
+              de: `Die Datei ist zu groß. Die maximale Größe beträgt ${maxSizeMB}MB.`,
+            }),
         );
       } else if (rejection.errors[0]?.code === "file-invalid-type") {
         setError(
           acceptedFiles.length > 0
-            ? isVietnamese
-              ? "Một số tệp đã bị bỏ qua vì định dạng không được hỗ trợ."
-              : isGerman
-                ? "Einige Dateien wurden übersprungen, weil das Format nicht unterstützt wird."
-              : "Some files were skipped because the format is not supported."
-            : isVietnamese
-              ? "Định dạng tệp không được hỗ trợ. Vui lòng tải lên một hình ảnh."
-              : isGerman
-                ? "Nicht unterstütztes Dateiformat. Bitte lade ein Bild hoch."
-              : "Unsupported file format. Please upload an image.",
+            ? pickText(locale, {
+              en: "Some files were skipped because the format is not supported.",
+              vi: "Một số tệp đã bị bỏ qua vì định dạng không được hỗ trợ.",
+              de: "Einige Dateien wurden übersprungen, weil das Format nicht unterstützt wird.",
+            })
+            : pickText(locale, {
+              en: "Unsupported file format. Please upload an image.",
+              vi: "Định dạng tệp không được hỗ trợ. Vui lòng tải lên một hình ảnh.",
+              de: "Nicht unterstütztes Dateiformat. Bitte lade ein Bild hoch.",
+            }),
         );
       } else {
         setError(
           rejection.errors[0]?.message ||
-            (isVietnamese
-              ? "Tải tệp lên thất bại."
-              : isGerman
-                ? "Datei konnte nicht hochgeladen werden."
-              : "Failed to upload file."),
+            (pickText(locale, {
+              en: "Failed to upload file.",
+              vi: "Tải tệp lên thất bại.",
+              de: "Datei konnte nicht hochgeladen werden.",
+            })),
         );
       }
     }
@@ -215,45 +214,45 @@ export function UploaderCore({
         <UploadCloud className="h-10 w-10" />
       </div>
       <h3 className="mb-2 text-xl font-display font-semibold text-foreground">
-        {isVietnamese
-          ? "Kéo và thả ảnh của bạn vào đây"
-          : isGerman
-            ? "Ziehe dein Bild hierher"
-          : "Drag & drop your image here"}
+        {pickText(locale, {
+          en: "Drag & drop your image here",
+          vi: "Kéo và thả ảnh của bạn vào đây",
+          de: "Ziehe dein Bild hierher",
+        })}
       </h3>
       <p className="mb-6 text-muted-foreground">
-        {isVietnamese
-          ? "hoặc bấm để chọn từ thiết bị của bạn"
-          : isGerman
-            ? "oder klicke, um es von deinem Gerät auszuwählen"
-          : "or click to browse from your device"}
+        {pickText(locale, {
+          en: "or click to browse from your device",
+          vi: "hoặc bấm để chọn từ thiết bị của bạn",
+          de: "oder klicke, um es von deinem Gerät auszuwählen",
+        })}
       </p>
       <div className="flex flex-wrap justify-center gap-3 text-xs font-medium text-muted-foreground/80">
         {maxFiles == 0 && (
           <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1">
-            {isVietnamese
-              ? "Không giới hạn số tệp"
-              : isGerman
-                ? "Keine Dateibegrenzung"
-                : "No file limit"}
+            {pickText(locale, {
+              en: "No file limit",
+              vi: "Không giới hạn số tệp",
+              de: "Keine Dateibegrenzung",
+            })}
           </span>
         )}
         {maxTotal > 0 ? (
           <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1">
-            {isVietnamese
-              ? `Tổng ${maxTotal}MB cho mỗi lần tải lên`
-              : isGerman
-                ? `${maxTotal}MB insgesamt pro Upload`
-              : `${maxTotal}MB total per upload`}
+            {pickText(locale, {
+              en: `${maxTotal}MB total per upload`,
+              vi: `Tổng ${maxTotal}MB cho mỗi lần tải lên`,
+              de: `${maxTotal}MB insgesamt pro Upload`,
+            })}
           </span>
         ) : null}
         <span className="flex items-center gap-1 rounded-full bg-secondary px-3 py-1">
           <ImageIcon className="h-3 w-3" />
-          {isVietnamese
-            ? `Tối đa ${maxSizeMB}MB${maxFiles == 0 ? " mỗi tệp" : ""}`
-            : isGerman
-              ? `Max. ${maxSizeMB}MB${maxFiles == 0 ? " pro Datei" : ""}`
-            : `Max ${maxSizeMB}MB${maxFiles == 0 ? " each" : ""}`}
+          {pickText(locale, {
+            en: `Max ${maxSizeMB}MB${maxFiles == 0 ? " each" : ""}`,
+            vi: `Tối đa ${maxSizeMB}MB${maxFiles == 0 ? " mỗi tệp" : ""}`,
+            de: `Max. ${maxSizeMB}MB${maxFiles == 0 ? " pro Datei" : ""}`,
+          })}
         </span>
         {acceptedFormatLabels.length > 0 ? (
           <span className="rounded-full bg-secondary px-3 py-1">
@@ -279,11 +278,11 @@ export function UploaderCore({
             <div className="flex items-center gap-2 font-medium text-primary">
               <CheckCircle2 className="h-5 w-5" />
               <span>
-                {isVietnamese
-                  ? `${previews.length} tệp sẵn sàng`
-                  : isGerman
-                    ? `${previews.length} Datei${previews.length > 1 ? "en" : ""} bereit`
-                  : `${previews.length} file${previews.length > 1 ? "s" : ""} ready`}
+                {pickText(locale, {
+                  en: `${previews.length} file${previews.length > 1 ? "s" : ""} ready`,
+                  vi: `${previews.length} tệp sẵn sàng`,
+                  de: `${previews.length} Datei${previews.length > 1 ? "en" : ""} bereit`,
+                })}
               </span>
             </div>
           </div>
@@ -297,11 +296,11 @@ export function UploaderCore({
               }}
             >
               <RefreshCcw className="h-4 w-4" />
-              {isVietnamese
-                ? `Chọn ${previews.length > 1 ? "các ảnh khác" : "ảnh khác"}`
-                : isGerman
-                  ? `Andere${previews.length > 1 ? " Bilder" : "s Bild"} wählen`
-                : `Select different image${previews.length > 1 ? "s" : ""}`}
+              {pickText(locale, {
+                en: `Select different image${previews.length > 1 ? "s" : ""}`,
+                vi: `Chọn ${previews.length > 1 ? "các ảnh khác" : "ảnh khác"}`,
+                de: `Andere${previews.length > 1 ? " Bilder" : "s Bild"} wählen`,
+              })}
             </button>
           )}
         </div>

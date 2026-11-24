@@ -18,6 +18,7 @@ import {
   resolveSingleJobDownloadUrl,
   waitForImageToolsJobCompletion,
 } from "@/lib/image-tools-api";
+import { pickText } from "@/lib/localized-text";
 
 const SCALE_OPTIONS = [
   {
@@ -36,7 +37,6 @@ const SCALE_OPTIONS = [
 
 export default function UpscaleImageClient() {
   const locale = useLocale();
-  const isVietnamese = locale === "vi";
   const [file, setFile] = useState<File | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [scale, setScale] = useState<2 | 4 | 8>(4);
@@ -118,9 +118,11 @@ export default function UpscaleImageClient() {
 
       if (!downloadUrl) {
         throw new Error(
-          isVietnamese
-            ? "Quá trình tăng độ phân giải đã hoàn tất nhưng không có tệp để tải xuống."
-            : "Upscale job completed without a downloadable file.",
+          pickText(locale, {
+            en: "Upscale job completed without a downloadable file.",
+            vi: "Quá trình tăng độ phân giải đã hoàn tất nhưng không có tệp để tải xuống.",
+            de: "Der Vergrößerungsauftrag wurde ohne herunterladbare Datei abgeschlossen.",
+          }),
         );
       }
 
@@ -135,9 +137,11 @@ export default function UpscaleImageClient() {
       setError(
         err instanceof Error
           ? err.message
-          : isVietnamese
-            ? "Tăng độ phân giải thất bại."
-            : "Upscale failed.",
+          : pickText(locale, {
+            en: "Upscale failed.",
+            vi: "Tăng độ phân giải thất bại.",
+            de: "Vergrößerung fehlgeschlagen.",
+          }),
       );
     } finally {
       if (activeRequestRef.current === abortController) {
@@ -175,7 +179,11 @@ export default function UpscaleImageClient() {
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="text-sm font-medium text-foreground">
-                      {isVietnamese ? "Xem trước ảnh gốc" : "Source preview"}
+                      {pickText(locale, {
+                        en: "Source preview",
+                        vi: "Xem trước ảnh gốc",
+                        de: "Vorschau des Originals",
+                      })}
                     </p>
                     <p className="mt-1 text-sm text-muted-foreground">
                       {file.name}
@@ -189,7 +197,11 @@ export default function UpscaleImageClient() {
                   <div className="flex items-center justify-center rounded-[1.5rem] bg-white p-4">
                     <img
                       src={beforeUrl}
-                      alt={isVietnamese ? "Xem trước ảnh gốc" : "Source preview"}
+                      alt={pickText(locale, {
+                        en: "Source preview",
+                        vi: "Xem trước ảnh gốc",
+                        de: "Vorschau des Originals",
+                      })}
                       className="max-h-[420px] w-auto rounded-xl object-contain"
                     />
                   </div>
@@ -200,7 +212,11 @@ export default function UpscaleImageClient() {
                   disabled={isPending}
                   className="rounded-xl border border-border bg-white px-5 py-3 font-semibold text-foreground shadow-sm transition-all hover:bg-secondary disabled:opacity-50"
                 >
-                  {isVietnamese ? "Chọn ảnh khác" : "Select Different Image"}
+                  {pickText(locale, {
+                    en: "Select Different Image",
+                    vi: "Chọn ảnh khác",
+                    de: "Anderes Bild auswählen",
+                  })}
                 </button>
               </div>
             ) : (
@@ -229,9 +245,11 @@ export default function UpscaleImageClient() {
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-foreground">
-                  {isVietnamese
-                    ? "Thiết lập tăng độ phân giải"
-                    : "Upscale Settings"}
+                  {pickText(locale, {
+                    en: "Upscale Settings",
+                    vi: "Thiết lập tăng độ phân giải",
+                    de: "Einstellungen für die Vergrößerung",
+                  })}
                 </h3>
               </div>
             </div>
@@ -239,7 +257,11 @@ export default function UpscaleImageClient() {
             <div className="space-y-6">
               <div>
                 <p className="mb-3 text-base font-semibold text-foreground">
-                  {isVietnamese ? "Mức phóng to" : "Upscale Factor"}
+                  {pickText(locale, {
+                    en: "Upscale Factor",
+                    vi: "Mức phóng to",
+                    de: "Vergrößerungsfaktor",
+                  })}
                 </p>
                 <div className="grid grid-cols-3 gap-3">
                   {SCALE_OPTIONS.map((option) => {
@@ -266,7 +288,11 @@ export default function UpscaleImageClient() {
 
               <div>
                 <p className="mb-3 text-base font-semibold text-foreground">
-                  {isVietnamese ? "Mô hình AI" : "AI Model"}
+                  {pickText(locale, {
+                    en: "AI Model",
+                    vi: "Mô hình AI",
+                    de: "KI-Modell",
+                  })}
                 </p>
                 <div className="space-y-3">
                   <button
@@ -284,12 +310,18 @@ export default function UpscaleImageClient() {
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-base font-semibold text-foreground">
-                        {isVietnamese ? "Cân bằng tiêu chuẩn" : "Standard Balance"}
+                        {pickText(locale, {
+                          en: "Standard Balance",
+                          vi: "Cân bằng tiêu chuẩn",
+                          de: "Standard (ausgewogen)",
+                        })}
                       </p>
                       <p className="mt-0.5 text-xs leading-5 text-muted-foreground">
-                        {isVietnamese
-                          ? "Phù hợp nhất cho ảnh sản phẩm, ảnh chụp màn hình, logo và ảnh thông thường."
-                          : "Best for products, screenshots, logos, and general images."}
+                        {pickText(locale, {
+                          en: "Best for products, screenshots, logos, and general images.",
+                          vi: "Phù hợp nhất cho ảnh sản phẩm, ảnh chụp màn hình, logo và ảnh thông thường.",
+                          de: "Am besten für Produkte, Screenshots, Logos und allgemeine Bilder.",
+                        })}
                       </p>
                     </div>
                     {!faceEnhance && (
@@ -312,14 +344,18 @@ export default function UpscaleImageClient() {
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-base font-semibold text-foreground">
-                        {isVietnamese
-                          ? "Chân dung (Tăng cường khuôn mặt)"
-                          : "Portrait (Face Enhance)"}
+                        {pickText(locale, {
+                          en: "Portrait (Face Enhance)",
+                          vi: "Chân dung (Tăng cường khuôn mặt)",
+                          de: "Porträt (Gesichtsverbesserung)",
+                        })}
                       </p>
                       <p className="mt-0.5 text-xs leading-5 text-muted-foreground">
-                        {isVietnamese
-                          ? "Cải thiện khuôn mặt và chi tiết da cho ảnh selfie và ảnh chân dung."
-                          : "Improves faces and skin detail for selfies and portraits."}
+                        {pickText(locale, {
+                          en: "Improves faces and skin detail for selfies and portraits.",
+                          vi: "Cải thiện khuôn mặt và chi tiết da cho ảnh selfie và ảnh chân dung.",
+                          de: "Verbessert Gesichter und Hautdetails bei Selfies und Porträts.",
+                        })}
                       </p>
                     </div>
                     {faceEnhance && (
@@ -333,9 +369,11 @@ export default function UpscaleImageClient() {
                 <div className="space-y-2 rounded-xl border border-border bg-secondary/40 p-3.5">
                   <div className="flex items-center justify-between text-sm text-muted-foreground">
                     <span>
-                      {isVietnamese
-                        ? "Đang tăng độ phân giải"
-                        : "Processing upscale job"}
+                      {pickText(locale, {
+                        en: "Processing upscale job",
+                        vi: "Đang tăng độ phân giải",
+                        de: "Vergrößerungsauftrag wird verarbeitet",
+                      })}
                     </span>
                     <span>{progress}%</span>
                   </div>
@@ -357,16 +395,20 @@ export default function UpscaleImageClient() {
                 {isPending ? (
                   <>
                     <Loader2 className="h-5 w-5 animate-spin" />
-                    {isVietnamese
-                      ? "Đang tăng độ phân giải..."
-                      : "Upscaling..."}
+                    {pickText(locale, {
+                      en: "Upscaling...",
+                      vi: "Đang tăng độ phân giải...",
+                      de: "Wird vergrößert...",
+                    })}
                   </>
                 ) : (
                   <>
                     <Sparkles className="h-5 w-5" />
-                    {isVietnamese
-                      ? `Tăng độ phân giải ${scale}x`
-                      : `Upscale ${scale}x`}
+                    {pickText(locale, {
+                      en: `Upscale ${scale}x`,
+                      vi: `Tăng độ phân giải ${scale}x`,
+                      de: `${scale}x vergrößern`,
+                    })}
                   </>
                 )}
               </button>
@@ -385,13 +427,23 @@ export default function UpscaleImageClient() {
             <Download className="h-8 w-8" />
           </div>
           <h3 className="mb-2 text-2xl font-bold">
-            {isVietnamese
-              ? "Tăng độ phân giải hoàn tất"
-              : "Upscale complete"}
+            {pickText(locale, {
+              en: "Upscale complete",
+              vi: "Tăng độ phân giải hoàn tất",
+              de: "Vergrößerung abgeschlossen",
+            })}
           </h3>
           <p className="mb-6 text-muted-foreground">
-            {isVietnamese ? "Đã xuất ở mức" : "Exported at"} {scale}x{" "}
-            {isVietnamese ? "với dung lượng" : "with file size"}{" "}
+            {pickText(locale, {
+              en: "Exported at",
+              vi: "Đã xuất ở mức",
+              de: "Exportiert mit",
+            })} {scale}x{" "}
+            {pickText(locale, {
+              en: "with file size",
+              vi: "với dung lượng",
+              de: "bei einer Dateigröße von",
+            })}{" "}
             <span className="font-semibold">
               {formatBytes(resultBlob.size)}
             </span>
@@ -403,9 +455,11 @@ export default function UpscaleImageClient() {
               <img
                 src={afterUrl}
                 alt={
-                  isVietnamese
-                    ? "Xem trước kết quả tăng độ phân giải"
-                    : "Upscaled result preview"
+                  pickText(locale, {
+                    en: "Upscaled result preview",
+                    vi: "Xem trước kết quả tăng độ phân giải",
+                    de: "Vorschau des vergrößerten Ergebnisses",
+                  })
                 }
                 className="max-h-[28rem] w-auto rounded-xl object-contain"
               />
@@ -417,15 +471,21 @@ export default function UpscaleImageClient() {
               onClick={handleDownload}
               className="rounded-xl bg-primary px-8 py-4 font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
             >
-              {isVietnamese ? "Tải ảnh xuống" : "Download Image"}
+              {pickText(locale, {
+                en: "Download Image",
+                vi: "Tải ảnh xuống",
+                de: "Bild herunterladen",
+              })}
             </button>
             <button
               onClick={resetTool}
               className="rounded-xl border border-border bg-white px-8 py-4 font-bold text-foreground shadow-sm transition-all hover:bg-secondary"
             >
-              {isVietnamese
-                ? "Tăng độ phân giải ảnh khác"
-                : "Upscale Another"}
+              {pickText(locale, {
+                en: "Upscale Another",
+                vi: "Tăng độ phân giải ảnh khác",
+                de: "Weiteres Bild vergrößern",
+              })}
             </button>
           </div>
         </motion.section>

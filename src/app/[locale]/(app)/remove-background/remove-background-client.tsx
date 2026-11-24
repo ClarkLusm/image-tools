@@ -8,10 +8,10 @@ import { Uploader } from "@/app/components/shared/uploader";
 import { useImageWorker } from "@/hooks/use-image-worker";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
 import BeforeAfterSlider from "@/app/components/home/before-after-slider";
+import { pickText } from "@/lib/localized-text";
 
 export default function RemoveBackgroundClient() {
   const locale = useLocale();
-  const isVietnamese = locale === "vi";
   const [file, setFile] = useState<File | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [threshold, setThreshold] = useState(44);
@@ -76,14 +76,22 @@ export default function RemoveBackgroundClient() {
             file ? (
               <div>
                 <h3 className="mb-5 text-lg font-semibold">
-                  {isVietnamese ? "Nhận diện nền" : "Background Detection"}
+                  {pickText(locale, {
+                    en: "Background Detection",
+                    vi: "Nhận diện nền",
+                    de: "Hintergrunderkennung",
+                  })}
                 </h3>
 
                 <div className="space-y-5">
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <label className="font-medium">
-                        {isVietnamese ? "Ngưỡng nhận diện" : "Threshold"}
+                        {pickText(locale, {
+                          en: "Threshold",
+                          vi: "Ngưỡng nhận diện",
+                          de: "Schwellenwert",
+                        })}
                       </label>
                       <span className="text-muted-foreground">{threshold}</span>
                     </div>
@@ -102,7 +110,11 @@ export default function RemoveBackgroundClient() {
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <label className="font-medium">
-                        {isVietnamese ? "Độ mềm viền" : "Edge Softness"}
+                        {pickText(locale, {
+                          en: "Edge Softness",
+                          vi: "Độ mềm viền",
+                          de: "Kantenweichheit",
+                        })}
                       </label>
                       <span className="text-muted-foreground">{softness}</span>
                     </div>
@@ -127,14 +139,20 @@ export default function RemoveBackgroundClient() {
                   {isProcessing ? (
                     <>
                       <Loader2 className="h-5 w-5 animate-spin" />
-                      {isVietnamese
-                        ? "Đang xóa nền..."
-                        : "Removing background..."}
+                      {pickText(locale, {
+                        en: "Removing background...",
+                        vi: "Đang xóa nền...",
+                        de: "Hintergrund wird entfernt...",
+                      })}
                     </>
                   ) : (
                     <>
                       <Scissors className="h-5 w-5" />
-                      {isVietnamese ? "Xóa nền" : "Remove Background"}
+                      {pickText(locale, {
+                        en: "Remove Background",
+                        vi: "Xóa nền",
+                        de: "Hintergrund entfernen",
+                      })}
                     </>
                   )}
                 </button>
@@ -153,10 +171,18 @@ export default function RemoveBackgroundClient() {
           className="rounded-2xl p-8 text-center bg-gray-100"
         >
           <h3 className="text-2xl font-bold mb-2">
-            {isVietnamese ? "Đã xóa nền" : "Background Removed"}
+            {pickText(locale, {
+              en: "Background Removed",
+              vi: "Đã xóa nền",
+              de: "Hintergrund entfernt",
+            })}
           </h3>
           <p className="text-muted-foreground mb-6">
-            {isVietnamese ? "Dung lượng tệp đầu ra" : "Output file size"}:{" "}
+            {pickText(locale, {
+              en: "Output file size",
+              vi: "Dung lượng tệp đầu ra",
+              de: "Größe der Ausgabedatei",
+            })}:{" "}
             <span className="font-semibold">{formatBytes(resultBlob.size)}</span>
           </p>
 
@@ -166,9 +192,11 @@ export default function RemoveBackgroundClient() {
                 beforeSrc={beforeUrl}
                 afterSrc={afterUrl}
                 alt={
-                  isVietnamese
-                    ? "So sánh trước và sau khi xóa nền"
-                    : "Before and after background removal comparison"
+                  pickText(locale, {
+                    en: "Before and after background removal comparison",
+                    vi: "So sánh trước và sau khi xóa nền",
+                    de: "Vorher-nachher-Vergleich der Hintergrundentfernung",
+                  })
                 }
                 imageFit="contain"
                 className="aspect-[16/10] bg-white"
@@ -181,7 +209,11 @@ export default function RemoveBackgroundClient() {
               onClick={handleDownload}
               className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
             >
-              {isVietnamese ? "Tải PNG xuống" : "Download PNG"}
+              {pickText(locale, {
+                en: "Download PNG",
+                vi: "Tải PNG xuống",
+                de: "PNG herunterladen",
+              })}
             </button>
             <button
               onClick={() => {
@@ -190,7 +222,11 @@ export default function RemoveBackgroundClient() {
               }}
               className="px-8 py-4 bg-white text-foreground border border-border font-bold rounded-xl shadow-sm hover:bg-secondary transition-all"
             >
-              {isVietnamese ? "Xử lý ảnh khác" : "Process Another"}
+              {pickText(locale, {
+                en: "Process Another",
+                vi: "Xử lý ảnh khác",
+                de: "Weiteres Bild bearbeiten",
+              })}
             </button>
           </div>
         </motion.section>

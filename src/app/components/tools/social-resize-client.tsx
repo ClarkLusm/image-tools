@@ -16,6 +16,7 @@ import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes, loadImage } from "@/lib/image-utils";
 import { useImageWorker } from "@/hooks/use-image-worker";
 import { motion } from "framer-motion";
+import { pickText } from "@/lib/localized-text";
 
 const ReactCrop = dynamic(() => import("react-image-crop"), { ssr: false });
 
@@ -83,7 +84,6 @@ export default function SocialResizeClient({
   presetPicker = "cards",
 }: SocialResizeClientProps) {
   const locale = useLocale();
-  const isVietnamese = locale === "vi";
   const [file, setFile] = useState<File | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(defaultPresetIndex);
@@ -260,9 +260,11 @@ export default function SocialResizeClient({
         }
 
         setOptimizationSummary(
-          isVietnamese
-            ? "Đã tự động tối ưu cho Instagram: ảnh được cắt theo đúng định dạng đã chọn, đổi kích thước theo chuẩn đích, rồi xuất JPEG với mức chất lượng phù hợp để giảm mờ sau khi Instagram nén lại."
-            : "Auto-optimized for Instagram: cropped to the selected format, resized to the target dimensions, then exported as JPEG with smart quality tuning.",
+          pickText(locale, {
+            en: "Auto-optimized for Instagram: cropped to the selected format, resized to the target dimensions, then exported as JPEG with smart quality tuning.",
+            vi: "Đã tự động tối ưu cho Instagram: ảnh được cắt theo đúng định dạng đã chọn, đổi kích thước theo chuẩn đích, rồi xuất JPEG với mức chất lượng phù hợp để giảm mờ sau khi Instagram nén lại.",
+            de: "Automatisch für Instagram optimiert: auf das gewählte Format zugeschnitten, auf die Zielmaße skaliert und dann als JPEG mit intelligenter Qualitätsabstimmung exportiert.",
+          }),
         );
       }
     }
@@ -389,7 +391,11 @@ export default function SocialResizeClient({
           isProcessing={isProcessing}
           accept={{ "image/*": [".jpg", ".jpeg", ".png", ".webp"] }}
           previewContent={renderLiveCropPreview()}
-          previewLabel={isVietnamese ? "Xem trước vùng cắt" : "Crop Preview"}
+          previewLabel={pickText(locale, {
+            en: "Crop Preview",
+            vi: "Xem trước vùng cắt",
+            de: "Zuschnittvorschau",
+          })}
           interactivePreview
           aside={
             file && selectedPreset ? (
@@ -398,11 +404,19 @@ export default function SocialResizeClient({
                   <SlidersHorizontal className="h-5 w-5 text-primary" />
                   <div>
                     <h3 className="font-semibold text-lg">
-                      {isVietnamese ? "Chọn định dạng" : "Choose Format"}
+                      {pickText(locale, {
+                        en: "Choose Format",
+                        vi: "Chọn định dạng",
+                        de: "Format wählen",
+                      })}
                     </h3>
                     {originalSize && (
                       <p className="text-xs text-muted-foreground">
-                        {isVietnamese ? "Kích thước gốc" : "Original size"}:{" "}
+                        {pickText(locale, {
+                          en: "Original size",
+                          vi: "Kích thước gốc",
+                          de: "Originalgröße",
+                        })}:{" "}
                         {originalSize.width} x {originalSize.height}px
                       </p>
                     )}
@@ -439,16 +453,20 @@ export default function SocialResizeClient({
                   <div className="flex items-center justify-between rounded-xl border border-border/70 bg-muted/25 px-4 py-3 text-sm text-muted-foreground">
                     <span>
                       {completedCrop
-                        ? isVietnamese
-                          ? `Vùng cắt: ${Math.round(completedCrop.width)} x ${Math.round(
-                              completedCrop.height,
-                            )}px`
-                          : `Crop area: ${Math.round(completedCrop.width)} x ${Math.round(
-                              completedCrop.height,
-                            )}px`
-                        : isVietnamese
-                          ? "Thiết lập vùng cắt"
-                          : "Set crop area"}
+                        ? pickText(locale, {
+                          en: `Crop area: ${Math.round(completedCrop.width)} x ${Math.round(
+                            completedCrop.height,
+                            )}px`,
+                          vi: `Vùng cắt: ${Math.round(completedCrop.width)} x ${Math.round(
+                            completedCrop.height,
+                            )}px`,
+                          de: `Zuschnittbereich: ${Math.round(completedCrop.width)} x ${Math.round(completedCrop.height)} px`,
+                        })
+                        : pickText(locale, {
+                          en: "Set crop area",
+                          vi: "Thiết lập vùng cắt",
+                          de: "Zuschnittbereich festlegen",
+                        })}
                     </span>
                     <button
                       type="button"
@@ -456,7 +474,11 @@ export default function SocialResizeClient({
                       className="inline-flex items-center gap-2 font-medium text-primary hover:underline"
                     >
                       <RefreshCcw className="h-4 w-4" />
-                      {isVietnamese ? "Đặt lại vùng cắt" : "Reset crop"}
+                      {pickText(locale, {
+                        en: "Reset crop",
+                        vi: "Đặt lại vùng cắt",
+                        de: "Zuschnitt zurücksetzen",
+                      })}
                     </button>
                   </div>
 
@@ -473,14 +495,18 @@ export default function SocialResizeClient({
                       <span className="text-muted-foreground">
                         <span className="inline-flex items-center gap-1 font-semibold text-foreground">
                           <Sparkles className="h-4 w-4 text-primary" />
-                          {isVietnamese
-                            ? "Bộ tối ưu Instagram"
-                            : "Instagram Optimization Engine"}
+                          {pickText(locale, {
+                            en: "Instagram Optimization Engine",
+                            vi: "Bộ tối ưu Instagram",
+                            de: "Instagram-Optimierung",
+                          })}
                         </span>
                         <span className="mt-1 block">
-                          {isVietnamese
-                            ? "Sau khi cắt và đổi kích thước, công cụ sẽ tự xuất JPEG phù hợp với Instagram và tinh chỉnh chất lượng để giảm hiện tượng mờ sau khi Instagram nén lại."
-                            : "After crop + resize, auto-export to IG-friendly JPEG and tune quality to reduce blur after Instagram recompression."}
+                          {pickText(locale, {
+                            en: "After crop + resize, auto-export to IG-friendly JPEG and tune quality to reduce blur after Instagram recompression.",
+                            vi: "Sau khi cắt và đổi kích thước, công cụ sẽ tự xuất JPEG phù hợp với Instagram và tinh chỉnh chất lượng để giảm hiện tượng mờ sau khi Instagram nén lại.",
+                            de: "Nach Zuschnitt und Größenänderung automatisch als Instagram-taugliches JPEG exportieren und die Qualität so abstimmen, dass nach der Instagram-Neukomprimierung weniger Unschärfe entsteht.",
+                          })}
                         </span>
                       </span>
                     </label>
@@ -495,12 +521,18 @@ export default function SocialResizeClient({
                   {isProcessing ? (
                     <>
                       <Loader2 className="h-5 w-5 animate-spin" />{" "}
-                      {isVietnamese
-                        ? "Đang đổi kích thước trong nền..."
-                        : "Resizing in background..."}
+                      {pickText(locale, {
+                        en: "Resizing in background...",
+                        vi: "Đang đổi kích thước trong nền...",
+                        de: "Größe wird im Hintergrund geändert...",
+                      })}
                     </>
                   ) : (
-                    isVietnamese ? "Đổi kích thước ảnh" : "Resize Image"
+                    pickText(locale, {
+                      en: "Resize Image",
+                      vi: "Đổi kích thước ảnh",
+                      de: "Größe ändern",
+                    })
                   )}
                 </button>
               </div>
@@ -521,12 +553,24 @@ export default function SocialResizeClient({
             <Download className="h-8 w-8" />
           </div>
           <h3 className="mb-2 text-2xl font-bold">
-            {isVietnamese ? "Đổi kích thước hoàn tất!" : "Resize Complete!"}
+            {pickText(locale, {
+              en: "Resize Complete!",
+              vi: "Đổi kích thước hoàn tất!",
+              de: "Größenänderung abgeschlossen!",
+            })}
           </h3>
           <p className="mb-8 text-muted-foreground">
-            {isVietnamese ? "Kích thước mới" : "New size"}:{" "}
+            {pickText(locale, {
+              en: "New size",
+              vi: "Kích thước mới",
+              de: "Neue Größe",
+            })}:{" "}
             {selectedPreset.width}×{selectedPreset.height}px.{" "}
-            {isVietnamese ? "Dung lượng tệp" : "File size"}:{" "}
+            {pickText(locale, {
+              en: "File size",
+              vi: "Dung lượng tệp",
+              de: "Dateigröße",
+            })}:{" "}
             <span className="font-semibold">
               {formatBytes(resultBlob.size)}
             </span>
@@ -543,7 +587,11 @@ export default function SocialResizeClient({
               onClick={handleDownload}
               className="rounded-xl bg-primary px-8 py-4 font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
             >
-              {isVietnamese ? "Tải ảnh xuống" : "Download Image"}
+              {pickText(locale, {
+                en: "Download Image",
+                vi: "Tải ảnh xuống",
+                de: "Bild herunterladen",
+              })}
             </button>
             <button
               onClick={() => {
@@ -561,7 +609,11 @@ export default function SocialResizeClient({
               }}
               className="rounded-xl border border-border bg-white px-8 py-4 font-bold text-foreground shadow-sm transition-all hover:bg-secondary"
             >
-              {isVietnamese ? "Đổi ảnh khác" : "Resize Another"}
+              {pickText(locale, {
+                en: "Resize Another",
+                vi: "Đổi ảnh khác",
+                de: "Weiteres Bild anpassen",
+              })}
             </button>
           </div>
         </motion.div>

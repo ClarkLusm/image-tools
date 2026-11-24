@@ -7,10 +7,10 @@ import { Uploader } from "@/app/components/shared/uploader";
 import { downloadBlob, formatBytes } from "@/lib/image-utils";
 import { useImageWorker } from "@/hooks/use-image-worker";
 import { motion } from "framer-motion";
+import { pickText } from "@/lib/localized-text";
 
 export default function RemoveMetadataClient() {
   const locale = useLocale();
-  const isVietnamese = locale === "vi";
   const [file, setFile] = useState<File | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
 
@@ -57,12 +57,18 @@ export default function RemoveMetadataClient() {
                   <ShieldAlert className="h-8 w-8" />
                 </div>
                 <h3 className="font-display font-bold text-xl mb-2">
-                  {isVietnamese ? "Sẵn sàng làm sạch" : "Ready to Clean"}
+                  {pickText(locale, {
+                    en: "Ready to Clean",
+                    vi: "Sẵn sàng làm sạch",
+                    de: "Bereit zur Bereinigung",
+                  })}
                 </h3>
                 <p className="mx-auto mb-8 max-w-md text-muted-foreground">
-                  {isVietnamese
-                    ? "Quá trình này sẽ xóa vĩnh viễn model máy ảnh, ngày chụp và tọa độ GPS ẩn trong tệp này."
-                    : "This process will permanently delete camera models, dates, and GPS coordinates hidden inside this file."}
+                  {pickText(locale, {
+                    en: "This process will permanently delete camera models, dates, and GPS coordinates hidden inside this file.",
+                    vi: "Quá trình này sẽ xóa vĩnh viễn model máy ảnh, ngày chụp và tọa độ GPS ẩn trong tệp này.",
+                    de: "Dabei werden Kameramodell, Aufnahmedatum und GPS-Koordinaten, die in dieser Datei versteckt sind, dauerhaft gelöscht.",
+                  })}
                 </p>
 
                 <button
@@ -73,12 +79,18 @@ export default function RemoveMetadataClient() {
                   {isProcessing ? (
                     <>
                       <Loader2 className="h-5 w-5 animate-spin" />{" "}
-                      {isVietnamese
-                        ? "Đang làm sạch trong nền..."
-                        : "Scrubbing in background..."}
+                      {pickText(locale, {
+                        en: "Scrubbing in background...",
+                        vi: "Đang làm sạch trong nền...",
+                        de: "Wird im Hintergrund bereinigt...",
+                      })}
                     </>
                   ) : (
-                    isVietnamese ? "Xóa toàn bộ metadata" : "Remove All Metadata"
+                    pickText(locale, {
+                      en: "Remove All Metadata",
+                      vi: "Xóa toàn bộ metadata",
+                      de: "Alle Metadaten entfernen",
+                    })
                   )}
                 </button>
               </div>
@@ -100,12 +112,18 @@ export default function RemoveMetadataClient() {
             <Download className="w-8 h-8" />
           </div>
           <h3 className="text-2xl font-bold mb-2">
-            {isVietnamese ? "Ảnh đã được làm sạch hoàn toàn!" : "Image is 100% Clean!"}
+            {pickText(locale, {
+              en: "Image is 100% Clean!",
+              vi: "Ảnh đã được làm sạch hoàn toàn!",
+              de: "Bild ist zu 100 % sauber!",
+            })}
           </h3>
           <p className="text-muted-foreground mb-8">
-            {isVietnamese
-              ? "Toàn bộ metadata cá nhân đã được xóa. Dung lượng tệp: "
-              : "All personal metadata has been stripped. File size: "}
+            {pickText(locale, {
+              en: "All personal metadata has been stripped. File size: ",
+              vi: "Toàn bộ metadata cá nhân đã được xóa. Dung lượng tệp: ",
+              de: "Alle persönlichen Metadaten wurden entfernt. Dateigröße: ",
+            })}
             <span className="font-semibold">
               {formatBytes(resultBlob.size)}
             </span>
@@ -116,7 +134,11 @@ export default function RemoveMetadataClient() {
               onClick={handleDownload}
               className="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
             >
-              {isVietnamese ? "Tải ảnh an toàn xuống" : "Download Safe Image"}
+              {pickText(locale, {
+                en: "Download Safe Image",
+                vi: "Tải ảnh an toàn xuống",
+                de: "Sicheres Bild herunterladen",
+              })}
             </button>
             <button
               onClick={() => {
@@ -125,7 +147,11 @@ export default function RemoveMetadataClient() {
               }}
               className="px-8 py-4 bg-white text-foreground border border-border font-bold rounded-xl shadow-sm hover:bg-secondary transition-all"
             >
-              {isVietnamese ? "Làm sạch ảnh khác" : "Clean Another"}
+              {pickText(locale, {
+                en: "Clean Another",
+                vi: "Làm sạch ảnh khác",
+                de: "Weiteres Bild bereinigen",
+              })}
             </button>
           </div>
         </motion.div>

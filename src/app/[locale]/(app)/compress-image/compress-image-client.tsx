@@ -24,6 +24,7 @@ import {
   Sparkles,
   X,
 } from "lucide-react";
+import { pickText } from "@/lib/localized-text";
 
 const COMPRESS_ACCEPT: Record<string, string[]> = {
   "image/jpeg": [".jpg", ".jpeg"],
@@ -77,7 +78,6 @@ type CompressionProfile = (typeof COMPRESSION_PROFILES)[number]["id"];
 
 export default function CompressImageClient() {
   const locale = useLocale();
-  const isVietnamese = locale === "vi";
   const [jobs, setJobs] = useState<FileJob[]>([]);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -162,9 +162,11 @@ export default function CompressImageClient() {
     if (!isSupportedCompressFile(file)) {
       return {
         isValid: false,
-        error: isVietnamese
-          ? "Định dạng không được hỗ trợ. Vui lòng dùng JPG, JPEG, PNG, WebP hoặc AVIF."
-          : "Unsupported format. Please use JPG, JPEG, PNG, WebP, or AVIF.",
+        error: pickText(locale, {
+          en: "Unsupported format. Please use JPG, JPEG, PNG, WebP, or AVIF.",
+          vi: "Định dạng không được hỗ trợ. Vui lòng dùng JPG, JPEG, PNG, WebP hoặc AVIF.",
+          de: "Nicht unterstütztes Format. Bitte verwende JPG, JPEG, PNG, WebP oder AVIF.",
+        }),
         previewUrl: URL.createObjectURL(file),
         previewSource: "local" as const,
       };
@@ -173,9 +175,11 @@ export default function CompressImageClient() {
     if (file.size > COMPRESS_MAX_FILE_SIZE_BYTES) {
       return {
         isValid: false,
-        error: isVietnamese
-          ? "Mỗi tệp phải nhỏ hơn hoặc bằng 10MB."
-          : "Each file must be 10MB or smaller.",
+        error: pickText(locale, {
+          en: "Each file must be 10MB or smaller.",
+          vi: "Mỗi tệp phải nhỏ hơn hoặc bằng 10MB.",
+          de: "Jede Datei darf höchstens 10 MB groß sein.",
+        }),
         previewUrl: URL.createObjectURL(file),
         previewSource: "local" as const,
       };
@@ -196,9 +200,11 @@ export default function CompressImageClient() {
 
     return {
       isValid: false,
-      error: isVietnamese
-        ? "Tệp bị hỏng hoặc không thể đọc được."
-        : "The file is corrupted or unreadable",
+      error: pickText(locale, {
+        en: "The file is corrupted or unreadable",
+        vi: "Tệp bị hỏng hoặc không thể đọc được.",
+        de: "Die Datei ist beschädigt oder nicht lesbar",
+      }),
       previewUrl: NO_IMAGE_PREVIEW_URL,
       previewSource: "fallback" as const,
     };
@@ -294,9 +300,11 @@ export default function CompressImageClient() {
 
         if (compressionResults.length === 0) {
           throw new Error(
-            isVietnamese
-              ? "Tiến trình nén đã hoàn tất nhưng không trả về kết quả cho từng tệp."
-              : "Compression job completed without per-file results.",
+            pickText(locale, {
+              en: "Compression job completed without per-file results.",
+              vi: "Tiến trình nén đã hoàn tất nhưng không trả về kết quả cho từng tệp.",
+              de: "Der Komprimierungsauftrag wurde ohne Ergebnisse pro Datei abgeschlossen.",
+            }),
           );
         }
 
@@ -325,9 +333,11 @@ export default function CompressImageClient() {
                 error:
                   downloadError instanceof Error
                     ? downloadError.message
-                    : isVietnamese
-                      ? "Không thể tải tệp ảnh đã nén."
-                      : "Failed to download compressed image.",
+                    : pickText(locale, {
+                      en: "Failed to download compressed image.",
+                      vi: "Không thể tải tệp ảnh đã nén.",
+                      de: "Das komprimierte Bild konnte nicht heruntergeladen werden.",
+                    }),
               };
             }
           }),
@@ -353,9 +363,11 @@ export default function CompressImageClient() {
                 ...job,
                 status: "failed",
                 progress: 100,
-                error: isVietnamese
-                  ? "Thiếu kết quả nén cho tệp này."
-                  : "Compression result missing for this file.",
+                error: pickText(locale, {
+                  en: "Compression result missing for this file.",
+                  vi: "Thiếu kết quả nén cho tệp này.",
+                  de: "Für diese Datei fehlt das Komprimierungsergebnis.",
+                }),
               };
             }
 
@@ -380,9 +392,11 @@ export default function CompressImageClient() {
               progress: 100,
               error:
                 result.error ??
-                (isVietnamese
-                  ? "Nén thất bại cho tệp này."
-                  : "Compression failed for this file."),
+                (pickText(locale, {
+                  en: "Compression failed for this file.",
+                  vi: "Nén thất bại cho tệp này.",
+                  de: "Die Komprimierung dieser Datei ist fehlgeschlagen.",
+                })),
             };
           }),
         );
@@ -396,9 +410,11 @@ export default function CompressImageClient() {
       setError(
         err instanceof Error
           ? err.message
-          : isVietnamese
-            ? "Tải tệp lên thất bại."
-            : "Upload failed.",
+          : pickText(locale, {
+            en: "Upload failed.",
+            vi: "Tải tệp lên thất bại.",
+            de: "Upload fehlgeschlagen.",
+          }),
       );
       setJobs((prev) =>
         prev.map((job) =>
@@ -436,9 +452,11 @@ export default function CompressImageClient() {
 
     if (totalBytes > COMPRESS_MAX_TOTAL_SIZE_BYTES) {
       setError(
-        isVietnamese
-          ? "Mỗi lần tải lên không giới hạn số lượng tệp, nhưng tổng dung lượng phải trong 50MB."
-          : "Each upload can include any number of files, but the total must stay within 50MB.",
+        pickText(locale, {
+          en: "Each upload can include any number of files, but the total must stay within 50MB.",
+          vi: "Mỗi lần tải lên không giới hạn số lượng tệp, nhưng tổng dung lượng phải trong 50MB.",
+          de: "Pro Upload sind beliebig viele Dateien möglich, insgesamt aber höchstens 50 MB.",
+        }),
       );
       setIsPending(false);
       return;
@@ -661,20 +679,28 @@ export default function CompressImageClient() {
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                   <div className="space-y-2 w-full lg:flex justify-between">
                     <p className="text-sm font-semibold uppercase text-primary/70">
-                      {isVietnamese ? "Tiến trình hàng loạt" : "Batch Progress"}
+                      {pickText(locale, {
+                        en: "Batch Progress",
+                        vi: "Tiến trình hàng loạt",
+                        de: "Fortschritt des Stapels",
+                      })}
                     </p>
                     <p className="max-w-2xl text-sm text-muted-foreground">
                       {aggregateStats.savedBytes > 0
-                        ? isVietnamese
-                          ? `Đã giảm tổng cộng ${totalSavingsLabel} và tiết kiệm ${formatBytes(
-                              aggregateStats.savedBytes,
-                            )}`
-                          : `Saved ${totalSavingsLabel} overall and reduced ${formatBytes(
-                              aggregateStats.savedBytes,
-                            )}`
-                        : isVietnamese
-                          ? "Tải ảnh lên và quá trình nén sẽ tự động bắt đầu theo thiết lập hiện tại."
-                          : "Upload images and compression will begin automatically with your current settings."}
+                        ? pickText(locale, {
+                          en: `Saved ${totalSavingsLabel} overall and reduced ${formatBytes(
+                            aggregateStats.savedBytes,
+                            )}`,
+                          vi: `Đã giảm tổng cộng ${totalSavingsLabel} và tiết kiệm ${formatBytes(
+                            aggregateStats.savedBytes,
+                            )}`,
+                          de: `Insgesamt ${totalSavingsLabel} gespart und um ${formatBytes(aggregateStats.savedBytes)} verkleinert`,
+                        })
+                        : pickText(locale, {
+                          en: "Upload images and compression will begin automatically with your current settings.",
+                          vi: "Tải ảnh lên và quá trình nén sẽ tự động bắt đầu theo thiết lập hiện tại.",
+                          de: "Lade Bilder hoch – die Komprimierung startet automatisch mit deinen aktuellen Einstellungen.",
+                        })}
                     </p>
                   </div>
                 </div>
@@ -710,20 +736,28 @@ export default function CompressImageClient() {
                           : 0;
                     const statusLabel =
                       job.status === "done"
-                        ? isVietnamese
-                          ? "Hoàn tất"
-                          : "Done"
+                        ? pickText(locale, {
+                          en: "Done",
+                          vi: "Hoàn tất",
+                          de: "Fertig",
+                        })
                         : job.status === "processing"
-                          ? isVietnamese
-                            ? "Đang nén"
-                            : "Compressing"
+                          ? pickText(locale, {
+                            en: "Compressing",
+                            vi: "Đang nén",
+                            de: "Wird komprimiert",
+                          })
                           : job.status === "failed"
-                            ? isVietnamese
-                              ? "Thất bại"
-                              : "Failed"
-                            : isVietnamese
-                              ? "Đang chờ"
-                              : "Waiting";
+                            ? pickText(locale, {
+                              en: "Failed",
+                              vi: "Thất bại",
+                              de: "Fehlgeschlagen",
+                            })
+                            : pickText(locale, {
+                              en: "Waiting",
+                              vi: "Đang chờ",
+                              de: "Wartet",
+                            });
 
                     return (
                       <motion.div
@@ -754,7 +788,11 @@ export default function CompressImageClient() {
                                 {job.blob ? (
                                   <>
                                     {formatBytes(job.file.size)}{" "}
-                                    {isVietnamese ? "thành" : "to"}{" "}
+                                    {pickText(locale, {
+                                      en: "to",
+                                      vi: "thành",
+                                      de: "auf",
+                                    })}{" "}
                                     <span className="font-semibold text-primary">
                                       {formatBytes(job.blob.size)}
                                     </span>
@@ -762,22 +800,32 @@ export default function CompressImageClient() {
                                     {fileSavings.toFixed(
                                       fileSavings >= 10 ? 0 : 1,
                                     )}
-                                    {isVietnamese ? "% nhỏ hơn" : "% smaller"}
+                                    {pickText(locale, {
+                                      en: "% smaller",
+                                      vi: "% nhỏ hơn",
+                                      de: "% kleiner",
+                                    })}
                                   </>
                                 ) : (
                                   <>
                                     {formatBytes(job.file.size)}
                                     {job.status === "failed"
-                                      ? isVietnamese
-                                        ? " • Không thể nén tệp này"
-                                        : " • Could not compress this file"
+                                      ? pickText(locale, {
+                                        en: " • Could not compress this file",
+                                        vi: " • Không thể nén tệp này",
+                                        de: " • Diese Datei konnte nicht komprimiert werden",
+                                      })
                                       : job.status === "pending"
-                                        ? isVietnamese
-                                          ? " • Đã đưa vào hàng chờ"
-                                          : " • Queued for processing"
-                                        : isVietnamese
-                                          ? " • Đang xử lý"
-                                          : " • Processing now"}
+                                        ? pickText(locale, {
+                                          en: " • Queued for processing",
+                                          vi: " • Đã đưa vào hàng chờ",
+                                          de: " • In der Warteschlange",
+                                        })
+                                        : pickText(locale, {
+                                          en: " • Processing now",
+                                          vi: " • Đang xử lý",
+                                          de: " • Wird gerade verarbeitet",
+                                        })}
                                   </>
                                 )}
                               </p>
@@ -829,9 +877,11 @@ export default function CompressImageClient() {
                               onClick={() => handleRemoveJob(job.id)}
                               className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border/70 bg-white text-muted-foreground shadow-sm transition-colors hover:bg-secondary hover:text-foreground"
                               aria-label={
-                                isVietnamese
-                                  ? `Xóa ${job.file.name}`
-                                  : `Remove ${job.file.name}`
+                                pickText(locale, {
+                                  en: `Remove ${job.file.name}`,
+                                  vi: `Xóa ${job.file.name}`,
+                                  de: `${job.file.name} entfernen`,
+                                })
                               }
                             >
                               <X className="h-4 w-4" />
@@ -842,7 +892,11 @@ export default function CompressImageClient() {
                         {job.status === "processing" ? (
                           <div className="mt-4">
                             <div className="mb-2 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                              <span>{isVietnamese ? "Tiến trình" : "Progress"}</span>
+                              <span>{pickText(locale, {
+                                en: "Progress",
+                                vi: "Tiến trình",
+                                de: "Fortschritt",
+                              })}</span>
                               <span>{displayProgress}%</span>
                             </div>
                             <div className="h-2 overflow-hidden rounded-full bg-primary/10">
@@ -871,14 +925,22 @@ export default function CompressImageClient() {
                 </div>
                 <div>
                   <h3 className="text-md font-display font-semibold text-foreground">
-                    {isVietnamese ? "Cài đặt nén" : "Compression Settings"}
+                    {pickText(locale, {
+                      en: "Compression Settings",
+                      vi: "Cài đặt nén",
+                      de: "Komprimierungseinstellungen",
+                    })}
                   </h3>
                 </div>
               </div>
 
               <div className="mt-8">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  {isVietnamese ? "Chế độ" : "Method"}
+                  {pickText(locale, {
+                    en: "Method",
+                    vi: "Chế độ",
+                    de: "Methode",
+                  })}
                 </p>
                 <div className="mt-3 grid gap-3 sm:grid-cols-2">
                   {COMPRESSION_PROFILES.map((profile) => {
@@ -910,11 +972,13 @@ export default function CompressImageClient() {
                           </div>
                           <div>
                             <p className="text-sm font-semibold">
-                              {isVietnamese
-                                ? profile.id === "balanced"
+                              {pickText(locale, {
+                                en: profile.label,
+                                vi: profile.id === "balanced"
                                   ? "Cân bằng"
-                                  : "Tệp nhỏ hơn"
-                                : profile.label}
+                                  : "Tệp nhỏ hơn",
+                                de: profile.id === "balanced" ? "Ausgewogen" : "Kleinere Datei",
+                              })}
                             </p>
                           </div>
                         </div>
@@ -928,7 +992,11 @@ export default function CompressImageClient() {
                 <div className="flex items-end justify-between gap-4">
                   <div>
                     <p className="text-xs font-semibold uppercase text-muted-foreground">
-                      {isVietnamese ? "Chất lượng" : "Quality"}
+                      {pickText(locale, {
+                        en: "Quality",
+                        vi: "Chất lượng",
+                        de: "Qualität",
+                      })}
                     </p>
                   </div>
                   <p className="text-lg font-display font-semibold text-primary">
@@ -946,13 +1014,25 @@ export default function CompressImageClient() {
                   }}
                   className="mt-4 h-2 w-full cursor-pointer accent-primary"
                   aria-label={
-                    isVietnamese ? "Chất lượng nén" : "Compression quality"
+                    pickText(locale, {
+                      en: "Compression quality",
+                      vi: "Chất lượng nén",
+                      de: "Komprimierungsqualität",
+                    })
                   }
                 />
                 <div className="mt-2 flex items-center justify-between text-xs font-semibold tracking-[0.14em] text-muted-foreground">
-                  <span>{isVietnamese ? "Tệp nhỏ hơn" : "Smaller size"}</span>
+                  <span>{pickText(locale, {
+                    en: "Smaller size",
+                    vi: "Tệp nhỏ hơn",
+                    de: "Kleinere Datei",
+                  })}</span>
                   <span>
-                    {isVietnamese ? "Chất lượng cao hơn" : "Best quality"}
+                    {pickText(locale, {
+                      en: "Best quality",
+                      vi: "Chất lượng cao hơn",
+                      de: "Beste Qualität",
+                    })}
                   </span>
                 </div>
               </div>
@@ -969,7 +1049,11 @@ export default function CompressImageClient() {
                       className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-4 text-base font-semibold text-white shadow-[0_18px_36px_rgba(37,99,235,0.28)] transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none"
                     >
                       <Download className="h-5 w-5" />
-                      {isVietnamese ? "Tải tất cả (ZIP)" : "Download All (ZIP)"}
+                      {pickText(locale, {
+                        en: "Download All (ZIP)",
+                        vi: "Tải tất cả (ZIP)",
+                        de: "Alle herunterladen (ZIP)",
+                      })}
                     </button>
                   ) : (
                     <button
@@ -983,7 +1067,11 @@ export default function CompressImageClient() {
                       className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-4 text-base font-semibold text-white shadow-[0_18px_36px_rgba(37,99,235,0.28)] transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none"
                     >
                       <Download className="h-5 w-5" />
-                      {isVietnamese ? "Tải ảnh xuống" : "Download Image"}
+                      {pickText(locale, {
+                        en: "Download Image",
+                        vi: "Tải ảnh xuống",
+                        de: "Bild herunterladen",
+                      })}
                     </button>
                   )}
                 </div>

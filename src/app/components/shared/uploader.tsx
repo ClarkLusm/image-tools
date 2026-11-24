@@ -7,6 +7,7 @@ import { Loader2, UploadCloud } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { UploaderProps } from "./uploader-core";
 import { debugLog } from "@/lib/debug";
+import { pickText } from "@/lib/localized-text";
 
 const UploaderCore = dynamic(
   () => import("./uploader-core").then((mod) => mod.UploaderCore),
@@ -25,8 +26,6 @@ function UploaderShell({
   topRightAction?: ReactNode;
 }) {
   const locale = useLocale();
-  const isVietnamese = locale === "vi";
-  const isGerman = locale === "de";
 
   return (
     <div className={cn("w-full", className)}>
@@ -59,26 +58,26 @@ function UploaderShell({
             <UploadCloud className="w-10 h-10" />
           </div>
           <h3 className="text-xl font-display font-semibold text-foreground mb-2">
-            {isVietnamese
-              ? "Tải ảnh lên"
-              : isGerman
-                ? "Bild hochladen"
-                : "Upload image"}
+            {pickText(locale, {
+              en: "Upload image",
+              vi: "Tải ảnh lên",
+              de: "Bild hochladen",
+            })}
           </h3>
           <p className="text-muted-foreground mb-2">
-            {isVietnamese
-              ? "Đang chuẩn bị khung tải ảnh kéo thả..."
-              : isGerman
-                ? "Drag-and-drop-Uploader wird vorbereitet..."
-                : "Preparing uploader for drag-and-drop..."}
+            {pickText(locale, {
+              en: "Preparing uploader for drag-and-drop...",
+              vi: "Đang chuẩn bị khung tải ảnh kéo thả...",
+              de: "Drag-and-drop-Uploader wird vorbereitet...",
+            })}
           </p>
           <div className="inline-flex items-center gap-2 text-xs text-muted-foreground">
             <Loader2 className="w-3.5 h-3.5 animate-spin" />
-            {isVietnamese
-              ? "Đang tải phần tương tác"
-              : isGerman
-                ? "Interaktionsmodul wird geladen"
-                : "Loading interaction bundle"}
+            {pickText(locale, {
+              en: "Loading interaction bundle",
+              vi: "Đang tải phần tương tác",
+              de: "Interaktionsmodul wird geladen",
+            })}
           </div>
         </div>
       </div>
